@@ -15,11 +15,11 @@ class CreateFeesTable extends Migration
         Schema::create('semester_fees', function (Blueprint $table) {
             $table->increments('id');
 
-            $table->integer('user')->unsigned();
-            $table->foreign('user')->references('id')->on('users')->onDelete('cascade');
+            $table->integer('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
-            $table->integer('semester')->unsigned();
-            $table->foreign('semester')->references('id')->on('semesters')->onDelete('cascade');
+            $table->integer('semester_id')->unsigned();
+            $table->foreign('semester_id')->references('id')->on('semesters')->onDelete('cascade');
 
             $table->boolean('paid')->default(false);
 

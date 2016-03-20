@@ -19,11 +19,11 @@ class CreateRehearsalsTable extends Migration
             $table->dateTime('date');
             $table->string('place');
 
-            $table->integer('for_voice')->unsigned()->nullable();
-            $table->foreign('for_voice')->references('id')->on('voices')->onDelete('cascade');
+            $table->integer('voice_id')->unsigned()->default(0);
+            $table->foreign('voice_id')->references('id')->on('voices')->onDelete('cascade');
 
-            $table->integer('semester')->unsigned();
-            $table->foreign('semester')->references('id')->on('semesters')->onDelete('cascade');
+            $table->integer('semester_id')->unsigned();
+            $table->foreign('semester_id')->references('id')->on('semesters')->onDelete('cascade');
             
             $table->boolean('mandatory');
             $table->float('weight', 4, 2); // Only if mandatory: How much does a miss weight?

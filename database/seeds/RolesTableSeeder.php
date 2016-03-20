@@ -21,9 +21,9 @@ class RolesTableSeeder extends Seeder
             'only_own_voice' => false,
         ]);
 
-        DB::table('user_roles')->insert([
-            'user' => 0,
-            'role' => 0,
+        DB::table('user_role')->insert([
+            'user_id' => 0,
+            'role_id' => 0,
         ]);
     }
 }

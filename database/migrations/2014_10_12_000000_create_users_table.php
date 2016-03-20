@@ -26,8 +26,8 @@ class CreateUsersTable extends Migration
             $table->boolean('sheets_deposit_returned')->default(false);
 
             // Can only be in one voice
-            $table->integer('voice')->unsigned()->default(0);
-            $table->foreign('voice')->references('id')->on('voices')->onDelete('set default');
+            $table->integer('voice_id')->unsigned()->default(0);
+            $table->foreign('voice_id')->references('id')->on('voices')->onDelete('set default');
 
             // Letzte Semester-Rueckmeldung.
             $table->integer('last_echo')->unsigned()->nullable()->default('null');
@@ -35,6 +35,7 @@ class CreateUsersTable extends Migration
 
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

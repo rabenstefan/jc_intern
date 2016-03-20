@@ -19,14 +19,14 @@ class CreateSheetsTable extends Migration
             $table->timestamps();
         });
 
-        Schema::create('user_sheets', function (Blueprint $table) {
+        Schema::create('user_sheet', function (Blueprint $table) {
             $table->increments('id');
 
-            $table->integer('user')->unsigned();
-            $table->foreign('user')->references('id')->on('users')->onDelete('cascade');
+            $table->integer('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
-            $table->integer('sheet')->unsigned()->default(0);
-            $table->foreign('sheet')->references('id')->on('sheets')->onDelete('cascade');
+            $table->integer('sheet_id')->unsigned()->default(0);
+            $table->foreign('sheet_id')->references('id')->on('sheets')->onDelete('cascade');
 
             $table->integer('number')->unsigned(); // Seriennummer des Heftes.
 
@@ -41,7 +41,7 @@ class CreateSheetsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('user_sheets');
+        Schema::drop('user_sheet');
         Schema::drop('sheets');
     }
 }

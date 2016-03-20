@@ -17,7 +17,7 @@ class UsersTableSeeder extends Seeder
             'last_name' => 'Rossmann',
             'email' => 'test@gmail.com',
             'password' => bcrypt('secret'),
-            'voice' => 10,
+            'voice_id' => 10,
             'last_echo' => 0,
         ]);
     }

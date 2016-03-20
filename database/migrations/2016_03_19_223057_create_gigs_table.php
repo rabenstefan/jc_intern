@@ -19,8 +19,8 @@ class CreateGigsTable extends Migration
             $table->dateTime('date');
             $table->string('place');
 
-            $table->integer('semester')->unsigned();
-            $table->foreign('semester')->references('id')->on('semesters')->onDelete('cascade');
+            $table->integer('semester_id')->unsigned();
+            $table->foreign('semester_id')->references('id')->on('semesters')->onDelete('cascade');
 
             $table->timestamps();
         });

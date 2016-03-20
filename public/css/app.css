@@ -5749,4 +5749,31 @@ button.close {
   .hidden-print {
     display: none !important; } }
 
+body {
+  font-family: "Lato", sans-serif;
+  color: #232323; }
+
+.navbar {
+  background-color: #3F7DBD;
+  border-color: #1468BF;
+  color: #f0f0f0; }
+  .navbar a {
+    color: #f0f0f0; }
+  .navbar a:hover {
+    color: #ebebeb; }
+  .navbar .nav > li > a:hover, .navbar .nav > li > a:focus {
+    background-color: #1468BF; }
+
+.btn-primary {
+  background-color: #3F7DBD;
+  border-color: #3F7DBD;
+  color: #f0f0f0; }
+  .btn-primary:hover {
+    background-color: #f0f0f0;
+    border-color: #3F7DBD;
+    color: #3F7DBD; }
+
+.btn-link {
+  color: #3F7DBD; }
+
 /*# sourceMappingURL=app.css.map */

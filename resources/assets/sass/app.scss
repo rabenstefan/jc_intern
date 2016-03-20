@@ -1,1 +1,41 @@
 @import "../../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+@import "config";
+
+body {
+  font-family: $sans-font;
+  color: $font-color;
+}
+
+.navbar {
+  background-color: $main-color;
+  border-color: $darker-color;
+  color: $font-color-inverse;
+
+  a {
+    color: $font-color-inverse;
+  }
+
+  a:hover {
+    color: darken($font-color-inverse, 2);
+  }
+
+  .nav > li > a:hover, .nav > li > a:focus {
+    background-color: $darker-color;
+  }
+}
+
+.btn-primary {
+  background-color: $main-color;
+  border-color: $main-color;
+  color: $font-color-inverse;
+
+  &:hover {
+    background-color: $font-color-inverse;
+    border-color: $main-color;
+    color: $main-color;
+  }
+}
+
+.btn-link {
+  color: $main-color;
+}

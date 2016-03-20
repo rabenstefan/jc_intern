@@ -15,11 +15,11 @@ class CreateAttendancesTable extends Migration
         Schema::create('attendances', function (Blueprint $table) {
             $table->increments('id');
 
-            $table->integer('user')->unsigned();
-            $table->foreign('user')->references('id')->on('users')->onDelete('cascade');
+            $table->integer('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
-            $table->integer('rehearsal')->unsigned();
-            $table->foreign('rehearsal')->references('id')->on('rehearsals')->onDelete('cascade');
+            $table->integer('rehearsal_id')->unsigned();
+            $table->foreign('rehearsal_id')->references('id')->on('rehearsals')->onDelete('cascade');
 
             $table->boolean('excused')->default(false); // Not excused means "wants to attend"
             $table->string('comment');

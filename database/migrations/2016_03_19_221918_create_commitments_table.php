@@ -15,11 +15,11 @@ class CreateCommitmentsTable extends Migration
         Schema::create('commitments', function (Blueprint $table) {
             $table->increments('id');
 
-            $table->integer('user')->unsigned();
-            $table->foreign('user')->references('id')->on('users')->onDelete('cascade');
+            $table->integer('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
-            $table->integer('gig')->unsigned();
-            $table->foreign('gig')->references('id')->on('gig')->onDelete('cascade');
+            $table->integer('gig_id')->unsigned();
+            $table->foreign('gig_id')->references('id')->on('gig')->onDelete('cascade');
 
             $table->integer('attendance')->default(0); // 0 = attending, 1 = maybe, 2 = not attending
             $table->timestamps();
