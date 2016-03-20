@@ -37,9 +37,8 @@
                 <!-- Left Side Of Navbar -->
                 <ul class="nav navbar-nav">
                     @if (Auth::check())
-                        <li><a href="">{{ trans('nav.dates') }}</a></li>
+                        <li><a href="{{ url('/user') }}">{{ trans('nav.users') }}</a></li>
                     @endif
-                    {{--<li><a href="{{ url('/home') }}">Home</a></li>--}}
                 </ul>
 
                 <!-- Right Side Of Navbar -->
@@ -49,7 +48,7 @@
                         <li><a href="{{ url('/login') }}">Login</a></li>
                     @else
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 {{ Auth::user()->first_name }} {{ Auth::user()->last_name }}<span class="caret"></span>
                             </a>
 

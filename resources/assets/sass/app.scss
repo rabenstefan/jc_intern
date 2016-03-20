@@ -1,6 +1,13 @@
 @import "../../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
 @import "config";
 
+@mixin border-radius($radius) {
+  -webkit-border-radius: $radius;
+  -moz-border-radius: $radius;
+  -ms-border-radius: $radius;
+  border-radius: $radius;
+}
+
 body {
   font-family: $sans-font;
   color: $font-color;
@@ -38,4 +45,20 @@ body {
 
 .btn-link {
   color: $main-color;
+}
+
+.panel-jc {
+  @include border-radius(0px);
+  border-color: #ddd;
+
+  .panel-heading {
+    border-color: #ddd;
+    background-color: $lighter-color;
+    color: $font-color;
+    @include border-radius(0px);
+  }
+
+  .panel-body {
+    @include border-radius(0px);
+  }
 }

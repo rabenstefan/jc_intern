@@ -98,4 +98,8 @@ class User extends Authenticatable
     public function getLastNameAttribute($value) {
         return ucfirst($value);
     }
+
+    public function isAdmin() {
+        return $this->roles()->orderBy('can_configure_system', 'desc')->first()->can_configure_system;
+    }
 }

@@ -19,7 +19,7 @@ class CreateSheetsTable extends Migration
             $table->timestamps();
         });
 
-        Schema::create('user_sheet', function (Blueprint $table) {
+        Schema::create('sheet_user', function (Blueprint $table) {
             $table->increments('id');
 
             $table->integer('user_id')->unsigned();
@@ -41,7 +41,7 @@ class CreateSheetsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('user_sheet');
+        Schema::drop('sheet_user');
         Schema::drop('sheets');
     }
 }

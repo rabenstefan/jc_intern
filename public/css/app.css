@@ -5776,4 +5776,15 @@ body {
 .btn-link {
   color: #3F7DBD; }
 
+.panel-jc {
+  border-radius: 0px;
+  border-color: #ddd; }
+  .panel-jc .panel-heading {
+    border-color: #ddd;
+    background-color: #D9E1F2;
+    color: #232323;
+    border-radius: 0px; }
+  .panel-jc .panel-body {
+    border-radius: 0px; }
+
 /*# sourceMappingURL=app.css.map */
