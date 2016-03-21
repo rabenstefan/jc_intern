@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title'){{ trans('user.index_title') }}@endsection
+
 @section('content')
     <div class="container">
         <div class="row">
@@ -12,13 +14,13 @@
                 ?>
                 @foreach($users->groupBy('voice_id')->chunk(2) as $voices)
                     <div class="row">
-                        <div class="panel panel-jc">
+                        <div class="panel panel-2d">
                             <div class="panel-heading">{{ App\Voice::find(App\Voice::find($voices->first()->first()->voice_id)->super_group)->name }}</div>
 
                             <div class="panel-body">
                                 @foreach ($voices as $voice)
                                     <div class="col-xs-12 col-md-6">
-                                        <div class="panel panel-jc">
+                                        <div class="panel panel-2d">
                                             <div class="panel-heading">
                                                 {{ App\Voice::find($voice->first()->voice_id)->name }}
                                             </div>
@@ -30,7 +32,7 @@
                                                         <th>{{ trans('user.last_name') }}</th>
                                                         <th>{{ trans('user.email') }}</th>
                                                         @if(Auth::user()->isAdmin())
-                                                        <th>{{ trans('user.edit') }}</th>
+                                                        <th></th>
                                                         @endif
                                                     </tr>
                                                 </thead>
@@ -41,7 +43,7 @@
                                                         <td>{{ $user->last_name }}</td>
                                                         <td>{{ $user->email }}</td>
                                                         @if(Auth::user()->isAdmin())
-                                                        <td class="text-center"><a href="{{ url('user/' . $user->id) }}"><i class="fa fa-pencil-square-o"></i></a></td>
+                                                        <td class="text-center"><a href="{{ url('user/' . $user->id) }}" title="{{ trans('user.edit') }}"><i class="fa fa-pencil-square-o"></i></a></td>
                                                         @endif
                                                     </tr>
                                                 @endforeach

@@ -5,6 +5,7 @@
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
 /*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
+@import url(https://fonts.googleapis.com/css?family=Raleway);
 html {
   font-family: sans-serif;
   -ms-text-size-adjust: 100%;
@@ -5750,41 +5751,70 @@ button.close {
     display: none !important; } }
 
 body {
-  font-family: "Lato", sans-serif;
+  font-family: "Raleway", sans-serif;
   color: #232323; }
 
 .navbar {
+  color: #f0f0f0;
   background-color: #3F7DBD;
-  border-color: #1468BF;
-  color: #f0f0f0; }
+  border-radius: 0;
+  border: none;
+  border-bottom: 3px solid #1468BF;
+  box-shadow: none; }
   .navbar a {
     color: #f0f0f0; }
-  .navbar a:hover {
-    color: #ebebeb; }
-  .navbar .nav > li > a:hover, .navbar .nav > li > a:focus {
-    background-color: #1468BF; }
-
-.btn-primary {
-  background-color: #3F7DBD;
-  border-color: #3F7DBD;
-  color: #f0f0f0; }
-  .btn-primary:hover {
-    background-color: #f0f0f0;
-    border-color: #3F7DBD;
-    color: #3F7DBD; }
+  .navbar .nav > li > a {
+    color: #f0f0f0;
+    background: #3F7DBD;
+    line-height: 20px;
+    border-left: 1px solid #1468BF;
+    border-right: 1px solid #1468BF; }
+    .navbar .nav > li > a:hover, .navbar .nav > li > a:focus {
+      color: #fff;
+      background: #3F7DBD;
+      text-decoration: none;
+      margin-bottom: -2px;
+      border-top: 2px solid #1468BF; }
 
 .btn-link {
   color: #3F7DBD; }
 
-.panel-jc {
-  border-radius: 0px;
-  border-color: #ddd; }
-  .panel-jc .panel-heading {
-    border-color: #ddd;
-    background-color: #D9E1F2;
-    color: #232323;
-    border-radius: 0px; }
-  .panel-jc .panel-body {
-    border-radius: 0px; }
+.btn-2d {
+  color: #f0f0f0;
+  background-color: #3F7DBD;
+  border-radius: 0;
+  border: none;
+  border-bottom: 3px solid #1468BF;
+  box-shadow: none; }
+  .btn-2d:hover, .btn-2d:focus, .btn-2d:active {
+    border-bottom: none;
+    margin-top: 3px;
+    color: #fff; }
+
+.panel-2d {
+  border-radius: 0;
+  border: none;
+  border-bottom: 3px solid darkgray;
+  box-shadow: none; }
+  .panel-2d .panel-heading {
+    color: #f0f0f0;
+    background-color: #3F7DBD;
+    border-radius: 0;
+    border: none;
+    border-bottom: 3px solid #1468BF;
+    box-shadow: none; }
+  .panel-2d .panel-body {
+    border-radius: 0; }
+
+.form-control-2d {
+  color: #232323;
+  background-color: #f0f0f0;
+  border-radius: 0;
+  border: none;
+  border-bottom: 3px solid darkgray;
+  box-shadow: none; }
+  .form-control-2d:focus {
+    border-color: #232323;
+    box-shadow: none; }
 
 /*# sourceMappingURL=app.css.map */

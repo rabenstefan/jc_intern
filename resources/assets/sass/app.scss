@@ -1,4 +1,5 @@
 @import "../../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+@import url(https://fonts.googleapis.com/css?family=Raleway);
 @import "config";
 
 @mixin border-radius($radius) {
@@ -8,38 +9,44 @@
   border-radius: $radius;
 }
 
+@mixin shadow-2d($color) {
+  @include border-radius(0);
+  border: none;
+  border-bottom: 3px solid $color;
+  @include box-shadow(none);
+}
+
 body {
   font-family: $sans-font;
   color: $font-color;
 }
 
 .navbar {
-  background-color: $main-color;
-  border-color: $darker-color;
   color: $font-color-inverse;
+  background-color: $main-color;
+  @include shadow-2d($darker-color);
 
   a {
     color: $font-color-inverse;
   }
 
-  a:hover {
-    color: darken($font-color-inverse, 2);
-  }
+  .nav > li > a {
+    color: $font-color-inverse;
+    background: #3F7DBD;
+    line-height: 20px;
+    border-left: 1px solid #1468BF;
+    border-right: 1px solid #1468BF;
 
+    &:hover, &:focus {
+      color: #fff;
+      background: #3F7DBD;
+      text-decoration: none;
+      margin-bottom: -2px;
+      border-top: 2px solid #1468BF;
+    }
+  }
   .nav > li > a:hover, .nav > li > a:focus {
-    background-color: $darker-color;
-  }
-}
 
-.btn-primary {
-  background-color: $main-color;
-  border-color: $main-color;
-  color: $font-color-inverse;
-
-  &:hover {
-    background-color: $font-color-inverse;
-    border-color: $main-color;
-    color: $main-color;
   }
 }
 
@@ -47,18 +54,39 @@ body {
   color: $main-color;
 }
 
-.panel-jc {
-  @include border-radius(0px);
-  border-color: #ddd;
+.btn-2d {
+  color: $font-color-inverse;
+  background-color: $main-color;
+  @include shadow-2d($darker-color);
+
+  &:hover, &:focus, &:active {
+    border-bottom: none;
+    margin-top: 3px;
+    color: #fff;
+  }
+}
+
+.panel-2d {
+  @include shadow-2d(darkgray);
 
   .panel-heading {
-    border-color: #ddd;
-    background-color: $lighter-color;
-    color: $font-color;
-    @include border-radius(0px);
+    color: $font-color-inverse;
+    background-color: $main-color;
+    @include shadow-2d($darker-color);
   }
 
   .panel-body {
-    @include border-radius(0px);
+    @include border-radius(0);
+  }
+}
+
+.form-control-2d {
+  color: $font-color;
+  background-color: $font-color-inverse;
+  @include shadow-2d(darkgray);
+
+  &:focus {
+    border-color: $font-color;
+    @include box-shadow(none);
   }
 }
