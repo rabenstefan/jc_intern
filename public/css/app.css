@@ -5754,12 +5754,18 @@ body {
   font-family: "Raleway", sans-serif;
   color: #232323; }
 
+a {
+  color: #3F7DBD;
+  padding: 0 1em; }
+  a:hover, a:focus, a:active {
+    color: #174C84; }
+
 .navbar {
   color: #f0f0f0;
   background-color: #3F7DBD;
   border-radius: 0;
   border: none;
-  border-bottom: 3px solid #1468BF;
+  border-bottom: 3px solid #174C84;
   box-shadow: none; }
   .navbar a {
     color: #f0f0f0; }
@@ -5784,7 +5790,7 @@ body {
   background-color: #3F7DBD;
   border-radius: 0;
   border: none;
-  border-bottom: 3px solid #1468BF;
+  border-bottom: 3px solid #174C84;
   box-shadow: none; }
   .btn-2d:hover, .btn-2d:focus, .btn-2d:active {
     border-bottom: none;
@@ -5794,24 +5800,31 @@ body {
 .panel-2d {
   border-radius: 0;
   border: none;
-  border-bottom: 3px solid darkgray;
+  border-bottom: 3px solid #A6A6A6;
   box-shadow: none; }
   .panel-2d .panel-heading {
     color: #f0f0f0;
     background-color: #3F7DBD;
     border-radius: 0;
     border: none;
-    border-bottom: 3px solid #1468BF;
+    border-bottom: 3px solid #174C84;
     box-shadow: none; }
   .panel-2d .panel-body {
     border-radius: 0; }
+  .panel-2d .panel-2d .panel-heading {
+    color: #232323;
+    background-color: #CCCCCC;
+    border-radius: 0;
+    border: none;
+    border-bottom: 3px solid #A6A6A6;
+    box-shadow: none; }
 
 .form-control-2d {
   color: #232323;
   background-color: #f0f0f0;
   border-radius: 0;
   border: none;
-  border-bottom: 3px solid darkgray;
+  border-bottom: 3px solid #A6A6A6;
   box-shadow: none; }
   .form-control-2d:focus {
     border-color: #232323;

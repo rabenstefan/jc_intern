@@ -49,7 +49,8 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id) {
-        //return view('user.profile', ['user' => User::findOrFail($id)]);
+        // Actually we do not need a "show single user".
+        return $this->edit($id);
     }
 
     /**
@@ -59,7 +60,7 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id) {
-        //
+        return view('user.profile', ['user' => User::findOrFail($id)]);
     }
 
     /**

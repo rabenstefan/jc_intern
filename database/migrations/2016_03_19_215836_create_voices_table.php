@@ -18,6 +18,8 @@ class CreateVoicesTable extends Migration
 
             $table->integer('super_group')->unsigned()->nullable();
             $table->foreign('super_group')->references('id')->on('voices')->onDelete('set null');
+
+            $table->boolean('child_group')->default(true);
             $table->timestamps();
         });
     }

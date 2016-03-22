@@ -21,10 +21,19 @@ body {
   color: $font-color;
 }
 
+a {
+  color: $main-color;
+  padding: 0 1em;
+
+  &:hover, &:focus, &:active {
+    color: $main-color-darker;
+  }
+}
+
 .navbar {
   color: $font-color-inverse;
   background-color: $main-color;
-  @include shadow-2d($darker-color);
+  @include shadow-2d($main-color-darker);
 
   a {
     color: $font-color-inverse;
@@ -57,7 +66,7 @@ body {
 .btn-2d {
   color: $font-color-inverse;
   background-color: $main-color;
-  @include shadow-2d($darker-color);
+  @include shadow-2d($main-color-darker);
 
   &:hover, &:focus, &:active {
     border-bottom: none;
@@ -67,23 +76,31 @@ body {
 }
 
 .panel-2d {
-  @include shadow-2d(darkgray);
+  @include shadow-2d($grey-darker);
 
   .panel-heading {
     color: $font-color-inverse;
     background-color: $main-color;
-    @include shadow-2d($darker-color);
+    @include shadow-2d($main-color-darker);
   }
 
   .panel-body {
     @include border-radius(0);
+  }
+
+  & .panel-2d {
+    .panel-heading {
+      color: $font-color;
+      background-color: $grey;
+      @include shadow-2d($grey-darker);
+    }
   }
 }
 
 .form-control-2d {
   color: $font-color;
   background-color: $font-color-inverse;
-  @include shadow-2d(darkgray);
+  @include shadow-2d($grey-darker);
 
   &:focus {
     border-color: $font-color;

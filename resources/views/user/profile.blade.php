@@ -14,43 +14,43 @@
                                 <div class="col-xs-12 col-md-6">
                                     <div class="form-group">
                                         {{ Form::label('first_name', trans('user.first_name')) }}
-                                        {{ Form::text('first_name', null, ['class' => 'form-control']) }}
+                                        {{ Form::text('first_name', null, ['class' => 'form-control  form-control-2d']) }}
                                     </div>
                                     <div class="form-group">
                                         {{ Form::label('last_name', trans('user.last_name')) }}
-                                        {{ Form::text('last_name', null, ['class' => 'form-control']) }}
+                                        {{ Form::text('last_name', null, ['class' => 'form-control  form-control-2d']) }}
                                     </div>
                                     <div class="form-group">
                                         {{ Form::label('email', trans('user.email')) }}
-                                        {{ Form::text('email', null, ['class' => 'form-control']) }}
+                                        {{ Form::text('email', null, ['class' => 'form-control  form-control-2d']) }}
                                     </div>
                                     <div class="form-group">
                                         {{ Form::label('birthday', trans('user.birthday')) }}
-                                        {{ Form::date('birthday', null, ['class' => 'form-control']) }}
+                                        {{ Form::date('birthday', null, ['class' => 'form-control  form-control-2d']) }}
                                     </div>
                                 </div>
                                 <div class="col-xs-12 col-md-6">
                                     <div class="form-group">
                                         {{ Form::label('phone', trans('user.phone')) }}
-                                        {{ Form::text('phone', null, ['class' => 'form-control']) }}
+                                        {{ Form::text('phone', null, ['class' => 'form-control  form-control-2d']) }}
                                     </div>
                                     <div class="form-group">
                                         {{ Form::label('address_street', trans('user.address_street')) }}
-                                        {{ Form::text('address_street', null, ['class' => 'form-control']) }}
+                                        {{ Form::text('address_street', null, ['class' => 'form-control  form-control-2d']) }}
                                     </div>
                                     <div class="form-group">
                                         {{ Form::label('address_zip', trans('user.address_zip')) }}
-                                        {{ Form::text('address_zip', null, ['class' => 'form-control']) }}
+                                        {{ Form::text('address_zip', null, ['class' => 'form-control  form-control-2d']) }}
                                     </div>
                                     <div class="form-group">
                                         {{ Form::label('address_city', trans('user.address_city')) }}
-                                        {{ Form::text('address_city', null, ['class' => 'form-control']) }}
+                                        {{ Form::text('address_city', null, ['class' => 'form-control  form-control-2d']) }}
                                     </div>
                                 </div>
                                 <div class="col-xs-12 col-md-6">
                                     <div class="form-group">
                                         {{ Form::label('voice_id', trans('user.voice_id')) }}
-                                        {{ Form::select('voice_id', App\Voice::getChildVoices()->pluck('name', 'id')->toArray(), null, ['class' => 'form-control']) }}
+                                        {{ Form::select('voice_id', App\Voice::getChildVoices()->pluck('name', 'id')->toArray(), null, ['class' => 'form-control form-control-2d']) }}
                                     </div>
                                     @if($user->sheets_deposit_returned)
                                         <p>{!! trans('user.sheets_deposit_returned') !!}</p>
