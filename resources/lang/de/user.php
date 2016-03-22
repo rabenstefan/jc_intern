@@ -19,8 +19,9 @@ return [
     'address_city'  => 'Stadt',
     'voice_id'      => 'Stimmgruppe',
     'sheets_deposit_returned'   => 'Notenpfand zurückgegeben.',
-    'sheets_deposit_not_returned'   => 'Notenpfand noch <strong>nicht</strong> zurück.',
     'return'        => 'zurückgeben',
     'undo'          => 'rückgängig machen',
     'last_echo'     => 'Zuletzt im <strong>:semester</strong> zurückgemeldet.',
+    'save'          => 'Speichern',
+    'success'       => 'Nutzer erfolgreich aktualisiert',
 ];

@@ -25,7 +25,7 @@ class User extends Authenticatable
         'address_zip',
         'address_city',
         'sheets_deposit_returned',
-        'voice',
+        'voice_id',
     ];
 
     /**

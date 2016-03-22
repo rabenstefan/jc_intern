@@ -107,3 +107,61 @@ a {
     @include box-shadow(none);
   }
 }
+
+ul.messages-list-2d {
+  list-style: none;
+  padding: 0;
+
+  & li {
+    padding: 0.2em 0;
+
+    &:before {
+      content: "\f12a";
+      font-family: "FontAwesome", sans-serif;
+      padding: 0 1em;
+    }
+  }
+}
+
+.text-success i.fa-check {
+  padding: 0 1em;
+}
+
+div.checkbox input[type='checkbox'] + span:before,
+div.radio input[type='radio'] + span:before {
+  content: '';
+  color: #000;
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: 20px;
+  top: 2px;
+  position: relative;
+  margin-left: -2em;
+  padding-left: 1em;
+  padding-right: 1.5em;
+  background-color: #fff;
+}
+
+div.radio input[type='radio']:focus + span:before,
+div.checkbox input[type='checkbox']:hover + span:before,
+div.radio input[type='radio']:hover + span:before {
+}
+
+div.checkbox input[type='checkbox'], div.radio input[type='radio'] {
+  display: none;
+
+  & + span:before {
+    content: '\f096';
+  }
+
+  &:checked + span:before {
+    content: '\f046';
+  }
+
+  &:focus + span:before,
+  &:hover + span:before {
+    color: $main-color-darker;
+  }
+}

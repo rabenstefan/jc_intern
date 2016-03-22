@@ -7,9 +7,27 @@
         <div class="row">
             <div class="col-md-12">
                 <h1>{{ trans('user.profile_title', ['fname' => $user->first_name, 'lname' => $user->last_name]) }}</h1>
-                {{ Form::model($user, ['route' => ['user.update', $user->id]]) }}
+                {{ Form::model($user, ['route' => ['user.update', $user->id], 'method' => 'PUT']) }}
                     <div class="panel panel-2d">
                         <div class="panel-body">
+                            @if (Session::has('update_success') && Session::get('update_success'))
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <p class="text-success large"><i class="fa fa-check"></i>{{ trans('user.success') }}</p>
+                                    </div>
+                                </div>
+                            @endif
+                            @if (count($errors) > 0)
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <ul class="messages-list-2d">
+                                            @foreach ($errors->all() as $error)
+                                                <li class="text-danger">{{ $error }}</li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                </div>
+                            @endif
                             <div class="row">
                                 <div class="col-xs-12 col-md-6">
                                     <div class="form-group">
@@ -47,21 +65,24 @@
                                         {{ Form::text('address_city', null, ['class' => 'form-control  form-control-2d']) }}
                                     </div>
                                 </div>
+                                <div class="hidden-xs hidden-sm col-xs-12 col-md-6" style="margin-top: 1em">
+                                    {{ Form::submit(trans('user.save'), ['class' => 'btn btn-lg btn-2d center-block']) }}
+                                </div>
                                 <div class="col-xs-12 col-md-6">
                                     <div class="form-group">
                                         {{ Form::label('voice_id', trans('user.voice_id')) }}
                                         {{ Form::select('voice_id', App\Voice::getChildVoices()->pluck('name', 'id')->toArray(), null, ['class' => 'form-control form-control-2d']) }}
                                     </div>
-                                    @if($user->sheets_deposit_returned)
-                                        <p>{!! trans('user.sheets_deposit_returned') !!}</p>
-                                        <button class="btn btn-2d" type="button">{{ trans('user.undo') }}</button>
-                                    @else
-                                        <p>{!! trans('user.sheets_deposit_not_returned') !!}</p>
-                                        <button class="btn btn-2d" type="button">{{ trans('user.return') }}</button>
-                                    @endif
-                                    <br>
-                                    <br>
+                                    <div class="checkbox">
+                                        <label>
+                                            {{ Form::checkbox('sheets_deposit_returned', 1, null, ['class' => '']) }}
+                                            <span>{{ trans('user.sheets_deposit_returned') }}</span>
+                                        </label>
+                                    </div>
                                     <p>{!! trans('user.last_echo', ['semester' => App\Semester::find($user->last_echo)->label]) !!}</p>
+                                </div>
+                                <div class="hidden-lg hidden-md col-xs-12 col-md-6">
+                                    {{ Form::submit(trans('user.save'), ['class' => 'btn btn-lg btn-2d center-block']) }}
                                 </div>
                             </div>
                         </div>

@@ -71,7 +71,22 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id) {
-        //
+        $user = User::findOrFail($id);
+
+        $this->validate($request, [
+            'first_name'=> 'required|alpha|max:255',
+            'last_name' => 'required|alpha|max:255',
+            'email'     => 'required|email',
+            'voice_id'  => 'required|integer|min:0',
+            'birthday'  => 'date|after:1900-01-01|before:' . date('Y-m-d'),
+            'address_zip'   => 'integer',
+            'sheets_deposit_returned' => 'boolean'
+        ]);
+
+        $user->update($request->all());
+        $user->save();
+
+        return redirect()->route('user.show', ['id' => $id])->with('update_success', true);
     }
 
     /**
