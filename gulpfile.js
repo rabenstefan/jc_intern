@@ -15,6 +15,12 @@ elixir(function(mix) {
     mix.sass('app.scss');
 
     mix.scripts([
-        'main.js'
+        'main.js',
+        'notify.min.js',
+        'scrollspy.js',
+        'affix.js',
+        'dropdown.js',
+        'transition.js',
+        'collapse.js'
     ]);
 });

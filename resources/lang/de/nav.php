@@ -1,5 +1,7 @@
 <?php
 
 return [
-    'users' => 'Benutzer',
+    'users'     => 'Mitglieder',
+    'back_top'  => 'Nach oben',
+    'user_list' => 'Mitgliederliste'
 ];

@@ -7,6 +7,7 @@ return [
     'index_title'   => 'Mitglieder',
     'profile_title_short' => ':Fname :Lname bearbeiten',
     'profile_title' => 'Daten von :Fname :Lname bearbeiten',
+    'data'          => 'Daten',
     'first_name'    => 'Vorname',
     'last_name'     => 'Nachname',
     'email'         => 'E-Mail-Adresse',
@@ -24,4 +25,5 @@ return [
     'last_echo'     => 'Zuletzt im <strong>:semester</strong> zurückgemeldet.',
     'save'          => 'Speichern',
     'success'       => 'Nutzer erfolgreich aktualisiert',
+    'alumni'        => 'Ehemalige Mitglieder',
 ];

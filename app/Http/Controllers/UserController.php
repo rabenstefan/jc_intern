@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Semester;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 
 use App\User;
+use Illuminate\Support\MessageBag;
 
 class UserController extends Controller
 {
@@ -86,7 +88,9 @@ class UserController extends Controller
         $user->update($request->all());
         $user->save();
 
-        return redirect()->route('user.show', ['id' => $id])->with('update_success', true);
+        $request->session()->flash('message_success', trans('user.success'));
+
+        return redirect()->route('user.show', ['id' => $id]);
     }
 
     /**

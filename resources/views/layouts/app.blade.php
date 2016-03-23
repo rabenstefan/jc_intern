@@ -14,7 +14,7 @@
     <!-- Styles -->
     {!! Html::style('css/app.css') !!}
 </head>
-<body id="app-layout">
+<body id="app-layout" data-spy="scroll" data-target="#scroll-spy-nav">
     <nav class="navbar navbar-static-top">
         <div class="container">
             <div class="navbar-header">
@@ -37,7 +37,15 @@
                 <!-- Left Side Of Navbar -->
                 <ul class="nav navbar-nav">
                     @if (Auth::check())
-                        <li><a href="{{ url('/user') }}">{{ trans('nav.users') }}</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {{ trans('nav.users') }}<span class="caret"></span>
+                            </a>
+
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="{{ url('/user') }}">{{ trans('nav.user_list') }}</a></li>
+                            </ul>
+                        </li>
                     @endif
                 </ul>
 
@@ -49,11 +57,11 @@
                     @else
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                {{ Auth::user()->first_name }} {{ Auth::user()->last_name }}<span class="caret"></span>
+                                {{ Auth::user()->first_name }} {{ Auth::user()->last_name }}&nbsp;<span class="caret"></span>
                             </a>
 
                             <ul class="dropdown-menu" role="menu">
-                                <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
+                                <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>&nbsp;Logout</a></li>
                             </ul>
                         </li>
                     @endif
@@ -62,10 +70,43 @@
         </div>
     </nav>
 
-    @yield('content')
+    <div class="container">
+        <div class="hidden-xs hidden-sm col-md-1">
+            <div id="scroll-spy-nav" data-spy="affix">
+                <nav class="sidebar-nav-2d">
+                    @yield('navlist')
+                </nav>
+                {{--<a href="#" onclick="$('html,body').animate({scrollTop:0}, 500);return false;">
+                    <i class="fa fa-caret-up"></i>&nbsp;{{ trans('nav.back_top') }}
+                </a>--}}
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-10">
+            @yield('content')
+        </div>
+    </div>
 
     <!-- JavaScripts -->
     {!! Html::script('js/jquery.min.js') !!}
     {!! Html::script('js/all.js') !!}
+    <script type="text/javascript">
+        $.notify.addStyle('shadow2d', {
+            html: '<span data-notify-text/>'
+        });
+        $.notify.defaults({
+            autoHideDelay: 1500,
+            style: 'shadow2d',
+            showAnimation: 'show',
+            showDuration: 0,
+            hideAnimation: 'hide',
+            hideDuration: 0
+        });
+
+        @foreach (['danger', 'warning', 'success', 'info'] as $message_code)
+            @if (Session::has('message_'.$message_code))
+                $.notify("{{ Session::get('message_'.$message_code) }}", "{{ $message_code }}");
+        @endif
+        @endforeach
+    </script>
 </body>
 </html>

@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-2d">
@@ -42,7 +41,8 @@
                             <div class="col-md-6 col-md-offset-4">
                                 <div class="checkbox">
                                     <label>
-                                        <input type="checkbox" name="remember"> Remember Me
+                                        <input type="checkbox" name="remember">
+                                        <span>Remember Me</span>
                                     </label>
                                 </div>
                             </div>
@@ -62,5 +62,4 @@
             </div>
         </div>
     </div>
-</div>
 @endsection

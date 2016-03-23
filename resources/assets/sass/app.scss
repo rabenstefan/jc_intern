@@ -2,6 +2,11 @@
 @import url(https://fonts.googleapis.com/css?family=Raleway);
 @import "config";
 
+/* Responsive table fix for Firefox. */
+@-moz-document url-prefix() {
+  fieldset { display: table-cell; }
+}
+
 @mixin border-radius($radius) {
   -webkit-border-radius: $radius;
   -moz-border-radius: $radius;
@@ -19,6 +24,7 @@
 body {
   font-family: $sans-font;
   color: $font-color;
+  position: relative; // For scroll spying.
 }
 
 a {
@@ -28,6 +34,10 @@ a {
   &:hover, &:focus, &:active {
     color: $main-color-darker;
   }
+}
+
+.container {
+  width: 100%;
 }
 
 .navbar {
@@ -41,21 +51,94 @@ a {
 
   .nav > li > a {
     color: $font-color-inverse;
-    background: #3F7DBD;
+    background: $main-color;
     line-height: 20px;
-    border-left: 1px solid #1468BF;
-    border-right: 1px solid #1468BF;
+    border-left: 1px solid $main-color-darker;
+    border-right: 1px solid $main-color-darker;
 
     &:hover, &:focus {
       color: #fff;
-      background: #3F7DBD;
+      background: $main-color;
       text-decoration: none;
       margin-bottom: -2px;
-      border-top: 2px solid #1468BF;
+      border-top: 2px solid $main-color-darker;
     }
   }
-  .nav > li > a:hover, .nav > li > a:focus {
 
+  .nav .open > a, .nav .open > a:hover, .nav .open > a:focus {
+    border-color: $main-color-darker;
+  }
+}
+
+.navbar-right {
+  margin-right: 5em;
+}
+
+.navbar-toggle {
+  color: $font-color-inverse;
+  @include shadow-2d($main-color-darker);
+
+  .icon-bar {
+    color: $font-color-inverse;
+  }
+}
+
+.dropdown-menu {
+  color: $main-color;
+  background-color: #fafafa;
+  @include shadow-2d($grey-darker);
+
+  & > li > a {
+    color: $main-color;
+  }
+  & > li > a:hover, & > li > a:focus {
+    color: $main-color-darker;
+    background: none;
+  }
+}
+
+.sidebar-nav-2d {
+  margin-top: 5em;
+
+  .nav > li > a {
+    margin-right: 3px;
+  }
+
+  .nav > li > a:hover, .nav > li > a:focus, .nav > li > a:active, .nav > li.active > a {
+    background: none;
+    border-right: 1px solid $main-color;
+    margin-right: 2px;
+  }
+
+  .nav > li.active > a {
+    border-right-width: 3px;
+    margin-right: 0;
+  }
+
+  & > ul > li a {
+    padding: 0.2em;
+  }
+
+  & > ul > li ul {
+    padding: 0 0 0 0.4em;
+  }
+}
+
+#scroll-spy-nav {
+  width: 6em;
+
+  @media (min-width: 1600px) {
+    width: 9em;
+  }
+
+  & > a {
+    color: $main-color;
+    padding: 0.2em;
+
+    &:hover, &:focus, &:active {
+      color: $main-color-darker;
+      text-decoration: none;
+    }
   }
 }
 
@@ -72,6 +155,7 @@ a {
     border-bottom: none;
     margin-top: 3px;
     color: #fff;
+    outline: none;
   }
 }
 
@@ -82,17 +166,24 @@ a {
     color: $font-color-inverse;
     background-color: $main-color;
     @include shadow-2d($main-color-darker);
+    font-weight: bold;
   }
 
   .panel-body {
+    background-color: #fafafa;
     @include border-radius(0);
   }
 
-  & .panel-2d {
+  &.panel-2d-grey, & .panel-2d {
     .panel-heading {
       color: $font-color;
       background-color: $grey;
       @include shadow-2d($grey-darker);
+      font-weight: normal;
+    }
+
+    .panel-body {
+      background-color: #fefefe;
     }
   }
 }
@@ -119,6 +210,10 @@ ul.messages-list-2d {
       content: "\f12a";
       font-family: "FontAwesome", sans-serif;
       padding: 0 1em;
+    }
+
+    &.text-success:before {
+      content: "\f00c";
     }
   }
 }
@@ -154,14 +249,65 @@ div.checkbox input[type='checkbox'], div.radio input[type='radio'] {
 
   & + span:before {
     content: '\f096';
+    font-family: "FontAwesome", sans-serif;
   }
 
   &:checked + span:before {
     content: '\f046';
+    font-family: "FontAwesome", sans-serif;
   }
 
   &:focus + span:before,
   &:hover + span:before {
     color: $main-color-darker;
+  }
+}
+
+.notifyjs-corner {
+  top: 6em !important;
+  margin: 0 !important;
+}
+
+.notifyjs-wrapper {
+  margin: 0 !important;
+}
+
+.notifyjs-container {
+  margin: 0 !important;
+}
+
+.notifyjs-shadow2d-base {
+  font-weight: bold;
+  padding: 1em 2em 1em 0;
+  color: $main-color;
+  background-color: #fff;
+  @include shadow-2d($grey-darker);
+
+  &:before {
+    content: "\f12a";
+    font-family: "FontAwesome", sans-serif;
+    padding: 0 1em;
+  }
+
+  &.notifyjs-shadow2d-success {
+    color: #3c763d;
+    background-color: #d9edf7;
+    @include shadow-2d(#3c763d);
+
+    &:before {
+      content: "\f00c";
+    }
+  }
+
+  &.notifyjs-shadow2d-warning {
+    color: #8a6d3b;
+    background-color: #fcf8e3;
+    @include shadow-2d(#8a6d3b);
+  }
+
+  &.notifyjs-shadow2d-danger {
+    color: #a94442;
+    background-color: #f2dede;
+    @include shadow-2d(#a94442);
   }
 }
