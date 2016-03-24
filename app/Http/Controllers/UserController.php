@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 
 use App\User;
-use Illuminate\Support\MessageBag;
 
 class UserController extends Controller
 {
@@ -62,7 +61,13 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id) {
-        return view('user.profile', ['user' => User::findOrFail($id)]);
+        $user = User::find($id);
+
+        if (null !== $user) {
+            return view('user.profile', ['user' => $user]);
+        } else {
+            return redirect()->route('user.index')->withErrors([trans('user.not_found')]);
+        }
     }
 
     /**
@@ -73,7 +78,11 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id) {
-        $user = User::findOrFail($id);
+        $user = User::find($id);
+
+        if (null === $user) {
+            return redirect()->route('user.index')->withErrors([trans('user.not_found')]);
+        }
 
         $this->validate($request, [
             'first_name'=> 'required|alpha|max:255',
@@ -100,6 +109,16 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id) {
-        //
+        $user = User::find($id);
+
+        if (null === $user) {
+            return redirect()->route('user.index')->withErrors([trans('user.not_found')]);
+        }
+
+        $user->delete();
+
+        \Session::flash('message_success', trans('user.delete_success'));
+
+        return redirect()->route('user.index');
     }
 }

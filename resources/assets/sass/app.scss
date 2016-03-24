@@ -21,6 +21,7 @@
   @include box-shadow(none);
 }
 
+/** Main settings. **/
 body {
   font-family: $sans-font;
   color: $font-color;
@@ -36,67 +37,131 @@ a {
   }
 }
 
+/** General classes. **/
+.text-large {
+  font-size: 1.2em;
+}
+
 .container {
   width: 100%;
 }
 
-.navbar {
+/** Additional class for navbars. **/
+.navbar-2d {
   color: $font-color-inverse;
   background-color: $main-color;
   @include shadow-2d($main-color-darker);
 
-  a {
+  a, .navbar-brand {
     color: $font-color-inverse;
+
+    &:hover, &:focus, &:active {
+      color: #fff;
+    }
   }
 
-  .nav > li > a {
+  a.dropdown-toggle {
+    color: #fff;
+    background-color: $main-color;
+  }
+
+  .nav li > a {
     color: $font-color-inverse;
     background: $main-color;
     line-height: 20px;
     border-left: 1px solid $main-color-darker;
     border-right: 1px solid $main-color-darker;
 
-    &:hover, &:focus {
+    @media (max-width: 767px) {
+      border: none;
+    }
+
+    &:hover, &:focus, &:active {
       color: #fff;
       background: $main-color;
       text-decoration: none;
       margin-bottom: -2px;
       border-top: 2px solid $main-color-darker;
     }
+
+    @media (max-width: 767px) {
+      &:hover, &:focus, &:active {
+        border: none;
+        margin-bottom: 0;
+      }
+    }
   }
 
-  .nav .open > a, .nav .open > a:hover, .nav .open > a:focus {
+  .navbar-nav > .open > a, .navbar-nav > .open > a:hover, .navbar-nav > .open > a:focus {
+    color: #fff;
+    background-color: $main-color;
+    border-top: 2px solid $main-color-darker;
     border-color: $main-color-darker;
+    margin-bottom: -2px;
+    outline: none;
   }
-}
 
-.navbar-right {
-  margin-right: 5em;
-}
-
-.navbar-toggle {
-  color: $font-color-inverse;
-  @include shadow-2d($main-color-darker);
-
-  .icon-bar {
+  .navbar-nav .open .dropdown-menu > li > a {
     color: $font-color-inverse;
+
+    &:hover, &:focus, &:active {
+      color: #fff;
+      border: none;
+      border-top: 1px solid $main-color-darker;
+      margin-bottom: -1px;
+    }
+  }
+
+  .navbar-toggle {
+    color: $font-color-inverse;
+    @include shadow-2d($main-color-darker);
+
+    &:hover, &:focus, &:active {
+      color: #fff;
+      background-color: $main-color;
+      border-bottom: none;
+      margin-top: 8px + 3px;
+    }
+
+    .icon-bar {
+      background-color: $font-color-inverse;
+    }
+  }
+
+  .navbar-collapse, .navbar-form {
+    border: none;
+    @include box-shadow(none);
+  }
+
+  .navbar-right {
+    margin-right: 5em;
+
+    @media (max-width: 767px) {
+      & {
+        margin: 7.5px -15px;
+      }
+    }
+  }
+
+  .dropdown-menu {
+    color: $font-color-inverse;
+    background-color: $main-color;
+    @include shadow-2d($main-color-darker);
+    border-top: 2px solid $main-color-darker;
+
+    & > li > a {
+      color: $font-color-inverse;
+      border: none;
+    }
+
+    & > li > a:hover, & > li > a:focus {
+      color: $main-color-darker;
+      background: none;
+    }
   }
 }
 
-.dropdown-menu {
-  color: $main-color;
-  background-color: #fafafa;
-  @include shadow-2d($grey-darker);
-
-  & > li > a {
-    color: $main-color;
-  }
-  & > li > a:hover, & > li > a:focus {
-    color: $main-color-darker;
-    background: none;
-  }
-}
-
+/** If the page has a sidebar-nav. **/
 .sidebar-nav-2d {
   margin-top: 5em;
 
@@ -124,6 +189,7 @@ a {
   }
 }
 
+/** Same as above, usually. **/
 #scroll-spy-nav {
   width: 6em;
 
@@ -146,6 +212,7 @@ a {
   color: $main-color;
 }
 
+/** Cool buttons, additionally used to .btn class. **/
 .btn-2d {
   color: $font-color-inverse;
   background-color: $main-color;
@@ -159,6 +226,7 @@ a {
   }
 }
 
+/** Cool panels, additionally used to .panel class. **/
 .panel-2d {
   @include shadow-2d($grey-darker);
 
@@ -188,6 +256,7 @@ a {
   }
 }
 
+/** Cool inputs, additionally used to .form-control class. **/
 .form-control-2d {
   color: $font-color;
   background-color: $font-color-inverse;

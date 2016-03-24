@@ -6,6 +6,7 @@
     <div class="row" id="{{ trans('nav.users') }}">
         <div class="col-xs-12">
             <h1>{{ trans('user.index_title') }}</h1>
+
             <?php
                 // Get all users that have echoed in this semester.
                 $semester = App\Semester::all()->last();
