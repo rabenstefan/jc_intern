@@ -5994,7 +5994,8 @@ div.checkbox input[type='checkbox'], div.radio input[type='radio'] {
   margin: 0 !important; }
 
 .notifyjs-wrapper {
-  margin: 0 !important; }
+  margin: 0 !important;
+  height: 3.5em !important; }
 
 .notifyjs-container {
   margin: 0 !important; }
@@ -6035,5 +6036,10 @@ div.checkbox input[type='checkbox'], div.radio input[type='radio'] {
     border: none;
     border-bottom: 3px solid #a94442;
     box-shadow: none; }
+
+.add_user_link {
+  color: #3c763d; }
+  .add_user_link:hover {
+    text-decoration: none; }
 
 /*# sourceMappingURL=app.css.map */

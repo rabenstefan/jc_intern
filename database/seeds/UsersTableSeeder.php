@@ -31,6 +31,16 @@ class UsersTableSeeder extends Seeder
             'last_echo' => 1,
         ]);
 
+        DB::table('users')->insert([
+            'id' => 2,
+            'first_name' => 'Chor',
+            'last_name' => 'Leiter',
+            'email' => 'test2@gmail.com',
+            'password' => bcrypt('secret'),
+            'voice_id' => 0,
+            'last_echo' => 1,
+        ]);
+
         factory(App\User::class, 20)->create();
     }
 }

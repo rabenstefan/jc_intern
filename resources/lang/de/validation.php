@@ -109,13 +109,14 @@ return [
     */
 
     'attributes' => [
-        'first_name' => 'Vorname',
-        'last_name' => 'Nachname',
-        'birthday' => 'Geburtstag',
-        'phone' => 'Telefonnummer',
-        'address_street' => 'Straße',
-        'address_zip' => 'PLZ',
-        'address_city' => 'Stadt',
+        'first_name'    => 'Vorname',
+        'last_name'     => 'Nachname',
+        'email'         => 'E-Mail-Adresse',
+        'birthday'      => 'Geburtstag',
+        'phone'         => 'Telefonnummer',
+        'address_street'=> 'Straße',
+        'address_zip'   => 'PLZ',
+        'address_city'  => 'Stadt',
         'sheet_deposit_returned' => 'Notenpfand zurückgegeben',
     ],
 

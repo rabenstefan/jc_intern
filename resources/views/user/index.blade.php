@@ -7,53 +7,64 @@
         <div class="col-xs-12">
             <h1>{{ trans('user.index_title') }}</h1>
 
-            <?php
-                // Get all users that have echoed in this semester.
-                $semester = App\Semester::all()->last();
-                $users = App\User::orderBy('voice_id')->where('last_echo', $semester->id)->get();
+            @if(Auth::user()->isAdmin())
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="panel panel-2d">
+                            <div class="panel-heading">{{ trans('user.add_user_title') }}</div>
 
-                // Set flags for voice grouping.
-                $new_super_group = true;
-                $first_super_group = true;
-                $super_groups = [];
-            ?>
-            @foreach($users->groupBy('voice_id') as $users_in_voice)
-                <?php
-                    // Juggling with voice super groups to output the voices neatly.
-                    $current_super_group = App\Voice::find($users_in_voice->first()->voice_id)->super_group;
-                    $new_super_group = empty($last_super_group) || $last_super_group != $current_super_group;
-                    $last_super_group = $current_super_group;
+                            <div class="panel-body">
+                                <a href="{{ route('user.create') }}" title="{{ trans('user.add_user_title') }}" class="add_user_link"><i class="fa fa-plus"></i>&nbsp;{{ trans('user.add_user') }}</a>
+                            </div>
+                    </div>
+                </div>
+            @endif
 
-                    if ($new_super_group) {
-                        $super_groups[$current_super_group] = App\Voice::find($last_super_group)->name;
-                    }
-                ?>
-                {{-- End of the row. Do not output before first group, otherwise there is no row to end. --}}
-                @if($new_super_group && !$first_super_group)
+            {{-- Output role 'Musikalische Leitung' first. --}}
+            <div class="row" id="{{  trans('nav.musical_leader') }}">
+                <div class="col-xs-12">
+                    <div class="panel panel-2d">
+                        <div class="panel-heading">{{ trans('nav.musical_leader') }}</div>
+
+                        <div class="panel-body">
+                            <div class="col-xs-12">
+                                <div class="panel panel-2d">
+                                    <div class="panel-heading">&nbsp;
+                                    </div>
+                                    @include('user.table', ['users' => App\User::getMusicalLeader()])
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                @endif
-                {{-- Start new row for new super group. --}}
-                @if($new_super_group)
-                <div class="row" id="{{ trans('nav.users') }}-{{ $super_groups[$current_super_group] }}">
+            </div>
+
+            <?php
+                // Get all second level voices.
+                $voices = App\Voice::getParentVoices(App\Voice::getChildVoices());
+            ?>
+            @foreach($voices as $voice)
+                <div class="row" id="{{ trans('nav.users') }}-{{ $voice->name }}">
                     <div class="col-xs-12">
                         <div class="panel panel-2d">
-                            <div class="panel-heading">{{ $super_groups[$current_super_group] }}</div>
+                            <div class="panel-heading">{{ $voice->name }}</div>
 
                             <div class="panel-body">
-                @endif
-                                <div class="col-xs-12">
-                                    <div class="panel panel-2d">
-                                        <div class="panel-heading">
-                                            {{ App\Voice::find($users_in_voice->first()->voice_id)->name }}
-                                        </div>
+                                @foreach($voice->children as $sub_voice)
+                                    <div class="col-xs-12">
+                                        <div class="panel panel-2d">
+                                            <div class="panel-heading">
+                                                {{ $sub_voice->name }}
+                                            </div>
 
-                                        @include('user.table', ['users' => $users_in_voice])
+                                            @include('user.table', ['users' => \App\User::getUsersOfVoice($sub_voice->id)])
+                                        </div>
                                     </div>
-                                </div>
-                <?php $first_super_group = false; /* At this point no other group be the first group anymore. */ ?>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                </div>
             @endforeach
         </div>
     </div>
@@ -62,7 +73,7 @@
         <div class="col-xs-12">
             <?php
             // Get all old users that have not echoed in this semester.
-            $users = App\User::orderBy('voice_id')->where('last_echo', '<>', $semester->id)->get();
+            $users = App\User::orderBy('voice_id')->where('last_echo', '<>', \App\Semester::current()->id)->get();
             ?>
             <div class="row" id="{{ str_replace(' ', '-', trans('user.alumni')) }}">
                 <div class="col-xs-12">
@@ -73,7 +84,7 @@
                                 <div class="col-xs-12">
                                     <div class="panel panel-2d">
                                         <div class="panel-heading">
-                                            {{ App\Voice::find($users_in_voice->first()->voice_id)->name }}
+                                            {{ $users_in_voice->first()->voice->name }}
                                         </div>
 
                                         @include('user.table', ['users' => $users_in_voice])
@@ -94,8 +105,10 @@
         <li>
             <a href="#{{ trans('nav.users') }}">{{ trans('nav.users') }}</a>
             <ul class="nav">
-                @foreach($super_groups as $super_group)
-                    <li><a href="#{{ trans('nav.users') }}-{{ $super_group }}">{{ $super_group }}</a></li>
+                <li><a href="#{{ trans('nav.musical_leader') }}">{{ trans('nav.musical_leader') }}</a></li>
+
+                @foreach($voices as $voice)
+                    <li><a href="#{{ trans('nav.users') }}-{{ $voice->name }}">{{ $voice->name }}</a></li>
                 @endforeach
             </ul>
         </li>

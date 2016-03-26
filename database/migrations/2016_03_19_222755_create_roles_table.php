@@ -20,6 +20,7 @@ class CreateRolesTable extends Migration
             $table->boolean('can_send_mail'); // Maybe sometimes implemented...
             $table->boolean('can_configure_system'); // Tweak system parameters and such.
             $table->boolean('only_own_voice')->default(false); // Only relevant for Stimmfuehrer.
+            $table->boolean('musical_leadership')->default(false); // Only one role for this.
             $table->timestamps();
         });
 

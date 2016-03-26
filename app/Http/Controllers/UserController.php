@@ -30,7 +30,7 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create() {
-        //
+        return (view('user.create'));
     }
 
     /**
@@ -40,7 +40,33 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request) {
-        //
+        $this->validate($request, [
+            'first_name'=> 'required|alpha|max:255',
+            'last_name' => 'required|alpha|max:255',
+            'email'     => 'required|email',
+            'password'  => 'size:8',
+            'voice_id'  => 'required|integer|min:0',
+            'birthday'  => 'date|after:1900-01-01|before:' . date('Y-m-d'),
+            'address_zip'   => 'integer',
+            'sheets_deposit_returned' => 'boolean'
+        ]);
+
+        $data = array_merge($request->all(),
+            [
+                'last_echo' => Semester::current()->id,
+            ]
+        );
+
+        // If we do not have a password we just set the last name.
+        if (!$request->has('password') || strlen($request->input('password')) < 6) {
+            $data['password'] = bcrypt($request->input('last_name'));
+        }
+
+        $user = User::create($data);
+
+        $request->session()->flash('message_success', trans('user.success'));
+
+        return redirect()->route('user.show', ['id' => $user->id]);
     }
 
     /**
@@ -88,6 +114,7 @@ class UserController extends Controller
             'first_name'=> 'required|alpha|max:255',
             'last_name' => 'required|alpha|max:255',
             'email'     => 'required|email',
+            'password'  => 'size:8',
             'voice_id'  => 'required|integer|min:0',
             'birthday'  => 'date|after:1900-01-01|before:' . date('Y-m-d'),
             'address_zip'   => 'integer',

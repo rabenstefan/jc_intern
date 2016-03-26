@@ -102,4 +102,14 @@ class User extends Authenticatable
     public function isAdmin() {
         return $this->roles()->orderBy('can_configure_system', 'desc')->first()->can_configure_system;
     }
+
+    public static function getMusicalLeader() {
+        return User::whereHas('roles', function ($query) {
+            $query->where('musical_leadership', 1);
+        })->get();
+    }
+
+    public static function getUsersOfVoice($voice_id) {
+        return User::where(['voice_id' => $voice_id, 'last_echo' => Semester::current()->id])->get();
+    }
 }

@@ -43,7 +43,10 @@
                             </a>
 
                             <ul class="dropdown-menu" role="menu">
-                                <li><a href="{{ url('/user') }}">{{ trans('nav.user_list') }}</a></li>
+                                <li><a href="{{ route('user.index') }}">{{ trans('nav.user_list') }}</a></li>
+                                @if(Auth::user()->isAdmin())
+                                    <li><a href="{{ route('user.create') }}">{{ trans('nav.add_user') }}</a></li>
+                                @endif
                             </ul>
                         </li>
                     @endif

@@ -21,4 +21,8 @@ class Semester extends Model
     public function semester_fees() {
         return $this->hasMany('App\SemesterFee');
     }
+
+    public static function current() {
+        return Semester::all()->last();
+    }
 }

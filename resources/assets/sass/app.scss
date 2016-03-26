@@ -339,6 +339,7 @@ div.checkbox input[type='checkbox'], div.radio input[type='radio'] {
 
 .notifyjs-wrapper {
   margin: 0 !important;
+  height: 3.5em !important;
 }
 
 .notifyjs-container {
@@ -378,5 +379,13 @@ div.checkbox input[type='checkbox'], div.radio input[type='radio'] {
     color: #a94442;
     background-color: #f2dede;
     @include shadow-2d(#a94442);
+  }
+}
+
+.add_user_link {
+  color: #3c763d;
+
+  &:hover {
+    text-decoration: none;
   }
 }
