@@ -44,6 +44,7 @@
 
                             <ul class="dropdown-menu" role="menu">
                                 <li><a href="{{ route('user.index') }}">{{ trans('nav.user_list') }}</a></li>
+                                <li><a href="{{ route('user.show', Auth::user()->id) }}">{{ trans('nav.user_show_own') }}</a></li>
                                 @if(Auth::user()->isAdmin())
                                     <li><a href="{{ route('user.create') }}">{{ trans('nav.add_user') }}</a></li>
                                 @endif
