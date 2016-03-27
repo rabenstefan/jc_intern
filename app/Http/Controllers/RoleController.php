@@ -24,7 +24,7 @@ class RoleController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create() {
-        //
+        return redirect()->route('role.index');
     }
 
     /**
@@ -43,9 +43,9 @@ class RoleController extends Controller
             'only_own_voice' => 'required|boolean',
         ]);
 
-        Role::create($request->all());
+        $role = Role::create($request->all());
 
-        $request->session()->flash('message_success', trans('role.success'));
+        $request->session()->flash('message_success', trans('role.success', ['label' => $role->label]));
 
         return redirect()->route('role.index');
     }
@@ -57,7 +57,7 @@ class RoleController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id) {
-        //
+        return redirect()->route('role.index');
     }
 
     /**
@@ -67,7 +67,7 @@ class RoleController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id) {
-        //
+        return redirect()->route('role.index');
     }
 
     /**
@@ -96,7 +96,7 @@ class RoleController extends Controller
         $role->update($request->all());
         $role->save();
 
-        $request->session()->flash('message_success', trans('role.success'));
+        $request->session()->flash('message_success', trans('role.success', ['label' => $role->label]));
 
         return redirect()->route('role.index');
     }
@@ -108,6 +108,16 @@ class RoleController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id) {
-        //
+        $role = Role::find($id);
+
+        if (null === $role) {
+            return redirect()->route('role.index')->withErrors([trans('role.not_found')]);
+        }
+
+        $role->delete();
+
+        \Session::flash('message_success', trans('role.delete_success'));
+
+        return redirect()->route('role.index');
     }
 }

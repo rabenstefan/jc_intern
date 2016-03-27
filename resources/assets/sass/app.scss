@@ -26,6 +26,7 @@ body {
   font-family: $sans-font;
   color: $font-color;
   position: relative; // For scroll spying.
+  -webkit-font-smoothing: antialiased;
 }
 
 a {
@@ -70,29 +71,36 @@ a {
     background-color: $main-color;
   }
 
-  .nav li > a {
-    color: $font-color-inverse;
-    background: $main-color;
-    line-height: 20px;
+  .nav li {
     border-left: 1px solid $main-color-darker;
-    border-right: 1px solid $main-color-darker;
 
-    @media (max-width: 767px) {
-      border: none;
+    &:last-child {
+      border-right: 1px solid $main-color-darker;
     }
 
-    &:hover, &:focus, &:active {
-      color: #fff;
+    & > a {
+      color: $font-color-inverse;
       background: $main-color;
-      text-decoration: none;
-      margin-bottom: -2px;
-      border-top: 2px solid $main-color-darker;
-    }
+      line-height: 20px;
+      border: none;
 
-    @media (max-width: 767px) {
-      &:hover, &:focus, &:active {
+      @media (max-width: 767px) {
         border: none;
-        margin-bottom: 0;
+      }
+
+      &:hover, &:focus, &:active {
+        color: #fff;
+        background: $main-color;
+        text-decoration: none;
+        margin-bottom: -2px;
+        border-top: 2px solid $main-color-darker;
+      }
+
+      @media (max-width: 767px) {
+        &:hover, &:focus, &:active {
+          border: none;
+          margin-bottom: 0;
+        }
       }
     }
   }
@@ -218,9 +226,10 @@ a {
 }
 
 /** Cool buttons, additionally used to .btn class. **/
-.btn-2d {
+.btn-2d, #calendar-dates .btn-2d {
   color: $font-color-inverse;
   background-color: $main-color;
+  height: inherit;
   @include shadow-2d($main-color-darker);
 
   &:hover, &:focus, &:active {
@@ -228,6 +237,33 @@ a {
     margin-top: 3px;
     color: #fff;
     outline: none;
+  }
+}
+
+/** Style calendar. **/
+#calendar-dates {
+  .fc-event {
+    color: $font-color-inverse;
+    background-color: $main-color;
+    @include shadow-2d($main-color-darker);
+
+    &.event-gig {
+      background-color: orangered;
+      @include shadow-2d(darkred);
+    }
+
+    &.event-birthday {
+      background-color: green;
+      @include shadow-2d(darkgreen);
+    }
+  }
+
+  .fc-day-grid-event .fc-content {
+    white-space: normal;
+  }
+
+  .fc-popover .fc-header {
+    background: none;
   }
 }
 
@@ -307,8 +343,8 @@ div.radio input[type='radio'] + span:before {
   font-size: 20px;
   top: 2px;
   position: relative;
-  margin-left: -2em;
-  padding-left: 1em;
+  margin-left: -1em;
+  padding-left: 0;
   padding-right: 1.5em;
   background-color: #fff;
 }
@@ -320,6 +356,7 @@ div.radio input[type='radio']:hover + span:before {
 
 div.checkbox input[type='checkbox'], div.radio input[type='radio'] {
   display: none;
+  height: 1px;
 
   & + span:before {
     content: '\f096';

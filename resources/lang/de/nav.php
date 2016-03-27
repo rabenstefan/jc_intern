@@ -8,4 +8,6 @@ return [
     'user_show_own' => 'Eigene Daten ändern',
     'add_user'  => 'Hinzufügen',
     'roles'     => 'Rollen',
+    'dates'     => 'Termine',
+    'all'       => 'Alle'
 ];

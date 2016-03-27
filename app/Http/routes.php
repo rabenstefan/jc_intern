@@ -33,6 +33,16 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::resource('user', 'UserController');
 
+    // The index is in the DateController.
+    Route::resource('rehearsal', 'RehearsalController', [
+        'except' => ['index']
+    ]);
+    Route::resource('gig', 'GigController', [
+        'except' => ['index']
+    ]);
+
+    Route::get('dates/{view_type?}/', 'DateController@index')->name('date.index');
+
     Route::group(['middleware' => 'admin'], function() {
         Route::resource('role', 'RoleController');
     });

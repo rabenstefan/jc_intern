@@ -12,7 +12,13 @@
     <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700" rel='stylesheet' type='text/css'>
 
     <!-- Styles -->
+    @yield('additional_css_files')
     {!! Html::style('css/app.css') !!}
+
+    <!-- JavaScripts -->
+    {!! Html::script('js/jquery.min.js') !!}
+    {!! Html::script('js/all.js') !!}
+    @yield('additional_js_files')
 </head>
 <body id="app-layout" data-spy="scroll" data-target="#scroll-spy-nav">
     <nav class="navbar navbar-default navbar-2d navbar-static-top">
@@ -39,22 +45,44 @@
                     @if (Auth::check())
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                {{ trans('nav.users') }}<span class="caret"></span>
+                                {{ trans('nav.users') }}&nbsp;<span class="caret"></span>
                             </a>
 
                             <ul class="dropdown-menu" role="menu">
-                                <li><a href="{{ route('user.index') }}">{{ trans('nav.user_list') }}</a></li>
-                                <li><a href="{{ route('user.show', Auth::user()->id) }}">{{ trans('nav.user_show_own') }}</a></li>
+                                <li>
+                                    <a href="{{ route('user.index') }}">{{ trans('nav.user_list') }}</a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('user.show', Auth::user()->id) }}">{{ trans('nav.user_show_own') }}</a>
+                                </li>
                                 @if(Auth::user()->isAdmin())
-                                    <li><a href="{{ route('user.create') }}">{{ trans('nav.add_user') }}</a></li>
+                                    <li>
+                                        <a href="{{ route('user.create') }}">{{ trans('nav.add_user') }}</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('role.index') }}">{{ trans('nav.roles') }}</a>
+                                    </li>
                                 @endif
                             </ul>
                         </li>
+                        <li>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {{ trans('nav.dates') }}&nbsp;<span class="caret"></span>
+                            </a>
+
+                            <ul class="dropdown-menu" role="menu">
+                                <li>
+                                    <a href="{{ route('date.index') }}">{{ trans('nav.all') }}</a>
+                                </li>
+                            </ul>
+                        </li>
+                        {{--
                         @if (Auth::user()->isAdmin())
                             <li>
                                 <a href="{{ route('role.index') }}">{{ trans('nav.roles') }}</a>
                             </li>
                         @endif
+                        --}}
                     @endif
                 </ul>
 
@@ -95,9 +123,6 @@
         </div>
     </div>
 
-    <!-- JavaScripts -->
-    {!! Html::script('js/jquery.min.js') !!}
-    {!! Html::script('js/all.js') !!}
     <script type="text/javascript">
         $.notify.addStyle('shadow2d', {
             html: '<span data-notify-text/>'

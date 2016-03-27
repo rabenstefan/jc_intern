@@ -15,8 +15,9 @@ class CreateGigsTable extends Migration
         Schema::create('gigs', function (Blueprint $table) {
             $table->increments('id');
             $table->string('title');
-            $table->string('description');
-            $table->dateTime('date');
+            $table->string('description')->nullable();
+            $table->dateTime('start');
+            $table->dateTime('end');
             $table->string('place');
 
             $table->integer('semester_id')->unsigned();

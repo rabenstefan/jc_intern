@@ -5759,7 +5759,8 @@ button.close {
 body {
   font-family: "Raleway", sans-serif;
   color: #232323;
-  position: relative; }
+  position: relative;
+  -webkit-font-smoothing: antialiased; }
 
 a {
   color: #3F7DBD;
@@ -5793,25 +5794,28 @@ a {
   .navbar-2d a.dropdown-toggle {
     color: #fff;
     background-color: #3F7DBD; }
-  .navbar-2d .nav li > a {
-    color: #f0f0f0;
-    background: #3F7DBD;
-    line-height: 20px;
-    border-left: 1px solid #174C84;
-    border-right: 1px solid #174C84; }
-    @media (max-width: 767px) {
-      .navbar-2d .nav li > a {
-        border: none; } }
-    .navbar-2d .nav li > a:hover, .navbar-2d .nav li > a:focus, .navbar-2d .nav li > a:active {
-      color: #fff;
+  .navbar-2d .nav li {
+    border-left: 1px solid #174C84; }
+    .navbar-2d .nav li:last-child {
+      border-right: 1px solid #174C84; }
+    .navbar-2d .nav li > a {
+      color: #f0f0f0;
       background: #3F7DBD;
-      text-decoration: none;
-      margin-bottom: -2px;
-      border-top: 2px solid #174C84; }
-    @media (max-width: 767px) {
+      line-height: 20px;
+      border: none; }
+      @media (max-width: 767px) {
+        .navbar-2d .nav li > a {
+          border: none; } }
       .navbar-2d .nav li > a:hover, .navbar-2d .nav li > a:focus, .navbar-2d .nav li > a:active {
-        border: none;
-        margin-bottom: 0; } }
+        color: #fff;
+        background: #3F7DBD;
+        text-decoration: none;
+        margin-bottom: -2px;
+        border-top: 2px solid #174C84; }
+      @media (max-width: 767px) {
+        .navbar-2d .nav li > a:hover, .navbar-2d .nav li > a:focus, .navbar-2d .nav li > a:active {
+          border: none;
+          margin-bottom: 0; } }
   .navbar-2d .navbar-nav > .open > a, .navbar-2d .navbar-nav > .open > a:hover, .navbar-2d .navbar-nav > .open > a:focus {
     color: #fff;
     background-color: #3F7DBD;
@@ -5896,18 +5900,46 @@ a {
   color: #3F7DBD; }
 
 /** Cool buttons, additionally used to .btn class. **/
-.btn-2d {
+.btn-2d, #calendar-dates .btn-2d {
+  color: #f0f0f0;
+  background-color: #3F7DBD;
+  height: inherit;
+  border-radius: 0;
+  border: none;
+  border-bottom: 3px solid #174C84;
+  box-shadow: none; }
+  .btn-2d:hover, .btn-2d:focus, .btn-2d:active, #calendar-dates .btn-2d:hover, #calendar-dates .btn-2d:focus, #calendar-dates .btn-2d:active {
+    border-bottom: none;
+    margin-top: 3px;
+    color: #fff;
+    outline: none; }
+
+/** Style calendar. **/
+#calendar-dates .fc-event {
   color: #f0f0f0;
   background-color: #3F7DBD;
   border-radius: 0;
   border: none;
   border-bottom: 3px solid #174C84;
   box-shadow: none; }
-  .btn-2d:hover, .btn-2d:focus, .btn-2d:active {
-    border-bottom: none;
-    margin-top: 3px;
-    color: #fff;
-    outline: none; }
+  #calendar-dates .fc-event.event-gig {
+    background-color: orangered;
+    border-radius: 0;
+    border: none;
+    border-bottom: 3px solid darkred;
+    box-shadow: none; }
+  #calendar-dates .fc-event.event-birthday {
+    background-color: green;
+    border-radius: 0;
+    border: none;
+    border-bottom: 3px solid darkgreen;
+    box-shadow: none; }
+
+#calendar-dates .fc-day-grid-event .fc-content {
+  white-space: normal; }
+
+#calendar-dates .fc-popover .fc-header {
+  background: none; }
 
 /** Cool panels, additionally used to .panel class. **/
 .panel-2d {
@@ -5975,13 +6007,14 @@ div.radio input[type='radio'] + span:before {
   font-size: 20px;
   top: 2px;
   position: relative;
-  margin-left: -2em;
-  padding-left: 1em;
+  margin-left: -1em;
+  padding-left: 0;
   padding-right: 1.5em;
   background-color: #fff; }
 
 div.checkbox input[type='checkbox'], div.radio input[type='radio'] {
-  display: none; }
+  display: none;
+  height: 1px; }
   div.checkbox input[type='checkbox'] + span:before, div.radio input[type='radio'] + span:before {
     content: '\f096';
     font-family: "FontAwesome", sans-serif; }

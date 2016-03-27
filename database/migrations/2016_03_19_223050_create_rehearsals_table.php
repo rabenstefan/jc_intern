@@ -15,9 +15,10 @@ class CreateRehearsalsTable extends Migration
         Schema::create('rehearsals', function (Blueprint $table) {
             $table->increments('id');
             $table->string('title');
-            $table->string('description');
-            $table->dateTime('date');
-            $table->string('place');
+            $table->string('description')->nullable();
+            $table->dateTime('start');
+            $table->dateTime('end');
+            $table->string('place')->nullable();
 
             $table->integer('voice_id')->unsigned()->default(0);
             $table->foreign('voice_id')->references('id')->on('voices')->onDelete('cascade');
@@ -25,8 +26,8 @@ class CreateRehearsalsTable extends Migration
             $table->integer('semester_id')->unsigned();
             $table->foreign('semester_id')->references('id')->on('semesters')->onDelete('cascade');
             
-            $table->boolean('mandatory');
-            $table->float('weight', 4, 2); // Only if mandatory: How much does a miss weight?
+            $table->boolean('mandatory')->default(true);
+            $table->float('weight', 4, 2)->default(1.0); // Only if mandatory: How much does a miss weight?
             $table->timestamps();
         });
     }

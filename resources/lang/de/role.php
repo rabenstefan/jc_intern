@@ -15,5 +15,6 @@ return [
     'add_role'      => 'Neue Rolle',
     'save'          => 'Speichern',
     'not_found'     => 'Rolle nicht gefunden',
-    'success'       => 'Rolle erfolgreich gespeichert'
+    'success'       => 'Rolle :label erfolgreich gespeichert',
+    'delete_success'=> 'Rolle erfolgreich gelöscht',
 ];

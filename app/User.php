@@ -50,7 +50,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $casts = [
-        'sheet_deposit_returned' => 'boolean'
+        'birthday' => 'date',
+        'sheet_deposit_returned' => 'boolean',
     ];
 
     /*
@@ -99,8 +100,18 @@ class User extends Authenticatable
         return ucfirst($value);
     }
 
-    public function isAdmin() {
-        return $this->roles()->orderBy('can_configure_system', 'desc')->first()->can_configure_system;
+    public function isAdmin($area = 'configure') {
+        $adminAreas = [
+            'rehearsal' => 'can_plan_rehearsal',
+            'gig'       => 'can_plan_gig',
+            'configure' => 'can_configure_system',
+        ];
+
+        if (null === $area || !array_key_exists($area, $adminAreas)) {
+            return false;
+        }
+
+        return $this->roles()->orderBy($adminAreas[$area], 'desc')->first()->getAttributeValue($adminAreas[$area]);
     }
 
     public static function getMusicalLeader() {
