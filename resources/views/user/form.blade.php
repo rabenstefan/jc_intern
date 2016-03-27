@@ -9,46 +9,19 @@
     <div class="panel-body">
         <div class="row">
             <div class="col-xs-12 col-md-6">
-                <div class="form-group">
-                    {{ Form::label('first_name', trans('user.first_name')) }}
-                    {{ Form::text('first_name', null, ['class' => 'form-control  form-control-2d']) }}
-                </div>
-                <div class="form-group">
-                    {{ Form::label('last_name', trans('user.last_name')) }}
-                    {{ Form::text('last_name', null, ['class' => 'form-control  form-control-2d']) }}
-                </div>
-                <div class="form-group">
-                    {{ Form::label('email', trans('user.email')) }}
-                    {{ Form::text('email', null, ['class' => 'form-control  form-control-2d']) }}
-                </div>
-                <div class="form-group">
-                    {{ Form::label('birthday', trans('user.birthday')) }}
-                    {{ Form::date('birthday', null, ['class' => 'form-control  form-control-2d']) }}
-                </div>
+                {{ Form::textInput2d('first_name') }}
+                {{ Form::textInput2d('last_name') }}
+                {{ Form::textInput2d('email') }}
+                {{ Form::dateInput2d('birthday') }}
             </div>
             <div class="col-xs-12 col-md-6">
-                <div class="form-group">
-                    {{ Form::label('phone', trans('user.phone')) }}
-                    {{ Form::text('phone', null, ['class' => 'form-control  form-control-2d']) }}
-                </div>
-                <div class="form-group">
-                    {{ Form::label('address_street', trans('user.address_street')) }}
-                    {{ Form::text('address_street', null, ['class' => 'form-control  form-control-2d']) }}
-                </div>
-                <div class="form-group">
-                    {{ Form::label('address_zip', trans('user.address_zip')) }}
-                    {{ Form::text('address_zip', null, ['class' => 'form-control  form-control-2d']) }}
-                </div>
-                <div class="form-group">
-                    {{ Form::label('address_city', trans('user.address_city')) }}
-                    {{ Form::text('address_city', null, ['class' => 'form-control  form-control-2d']) }}
-                </div>
+                {{ Form::textInput2d('phone') }}
+                {{ Form::textInput2d('address_street') }}
+                {{ Form::textInput2d('address_zip') }}
+                {{ Form::textInput2d('address_city') }}
             </div>
             <div class="hidden-xs hidden-sm col-xs-12 col-md-6">
-                <div class="form-group">
-                    {{ Form::label('password', trans('user.password')) }}
-                    {{ Form::password('password', ['class' => 'form-control  form-control-2d']) }}
-                </div>
+                {{ Form::passwordInput2d('password') }}
                 @if(empty($user))
                     <p>{{ trans('user.password_note') }}</p>
                 @endif
@@ -57,25 +30,14 @@
                 </span>
             </div>
             <div class="col-xs-12 col-md-6">
-                <div class="form-group">
-                    {{ Form::label('voice_id', trans('user.voice_id')) }}
-                    {{ Form::select('voice_id', App\Voice::getChildVoices()->pluck('name', 'id')->toArray(), null, ['class' => 'form-control form-control-2d']) }}
-                </div>
-                <div class="checkbox">
-                    <label>
-                        {{ Form::checkbox('sheets_deposit_returned', 1, null, ['class' => '']) }}
-                        <span>{{ trans('user.sheets_deposit_returned') }}</span>
-                    </label>
-                </div>
+                {{ Form::selectInput2d('voice_id', App\Voice::getChildVoices()->pluck('name', 'id')->toArray()) }}
+                {{ Form::checkboxInput2d('sheets_deposit_returned') }}
                 @if(isset($user))
                 <p>{!! trans('user.last_echo', ['semester' => App\Semester::find($user->last_echo)->label]) !!}</p>
                 @endif
             </div>
             <div class="hidden-lg hidden-md col-xs-12 col-md-6">
-                <div class="form-group">
-                    {{ Form::label('password', trans('user.password')) }}
-                    {{ Form::password('password', ['class' => 'form-control  form-control-2d']) }}
-                </div>
+                {{ Form::passwordInput2d('password') }}
                 @if(empty($user))
                     <p>{{ trans('user.password_note') }}</p>
                 @endif

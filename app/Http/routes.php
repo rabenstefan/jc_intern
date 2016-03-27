@@ -29,7 +29,11 @@ Route::get('/', function () {
 Route::group(['middleware' => 'web'], function () {
     Route::auth();
 
-    Route::get('/', 'HomeController@index');
+    Route::get('/', 'HomeController@index')->name('index');
 
     Route::resource('user', 'UserController');
+
+    Route::group(['middleware' => 'admin'], function() {
+        Route::resource('role', 'RoleController');
+    });
 });

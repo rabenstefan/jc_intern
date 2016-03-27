@@ -14,8 +14,9 @@
                             <div class="panel-heading">{{ trans('user.add_user_title') }}</div>
 
                             <div class="panel-body">
-                                <a href="{{ route('user.create') }}" title="{{ trans('user.add_user_title') }}" class="add_user_link"><i class="fa fa-plus"></i>&nbsp;{{ trans('user.add_user') }}</a>
+                                <a href="{{ route('user.create') }}" title="{{ trans('user.add_user_title') }}" class="btn btn-2d"><i class="fa fa-plus"></i>&nbsp;{{ trans('user.add_user') }}</a>
                             </div>
+                        </div>
                     </div>
                 </div>
             @endif

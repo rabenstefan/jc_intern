@@ -21,7 +21,7 @@
                 <td>{{ $user->phone }} <a href="tel:{{ $user->phone }}" title="{{ trans('user.call_phone') }}" class="pull-right text-large"><i class="fa fa-phone"></i></a></td>
                 <td>{{ $user->address_street . ' ' . $user->address_city }} <a href="https://www.google.com/maps/search/{{ $user->address_street . ' ' . $user->address_city }}/" title="{{ trans('user.address_search') }}" target="_blank" class="pull-right text-large"><i class="fa fa-map-o"></i></a></td>
                 @if(Auth::user()->isAdmin())
-                    <td class="text-center"><a href="{{ url('user/' . $user->id) }}" title="{{ trans('user.edit') }}" class="btn btn-xs btn-2d"><i class="fa fa-pencil-square-o"></i></a></td>
+                    <td class="text-center"><a href="{{ route('user.update', $user->id) }}" title="{{ trans('user.edit') }}" class="btn btn-xs btn-2d"><i class="fa fa-pencil-square-o"></i></a></td>
                 @endif
             </tr>
         @endforeach

@@ -49,6 +49,11 @@
                                 @endif
                             </ul>
                         </li>
+                        @if (Auth::user()->isAdmin())
+                            <li>
+                                <a href="{{ route('role.index') }}">{{ trans('nav.roles') }}</a>
+                            </li>
+                        @endif
                     @endif
                 </ul>
 
@@ -118,6 +123,8 @@
                 $.notify("{{ Session::get('message_'.$message_code) }}", "{{ $message_code }}");
             @endif
         @endforeach
+
+        @yield('js')
     </script>
 </body>
 </html>

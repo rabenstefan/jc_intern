@@ -5767,6 +5767,10 @@ a {
   a:hover, a:focus, a:active {
     color: #174C84; }
 
+/** Only body white background. **/
+.table tbody {
+  background-color: #fff; }
+
 /** General classes. **/
 .text-large {
   font-size: 1.2em; }
@@ -6037,9 +6041,7 @@ div.checkbox input[type='checkbox'], div.radio input[type='radio'] {
     border-bottom: 3px solid #a94442;
     box-shadow: none; }
 
-.add_user_link {
-  color: #3c763d; }
-  .add_user_link:hover {
-    text-decoration: none; }
+.no-margin {
+  margin: 0 !important; }
 
 /*# sourceMappingURL=app.css.map */

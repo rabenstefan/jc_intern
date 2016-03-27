@@ -37,6 +37,11 @@ a {
   }
 }
 
+/** Only body white background. **/
+.table tbody {
+  background-color: #fff;
+}
+
 /** General classes. **/
 .text-large {
   font-size: 1.2em;
@@ -382,10 +387,6 @@ div.checkbox input[type='checkbox'], div.radio input[type='radio'] {
   }
 }
 
-.add_user_link {
-  color: #3c763d;
-
-  &:hover {
-    text-decoration: none;
-  }
+.no-margin {
+  margin: 0 !important;
 }
