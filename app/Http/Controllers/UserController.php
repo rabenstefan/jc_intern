@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Semester;
+use App\Voice;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 
 use App\User;
+use Illuminate\Support\Facades\Input;
 
 class UserController extends Controller
 {
@@ -32,7 +34,19 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create() {
-        return (view('user.create'));
+        $voice = null;
+
+        if (Input::has('voice')) {
+            $voice = Input::get('voice');
+
+            $voiceModel = Voice::find($voice);
+            while (null !== $voiceModel && !$voiceModel->child_group) {
+                $voiceModel = $voiceModel->children()->first();
+                $voice = $voiceModel->id;
+            }
+        }
+
+        return view('user.create')->with('voice', $voice);
     }
 
     /**

@@ -30,7 +30,7 @@
                 </span>
             </div>
             <div class="col-xs-12 col-md-6">
-                {{ Form::selectInput2d('voice_id', App\Voice::getChildVoices()->pluck('name', 'id')->toArray()) }}
+                {{ Form::selectInput2d('voice_id', App\Voice::getChildVoices()->pluck('name', 'id')->toArray(), $voice) }}
                 {{ Form::checkboxInput2d('sheets_deposit_returned') }}
                 @if(isset($user))
                 <p>{!! trans('user.last_echo', ['semester' => App\Semester::find($user->last_echo)->label]) !!}</p>

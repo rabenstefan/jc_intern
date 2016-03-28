@@ -287,6 +287,20 @@ a {
     color: #fff;
     outline: none;
   }
+
+  .panel-heading &.btn-add {
+    color: $main-color;
+    background-color: $font-color-inverse;
+    padding: 0 6px;
+    @include shadow-2d($main-color-darker);
+
+    &:hover, &:focus, &:active {
+      border-bottom: none;
+      margin-top: 3px;
+      color: $main-color-darker;
+      outline: none;
+    }
+  }
 }
 
 /** Style calendar. **/

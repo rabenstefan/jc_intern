@@ -8,17 +8,14 @@
             <h1>{{ trans('user.index_title') }}</h1>
 
             @if(Auth::user()->isAdmin())
-                <div class="row">
-                    <div class="col-xs-12">
-                        <div class="panel panel-2d">
-                            <div class="panel-heading">{{ trans('user.add_user_title') }}</div>
-
-                            <div class="panel-body">
-                                <a href="{{ route('user.create') }}" title="{{ trans('user.add_user_title') }}" class="btn btn-2d"><i class="fa fa-plus"></i>&nbsp;{{ trans('user.add_user') }}</a>
-                            </div>
-                        </div>
-                    </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <a href="{{ route('user.create') }}" title="{{ trans('user.add_user') }}" class="btn btn-2d">
+                        <i class="fa fa-plus"></i>&nbsp;{{ trans('user.add_user') }}
+                    </a>
                 </div>
+            </div>
+            <br>
             @endif
 
             {{-- Output role 'Musikalische Leitung' first. --}}
@@ -48,7 +45,12 @@
                 <div class="row" id="{{ trans('nav.users') }}-{{ $voice->name }}">
                     <div class="col-xs-12">
                         <div class="panel panel-2d">
-                            <div class="panel-heading">{{ $voice->name }}</div>
+                            <div class="panel-heading">
+                                {{ $voice->name }}
+                                <a href="{{ route('user.create', ['voice' => $voice->id]) }}" title="{{ trans('user.add_user') }}" class="btn btn-2d btn-add pull-right">
+                                    <i class="fa fa-plus"></i>&nbsp;{{ trans('user.add_user') }}
+                                </a>
+                            </div>
 
                             <div class="panel-body">
                                 @foreach($voice->children as $sub_voice)
@@ -56,6 +58,9 @@
                                         <div class="panel panel-2d">
                                             <div class="panel-heading">
                                                 {{ $sub_voice->name }}
+                                                <a href="{{ route('user.create', ['voice' => $sub_voice->id]) }}" title="{{ trans('user.add_user') }}" class="btn btn-2d btn-add pull-right">
+                                                    <i class="fa fa-plus"></i>&nbsp;{{ trans('user.add_user') }}
+                                                </a>
                                             </div>
 
                                             @include('user.table', ['users' => \App\User::getUsersOfVoice($sub_voice->id)])

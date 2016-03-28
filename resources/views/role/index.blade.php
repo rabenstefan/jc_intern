@@ -11,7 +11,13 @@
             <div class="row">
                 <div class="col-xs-12">
                     <div class="panel panel-2d">
-                        <div class="panel-heading">{{ trans('role.index_title') }}</div>
+                        <div class="panel-heading">
+                            {{ trans('role.index_title') }}
+
+                            <a href="#" title="{{ trans('role.add_role') }}" class="btn btn-2d btn-add pull-right" id="add-role">
+                                <i class="fa fa-plus"></i>&nbsp;{{ trans('role.add_role') }}
+                            </a>
+                        </div>
 
                         <div class="panel-body">
                             {{ trans('role.instructions') }}
@@ -31,14 +37,11 @@
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            @foreach(\App\Role::all() as $role)
-                                                @include('role.form', ['role' => $role])
-                                            @endforeach
-                                            @include('role.form', ['role' => null])
+                                                @each('role.form', \App\Role::all(), 'role')
+                                                @include('role.form', ['role' => null])
                                             </tbody>
                                         </table>
                                     </div>
-                                    <a href="#" title="{{ trans('role.add_role') }}" class="btn btn-2d" id="add-role"><i class="fa fa-plus"></i>&nbsp;{{ trans('role.add_role') }}</a>
                                 </div>
                             </div>
                         </div>

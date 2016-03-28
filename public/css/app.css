@@ -5944,6 +5944,19 @@ a {
     margin-top: 3px;
     color: #fff;
     outline: none; }
+  .panel-heading .btn-2d.btn-add, .panel-heading #calendar-dates .btn-2d.btn-add {
+    color: #3F7DBD;
+    background-color: #f0f0f0;
+    padding: 0 6px;
+    border-radius: 0;
+    border: none;
+    border-bottom: 3px solid #174C84;
+    box-shadow: none; }
+    .panel-heading .btn-2d.btn-add:hover, .panel-heading .btn-2d.btn-add:focus, .panel-heading .btn-2d.btn-add:active, .panel-heading #calendar-dates .btn-2d.btn-add:hover, .panel-heading #calendar-dates .btn-2d.btn-add:focus, .panel-heading #calendar-dates .btn-2d.btn-add:active {
+      border-bottom: none;
+      margin-top: 3px;
+      color: #174C84;
+      outline: none; }
 
 /** Style calendar. **/
 #calendar-dates .fc-event {
