@@ -5816,6 +5816,8 @@ a {
         .navbar-2d .nav li > a:hover, .navbar-2d .nav li > a:focus, .navbar-2d .nav li > a:active {
           border: none;
           margin-bottom: 0; } }
+  .navbar-2d .dropdown-menu li, .navbar-2d .dropdown-submenu li {
+    border: none; }
   .navbar-2d .navbar-nav > .open > a, .navbar-2d .navbar-nav > .open > a:hover, .navbar-2d .navbar-nav > .open > a:focus {
     color: #fff;
     background-color: #3F7DBD;
@@ -5830,6 +5832,35 @@ a {
       border: none;
       border-top: 1px solid #174C84;
       margin-bottom: -1px; }
+  .navbar-2d .dropdown-submenu {
+    position: relative; }
+  .navbar-2d .dropdown-submenu > .dropdown-menu {
+    top: 0;
+    left: 100%;
+    margin-top: -6px;
+    margin-left: -1px; }
+  .navbar-2d .dropdown-submenu:hover > .dropdown-menu {
+    display: block; }
+  .navbar-2d .dropdown-submenu > a:after {
+    display: block;
+    content: " ";
+    float: right;
+    width: 0;
+    height: 0;
+    border-color: transparent;
+    border-style: solid;
+    border-width: 5px 0 5px 5px;
+    border-left-color: #ccc;
+    margin-top: 5px;
+    margin-right: -10px; }
+  .navbar-2d .dropdown-submenu:hover > a:after {
+    border-left-color: #fff; }
+  .navbar-2d .dropdown-submenu.pull-left {
+    float: none; }
+  .navbar-2d .dropdown-submenu.pull-left > .dropdown-menu {
+    left: -100%;
+    margin-left: 10px;
+    border-radius: 6px 0 6px 6px; }
   .navbar-2d .navbar-toggle {
     color: #f0f0f0;
     border-radius: 0;
@@ -5979,7 +6010,7 @@ a {
 #list-dates .date {
   font-size: 1.2em; }
 
-#list-dates a {
+#list-dates .list-item a {
   padding: 0; }
 
 /** Cool panels, additionally used to .panel class. **/

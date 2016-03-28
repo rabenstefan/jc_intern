@@ -70,9 +70,18 @@
                                 {{ trans('nav.dates') }}&nbsp;<span class="caret"></span>
                             </a>
 
-                            <ul class="dropdown-menu" role="menu">
-                                <li>
+                            <ul class="dropdown-menu multi-level" role="menu">
+                                <li class="dropdown-submenu">
                                     <a href="{{ route('date.index') }}">{{ trans('nav.all') }}</a>
+
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a href="{{ route('date.index', ['view' => 'calendar']) }}">{{ trans('nav.dates_calendar') }}</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ route('date.index', ['view' => 'list']) }}">{{ trans('nav.dates_list') }}</a>
+                                        </li>
+                                    </ul>
                                 </li>
                             </ul>
                         </li>

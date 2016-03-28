@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row list-item">
     @if(isset($date->getEventOptions()['url']))
         <a href="{{ $date->getEventOptions()['url'] }}">
     @endif

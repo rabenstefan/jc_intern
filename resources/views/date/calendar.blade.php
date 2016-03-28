@@ -24,8 +24,8 @@
                         <div class="panel-heading">{{ trans('date.index_title') }}</div>
 
                         <div class="panel-body">
-                            {!! $calendar->calendar() !!}
-                            {!! $calendar->script() !!}
+                            @include('date.set_chooser', ['view_type' => 'calendar'])
+                            @include('date.calendar.row', ['calendar' => $calendar])
                         </div>
                     </div>
                 </div>
