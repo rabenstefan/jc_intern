@@ -29,13 +29,17 @@ class Rehearsal extends \Eloquent implements IdentifiableEvent {
         return $this->belongsToMany('App\Attendance');
     }
 
+    public function getShortName() {
+        return 'rehearsal';
+    }
+
     /**
      * Get the event's title
      *
      * @return string
      */
     public function getTitle() {
-        return $this->title . (isset($this->place) ? "\n" . $this->place : '');
+        return $this->title . (isset($this->place) ? ",\n" . $this->place : '');
     }
 
     /**

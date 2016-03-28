@@ -21,13 +21,17 @@ class Gig extends \Eloquent implements IdentifiableEvent {
         return $this->hasOne('App\Semester');
     }
 
+    public function getShortName() {
+        return 'gig';
+    }
+
     /**
      * Get the event's title
      *
      * @return string
      */
     public function getTitle() {
-        return $this->title . (isset($this->place) ? "\n" . $this->place : '');
+        return $this->title . (isset($this->place) ? ",\n" . $this->place : '');
     }
 
     /**

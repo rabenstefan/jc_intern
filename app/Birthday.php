@@ -10,20 +10,30 @@ use MaddHatter\LaravelFullcalendar\Event;
 class Birthday implements Event {
     protected $calendar_options = [
         'className' => 'event-birthday',
-        'url' => '',
     ];
 
     private $title;
     private $start;
     private $end;
 
+    public $description = '';
+
     public function __construct(User $user = null) {
         $this->title = trans('form.birthday') . "\n" . $user->first_name . ' ' . $user->last_name;
 
+        // Date arithmetic: Set to current year, add one year if date is more than one month ago.
         $dateCurrentYear = $user->birthday;
         $dateCurrentYear->year = date('Y');
+        if ($dateCurrentYear->lt(Carbon::now()->subMonths(1))) {
+            $dateCurrentYear->addYear();
+        }
+
         $this->start = $dateCurrentYear;
         $this->end   = $dateCurrentYear;
+    }
+
+    public function getShortName() {
+        return 'birthday';
     }
 
     /**

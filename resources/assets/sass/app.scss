@@ -248,13 +248,21 @@ a {
     @include shadow-2d($main-color-darker);
 
     &.event-gig {
+      color: $font-color-inverse;
       background-color: orangered;
       @include shadow-2d(darkred);
     }
 
     &.event-birthday {
+      color: $font-color-inverse;
       background-color: green;
       @include shadow-2d(darkgreen);
+    }
+
+    &.event-rehearsal {
+      color: $font-color-inverse;
+      background-color: $main-color;
+      @include shadow-2d($main-color-darker);
     }
   }
 
@@ -264,6 +272,37 @@ a {
 
   .fc-popover .fc-header {
     background: none;
+  }
+}
+
+#list-dates {
+  .event {
+    color: $font-color-inverse;
+    padding-bottom: 1em;
+    margin-bottom: 0.5em;
+  }
+
+  .event-gig {
+    background-color: orangered;
+    @include shadow-2d(darkred);
+  }
+
+  .event-birthday {
+    background-color: green;
+    @include shadow-2d(darkgreen);
+  }
+
+  .event-rehearsal {
+    background-color: $main-color;
+    @include shadow-2d($main-color-darker);
+  }
+
+  .date {
+    font-size: 1.2em;
+  }
+
+  a {
+    padding: 0;
   }
 }
 

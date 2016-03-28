@@ -5923,16 +5923,25 @@ a {
   border-bottom: 3px solid #174C84;
   box-shadow: none; }
   #calendar-dates .fc-event.event-gig {
+    color: #f0f0f0;
     background-color: orangered;
     border-radius: 0;
     border: none;
     border-bottom: 3px solid darkred;
     box-shadow: none; }
   #calendar-dates .fc-event.event-birthday {
+    color: #f0f0f0;
     background-color: green;
     border-radius: 0;
     border: none;
     border-bottom: 3px solid darkgreen;
+    box-shadow: none; }
+  #calendar-dates .fc-event.event-rehearsal {
+    color: #f0f0f0;
+    background-color: #3F7DBD;
+    border-radius: 0;
+    border: none;
+    border-bottom: 3px solid #174C84;
     box-shadow: none; }
 
 #calendar-dates .fc-day-grid-event .fc-content {
@@ -5940,6 +5949,38 @@ a {
 
 #calendar-dates .fc-popover .fc-header {
   background: none; }
+
+#list-dates .event {
+  color: #f0f0f0;
+  padding-bottom: 1em;
+  margin-bottom: 0.5em; }
+
+#list-dates .event-gig {
+  background-color: orangered;
+  border-radius: 0;
+  border: none;
+  border-bottom: 3px solid darkred;
+  box-shadow: none; }
+
+#list-dates .event-birthday {
+  background-color: green;
+  border-radius: 0;
+  border: none;
+  border-bottom: 3px solid darkgreen;
+  box-shadow: none; }
+
+#list-dates .event-rehearsal {
+  background-color: #3F7DBD;
+  border-radius: 0;
+  border: none;
+  border-bottom: 3px solid #174C84;
+  box-shadow: none; }
+
+#list-dates .date {
+  font-size: 1.2em; }
+
+#list-dates a {
+  padding: 0; }
 
 /** Cool panels, additionally used to .panel class. **/
 .panel-2d {
