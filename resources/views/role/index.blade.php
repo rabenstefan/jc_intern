@@ -14,9 +14,7 @@
                         <div class="panel-heading">
                             {{ trans('role.index_title') }}
 
-                            <a href="#" title="{{ trans('role.add_role') }}" class="btn btn-2d btn-add pull-right" id="add-role">
-                                <i class="fa fa-plus"></i>&nbsp;{{ trans('role.add_role') }}
-                            </a>
+                            {!! Html::addButton(trans('role.add_role'), '#', [], ['id' => 'add-role']) !!}
                         </div>
 
                         <div class="panel-body">

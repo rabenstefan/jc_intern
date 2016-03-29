@@ -21,10 +21,27 @@
             <div class="row">
                 <div class="col-xs-12">
                     <div class="panel panel-2d">
-                        <div class="panel-heading">{{ trans('date.index_title') }}</div>
+                        <div class="panel-heading">
+                            {{ trans('date.index_title') }}
+
+                            <div class="pull-right">
+                                <a href="#" title="{{ trans('date.add_date') }}" class="btn btn-2d btn-add dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-plus"></i>&nbsp;{{ trans('date.add_date') }}
+                                </a>
+
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a href="{{ route('user.index') }}">{{ trans('nav.user_list') }}</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('user.show', Auth::user()->id) }}">{{ trans('nav.user_show_own') }}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
 
                         <div class="panel-body">
-                            @include('date.set_chooser', ['view_type' => 'calendar'])
+                            @include('date.settings_bar', ['view_type' => 'calendar'])
                             @include('date.calendar.row', ['calendar' => $calendar])
                         </div>
                     </div>

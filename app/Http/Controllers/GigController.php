@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Gig;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -41,9 +42,8 @@ class GigController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        //
+    public function show($id) {
+        return $this->edit($id);
     }
 
     /**
@@ -52,9 +52,14 @@ class GigController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
-        //
+    public function edit($id) {
+        $gig = Gig::find($id);
+
+        if (null === $gig) {
+            return back()->withErrors(trans('date.gig_not_found'));
+        }
+
+        return view('date.gig.show', ['gig' => $gig]);
     }
 
     /**

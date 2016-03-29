@@ -13,7 +13,7 @@
                         <div class="panel-heading">{{ trans('date.index_title') }}</div>
 
                         <div class="panel-body" id="list-dates">
-                            @include('date.set_chooser', ['view_type' => 'list'])
+                            @include('date.settings_bar', ['view_type' => 'list'])
                             @each('date.list.row', $dates, 'date')
                         </div>
                     </div>

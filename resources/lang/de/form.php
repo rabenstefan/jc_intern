@@ -21,4 +21,9 @@ return [
     'can_send_mail' => '&nbsp;',
     'can_configure_system' => '&nbsp;',
     'only_own_voice'=> '&nbsp;',
+    'title'         => 'Titel',
+    'description'   => 'Beschreibung',
+    'place'         => 'Ort',
+    'start'         => 'Beginn',
+    'end'           => 'Ende',
 ];

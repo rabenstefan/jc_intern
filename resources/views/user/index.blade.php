@@ -47,9 +47,9 @@
                         <div class="panel panel-2d">
                             <div class="panel-heading">
                                 {{ $voice->name }}
-                                <a href="{{ route('user.create', ['voice' => $voice->id]) }}" title="{{ trans('user.add_user') }}" class="btn btn-2d btn-add pull-right">
-                                    <i class="fa fa-plus"></i>&nbsp;{{ trans('user.add_user') }}
-                                </a>
+                                @if(Auth::user()->isAdmin())
+                                    {!! Html::addButton(trans('user.add_user'), route('user.create', ['voice' => $voice->id])) !!}
+                                @endif
                             </div>
 
                             <div class="panel-body">
@@ -58,9 +58,9 @@
                                         <div class="panel panel-2d">
                                             <div class="panel-heading">
                                                 {{ $sub_voice->name }}
-                                                <a href="{{ route('user.create', ['voice' => $sub_voice->id]) }}" title="{{ trans('user.add_user') }}" class="btn btn-2d btn-add pull-right">
-                                                    <i class="fa fa-plus"></i>&nbsp;{{ trans('user.add_user') }}
-                                                </a>
+                                                @if(Auth::user()->isAdmin())
+                                                    {!! Html::addButton(trans('user.add_user'), route('user.create', ['voice' => $sub_voice->id])) !!}
+                                                @endif
                                             </div>
 
                                             @include('user.table', ['users' => \App\User::getUsersOfVoice($sub_voice->id)])
