@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Rehearsal;
+use App\Voice;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -19,9 +21,16 @@ class RehearsalController extends Controller {
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
+    public function create() {
+        $voices = [];
+        // If user rights are restricted only give her voice back.
+        if (\Auth::user()->adminOnlyOwnVoice('rehearsal')) {
+            $voices[\Auth::user()->voice()->id] = \Auth::user()->voice()->name;
+        } else {
+            $voices = Voice::all()->pluck('name', 'id')->toArray();
+        }
+
+        return view('date.rehearsal.create', ['voices' => $voices]);
     }
 
     /**
@@ -41,9 +50,8 @@ class RehearsalController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        //
+    public function show($id) {
+        return $this->edit($id);
     }
 
     /**
@@ -52,9 +60,22 @@ class RehearsalController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
-        //
+    public function edit($id) {
+        $rehearsal = Rehearsal::find($id);
+
+        $voices = [];
+        // If user rights are restricted only give her voice back.
+        if (\Auth::user()->adminOnlyOwnVoice('rehearsal')) {
+            $voices[\Auth::user()->voice()->id] = \Auth::user()->voice()->name;
+        } else {
+            $voices = Voice::all()->pluck('name', 'id')->toArray();
+        }
+
+        if (null === $rehearsal) {
+            return back()->withErrors(trans('date.rehearsal_not_found'));
+        }
+
+        return view('date.rehearsal.show', ['rehearsal' => $rehearsal, 'voices' => $voices]);
     }
 
     /**

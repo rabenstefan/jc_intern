@@ -15,7 +15,6 @@ return [
     'return'        => 'zurückgeben',
     'undo'          => 'rückgängig machen',
     'last_echo'     => 'Zuletzt im <strong>:semester</strong> zurückgemeldet.',
-    'save'          => 'Speichern',
     'success'       => 'Nutzer erfolgreich gespeichert.',
     'delete_success'=> 'Nutzer erfolgreich gelöscht.',
     'alumni'        => 'Ehemalige Mitglieder',

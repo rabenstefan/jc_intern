@@ -19,6 +19,29 @@
     {!! Html::script('js/jquery.min.js') !!}
     {!! Html::script('js/all.js') !!}
     @yield('additional_js_files')
+
+    <script type="text/javascript">
+        $.notify.addStyle('shadow2d', {
+            html: '<span data-notify-text/>'
+        });
+
+        $.notify.defaults({
+            autoHide: true,
+            autoHideDelay: 1500,
+            style: 'shadow2d',
+            showAnimation: 'show',
+            showDuration: 0,
+            hideAnimation: 'hide',
+            hideDuration: 0
+        });
+
+        var helpBubble = {
+            autoHide: false,
+            elementPosition: 'right middle',
+            style: 'shadow2d',
+            className: 'help'
+        };
+    </script>
 </head>
 <body id="app-layout" data-spy="scroll" data-target="#scroll-spy-nav">
     <nav class="navbar navbar-default navbar-2d navbar-static-top">
@@ -133,19 +156,6 @@
     </div>
 
     <script type="text/javascript">
-        $.notify.addStyle('shadow2d', {
-            html: '<span data-notify-text/>'
-        });
-        $.notify.defaults({
-            autoHide: true,
-            autoHideDelay: 1500,
-            style: 'shadow2d',
-            showAnimation: 'show',
-            showDuration: 0,
-            hideAnimation: 'hide',
-            hideDuration: 0
-        });
-
         @if (count($errors) > 0)
             @foreach ($errors->all() as $error)
                 {{-- Display all global errors as danger-bubbles, hide them after 5 seconds to make sure the user sees them. --}}

@@ -13,7 +13,6 @@ return [
     'can_configure_system' => 'Admin',
     'only_own_voice'=> 'Nur eigene Stimme',
     'add_role'      => 'Neue Rolle',
-    'save'          => 'Speichern',
     'not_found'     => 'Rolle nicht gefunden',
     'success'       => 'Rolle :label erfolgreich gespeichert',
     'delete_success'=> 'Rolle erfolgreich gelöscht',

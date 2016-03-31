@@ -524,8 +524,22 @@ div.checkbox input[type='checkbox'], div.radio input[type='radio'] {
     background-color: #f2dede;
     @include shadow-2d(#a94442);
   }
+
+  &.notifyjs-shadow2d-help {
+    color: $font-color;
+    background-color: $font-color-inverse;
+    @include shadow-2d($grey-darker);
+    padding: 1em;
+    display: block;
+    min-width: 25em;
+  }
 }
 
 .no-margin {
   margin: 0 !important;
+}
+
+.help-bubble {
+  cursor: pointer;
+  color: $main-color;
 }

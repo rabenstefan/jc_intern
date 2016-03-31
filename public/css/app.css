@@ -6158,8 +6158,22 @@ div.checkbox input[type='checkbox'], div.radio input[type='radio'] {
     border: none;
     border-bottom: 3px solid #a94442;
     box-shadow: none; }
+  .notifyjs-shadow2d-base.notifyjs-shadow2d-help {
+    color: #232323;
+    background-color: #f0f0f0;
+    border-radius: 0;
+    border: none;
+    border-bottom: 3px solid #A6A6A6;
+    box-shadow: none;
+    padding: 1em;
+    display: block;
+    min-width: 25em; }
 
 .no-margin {
   margin: 0 !important; }
+
+.help-bubble {
+  cursor: pointer;
+  color: #3F7DBD; }
 
 /*# sourceMappingURL=app.css.map */

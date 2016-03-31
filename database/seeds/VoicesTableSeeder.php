@@ -14,7 +14,7 @@ class VoicesTableSeeder extends Seeder
         DB::table('voices')->insert([
             [
                 'id' => 0,
-                'name' => 'Chor',
+                'name' => 'Gesamter Chor',
                 'super_group' => 'NULL',
                 'child_group' => false,
             ], [

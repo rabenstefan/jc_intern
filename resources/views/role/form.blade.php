@@ -17,6 +17,6 @@
     <td>{{ Form::checkboxInput2d('can_send_mail', isset($role) ? $role->can_send_mail : null) }}</td>
     <td>{{ Form::checkboxInput2d('can_configure_system', isset($role) ? $role->can_configure_system : null) }}</td>
     <td>{{ Form::checkboxInput2d('only_own_voice', isset($role) ? $role->only_own_voice : null) }}</td>
-    <td>{{ Form::button('<i class="fa fa-floppy-o"></i>', ['type' => 'submit', 'class' => 'btn btn-2d', 'title' => trans('role.save')]) }}</td>
+    <td>{{ Form::button('<i class="fa fa-floppy-o"></i>', ['type' => 'submit', 'class' => 'btn btn-2d', 'title' => trans('form.save')]) }}</td>
     {!! Form::close() !!}
 </tr>

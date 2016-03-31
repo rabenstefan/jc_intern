@@ -54,6 +54,17 @@ class User extends Authenticatable
         'sheet_deposit_returned' => 'boolean',
     ];
 
+    /**
+     * Mapping of area names to flags.
+     *
+     * @var array
+     */
+    protected  $adminAreas = [
+        'rehearsal' => 'can_plan_rehearsal',
+        'gig'       => 'can_plan_gig',
+        'configure' => 'can_configure_system',
+    ];
+
     /*
      * Model all relationships.
      */
@@ -101,17 +112,23 @@ class User extends Authenticatable
     }
 
     public function isAdmin($area = 'configure') {
-        $adminAreas = [
-            'rehearsal' => 'can_plan_rehearsal',
-            'gig'       => 'can_plan_gig',
-            'configure' => 'can_configure_system',
-        ];
-
-        if (null === $area || !array_key_exists($area, $adminAreas)) {
+        if (null === $area || !array_key_exists($area, $this->adminAreas)) {
             return false;
         }
 
-        return $this->roles()->orderBy($adminAreas[$area], 'desc')->first()->getAttributeValue($adminAreas[$area]);
+        // Get roles matching the areas flag, sort them descending so a "mightier" role has precedence.
+        $matching_role = $this->roles()->orderBy($this->adminAreas[$area], 'desc')->first();
+        return (null !== $matching_role) && ($matching_role->getAttributeValue($this->adminAreas[$area]));
+    }
+
+    public function adminOnlyOwnVoice($area) {
+        if (null === $area || !array_key_exists($area, $this->adminAreas)) {
+            return false;
+        }
+
+        // Get roles matching area flag, sort ascending for only_own_voice so a "mightier" role has precedence.
+        $matching_role = $this->roles()->where($this->adminAreas, true)->orderBy('only_own_voice', 'asc')->first();
+        return (null !== $matching_role) && ($matching_role->getAttributeValue('only_own_voice'));
     }
 
     public static function getMusicalLeader() {

@@ -20,9 +20,8 @@ class GigController extends Controller {
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
+    public function create() {
+        return view('date.gig.create');
     }
 
     /**

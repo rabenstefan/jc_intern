@@ -12,21 +12,7 @@
                     <div class="panel panel-2d">
                         <div class="panel-heading">{{ trans('date.gig_show_title') }}</div>
 
-                        <div class="panel-body">
-                            {!! Form::model($gig, ['url' => route('gig.update', ['gig' => $gig->id]), 'method' => 'PUT']) !!}
-                            <div class="row">
-                                <div class="col-xs-12 col-md-6">
-                                    {{ Form::textInput2d('title') }}
-                                    {{ Form::textareaInput2d('description') }}
-                                </div>
-                                <div class="col-xs-12 col-md-6">
-                                    {{ Form::datetimeInput2d('start') }}
-                                    {{ Form::datetimeInput2d('end') }}
-                                    {{ Form::textInput2d('place') }}
-                                </div>
-                            </div>
-                            {!! Form::close() !!}
-                        </div>
+                        @include('date.gig.form', ['options' => ['url' => route('gig.update', ['gig' => $gig->id]), 'method' => 'PUT'], 'gig' => $gig])
                     </div>
                 </div>
             </div>

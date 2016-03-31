@@ -26,4 +26,9 @@ return [
     'place'         => 'Ort',
     'start'         => 'Beginn',
     'end'           => 'Ende',
+    'mandatory'     => 'verpflichtend',
+    'weight'        => 'Gewichtung',
+    'save'          => 'Speichern',
+    'help_date'     => 'Bitte im Format JJJJ-MM-TT angeben, z.B. 1993-04-18 für den 18.04.1993.',
+    'help_dateTime' => 'Bitte im Format JJJJ-MM-TT HH:MM:SS angeben, z.B. 1993-04-18 20:30:00 für halb neun am 18.04.1993.',
 ];
