@@ -19,6 +19,7 @@ class AppServiceProvider extends ServiceProvider
         \Form::component('dateInput2d', 'components.form.date', ['name', 'value' => null, 'attributes' => [], 'helpBubble' => trans('form.help_date')]);
         \Form::component('datetimeInput2d', 'components.form.datetime', ['name', 'value' => null, 'attributes' => [], 'helpBubble' => trans('form.help_dateTime')]);
         \Form::component('checkboxInput2d', 'components.form.checkbox', ['name', 'value' => null, 'attributes' => [], 'helpBubble' => false]);
+        \Form::component('radioInput2d', 'components.form.radio', ['name', 'label', 'value' => 1, 'checked' => false, 'attributes' => [], 'helpBubble' => false]);
         \Form::component('selectInput2d', 'components.form.select', ['name', 'list' => [], 'selected' => null, 'attributes' => [], 'helpBubble' => false]);
         \Form::component('passwordInput2d', 'components.form.password', ['name', 'attributes' => [], 'helpBubble' => false]);
 

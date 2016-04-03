@@ -309,6 +309,7 @@ a {
     color: $font-color-inverse;
     background-color: $main-color;
     @include shadow-2d($main-color-darker);
+    font-size: 1em;
 
     &.event-gig {
       color: $font-color-inverse;
@@ -378,6 +379,25 @@ a {
     background-color: $main-color;
     @include shadow-2d($main-color-darker);
     font-weight: bold;
+
+    .dropdown-menu {
+      color: $font-color-inverse;
+      background-color: $main-color;
+      @include shadow-2d($main-color-darker);
+      top: 2.5em;
+      right: inherit;
+      margin: 0;
+
+      & > li > a {
+        color: $font-color-inverse;
+        border: none;
+      }
+
+      & > li > a:hover, & > li > a:focus {
+        color: $main-color-darker;
+        background: none;
+      }
+    }
   }
 
   .panel-body {
@@ -456,17 +476,27 @@ div.checkbox input[type='checkbox']:hover + span:before,
 div.radio input[type='radio']:hover + span:before {
 }
 
-div.checkbox input[type='checkbox'], div.radio input[type='radio'] {
+div.checkbox input, div.radio input {
   display: none;
   height: 1px;
 
-  & + span:before {
+  &[type='checkbox'] + span:before {
     content: '\f096';
     font-family: "FontAwesome", sans-serif;
   }
 
-  &:checked + span:before {
+  &[type='checkbox']:checked + span:before {
     content: '\f046';
+    font-family: "FontAwesome", sans-serif;
+  }
+
+  &[type='radio'] + span:before {
+    content: '\f10c';
+    font-family: "FontAwesome", sans-serif;
+  }
+
+  &[type='radio']:checked + span:before {
+    content: '\f192';
     font-family: "FontAwesome", sans-serif;
   }
 
@@ -488,6 +518,7 @@ div.checkbox input[type='checkbox'], div.radio input[type='radio'] {
 
 .notifyjs-container {
   margin: 0 !important;
+  border-top-color: $main-color-darker;
 }
 
 .notifyjs-shadow2d-base {
@@ -526,9 +557,9 @@ div.checkbox input[type='checkbox'], div.radio input[type='radio'] {
   }
 
   &.notifyjs-shadow2d-help {
-    color: $font-color;
-    background-color: $font-color-inverse;
-    @include shadow-2d($grey-darker);
+    color: $font-color-inverse;
+    background-color: $main-color;
+    @include shadow-2d($main-color-darker);
     padding: 1em;
     display: block;
     min-width: 25em;
@@ -542,4 +573,8 @@ div.checkbox input[type='checkbox'], div.radio input[type='radio'] {
 .help-bubble {
   cursor: pointer;
   color: $main-color;
+  i {
+    font-size: 1.5em;
+    line-height: 0em;
+  }
 }

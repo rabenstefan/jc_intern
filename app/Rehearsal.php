@@ -17,6 +17,23 @@ class Rehearsal extends \Eloquent implements IdentifiableEvent {
         'mandatory' => 'boolean'
     ];
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'title',
+        'description',
+        'start',
+        'end',
+        'place',
+        'mandatory',
+        'weight',
+        'semester_id',
+        'voice_id',
+    ];
+
     public function semester() {
         return $this->hasOne('App\Semester');
     }

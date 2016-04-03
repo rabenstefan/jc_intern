@@ -24,20 +24,24 @@
                         <div class="panel-heading">
                             {{ trans('date.index_title') }}
 
-                            <div class="pull-right">
-                                <a href="#" title="{{ trans('date.add_date') }}" class="btn btn-2d btn-add dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fa fa-plus"></i>&nbsp;{{ trans('date.add_date') }}
-                                </a>
+                            @if (Auth::user()->isAdmin('gig') || Auth::user()->isAdmin('rehearsal'))
+                                <div class="pull-right">
+                                    {!! Html::addButton(trans('date.add_date'), '#', ['dropdown-toggle'], ['data-toggle' => 'dropdown', 'aria-haspopup' => 'true', 'aria-expanded' => 'false']) !!}
 
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <a href="{{ route('user.index') }}">{{ trans('nav.user_list') }}</a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ route('user.show', Auth::user()->id) }}">{{ trans('nav.user_show_own') }}</a>
-                                    </li>
-                                </ul>
-                            </div>
+                                    <ul class="dropdown-menu">
+                                        @if (Auth::user()->isAdmin('rehearsal'))
+                                            <li>
+                                                <a href="{{ route('rehearsal.create') }}">{{ trans('nav.rehearsal_create') }}</a>
+                                            </li>
+                                        @endif
+                                        @if (Auth::user()->isAdmin('gig'))
+                                            <li>
+                                                <a href="{{ route('gig.create') }}">{{ trans('nav.gig_create') }}</a>
+                                            </li>
+                                        @endif
+                                    </ul>
+                                </div>
+                            @endif
                         </div>
 
                         <div class="panel-body">
@@ -52,7 +56,9 @@
 @endsection
 
 @section('js')
-    $(document).ready(function () {
-        $('#calendar-dates').find('.fc-button').addClass('btn btn-2d');
-    });
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#calendar-dates').find('.fc-button').addClass('btn btn-2d');
+        });
+    </script>
 @endsection

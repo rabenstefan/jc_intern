@@ -39,7 +39,9 @@
             autoHide: false,
             elementPosition: 'right middle',
             style: 'shadow2d',
-            className: 'help'
+            className: 'help',
+            arrowShow: true,
+            arrowSize: 5
         };
     </script>
 </head>
@@ -106,6 +108,17 @@
                                         </li>
                                     </ul>
                                 </li>
+
+                                @if (Auth::user()->isAdmin('rehearsal'))
+                                    <li>
+                                        <a href="{{ route('rehearsal.create') }}">{{ trans('nav.rehearsal_create') }}</a>
+                                    </li>
+                                @endif
+                                @if (Auth::user()->isAdmin('gig'))
+                                    <li>
+                                        <a href="{{ route('gig.create') }}">{{ trans('nav.gig_create') }}</a>
+                                    </li>
+                                @endif
                             </ul>
                         </li>
                         {{--
@@ -168,8 +181,8 @@
                 $.notify("{{ Session::get('message_'.$message_code) }}", "{{ $message_code }}");
             @endif
         @endforeach
-
-        @yield('js')
     </script>
+
+    @yield('js')
 </body>
 </html>

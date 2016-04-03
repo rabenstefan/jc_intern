@@ -124,6 +124,15 @@ return [
         'can_send_mail' => 'Mails verschicken',
         'can_configure_system' => 'Admin',
         'only_own_voice'=> 'Nur eigene Stimme',
+        'title'         => 'Titel',
+        'description'   => 'Beschreibung',
+        'place'         => 'Ort',
+        'start'         => 'Beginn',
+        'end'           => 'Ende',
+        'mandatory'     => 'verpflichtend',
+        'weight'        => 'Gewichtung',
+        'start_repeat'  => 'ab dem',
+        'end_repeat'    => 'bis zum',
     ],
 
 ];

@@ -5965,7 +5965,8 @@ a {
   border-radius: 0;
   border: none;
   border-bottom: 3px solid #174C84;
-  box-shadow: none; }
+  box-shadow: none;
+  font-size: 1em; }
   #calendar-dates .fc-event.event-gig {
     color: #f0f0f0;
     background-color: orangered;
@@ -6040,6 +6041,22 @@ a {
     border-bottom: 3px solid #174C84;
     box-shadow: none;
     font-weight: bold; }
+    .panel-2d .panel-heading .dropdown-menu {
+      color: #f0f0f0;
+      background-color: #3F7DBD;
+      border-radius: 0;
+      border: none;
+      border-bottom: 3px solid #174C84;
+      box-shadow: none;
+      top: 2.5em;
+      right: inherit;
+      margin: 0; }
+      .panel-2d .panel-heading .dropdown-menu > li > a {
+        color: #f0f0f0;
+        border: none; }
+      .panel-2d .panel-heading .dropdown-menu > li > a:hover, .panel-2d .panel-heading .dropdown-menu > li > a:focus {
+        color: #174C84;
+        background: none; }
   .panel-2d .panel-body {
     background-color: #fafafa;
     border-radius: 0; }
@@ -6097,18 +6114,24 @@ div.radio input[type='radio'] + span:before {
   padding-right: 1.5em;
   background-color: #fff; }
 
-div.checkbox input[type='checkbox'], div.radio input[type='radio'] {
+div.checkbox input, div.radio input {
   display: none;
   height: 1px; }
-  div.checkbox input[type='checkbox'] + span:before, div.radio input[type='radio'] + span:before {
+  div.checkbox input[type='checkbox'] + span:before, div.radio input[type='checkbox'] + span:before {
     content: '\f096';
     font-family: "FontAwesome", sans-serif; }
-  div.checkbox input[type='checkbox']:checked + span:before, div.radio input[type='radio']:checked + span:before {
+  div.checkbox input[type='checkbox']:checked + span:before, div.radio input[type='checkbox']:checked + span:before {
     content: '\f046';
     font-family: "FontAwesome", sans-serif; }
-  div.checkbox input[type='checkbox']:focus + span:before,
-  div.checkbox input[type='checkbox']:hover + span:before, div.radio input[type='radio']:focus + span:before,
-  div.radio input[type='radio']:hover + span:before {
+  div.checkbox input[type='radio'] + span:before, div.radio input[type='radio'] + span:before {
+    content: '\f10c';
+    font-family: "FontAwesome", sans-serif; }
+  div.checkbox input[type='radio']:checked + span:before, div.radio input[type='radio']:checked + span:before {
+    content: '\f192';
+    font-family: "FontAwesome", sans-serif; }
+  div.checkbox input:focus + span:before,
+  div.checkbox input:hover + span:before, div.radio input:focus + span:before,
+  div.radio input:hover + span:before {
     color: #174C84; }
 
 .notifyjs-corner {
@@ -6120,7 +6143,8 @@ div.checkbox input[type='checkbox'], div.radio input[type='radio'] {
   height: 3.5em !important; }
 
 .notifyjs-container {
-  margin: 0 !important; }
+  margin: 0 !important;
+  border-top-color: #174C84; }
 
 .notifyjs-shadow2d-base {
   font-weight: bold;
@@ -6159,11 +6183,11 @@ div.checkbox input[type='checkbox'], div.radio input[type='radio'] {
     border-bottom: 3px solid #a94442;
     box-shadow: none; }
   .notifyjs-shadow2d-base.notifyjs-shadow2d-help {
-    color: #232323;
-    background-color: #f0f0f0;
+    color: #f0f0f0;
+    background-color: #3F7DBD;
     border-radius: 0;
     border: none;
-    border-bottom: 3px solid #A6A6A6;
+    border-bottom: 3px solid #174C84;
     box-shadow: none;
     padding: 1em;
     display: block;
@@ -6175,5 +6199,8 @@ div.checkbox input[type='checkbox'], div.radio input[type='radio'] {
 .help-bubble {
   cursor: pointer;
   color: #3F7DBD; }
+  .help-bubble i {
+    font-size: 1.5em;
+    line-height: 0em; }
 
 /*# sourceMappingURL=app.css.map */

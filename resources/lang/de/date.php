@@ -15,5 +15,6 @@ return [
     'rehearsal_show_title'=> 'Probe bearbeiten',
     'gigs'                => 'Auftritte',
     'rehearsals'          => 'Proben',
-    'show_only'           => 'Anzeigen'
+    'show_only'           => 'Anzeigen',
+    'add_date'            => 'Termin hinzufügen',
 ];

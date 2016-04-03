@@ -12,4 +12,6 @@ return [
     'all'               => 'Alle',
     'dates_calendar'    => 'Kalender',
     'dates_list'        => 'Liste',
+    'rehearsal_create'  => 'Probe planen',
+    'gig_create'        => 'Auftritt planen',
 ];

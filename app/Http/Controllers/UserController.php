@@ -11,8 +11,18 @@ use App\Http\Requests;
 use App\User;
 use Illuminate\Support\Facades\Input;
 
-class UserController extends Controller
-{
+class UserController extends Controller {
+    protected $validation = [
+        'first_name'=> 'required|alpha|max:255',
+        'last_name' => 'required|alpha|max:255',
+        'email'     => 'required|email',
+        'password'  => 'size:8',
+        'voice_id'  => 'required|integer|min:0',
+        'birthday'  => 'date|after:1900-01-01',
+        'address_zip'   => 'integer',
+        'sheets_deposit_returned' => 'boolean'
+    ];
+
     public function __construct() {
         $this->middleware('auth');
 
@@ -56,16 +66,7 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request) {
-        $this->validate($request, [
-            'first_name'=> 'required|alpha|max:255',
-            'last_name' => 'required|alpha|max:255',
-            'email'     => 'required|email',
-            'password'  => 'size:8',
-            'voice_id'  => 'required|integer|min:0',
-            'birthday'  => 'date|after:1900-01-01|before:' . date('Y-m-d'),
-            'address_zip'   => 'integer',
-            'sheets_deposit_returned' => 'boolean'
-        ]);
+        $this->validate($request, $this->validation);
 
         $data = array_merge($request->all(),
             [
@@ -126,16 +127,7 @@ class UserController extends Controller
             return redirect()->route('user.index')->withErrors([trans('user.not_found')]);
         }
 
-        $this->validate($request, [
-            'first_name'=> 'required|alpha|max:255',
-            'last_name' => 'required|alpha|max:255',
-            'email'     => 'required|email',
-            'password'  => 'size:8',
-            'voice_id'  => 'required|integer|min:0',
-            'birthday'  => 'date|after:1900-01-01|before:' . date('Y-m-d'),
-            'address_zip'   => 'integer',
-            'sheets_deposit_returned' => 'boolean'
-        ]);
+        $this->validate($request, $this->validation);
 
         $user->update($request->all());
         $user->save();

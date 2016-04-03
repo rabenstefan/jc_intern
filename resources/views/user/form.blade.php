@@ -26,11 +26,11 @@
                     <p>{{ trans('user.password_note') }}</p>
                 @endif
                 <span class="center-block">
-                    {!! Form::submit(trans('user.save'), ['class' => 'btn btn-lg btn-2d']) !!}
+                    {!! Form::submit(trans('form.save'), ['class' => 'btn btn-lg btn-2d']) !!}
                 </span>
             </div>
             <div class="col-xs-12 col-md-6">
-                {!! Form::selectInput2d('voice_id', App\Voice::getChildVoices()->pluck('name', 'id')->toArray(), $voice) !!}
+                {!! Form::selectInput2d('voice_id', App\Voice::getChildVoices()->pluck('name', 'id')->toArray(), isset($voice) ? $voice : null) !!}
                 {!! Form::checkboxInput2d('sheets_deposit_returned') !!}
                 @if(isset($user))
                 <p>{!! trans('user.last_echo', ['semester' => App\Semester::find($user->last_echo)->label]) !!}</p>

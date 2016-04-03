@@ -2,6 +2,10 @@
 
 @section('title'){{ trans('date.gig_create_title') }}@endsection
 
+@section('additional_js_files')
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDj7PNEdex5u2osEGzmZNlbz0p2bLmeVxU&libraries=places"></script>
+@endsection
+
 @section('content')
     <div class="row">
         <div class="col-xs-12">
@@ -21,4 +25,9 @@
 @endsection
 
 @section('js')
+    <script type="text/javascript">
+        autocomplete = new google.maps.places.Autocomplete(document.getElementsByName('place').item(0), {
+            types: ['address']
+        });
+    </script>
 @endsection

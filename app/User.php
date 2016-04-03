@@ -127,7 +127,7 @@ class User extends Authenticatable
         }
 
         // Get roles matching area flag, sort ascending for only_own_voice so a "mightier" role has precedence.
-        $matching_role = $this->roles()->where($this->adminAreas, true)->orderBy('only_own_voice', 'asc')->first();
+        $matching_role = $this->roles()->where($this->adminAreas[$area], true)->orderBy('only_own_voice', 'asc')->first();
         return (null !== $matching_role) && ($matching_role->getAttributeValue('only_own_voice'));
     }
 
