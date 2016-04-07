@@ -20,7 +20,7 @@ class RehearsalController extends Controller {
         'voice_id'  => 'required|integer|min:0',
         'weight'    => 'required|numeric|min:0|max:1',
         'mandatory' => 'required|boolean',
-        'repeat'    => 'required|boolean',
+        'repeat'    => 'boolean',
         'end_repeat'=> 'required_if:repeat,1|after:start',
         'interval'  => 'required_if:repeat,1',
     ];
@@ -148,7 +148,33 @@ class RehearsalController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id) {
-        //
+        $rehearsal = Rehearsal::find($id);
+
+        if (null === $rehearsal) {
+            return redirect()->route('date.index')->withErrors([trans('date.not_found')]);
+        }
+        
+        $this->validate($request, $this->validation);
+
+        //TODO: Right calculation.
+        $data = array_merge($request->all(),
+            [
+                'semester_id' => Semester::current()->id,
+            ]
+        );
+
+        $start = new Carbon($data['start']);
+        $end   = new Carbon($data['end']);
+
+        $data['start'] = $start->toDateTimeString();
+        $data['end'] = $end->toDateTimeString();
+
+        $rehearsal->update($data);
+        $rehearsal->save();
+
+        $request->session()->flash('message_success', trans('date.success'));
+
+        return redirect()->route('date.index');
     }
 
     /**
@@ -157,8 +183,17 @@ class RehearsalController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
-        //
+    public function destroy($id) {
+        $rehearsal = Rehearsal::find($id);
+
+        if (null === $rehearsal) {
+            return redirect()->route('date.index')->withErrors([trans('date.not_found')]);
+        }
+
+        $rehearsal->delete();
+
+        \Session::flash('message_success', trans('date.delete_success'));
+
+        return redirect()->route('date.index');
     }
 }

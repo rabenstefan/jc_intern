@@ -13,6 +13,20 @@ class Gig extends \Eloquent implements IdentifiableEvent {
         'url' => '',
     ];
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'title',
+        'description',
+        'start',
+        'end',
+        'place',
+        'semester_id',
+    ];
+
     public function commitments() {
         return $this->belongsToMany('App\Commitment');
     }

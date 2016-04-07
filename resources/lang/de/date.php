@@ -17,4 +17,7 @@ return [
     'rehearsals'          => 'Proben',
     'show_only'           => 'Anzeigen',
     'add_date'            => 'Termin hinzufügen',
+    'not_found'           => 'Termin nicht gefunden',
+    'success'             => 'Termin erfolgreich gespeichert',
+    'delete_success'      => 'Termin wurde gelöscht',
 ];

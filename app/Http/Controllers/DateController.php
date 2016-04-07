@@ -33,7 +33,7 @@ class DateController extends Controller {
      * @param String $view_type
      * @return \Illuminate\Http\Response
      */
-    public function index ($view_type = 'calendar') {
+    public function index ($view_type = 'list') {
         // If we have no valid parameter we take the default.
         if (!array_key_exists($view_type, $this->view_types)) {
             $view_type = $this->view_types[0];

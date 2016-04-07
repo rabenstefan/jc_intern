@@ -3,11 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Gig;
+use App\Semester;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 
 class GigController extends Controller {
+    protected $validation = [
+        'title'     => 'required|string|max:100',
+        'description' => 'string|max:500',
+        'start'     => 'required|date',
+        'end'       => 'required|date|after:start',
+        'place'     => 'required|string',
+    ];
 
     public function __construct() {
         $this->middleware('auth');
@@ -30,9 +39,27 @@ class GigController extends Controller {
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        //
+    public function store(Request $request) {
+        $this->validate($request, $this->validation);
+
+        //TODO: Right calculation.
+        $data = array_merge($request->all(),
+            [
+                'semester_id' => Semester::current()->id,
+            ]
+        );
+
+        $start = new Carbon($data['start']);
+        $end   = new Carbon($data['end']);
+
+        $data['start'] = $start->toDateTimeString();
+        $data['end'] = $end->toDateTimeString();
+
+        Gig::create($data);
+
+        $request->session()->flash('message_success', trans('date.success'));
+
+        return redirect()->route('date.index');
     }
 
     /**
@@ -68,9 +95,34 @@ class GigController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
-        //
+    public function update(Request $request, $id) {
+        $gig = Gig::find($id);
+
+        if (null === $gig) {
+            return redirect()->route('date.index')->withErrors([trans('date.not_found')]);
+        }
+
+        $this->validate($request, $this->validation);
+
+        //TODO: Right calculation.
+        $data = array_merge($request->all(),
+            [
+                'semester_id' => Semester::current()->id,
+            ]
+        );
+
+        $start = new Carbon($data['start']);
+        $end   = new Carbon($data['end']);
+
+        $data['start'] = $start->toDateTimeString();
+        $data['end'] = $end->toDateTimeString();
+
+        $gig->update($data);
+        $gig->save();
+
+        $request->session()->flash('message_success', trans('date.success'));
+
+        return redirect()->route('date.index');
     }
 
     /**
@@ -79,8 +131,17 @@ class GigController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
-        //
+    public function destroy($id) {
+        $gig = Gig::find($id);
+
+        if (null === $gig) {
+            return redirect()->route('date.index')->withErrors([trans('date.not_found')]);
+        }
+
+        $gig->delete();
+
+        \Session::flash('message_success', trans('date.delete_success'));
+
+        return redirect()->route('date.index');
     }
 }
