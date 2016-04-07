@@ -300,6 +300,12 @@ a {
       color: $main-color-darker;
       outline: none;
     }
+
+    @media (max-width: 767px) {
+      & .title {
+        display: none;
+      }
+    }
   }
 }
 
@@ -336,6 +342,15 @@ a {
 
   .fc-popover .fc-header {
     background: none;
+  }
+
+  @media (max-width: 767px) {
+    .fc-toolbar .fc-left {
+      float: none;
+    }
+    .fc-toolbar .fc-right {
+      float: none;
+    }
   }
 }
 

@@ -5957,6 +5957,9 @@ a {
       margin-top: 3px;
       color: #174C84;
       outline: none; }
+    @media (max-width: 767px) {
+      .panel-heading .btn-2d.btn-add .title, .panel-heading #calendar-dates .btn-2d.btn-add .title {
+        display: none; } }
 
 /** Style calendar. **/
 #calendar-dates .fc-event {
@@ -5994,6 +5997,12 @@ a {
 
 #calendar-dates .fc-popover .fc-header {
   background: none; }
+
+@media (max-width: 767px) {
+  #calendar-dates .fc-toolbar .fc-left {
+    float: none; }
+  #calendar-dates .fc-toolbar .fc-right {
+    float: none; } }
 
 #list-dates .event {
   color: #f0f0f0;

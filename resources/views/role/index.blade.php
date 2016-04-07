@@ -31,7 +31,7 @@
                                                 <th>{{ trans('role.can_send_mail') }}</th>
                                                 <th>{{ trans('role.can_configure_system') }}</th>
                                                 <th>{{ trans('role.only_own_voice') }}</th>
-                                                <th>&nbsp;</th>
+                                                <th style="width: 55px;">&nbsp;</th>
                                             </tr>
                                             </thead>
                                             <tbody>

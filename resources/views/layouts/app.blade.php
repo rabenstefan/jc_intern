@@ -97,9 +97,9 @@
 
                             <ul class="dropdown-menu multi-level" role="menu">
                                 <li class="dropdown-submenu">
-                                    <a href="{{ route('date.index') }}">{{ trans('nav.all') }}</a>
+                                    <a href="{{ route('date.index', ['view' => 'list']) }}">{{ trans('nav.all') }}</a>
 
-                                    <ul class="dropdown-menu">
+                                    <ul class="dropdown-menu hidden-xs">
                                         <li>
                                             <a href="{{ route('date.index', ['view' => 'calendar']) }}">{{ trans('nav.dates_calendar') }}</a>
                                         </li>
