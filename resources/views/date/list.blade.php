@@ -43,3 +43,85 @@
         </div>
     </div>
 @endsection
+
+@section('js')
+    <script type="text/javascript">
+        /**
+         * Switches a slider to the opposite value.
+         *
+         * @param sliderElement
+         * @return Boolean success
+         */
+        function sliderSwitch (sliderElement, currentState) {
+            if ($(sliderElement).hasClass('inactive')) return false;
+
+            $(sliderElement).find('input[type="checkbox"]').prop('checked', !currentState);
+            return true;
+        }
+
+        function eventSwitch (sliderElement, currentState) {
+            if ($(sliderElement).hasClass('inactive')) return false;
+
+            var eventNode = $(sliderElement).parents('.event');
+            var titleNote = $(eventNode).find('.title .not-going-note');
+
+            if (currentState) {
+                $(eventNode).addClass('event-not-going');
+                $(titleNote).show();
+            } else {
+                $(eventNode).removeClass('event-not-going');
+                $(titleNote).hide();
+            }
+
+            return true;
+        }
+
+        /**
+         * Handles AJAX-call to change the attendance of a rehearsal.
+         *
+         * @param sliderElement
+         */
+        function changeAttendance (sliderElement) {
+            // Make slider inactive.
+            $(sliderElement).addClass('inactive');
+
+            // Do we need to excuse the user or is she attending?
+            // If the slider's checkbox is "checked" we have to excuse her.
+            var currentlyAttending = $(sliderElement).find('input[type="checkbox"]').prop('checked');
+            var url = '', excuse = '';
+            if (currentlyAttending) {
+                url = $(sliderElement).data('excuse-url');
+
+                excuse = prompt('{{ trans('date.excuse_comment') }}');
+            } else {
+                url = $(sliderElement).data('attend-url');
+            }
+
+            // Request the url via post, include csrf-token.
+            $.post(url, {
+                _token: '{{ csrf_token() }}',
+                comment: excuse
+            }, function (data) {
+                // Success?
+                if (data.success) {
+                    // Notify user.
+                    $.notify(data.message, 'success');
+
+                    // Make slider active again.
+                    $(sliderElement).removeClass('inactive');
+
+                    // Get slider's current state and switch it and its event.
+                    sliderSwitch(sliderElement, currentlyAttending);
+                    eventSwitch(sliderElement, currentlyAttending);
+                } else {
+                    // Warn user.
+                    $.notify(data.message, 'danger');
+
+                    // Make slider active again.
+                    $(sliderElement).removeClass('inactive');
+                }
+            },
+            'json');
+        }
+    </script>
+@endsection

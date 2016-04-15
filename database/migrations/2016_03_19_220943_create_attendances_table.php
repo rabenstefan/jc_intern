@@ -22,8 +22,8 @@ class CreateAttendancesTable extends Migration
             $table->foreign('rehearsal_id')->references('id')->on('rehearsals')->onDelete('cascade');
 
             $table->boolean('excused')->default(false); // Not excused means "wants to attend"
-            $table->string('comment');
-            $table->string('internal_comment');
+            $table->string('comment')->nullable();
+            $table->string('internal_comment')->nullable();
             $table->boolean('missed')->default(false);
             $table->timestamps();
         });

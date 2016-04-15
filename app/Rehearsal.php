@@ -106,6 +106,13 @@ class Rehearsal extends \Eloquent implements IdentifiableEvent {
         return $this->calendar_options;
     }
 
+    public function isAttending(User $user) {
+        $attendance = Attendance::where('user_id', $user->id)->where('rehearsal_id', $this->id)->first();
+
+        if (null === $attendance) return true;
+        return !$attendance->excused;
+    }
+
     /**
      * No need for old events.
      *

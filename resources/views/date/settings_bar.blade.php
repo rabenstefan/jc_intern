@@ -3,16 +3,16 @@
         {{ trans('date.show_only') }}:
     </div>
     <div class="col-xs-12 col-md-5">
-        <a class="btn btn-2d" href="{{ route('date.index', ['view_type' => $view_type, 'set' => 'birthdays']) }}">
+        <a class="btn btn-success btn-2d" href="{{ route('date.index', ['view_type' => $view_type, 'set' => 'birthdays']) }}">
             {{ trans('form.birthday') }}
         </a>
-        <a class="btn btn-2d" href="{{ route('date.index', ['view_type' => $view_type, 'set' => 'gigs']) }}">
+        <a class="btn btn-warning btn-2d" href="{{ route('date.index', ['view_type' => $view_type, 'set' => 'gigs']) }}">
             {{ trans('date.gigs') }}
         </a>
         <a class="btn btn-2d" href="{{ route('date.index', ['view_type' => $view_type, 'set' => 'rehearsals']) }}">
             {{ trans('date.rehearsals') }}
         </a>
-        <a class="btn btn-2d" href="{{ route('date.index', ['view_type' => $view_type]) }}">
+        <a class="btn btn-error btn-2d" href="{{ route('date.index', ['view_type' => $view_type]) }}">
             {{ trans('nav.all') }}
         </a>
     </div>

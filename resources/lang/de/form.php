@@ -37,4 +37,5 @@ return [
     'daily'         => 'täglich',
     'weekly'        => 'wöchentlich',
     'monthly'       => 'monatlich',
+    'edit'          => 'Bearbeiten',
 ];

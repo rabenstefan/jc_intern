@@ -37,6 +37,10 @@ Route::group(['middleware' => 'web'], function () {
     Route::resource('rehearsal', 'RehearsalController', [
         'except' => ['index']
     ]);
+
+    Route::post('rehearsal/attend/{rehearsal_id}', 'AttendanceController@confirmSelf')->name('attendance.confirmSelf');
+    Route::post('rehearsal/excuse/{rehearsal_id}', 'AttendanceController@excuseSelf')->name('attendance.excuseSelf');
+
     Route::resource('gig', 'GigController', [
         'except' => ['index']
     ]);

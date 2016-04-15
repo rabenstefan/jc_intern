@@ -21,6 +21,16 @@
   @include box-shadow(none);
 }
 
+@mixin noselect() {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none;   /* Chrome/Safari/Opera */
+  -khtml-user-select: none;    /* Konqueror */
+  -moz-user-select: none;      /* Firefox */
+  -ms-user-select: none;       /* IE/Edge */
+  user-select: none;           /* non-prefixed version, currently
+                                  not supported by any browser */
+}
+
 /** Main settings. **/
 body {
   font-family: $sans-font;
@@ -36,6 +46,10 @@ a {
   &:hover, &:focus, &:active {
     color: $main-color-darker;
   }
+}
+
+i.fa {
+  @include noselect();
 }
 
 /** Only body white background. **/
@@ -282,17 +296,32 @@ a {
   @include shadow-2d($main-color-darker);
 
   &:hover, &:focus, &:active {
-    border-bottom: none;
-    margin-top: 3px;
-    color: #fff;
-    outline: none;
+    border-bottom: none !important;
+    margin-top: 3px !important;
+    color: #fff !important;
+    outline: none !important;
   }
 
-  .panel-heading &.btn-add {
+  &.btn-success {
+    background-color: $success-color;
+    @include shadow-2d($success-color-darker);
+  }
+
+  &.btn-warning {
+    background-color: $warning-color;
+    @include shadow-2d($warning-color-darker);
+  }
+
+  &.btn-error {
+    background-color: $error-color;
+    @include shadow-2d($error-color-darker);
+  }
+
+  .panel-heading &.btn-add, &.btn-inv {
     color: $main-color;
     background-color: $font-color-inverse;
     padding: 0 6px;
-    @include shadow-2d($main-color-darker);
+    @include shadow-2d($grey-darker);
 
     &:hover, &:focus, &:active {
       border-bottom: none;
@@ -310,29 +339,55 @@ a {
 }
 
 /** Style calendar. **/
+.event, #calendar-dates .fc-event {
+  color: $font-color;
+  background-color: $font-color-inverse;
+  @include shadow-2d($grey-darker);
+  padding-bottom: 1em;
+  margin-bottom: 0.5em;
+}
+
+.event-not-going, #calendar-dates .fc-event.event-not-going {
+  color: $font-color-inverse;
+  background-color: $grey;
+  @include shadow-2d($grey-darker);
+}
+
 #calendar-dates {
   .fc-event {
-    color: $font-color-inverse;
-    background-color: $main-color;
-    @include shadow-2d($main-color-darker);
-    font-size: 1em;
+    border-left: 9px solid $main-color;
+    padding-left: 3px;
 
-    &.event-gig {
-      color: $font-color-inverse;
-      background-color: orangered;
-      @include shadow-2d(darkred);
+    &:after {
+      background-color: $main-color-darker;
+      width: 9px;
+      height: 3px;
+      content: "";
+      display: block;
+      position: absolute;
+      bottom: -3px;
+      left: -9px;
     }
+  }
 
-    &.event-birthday {
-      color: $font-color-inverse;
-      background-color: green;
-      @include shadow-2d(darkgreen);
+  .event-rehearsal {
+    border-left-color: $main-color;
+    &:after {
+      background-color: $main-color-darker;
     }
+  }
 
-    &.event-rehearsal {
-      color: $font-color-inverse;
-      background-color: $main-color;
-      @include shadow-2d($main-color-darker);
+  .event-gig {
+    border-left-color: $warning-color;
+    &:after {
+      background-color: $warning-color-darker;
+    }
+  }
+
+  .event-birthday {
+    border-left-color: $success-color;
+    &:after {
+      background-color: $success-color-darker;
     }
   }
 
@@ -355,33 +410,101 @@ a {
 }
 
 #list-dates {
-  .event {
-    color: $font-color-inverse;
-    padding-bottom: 1em;
-    margin-bottom: 0.5em;
-  }
+  .event-controls {
+    font-size: 1.2em;
+    margin-top: 1em;
 
-  .event-gig {
-    background-color: orangered;
-    @include shadow-2d(darkred);
-  }
-
-  .event-birthday {
-    background-color: green;
-    @include shadow-2d(darkgreen);
-  }
-
-  .event-rehearsal {
-    background-color: $main-color;
-    @include shadow-2d($main-color-darker);
+    .btn {
+      font-size: 1em;
+    }
   }
 
   .date {
     font-size: 1.2em;
   }
 
-  .list-item a {
-    padding: 0;
+  .event-rehearsal.context-box-2d {
+    border-left-color: $main-color;
+    &:after {
+      background-color: $main-color-darker;
+    }
+  }
+
+  .event-gig.context-box-2d {
+    border-left-color: $warning-color;
+    &:after {
+      background-color: $warning-color-darker;
+    }
+  }
+
+  .event-birthday.context-box-2d {
+    border-left-color: $success-color;
+    &:after {
+      background-color: $success-color-darker;
+    }
+  }
+}
+
+.slider-2d {
+  input[type="checkbox"] {
+    display: none;
+  }
+
+  label {
+    color: $font-color;
+    @include noselect();
+    cursor: pointer;
+
+    i {
+      position: relative;
+      padding: 10px 12px;
+
+      &.label-on {
+        color: $success-color-lighter;
+        background-color: $success-color;
+        @include shadow-2d($success-color-darker);
+        margin-left: -5px;
+        top: 0;
+      }
+
+      &.label-off {
+        color: $error-color-lighter;
+        background-color: $error-color;
+        border-bottom: none;
+        top: 3px;
+      }
+    }
+  }
+
+  input[type="checkbox"]:checked + label {
+    i {
+      &.label-on {
+        background-color: $success-color;
+        border-bottom: none;
+        top: 3px;
+      }
+
+      &.label-off {
+        background-color: $error-color;
+        @include shadow-2d($error-color-darker);
+        top: 0;
+      }
+    }
+  }
+}
+
+.context-box-2d {
+  border-left: 9px solid $main-color;
+
+  &:after {
+    background-color: $main-color-darker;
+    width: 9px;
+    height: 3px;
+    content: "";
+    display: block;
+    position: absolute;
+    bottom: -3px;
+    left: -9px;
   }
 }
 
@@ -550,9 +673,9 @@ div.checkbox input, div.radio input {
   }
 
   &.notifyjs-shadow2d-success {
-    color: #3c763d;
-    background-color: #d9edf7;
-    @include shadow-2d(#3c763d);
+    color: $success-color;
+    background-color: $success-color-lighter;
+    @include shadow-2d($success-color-darker);
 
     &:before {
       content: "\f00c";
@@ -560,15 +683,15 @@ div.checkbox input, div.radio input {
   }
 
   &.notifyjs-shadow2d-warning {
-    color: #8a6d3b;
-    background-color: #fcf8e3;
-    @include shadow-2d(#8a6d3b);
+    color: $warning-color;
+    background-color: $warning-color-lighter;
+    @include shadow-2d($warning-color-darker);
   }
 
   &.notifyjs-shadow2d-danger {
-    color: #a94442;
-    background-color: #f2dede;
-    @include shadow-2d(#a94442);
+    color: $error-color;
+    background-color: $error-color-lighter;
+    @include shadow-2d($error-color-darker);
   }
 
   &.notifyjs-shadow2d-help {
@@ -590,6 +713,6 @@ div.checkbox input, div.radio input {
   color: $main-color;
   i {
     font-size: 1.5em;
-    line-height: 0em;
+    line-height: 0;
   }
 }

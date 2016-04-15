@@ -20,4 +20,12 @@ return [
     'not_found'           => 'Termin nicht gefunden',
     'success'             => 'Termin erfolgreich gespeichert',
     'delete_success'      => 'Termin wurde gelöscht',
+    'attendance_saved'    => 'Anwesenheit wurde eingetragen',
+    'excuse_saved'        => 'Abwesenheit wurde eingetragen',
+    'attendance_error'    => 'Anwesenheit konnte nicht gespeichert werden. Bitte erneut probieren.',
+    'excuse_error'        => 'Abwesenheit konnte nicht gespeichert werden. Bitte erneut probieren.',
+    'not_attending'       => 'Termin abgesagt',
+    'excuse'              => 'Termin absagen',
+    'attend'              => 'Termin zusagen',
+    'excuse_comment'      => 'Entschuldigung (optional)',
 ];
