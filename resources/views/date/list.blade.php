@@ -34,6 +34,10 @@
                         </div>
 
                         <div class="panel-body" id="list-dates">
+                            <form id="excuse-form" class="modal" style="display: none;">
+                                {!! Form::textInput2d('excuse', null, ['placeholder' => trans('form.optional')]) !!}
+                                {!! Form::submitInput2d([], trans('date.excuse')) !!}
+                            </form>
                             @include('date.settings_bar', ['view_type' => 'list'])
                             @each('date.list.row', $dates, 'date')
                         </div>
@@ -88,16 +92,23 @@
             // Do we need to excuse the user or is she attending?
             // If the slider's checkbox is "checked" we have to excuse her.
             var currentlyAttending = $(sliderElement).find('input[type="checkbox"]').prop('checked');
-            var url = '', excuse = '';
+            var url = '';
             if (currentlyAttending) {
                 url = $(sliderElement).data('excuse-url');
 
-                excuse = prompt('{{ trans('date.excuse_comment') }}');
+                //excuse = prompt('{{ trans('date.excuse_comment') }}');
+                $('#excuse-form').attr('action', url)
+                    .data('currentlyAttending', currentlyAttending)
+                    .data('sliderElement', sliderElement)
+                    .modal();
             } else {
                 url = $(sliderElement).data('attend-url');
+                saveAttendance(url, sliderElement, currentlyAttending, null);
             }
+        }
 
-            // Request the url via post, include csrf-token.
+        function saveAttendance(url, sliderElement, currentlyAttending, excuse) {
+            // Request the url via post, include csrf-token and comment.
             $.post(url, {
                 _token: '{{ csrf_token() }}',
                 comment: excuse
@@ -120,8 +131,23 @@
                     // Make slider active again.
                     $(sliderElement).removeClass('inactive');
                 }
+
+                $.modal.close();
             },
             'json');
         }
+
+        $(document).ready(function () {
+            $('#excuse-form').submit(function (event) {
+                event.preventDefault();
+
+                saveAttendance($(this).attr('action'),
+                    $(this).data('sliderElement'),
+                    $(this).data('currentlyAttending'),
+                    $('#excuse').val());
+
+                $('#excuse').val('');
+            });
+        });
     </script>
 @endsection

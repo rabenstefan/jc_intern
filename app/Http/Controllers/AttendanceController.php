@@ -10,7 +10,6 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 
 class AttendanceController extends Controller {
-
     /**
      * AttendanceController constructor.
      *

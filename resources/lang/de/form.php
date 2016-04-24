@@ -38,4 +38,7 @@ return [
     'weekly'        => 'wöchentlich',
     'monthly'       => 'monatlich',
     'edit'          => 'Bearbeiten',
+    'search'        => 'Suchen',
+    'excuse'        => 'Entschuldigung',
+    'optional'      => '(optional)',
 ];

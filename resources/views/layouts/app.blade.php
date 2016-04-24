@@ -17,6 +17,7 @@
 
     <!-- JavaScripts -->
     {!! Html::script('js/jquery.min.js') !!}
+    {!! Html::script('js/jquery.modal.min.js') !!}
     {!! Html::script('js/all.js') !!}
     @yield('additional_js_files')
 
