@@ -37,7 +37,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::resource('rehearsal', 'RehearsalController', [
         'except' => ['index']
     ]);
-
+    Route::get('rehearsal/attendance/list/{id?}', 'AttendanceController@listMissing')->name('attendance.listMissing');
     Route::post('rehearsal/attend/{rehearsal_id}', 'AttendanceController@confirmSelf')->name('attendance.confirmSelf');
     Route::post('rehearsal/excuse/{rehearsal_id}', 'AttendanceController@excuseSelf')->name('attendance.excuseSelf');
 
@@ -45,7 +45,7 @@ Route::group(['middleware' => 'web'], function () {
         'except' => ['index']
     ]);
 
-    Route::get('dates/{view_type?}/', 'DateController@index')->name('date.index');
+    Route::get('dates/{view_type?}', 'DateController@index')->name('date.index');
 
     Route::group(['middleware' => 'admin'], function() {
         Route::resource('role', 'RoleController');

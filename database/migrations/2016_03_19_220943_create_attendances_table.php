@@ -27,6 +27,30 @@ class CreateAttendancesTable extends Migration
             $table->boolean('missed')->default(false);
             $table->timestamps();
         });
+
+        Schema::create('attendance_user', function (Blueprint $table) {
+            $table->increments('id');
+
+            $table->integer('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+
+            $table->integer('attendance_id')->unsigned()->default(0);
+            $table->foreign('attendance_id')->references('id')->on('attendances')->onDelete('cascade');
+
+            $table->timestamps();
+        });
+
+        Schema::create('attendance_rehearsal', function (Blueprint $table) {
+            $table->increments('id');
+
+            $table->integer('rehearsal_id')->unsigned();
+            $table->foreign('rehearsal_id')->references('id')->on('rehearsals')->onDelete('cascade');
+
+            $table->integer('attendance_id')->unsigned()->default(0);
+            $table->foreign('attendance_id')->references('id')->on('attendances')->onDelete('cascade');
+
+            $table->timestamps();
+        });
     }
 
     /**
@@ -34,8 +58,9 @@ class CreateAttendancesTable extends Migration
      *
      * @return void
      */
-    public function down()
-    {
+    public function down() {
+        Schema::drop('attendance_user');
+        Schema::drop('attendance_rehearsal');
         Schema::drop('attendances');
     }
 }

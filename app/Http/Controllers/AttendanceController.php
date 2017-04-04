@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Attendance;
 use App\Rehearsal;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -19,6 +20,26 @@ class AttendanceController extends Controller {
         $this->middleware('auth');
 
         $this->middleware('admin:rehearsal', ['except' => 'excuseSelf']);
+    }
+
+    public function listMissing ($id = null) {
+        //TODO: Select right rehearsals (only of current semester).
+        $rehearsals = Rehearsal::where('start', '<=', Carbon::now())->orderBy('start', 'asc')->get();
+
+        if (null === $id || (null === ($rehearsal = Rehearsal::find($id)))) {
+            // Get current or last rehearsal.
+            $rehearsal = $rehearsals->last();
+        }
+
+        $users = User::with(['attendances' => function ($query) use ($rehearsal) {
+            return $query->where('rehearsal_id', $rehearsal->id)->get();
+        }])->get();
+
+        return view('date.rehearsal.listMissing', [
+            'currentRehearsal' => $rehearsal,
+            'users'     => $users,
+            'rehearsals'=> $rehearsals
+        ]);
     }
 
     /**
@@ -145,8 +166,12 @@ class AttendanceController extends Controller {
             // Make new attendance.
             $attendance = new Attendance();
 
-            $attendance->user_id      = $user->id;
+            $attendance->user_id = $user->id;
             $attendance->rehearsal_id = $rehearsal->id;
+
+            // Connect to user and rehearsal via pivot tables.
+            $user->attendances()->save($attendance);
+            $rehearsal->attendances()->save($attendance);
         }
 
         // Set attributes accordingly.

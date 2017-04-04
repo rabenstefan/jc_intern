@@ -6056,16 +6056,17 @@ i.fa {
   user-select: none;
   /* non-prefixed version, currently
                                   not supported by any browser */
-  cursor: pointer; }
+  cursor: pointer;
+  font-size: 1.2em; }
   .slider-2d label i {
     position: relative;
     padding: 10px 12px; }
     .slider-2d label i.label-on {
-      color: #dff0d8;
-      background-color: #5cb85c;
+      color: #5cb85c;
+      background-color: #dff0d8;
       border-radius: 0;
       border: none;
-      border-bottom: 3px solid #3c763d;
+      border-bottom: 3px solid #5cb85c;
       box-shadow: none;
       margin-left: -5px;
       top: 0; }
@@ -6076,15 +6077,17 @@ i.fa {
       top: 3px; }
 
 .slider-2d input[type="checkbox"]:checked + label i.label-on {
+  color: #dff0d8;
   background-color: #5cb85c;
   border-bottom: none;
   top: 3px; }
 
 .slider-2d input[type="checkbox"]:checked + label i.label-off {
-  background-color: #d9534f;
+  color: #d9534f;
+  background-color: #f2dede;
   border-radius: 0;
   border: none;
-  border-bottom: 3px solid #a94442;
+  border-bottom: 3px solid #d9534f;
   box-shadow: none;
   top: 0; }
 
@@ -6275,5 +6278,12 @@ div.checkbox input, div.radio input {
   .help-bubble i {
     font-size: 1.5em;
     line-height: 0; }
+
+.names {
+  padding-top: 1em; }
+
+.sliders {
+  padding-top: 0.2em;
+  font-size: 1.2em; }
 
 /*# sourceMappingURL=app.css.map */

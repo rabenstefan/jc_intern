@@ -15,7 +15,6 @@ use MaddHatter\LaravelFullcalendar\Event;
 use MaddHatter\LaravelFullcalendar\Facades\Calendar;
 
 class DateController extends Controller {
-
     private $view_types = [
         'calendar' => 'calendarIndex',
         'list'     => 'listIndex',

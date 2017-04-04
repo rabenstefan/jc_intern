@@ -4,8 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Attendance extends \Eloquent
-{
+class Attendance extends \Eloquent {
     protected $casts = [
         'excused' => 'boolean',
         'missed'  => 'boolean',
@@ -17,5 +16,14 @@ class Attendance extends \Eloquent
 
     public function rehearsal() {
         return $this->hasOne('App\Rehearsal');
+    }
+
+    /**
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param Integer $rehearsalId
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeForRehearsal ($query, $rehearsalId) {
+        return $query->where('rehearsal_id', $rehearsalId);
     }
 }

@@ -96,7 +96,7 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Sheet');
     }
 
-    public function attendance(){
+    public function attendances(){
         return $this->belongsToMany('App\Attendance');
     }
 
@@ -131,13 +131,29 @@ class User extends Authenticatable
         return (null !== $matching_role) && ($matching_role->getAttributeValue('only_own_voice'));
     }
 
+    /**
+     * Function to determine if a user has missed (or will miss) a rehearsal.
+     *
+     * @param $rehearsalId
+     * @return bool
+     */
+    public function missedRehearsal($rehearsalId) {
+        // Get all currently available attendances and filter by the rehearsal ID. Take the first find.
+        $attendance = $this->attendances->filter(function ($value, $key) use ($rehearsalId) {
+            return $value->rehearsal_id == $rehearsalId;
+        })->first();
+
+        // If there is no attendance return "missed".
+        return (null === $attendance) || $attendance->missed;
+    }
+
     public static function getMusicalLeader() {
         return User::whereHas('roles', function ($query) {
             $query->where('musical_leadership', 1);
         })->get();
     }
 
-    public static function getUsersOfVoice($voice_id) {
-        return User::where(['voice_id' => $voice_id, 'last_echo' => Semester::current()->id])->get();
+    public static function getUsersOfVoice($voiceId) {
+        return User::where(['voice_id' => $voiceId, 'last_echo' => Semester::current()->id])->get();
     }
 }

@@ -42,7 +42,7 @@ class Rehearsal extends \Eloquent implements IdentifiableEvent {
         return $this->hasOne('App\Voice');
     }
 
-    public function attendance() {
+    public function attendances() {
         return $this->belongsToMany('App\Attendance');
     }
 

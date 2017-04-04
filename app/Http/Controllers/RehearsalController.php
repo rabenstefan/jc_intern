@@ -128,7 +128,7 @@ class RehearsalController extends Controller {
         $voices = [];
         // If user rights are restricted only give her voice back.
         if (\Auth::user()->adminOnlyOwnVoice('rehearsal')) {
-            $voices[\Auth::user()->voice()->id] = \Auth::user()->voice()->name;
+            $voices[\Auth::user()->voice->id] = \Auth::user()->voice->name;
         } else {
             $voices = Voice::all()->pluck('name', 'id')->toArray();
         }

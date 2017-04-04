@@ -28,4 +28,7 @@ return [
     'excuse'              => 'Termin absagen',
     'attend'              => 'Termin zusagen',
     'excuse_comment'      => 'Entschuldigung (optional)',
+    'rehearsal_listMissing_title' => 'Verpasste Proben',
+    'missed'              => 'verpasst',
+    'attended'            => 'teilgenommen',
 ];

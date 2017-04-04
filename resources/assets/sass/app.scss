@@ -530,15 +530,16 @@ i.fa {
     color: $font-color;
     @include noselect();
     cursor: pointer;
+    font-size: 1.2em;
 
     i {
       position: relative;
       padding: 10px 12px;
 
       &.label-on {
-        color: $success-color-lighter;
-        background-color: $success-color;
-        @include shadow-2d($success-color-darker);
+        color: $success-color;
+        background-color: $success-color-lighter;
+        @include shadow-2d($success-color);
         margin-left: -5px;
         top: 0;
       }
@@ -555,14 +556,16 @@ i.fa {
   input[type="checkbox"]:checked + label {
     i {
       &.label-on {
+        color: $success-color-lighter;
         background-color: $success-color;
         border-bottom: none;
         top: 3px;
       }
 
       &.label-off {
-        background-color: $error-color;
-        @include shadow-2d($error-color-darker);
+        color: $error-color;
+        background-color: $error-color-lighter;
+        @include shadow-2d($error-color);
         top: 0;
       }
     }
@@ -792,3 +795,13 @@ div.checkbox input, div.radio input {
     line-height: 0;
   }
 }
+
+.names {
+  padding-top: 1em;
+}
+
+.sliders {
+  padding-top: 0.2em;
+  font-size: 1.2em;
+}
+
