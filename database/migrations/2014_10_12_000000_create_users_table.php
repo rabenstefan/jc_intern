@@ -30,7 +30,7 @@ class CreateUsersTable extends Migration
             $table->foreign('voice_id')->references('id')->on('voices')->onDelete('set default');
 
             // Letzte Semester-Rueckmeldung.
-            $table->integer('last_echo')->unsigned()->nullable()->default('null');
+            $table->integer('last_echo')->unsigned()->nullable()->default(null);
             $table->foreign('last_echo')->references('id')->on('semesters')->onDelete('set null');
 
             $table->rememberToken();
