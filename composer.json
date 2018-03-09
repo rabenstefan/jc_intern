@@ -6,7 +6,7 @@
     "type": "project",
     "require": {
         "php": ">=5.5.9",
-        "laravel/framework": "5.2.*",
+        "laravel/framework": "5.2.31",
         "barryvdh/laravel-ide-helper": "v2.1.4",
         "laravelcollective/html": "5.2.*",
         "maddhatter/laravel-fullcalendar": "^1.2"
