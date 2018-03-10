@@ -11,13 +11,20 @@
                 <h4 class="title">
                     {{ $date->getTitle() }}
                     <span class="not-going-note" style="display: <?php echo $notAttending ? 'inline' : 'none'; ?>;">{{  ' &ndash; ' . trans('date.not_attending') }}</span>
+                    @if($date->hasPlace())
+                        <br>
+                        {{ $date->place }}
+                        <a href="https://www.google.com/maps/search/{{ $date->place }}/" title="{{ trans('date.address_search') }}" target="_blank" class="pull-right text-large">{{ trans('date.goto_maps') }} <i class="fa fa-map-o"></i></a>
+                    @endif
                 </h4>
 
                 <p class="date">
                     @if($date->isAllDay())
-                        {{ $date->getStart()->format('d.m.Y') }}
+                        {{ $date->getStart()->formatLocalized('%A, den %d.%m.%Y') }}
                     @else
-                        {{ $date->getStart()->format('d.m.Y H:i') }} - {{ $date->getEnd()->format('d.m.Y H:i') }}
+                        {{ $date->getStart()->formatLocalized('%A, den %d.%m.%Y') }}
+                        <br>
+                        {{ $date->getStart()->formatLocalized('%H:%M') . ' - ' . $date->getEnd()->formatLocalized('%H:%M') }}
                     @endif
                 </p>
                 <span class="date_descr">

@@ -31,6 +31,10 @@ class AttendanceController extends Controller {
             $rehearsal = $rehearsals->last();
         }
 
+        if (null === $rehearsal) {
+            return back()->withErrors(trans('date.no_last_rehearsal'));
+        }
+
         $users = User::with(['attendances' => function ($query) use ($rehearsal) {
             return $query->where('rehearsal_id', $rehearsal->id)->get();
         }])->get();
@@ -40,6 +44,40 @@ class AttendanceController extends Controller {
             'users'     => $users,
             'rehearsals'=> $rehearsals
         ]);
+    }
+
+    /**
+     * Function for an admin to login if someone attends or is missing.
+     *
+     * @param Request $request
+     * @param Integer $rehearsalId
+     * @param Integer $userId
+     * @param Boolean $attending
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function changeAttendance (Request $request, $rehearsalId, $userId, $attending) {
+        // Try to get the rehearsal.
+        $rehearsal = Rehearsal::find($rehearsalId);
+
+        if (null === $rehearsal) {
+            if ($request->wantsJson()) {
+                return \Response::json(['success' => false, 'message' => trans('date.rehearsal_not_found')]);
+            } else {
+                return back()->withErrors(trans('date.rehearsal_not_found'));
+            }
+        }
+
+        // Try to get the user.
+        $user = User::find($userId);
+
+        // If we arrive here everything went fine.
+        $message = $attending ? trans('date.attendance_saved') : trans('date.excuse_saved');
+        if ($request->wantsJson()) {
+            return \Response::json(['success' => true, 'message' => $message]);
+        } else {
+            $request->session()->flash('message_success', $message);
+            return back();
+        }
     }
 
     /**

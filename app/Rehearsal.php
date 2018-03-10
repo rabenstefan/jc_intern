@@ -56,7 +56,7 @@ class Rehearsal extends \Eloquent implements IdentifiableEvent {
      * @return string
      */
     public function getTitle() {
-        return $this->title . (isset($this->place) ? ",\n" . $this->place : '');
+        return $this->title;
     }
 
     /**
@@ -84,6 +84,15 @@ class Rehearsal extends \Eloquent implements IdentifiableEvent {
      */
     public function getEnd() {
         return $this->end;
+    }
+
+    /**
+     * Check if this date has a place
+     *
+     * @return Boolean
+     */
+    public function hasPlace() {
+        return isset($this->place);
     }
 
     /**
@@ -118,7 +127,7 @@ class Rehearsal extends \Eloquent implements IdentifiableEvent {
      *
      * @param array $columns
      * @param bool $with_old
-     * @return static
+     * @return Rehearsal|\Eloquent[]|\Illuminate\Database\Eloquent\Collection
      */
     public static function all($columns = ['*'], $with_old = false) {
         if ($with_old) {

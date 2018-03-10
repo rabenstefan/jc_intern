@@ -54,6 +54,7 @@
          * Switches a slider to the opposite value.
          *
          * @param sliderElement
+         * @param currentState
          * @return Boolean success
          */
         function sliderSwitch (sliderElement, currentState) {
@@ -63,6 +64,12 @@
             return true;
         }
 
+        /**
+         * Switch
+         *
+         * @param sliderElement
+         * @param currentState
+         */
         function eventSwitch (sliderElement, currentState) {
             if ($(sliderElement).hasClass('inactive')) return false;
 

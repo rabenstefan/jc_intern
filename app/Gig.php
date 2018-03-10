@@ -45,7 +45,7 @@ class Gig extends \Eloquent implements IdentifiableEvent {
      * @return string
      */
     public function getTitle() {
-        return $this->title . (isset($this->place) ? ",\n" . $this->place : '');
+        return $this->title;
     }
 
     /**
@@ -73,6 +73,15 @@ class Gig extends \Eloquent implements IdentifiableEvent {
      */
     public function getEnd() {
         return $this->end;
+    }
+
+    /**
+     * Check if this date has a place
+     *
+     * @return Boolean
+     */
+    public function hasPlace() {
+        return isset($this->place);
     }
 
     /**

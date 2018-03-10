@@ -9,6 +9,7 @@ return [
     'index_title'         => 'Termine',
     'gig_not_found'       => 'Auftritt nicht gefunden',
     'rehearsal_not_found' => 'Probe nicht gefunden',
+    'no_last_rehearsal'   => 'Keine Probe in der Vergangenheit gefunden',
     'gig_create_title'    => 'Auftritt erstellen',
     'gig_show_title'      => 'Auftritt bearbeiten',
     'rehearsal_create_title'=> 'Probe erstellen',
@@ -31,4 +32,6 @@ return [
     'rehearsal_listMissing_title' => 'Probenteilnahme',
     'missed'              => 'verpasst',
     'attended'            => 'teilgenommen',
+    'goto_maps'           => 'Anfahrt',
+    'address_search'      => 'Auf Google Maps suchen',
 ];

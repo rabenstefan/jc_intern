@@ -42,7 +42,7 @@ class Birthday implements Event {
      * @return string
      */
     public function getTitle() {
-        return $this->title . (isset($this->place) ? "\n" . $this->place : '');
+        return $this->title;
     }
 
     /**
@@ -70,6 +70,15 @@ class Birthday implements Event {
      */
     public function getEnd() {
         return $this->end;
+    }
+
+    /**
+     * Check if this date has a place
+     *
+     * @return Boolean
+     */
+    public function hasPlace() {
+        return false;
     }
 
     /**
