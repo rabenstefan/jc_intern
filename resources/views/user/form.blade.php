@@ -22,9 +22,6 @@
             </div>
             <div class="hidden-xs hidden-sm col-xs-12 col-md-6">
                 {!! Form::passwordInput2d('password') !!}
-                @if(empty($user))
-                    <p>{{ trans('user.password_note') }}</p>
-                @endif
                 <span class="center-block">
                     {!! Form::submit(trans('form.save'), ['class' => 'btn btn-lg btn-2d']) !!}
                 </span>

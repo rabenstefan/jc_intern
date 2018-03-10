@@ -16,7 +16,7 @@ class UserController extends Controller {
         'first_name'=> 'required|alpha|max:255',
         'last_name' => 'required|alpha|max:255',
         'email'     => 'required|email',
-        'password'  => 'size:8',
+        'password'  => 'required|size:8',
         'voice_id'  => 'required|integer|min:0',
         'birthday'  => 'date|after:1900-01-01',
         'address_zip'   => 'integer',
