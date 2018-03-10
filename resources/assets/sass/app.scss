@@ -371,7 +371,7 @@ i.fa {
   height: inherit;
   @include shadow-2d($main-color-darker);
 
-  &:hover, &:focus, &:active {
+  &:hover, &:focus, &:active, &.btn-pressed {
     border-bottom: none !important;
     margin-top: 3px !important;
     color: #fff !important;
@@ -389,6 +389,21 @@ i.fa {
   }
 
   &.btn-error {
+    background-color: $error-color;
+    @include shadow-2d($error-color-darker);
+  }
+
+  &.btn-birthdays {
+    background-color: $success-color;
+    @include shadow-2d($success-color-darker);
+  }
+
+  &.btn-gigs {
+    background-color: $warning-color;
+    @include shadow-2d($warning-color-darker);
+  }
+
+  &.btn-all {
     background-color: $error-color;
     @include shadow-2d($error-color-darker);
   }
@@ -618,12 +633,14 @@ i.fa {
   }
 
   .panel-body {
+    padding: 10px;
     background-color: #fafafa;
     @include border-radius(0);
   }
 
   &.panel-2d-grey, & .panel-2d {
     .panel-heading {
+      padding: 5px 10px;
       color: $font-color;
       background-color: $grey;
       @include shadow-2d($grey-darker);
