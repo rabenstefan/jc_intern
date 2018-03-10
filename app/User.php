@@ -147,6 +147,29 @@ class User extends Authenticatable
         return (null === $attendance) || $attendance->missed;
     }
 
+
+    /**
+     * Count how many rehearsals have been missed (possibly including the future)
+     *
+     * @param bool $unexcused_only Only count if not excused
+     * @param bool $with_old include rehearsals prior to this semester
+     * @return int Number of missed rehearsals
+     */
+    public function missedRehearsalsCount($unexcused_only = false, $with_old=false) {
+        $all_rehearsals = Rehearsal::all(['id'], $with_old);
+        $conditions = [['missed', 1]];
+        if (true === $unexcused_only) {
+            array_push($conditions, ['excused', 0]);
+        }
+        return $this->attendances()->where($conditions)->whereIn('rehearsal_id', $all_rehearsals)->count();
+    }
+
+
+    public function unansweredGigsCount($with_old=false) {
+        $all_gigs = Gig::all(['id'], $with_old);
+        return $this->commitments()->whereIn('gig_id', $all_gigs)->count();
+    }
+
     public static function getMusicalLeader() {
         return User::whereHas('roles', function ($query) {
             $query->where('musical_leadership', 1);
