@@ -156,7 +156,7 @@ class User extends Authenticatable
      * @return int Number of missed rehearsals
      */
     public function missedRehearsalsCount($unexcused_only = false, $with_old=false) {
-        $all_rehearsals = Rehearsal::all('id', $with_old);
+        $all_rehearsals = Rehearsal::all(['id'], $with_old);
         $conditions = [['missed', 1]];
         if (true === $unexcused_only) {
             array_push($conditions, ['excused', 0]);
@@ -165,8 +165,9 @@ class User extends Authenticatable
     }
 
 
-    public function unansweredGigsCount() {
-
+    public function unansweredGigsCount($with_old=false) {
+        $all_gigs = Gig::all(['id'], $with_old);
+        return $this->commitments()->whereIn('gig_id', $all_gigs)->count();
     }
 
     public static function getMusicalLeader() {

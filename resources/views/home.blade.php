@@ -10,8 +10,7 @@
 
                 <div class="panel-body">
                     <div class="panel-element">{{ trans('home.unanswered_gigs', ['count' => Auth::user()->unansweredGigsCount()] ) }}</div>
-                    <div class="panel-element">{{ trans('home.missed_rehearsals', ['count' => Auth::user()->missedRehearsalsCount(),
-                        'count_unexcused' => Auth::user()->missedRehearsalsCount(true)]) }}</div>
+                    <div class="panel-element">{{ trans('home.missed_rehearsals', ['count' => Auth::user()->missedRehearsalsCount(), 'count_unexcused' => Auth::user()->missedRehearsalsCount(true)]) }}</div>
                     <div class="panel-element">{{ trans('home.next_rehearsal') }}</div>
                 </div>
             </div>
