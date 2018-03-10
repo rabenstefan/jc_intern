@@ -13,5 +13,6 @@ return [
     'dates_calendar'    => 'Kalender',
     'dates_list'        => 'Liste',
     'rehearsal_create'  => 'Probe planen',
+    'attendance_last_rehearsal' => 'Letzte Probenteilnahme',
     'gig_create'        => 'Auftritt planen',
 ];
