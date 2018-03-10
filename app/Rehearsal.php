@@ -4,6 +4,7 @@ namespace App;
 
 use DateTime;
 use MaddHatter\LaravelFullcalendar\IdentifiableEvent;
+use Carbon\Carbon;
 
 class Rehearsal extends \Eloquent implements IdentifiableEvent {
     protected $dates = ['start', 'end'];
@@ -126,5 +127,14 @@ class Rehearsal extends \Eloquent implements IdentifiableEvent {
         } else {
             return parent::where('semester_id', '>=', Semester::current()->id)->get($columns);
         }
+    }
+
+    /**
+     * Get the next rehersal after now()
+     *
+     * @return \Illuminate\Database\Eloquent\Model|null|static The next rehearsal
+     */
+    public static function getNextRehearsal() {
+        return Rehearsal::where('start', '>=', Carbon::now())->first();
     }
 }

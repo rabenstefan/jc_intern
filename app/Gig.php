@@ -4,6 +4,7 @@ namespace App;
 
 use DateTime;
 use MaddHatter\LaravelFullcalendar\IdentifiableEvent;
+use Carbon\Carbon;
 
 class Gig extends \Eloquent implements IdentifiableEvent {
     protected $dates = ['start', 'end'];
@@ -108,5 +109,14 @@ class Gig extends \Eloquent implements IdentifiableEvent {
         } else {
             return parent::where('semester_id', '>=', Semester::current()->id)->get($columns);
         }
+    }
+
+    /**
+     * Get the next gig after now().
+     *
+     * @return \Illuminate\Database\Eloquent\Model|null|static The next Gig
+     */
+    public static function getNextGig() {
+        return Gig::where('start', '>=', Carbon::now())->first();
     }
 }

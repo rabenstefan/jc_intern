@@ -1,5 +1,8 @@
 <?php
 
+setlocale(LC_TIME, 'German');
+Carbon\Carbon::setLocale('de');
+
 return [
 
     /*

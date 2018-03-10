@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests;
+use App\Rehearsal;
+use App\Gig;
 
 class HomeController extends Controller
 {
@@ -21,6 +23,20 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $next_rehearsal = Rehearsal::getNextRehearsal();
+        if (null === $next_rehearsal) {
+            $rehearsal = ['diff' => 'nie', 'datetime' => 'keine Probe gefunden', 'location' => 'nirgendwo'];
+        } else {
+            $rehearsal = ['diff' => $next_rehearsal->start->diffForHumans(), 'datetime' => $next_rehearsal->start->formatLocalized('%c'), 'location' => $next_rehearsal->place];
+        }
+
+        $next_gig = Gig::getNextGig();
+        if (null === $next_gig) {
+            $gig = ['diff' => 'nie', 'datetime' => 'keine Probe gefunden', 'location' => 'nirgendwo'];
+        } else {
+            $gig = ['diff' => $next_gig->start->diffForHumans(), 'datetime' => $next_gig->start->toDayDateTimeString(), 'location' => $next_gig->place];
+        }
+
+        return view('home', ['next_rehearsal' => $rehearsal, 'next_gig' => $gig]);
     }
 }
