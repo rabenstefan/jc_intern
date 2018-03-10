@@ -8,6 +8,7 @@ return [
     'last_name'     => 'Nachname',
     'email'         => 'E-Mail-Adresse',
     'birthday'      => 'Geburtstag',
+    'birthdays'     => 'Geburtstage',
     'password'      => 'Password',
     'phone'         => 'Telefonnummer',
     'address'       => 'Adresse',
