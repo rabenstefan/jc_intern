@@ -45,6 +45,8 @@ Route::group(['middleware' => 'web'], function () {
         'except' => ['index']
     ]);
 
+    Route::resource('sheet', 'SheetController');
+
     Route::get('dates/{view_type?}', 'DateController@index')->name('date.index');
 
     Route::group(['middleware' => 'admin'], function() {

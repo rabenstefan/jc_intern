@@ -29,6 +29,7 @@ class CreateSheetsTable extends Migration
             $table->foreign('sheet_id')->references('id')->on('sheets')->onDelete('cascade');
 
             $table->integer('number')->unsigned(); // Seriennummer des Heftes.
+            $table->string('status');
 
             $table->timestamps();
         });

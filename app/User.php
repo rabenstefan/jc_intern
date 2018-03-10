@@ -62,6 +62,7 @@ class User extends Authenticatable
     protected  $adminAreas = [
         'rehearsal' => 'can_plan_rehearsal',
         'gig'       => 'can_plan_gig',
+        'sheet'     => 'can_organise_sheets',
         'configure' => 'can_configure_system',
     ];
 
