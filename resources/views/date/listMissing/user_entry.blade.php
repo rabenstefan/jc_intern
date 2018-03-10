@@ -9,8 +9,8 @@
     <span class="slider-2d" data-function="changeAttendance" data-attendance-url="{{ route('attendance.changeAttendance', ['rehearsal_id' => $currentRehearsal->id, 'user_id' => $user->id]) }}">
         <input type="checkbox"<?php echo $user->missedRehearsal($currentRehearsal->id) ? '' : ' checked="checked"'; ?> id="slider-attending-{{ $user->id }}">
         <label for="slider-attending-{{ $user->id }}">
-            <i class="fa fa-calendar-times-o label-off" title="{{ trans('date.missed') }}"></i>
-            <i class="fa fa-calendar-check-o label-on" title="{{ trans('date.attended') }}"></i>
+            <i class="fa fa-times label-off" title="{{ trans('date.missed') }}"></i>
+            <i class="fa fa-check label-on" title="{{ trans('date.attended') }}"></i>
         </label>
     </span>
 </div>
