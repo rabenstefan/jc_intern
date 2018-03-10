@@ -135,7 +135,7 @@ class Rehearsal extends \Eloquent implements IdentifiableEvent {
         if ($with_old) {
             return parent::all($columns);
         } else {
-            return parent::where('semester_id', '>=', Semester::current()->id)->get($columns);
+            return parent::where('start', '>=', Carbon::today())->get($columns);
         }
     }
 

@@ -111,13 +111,13 @@ class Gig extends \Eloquent implements IdentifiableEvent {
      *
      * @param array $columns
      * @param bool $with_old
-     * @return static
+     * @return Gig|\Eloquent[]|\Illuminate\Database\Eloquent\Collection
      */
     public static function all($columns = ['*'], $with_old = false) {
         if ($with_old) {
             return parent::all($columns);
         } else {
-            return parent::where('semester_id', '>=', Semester::current()->id)->get($columns);
+            return parent::where('start', '>=', Carbon::today())->get($columns);
         }
     }
 
