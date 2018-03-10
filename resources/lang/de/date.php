@@ -16,6 +16,8 @@ return [
     'rehearsal_show_title'=> 'Probe bearbeiten',
     'gigs'                => 'Auftritte',
     'rehearsals'          => 'Proben',
+    'birthday'            => 'Geburtstag',
+    'birthdays'           => 'Geburtstage',
     'show_only'           => 'Anzeigen',
     'add_date'            => 'Termin hinzufügen',
     'not_found'           => 'Termin nicht gefunden',
