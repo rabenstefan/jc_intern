@@ -40,6 +40,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('rehearsal/attendance/list/{id?}', 'AttendanceController@listMissing')->name('attendance.listMissing');
     Route::post('rehearsal/attend/{rehearsal_id}', 'AttendanceController@confirmSelf')->name('attendance.confirmSelf');
     Route::post('rehearsal/excuse/{rehearsal_id}', 'AttendanceController@excuseSelf')->name('attendance.excuseSelf');
+    Route::post('rehearsal/attend/{rehearsal_id}/{user_id}', 'AttendanceController@changeAttendance')->name('attendance.changeAttendance');
 
     Route::resource('gig', 'GigController', [
         'except' => ['index']

@@ -51,7 +51,7 @@
 @section('js')
     <script type="text/javascript">
         /**
-         * Switches a slider to the opposite value.
+         * Switches a slider to the opposite value. Sets the corresponding checkbox.
          *
          * @param sliderElement
          * @param currentState
@@ -65,7 +65,7 @@
         }
 
         /**
-         * Switch
+         * Switch the whole event-box to "off" (grey out so that the user knows he is not attending).
          *
          * @param sliderElement
          * @param currentState
@@ -89,6 +89,8 @@
 
         /**
          * Handles AJAX-call to change the attendance of a rehearsal.
+         *
+         * This method is called from the main.js via the "data-function" attribute on the switch for attendance.
          *
          * @param sliderElement
          */
@@ -114,6 +116,14 @@
             }
         }
 
+        /**
+         * Function only calls API via POST and handles the returned messages.
+         *
+         * @param url
+         * @param sliderElement
+         * @param currentlyAttending
+         * @param excuse
+         */
         function saveAttendance(url, sliderElement, currentlyAttending, excuse) {
             // Request the url via post, include csrf-token and comment.
             $.post(url, {
@@ -145,6 +155,7 @@
         }
 
         $(document).ready(function () {
+            // On submission of the form in the modal.
             $('#excuse-form').submit(function (event) {
                 event.preventDefault();
 
@@ -154,6 +165,10 @@
                     $('#excuse').val());
 
                 $('#excuse').val('');
+            }).on($.modal.CLOSE, function () {
+                // If the modal gets closed without entering the form reset and release switch.
+                // Make all sliders active again.
+                $('.slider-2d').removeClass('inactive');
             });
         });
     </script>

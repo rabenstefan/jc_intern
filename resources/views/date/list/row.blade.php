@@ -43,7 +43,7 @@
                     <span class="slider-2d" data-function="changeAttendance" data-excuse-url="{{ route('attendance.excuseSelf', ['rehearsal_id' => $date->getId()]) }}" data-attend-url="{{ route('attendance.confirmSelf', ['rehearsal_id' => $date->getId()]) }}">
                         <input type="checkbox"<?php echo $notAttending ? '' : ' checked="checked"'; ?> id="slider-attending-{{ $date->getShortName() }}-{{ $date->getId() }}">
                         <label for="slider-attending-{{ $date->getShortName() }}-{{ $date->getId() }}">
-                            <i class="fa fa-calendar-times-o label-off" title="{{ trans('date.excuse') }}"></i>
+                            <i class="fa fa-calendar-minus-o label-off" title="{{ trans('date.excuse') }}"></i>
                             <i class="fa fa-calendar-check-o label-on" title="{{ trans('date.attend') }}"></i>
                         </label>
                     </span>

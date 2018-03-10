@@ -66,6 +66,7 @@ class Rehearsal extends \Eloquent implements IdentifiableEvent {
      * @return bool
      */
     public function isAllDay() {
+        //TODO: Add all day logic
         return false;
     }
 

@@ -32,6 +32,10 @@ return [
     'rehearsal_listMissing_title' => 'Probenteilnahme',
     'missed'              => 'verpasst',
     'attended'            => 'teilgenommen',
+    'excused'             => 'entschuldigt',
     'goto_maps'           => 'Anfahrt',
     'address_search'      => 'Auf Google Maps suchen',
+    'user_not_given'      => 'Nutzer nicht gegeben',
+    'user_not_found'      => 'Nutzer nicht gefunden',
+    'attendance_not_given' => 'Anwesenheit oder Abwesenheit nicht gegeben',
 ];

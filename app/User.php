@@ -147,6 +147,21 @@ class User extends Authenticatable
         return (null === $attendance) || $attendance->missed;
     }
 
+    /**
+     * Function to determine if a user has excused himself for a rehearsal.
+     *
+     * @param $rehearsalId
+     * @return bool
+     */
+    public function excusedRehearsal($rehearsalId) {
+        // Get all currently available attendances and filter by the rehearsal ID. Take the first find.
+        $attendance = $this->attendances->filter(function ($value, $key) use ($rehearsalId) {
+            return $value->rehearsal_id == $rehearsalId;
+        })->first();
+
+        // If there is no attendance return "missed".
+        return (null === $attendance ? false : $attendance->excused);
+    }
 
     /**
      * Count how many rehearsals have been missed (possibly including the future)
