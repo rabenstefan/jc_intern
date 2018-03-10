@@ -14,8 +14,8 @@ class DatesTableSeeder extends Seeder
         DB::table('rehearsals')->insert([
             'semester_id' => 1,
             'title'       => 'Schnupper-Probe',
-            'start'       => '2016-04-13 19:30:00',
-            'end'         => '2016-04-13 21:45:00',
+            'start'       => '2018-04-11 19:30:00',
+            'end'         => '2018-04-11 21:45:00',
             'place'       => 'Hörsaal X',
             'mandatory'   => true,
             'weight'      => 1.0,
@@ -24,8 +24,8 @@ class DatesTableSeeder extends Seeder
         DB::table('rehearsals')->insert([
             'semester_id' => 1,
             'title'       => 'Schnupper-Probe',
-            'start'       => '2016-04-20 19:30:00',
-            'end'         => '2016-04-20 21:45:00',
+            'start'       => '2018-04-18 19:30:00',
+            'end'         => '2018-04-18 21:45:00',
             'place'       => 'Hörsaal X',
             'mandatory'   => true,
             'weight'      => 1.0,
@@ -37,8 +37,8 @@ class DatesTableSeeder extends Seeder
             'semester_id' => 1,
             'title'       => 'Frühkonzert',
             'description' => 'Echt verdammt früh!',
-            'start'       => '2016-04-22 19:30:00',
-            'end'         => '2016-04-22 21:00:00',
+            'start'       => '2018-04-21 19:30:00',
+            'end'         => '2018-04-21 21:00:00',
             'place'       => 'Franziskuskirche',
         ]);
 
