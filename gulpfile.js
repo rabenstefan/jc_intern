@@ -21,6 +21,7 @@ elixir(function(mix) {
         'affix.js',
         'dropdown.js',
         'transition.js',
-        'collapse.js'
+        'collapse.js',
+        'js.cookie.js'
     ]);
 });

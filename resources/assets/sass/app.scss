@@ -708,6 +708,18 @@ i.fa {
     padding: 10px;
     background-color: #fafafa;
     @include border-radius(0);
+
+    .panel-element {
+      min-height: 6em;
+      padding: 10px;
+      margin-bottom: 1em;
+      background-color: $font-color-inverse;
+      border-top: 1em solid $main-color;
+
+      &.panel-element-warning {
+        border-top-color: $warning-color;
+      }
+    }
   }
 
   &.panel-2d-grey, & .panel-2d {
