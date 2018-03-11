@@ -11,4 +11,5 @@ return [
     'missed_rehearsals' => 'Du hast :count Proben verpasst, davon :count_unexcused unentschuldigt.',
     'next_rehearsal'    => 'Die nächste Probe ist :diff (:datetime). Ort: :location.',
     'next_gig'          => 'Der nächste Auftritt ist :diff (:datetime). Ort: :location.',
+    'upcoming_birthdays' => 'Insgesamt :count Geburtstage in den letzten 3 und den nächsten 10 Tagen.',
 ];

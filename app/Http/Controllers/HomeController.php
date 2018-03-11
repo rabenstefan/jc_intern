@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Birthday;
 use App\Http\Requests;
 use App\Rehearsal;
 use App\Gig;
+use Carbon\Carbon;
 
 class HomeController extends Controller
 {
@@ -37,6 +39,9 @@ class HomeController extends Controller
             $gig = ['diff' => $next_gig->start->diffForHumans(), 'datetime' => $next_gig->start->toDayDateTimeString(), 'location' => $next_gig->place];
         }
 
-        return view('home', ['next_rehearsal' => $rehearsal, 'next_gig' => $gig]);
+        //Consider Birthdays 3 days in the past and 10 days in the future
+        $upcoming_birthdays = Birthday::all()->filter(function($value) {
+            return $value->getStart()->gte(Carbon::now()->subDays(3)) && $value->getStart()->lte(Carbon::now()->addDays(10));});
+        return view('home', ['next_rehearsal' => $rehearsal, 'next_gig' => $gig, 'upcoming_birthdays' => $upcoming_birthdays]);
     }
 }
