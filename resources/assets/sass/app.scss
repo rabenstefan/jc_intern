@@ -379,12 +379,12 @@ i.fa {
     outline: none !important;
   }
 
-  &.btn-success, &.btn-birthdays, &.btn-yes {
+  &.btn-success, &.btn-birthday, &.btn-yes {
     background-color: $success-color;
     @include shadow-2d($success-color-darker);
   }
 
-  &.btn-warning, &.btn-gigs, &.btn-maybe {
+  &.btn-warning, &.btn-gig, &.btn-maybe {
     background-color: $warning-color;
     @include shadow-2d($warning-color-darker);
   }

@@ -20,7 +20,7 @@ class CreateRehearsalsTable extends Migration
             $table->dateTime('end');
             $table->string('place')->nullable();
 
-            $table->integer('voice_id')->unsigned()->default(0);
+            $table->integer('voice_id')->unsigned()->default(1);
             $table->foreign('voice_id')->references('id')->on('voices')->onDelete('cascade');
 
             $table->integer('semester_id')->unsigned();
