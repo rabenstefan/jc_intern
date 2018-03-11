@@ -25,7 +25,7 @@ class CreateSheetsTable extends Migration
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
-            $table->integer('sheet_id')->unsigned()->default(0);
+            $table->integer('sheet_id')->unsigned()->default(1);
             $table->foreign('sheet_id')->references('id')->on('sheets')->onDelete('cascade');
 
             $table->integer('number')->unsigned(); // Seriennummer des Heftes.

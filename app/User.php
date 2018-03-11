@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -193,5 +194,20 @@ class User extends Authenticatable
 
     public static function getUsersOfVoice($voiceId) {
         return User::where(['voice_id' => $voiceId, 'last_echo' => Semester::current()->id])->get();
+    }
+
+    /**
+     * No need for old users usually.
+     *
+     * @param array $columns
+     * @param bool $with_old
+     * @return User|\Eloquent[]|\Illuminate\Database\Eloquent\Collection
+     */
+    public static function all($columns = ['*'], $with_old = false) {
+        if ($with_old) {
+            return parent::all($columns);
+        } else {
+            return parent::where('last_echo', Semester::current()->id)->get($columns);
+        }
     }
 }
