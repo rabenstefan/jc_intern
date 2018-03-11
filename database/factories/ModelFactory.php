@@ -29,14 +29,14 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
 
 $factory->define(App\Rehearsal::class, function (Faker\Generator $faker) {
     // Make sure end is after start dateTime.
-    $start = $faker->dateTimeBetween('11.04.2016', '29.09.2016');
+    $start = $faker->dateTimeBetween('20.04.2018', '29.09.2018');
 
     return [
         'semester_id' => 1,
         'title'       => 'Probe',
         'description' => $faker->sentence(14),
         'start'       => $start,
-        'end'         => $faker->dateTimeBetween($start, '29.09.2016'),
+        'end'         => $faker->dateTimeBetween($start, '29.09.2018'),
         'place'       => $faker->address,
         'mandatory'   => $faker->boolean(90),
         'weight'      => $faker->randomFloat(1, 0.0, 1.0),
@@ -45,14 +45,14 @@ $factory->define(App\Rehearsal::class, function (Faker\Generator $faker) {
 
 $factory->define(App\Gig::class, function (Faker\Generator $faker) {
     // Make sure end is after start dateTime.
-    $start = $faker->dateTimeBetween('11.04.2016', '29.09.2016');
+    $start = $faker->dateTimeBetween('30.04.2018', '29.09.2018');
 
     return [
         'semester_id' => 1,
         'title'       => 'Konzert',
         'description' => $faker->sentence(14),
         'start'       => $start,
-        'end'         => $faker->dateTimeBetween($start, '29.09.2016'),
+        'end'         => $faker->dateTimeBetween($start, '29.09.2018'),
         'place'       => $faker->address,
     ];
 });

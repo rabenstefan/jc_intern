@@ -38,7 +38,7 @@
                                 {!! Form::textInput2d('excuse', null, ['placeholder' => trans('form.optional')]) !!}
                                 {!! Form::submitInput2d([], trans('date.excuse')) !!}
                             </form>
-                            @include('date.settings_bar', ['view_type' => 'list'])
+                            @include('date.settings_bar', ['view_type' => 'list', 'current_sets' => $current_sets])
                             @each('date.list.row', $dates, 'date')
                         </div>
                     </div>
@@ -51,9 +51,10 @@
 @section('js')
     <script type="text/javascript">
         /**
-         * Switches a slider to the opposite value.
+         * Switches a slider to the opposite value. Sets the corresponding checkbox.
          *
          * @param sliderElement
+         * @param currentState
          * @return Boolean success
          */
         function sliderSwitch (sliderElement, currentState) {
@@ -63,6 +64,12 @@
             return true;
         }
 
+        /**
+         * Switch the whole event-box to "off" (grey out so that the user knows he is not attending).
+         *
+         * @param sliderElement
+         * @param currentState
+         */
         function eventSwitch (sliderElement, currentState) {
             if ($(sliderElement).hasClass('inactive')) return false;
 
@@ -82,6 +89,8 @@
 
         /**
          * Handles AJAX-call to change the attendance of a rehearsal.
+         *
+         * This method is called from the main.js via the "data-function" attribute on the switch for attendance.
          *
          * @param sliderElement
          */
@@ -107,11 +116,20 @@
             }
         }
 
+        /**
+         * Function only calls API via POST and handles the returned messages.
+         *
+         * @param url
+         * @param sliderElement
+         * @param currentlyAttending
+         * @param excuse
+         */
         function saveAttendance(url, sliderElement, currentlyAttending, excuse) {
             // Request the url via post, include csrf-token and comment.
             $.post(url, {
                 _token: '{{ csrf_token() }}',
-                comment: excuse
+                comment: excuse,
+                attendance: currentlyAttending
             }, function (data) {
                 // Success?
                 if (data.success) {
@@ -130,6 +148,7 @@
 
                     // Make slider active again.
                     $(sliderElement).removeClass('inactive');
+                    $(this).removeClass('btn-pressed');
                 }
 
                 $.modal.close();
@@ -138,15 +157,43 @@
         }
 
         $(document).ready(function () {
+            // On submission of the form in the modal.
             $('#excuse-form').submit(function (event) {
                 event.preventDefault();
 
                 saveAttendance($(this).attr('action'),
                     $(this).data('sliderElement'),
                     $(this).data('currentlyAttending'),
-                    $('#excuse').val());
+                    $('#excuse').val()
+                );
 
                 $('#excuse').val('');
+            }).on($.modal.CLOSE, function () {
+                // If the modal gets closed without entering the form reset and release switch.
+                // Make all sliders active again.
+                $('.slider-2d').removeClass('inactive');
+            });
+
+            // On click of a gig attendance button.
+            $('.button-set-2d > a.btn').click(function (event) {
+                event.preventDefault();
+
+                //TODO: Restore pressed button if modal was unsuccessful.
+                $('.button-set-2d > a.btn').removeClass('btn-pressed');
+
+                $(this).addClass('btn-pressed');
+
+                if ($(this).data('attendance') !== 'yes') {
+                    // Display modal to put in an excuse.
+                    $('#excuse-form').attr('action', $(this).data('url'))
+                        .data('sliderElement', this)
+                        .data('currentlyAttending', $(this).data('attendance'))
+                        .modal();
+                } else {
+                    // Save attendance directly, without modal of excuse.
+                    saveAttendance($(this).data('url'), null, 'yes', '');
+                    eventSwitch(this, true);
+                }
             });
         });
     </script>

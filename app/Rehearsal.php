@@ -4,6 +4,7 @@ namespace App;
 
 use DateTime;
 use MaddHatter\LaravelFullcalendar\IdentifiableEvent;
+use Carbon\Carbon;
 
 class Rehearsal extends \Eloquent implements IdentifiableEvent {
     protected $dates = ['start', 'end'];
@@ -56,7 +57,7 @@ class Rehearsal extends \Eloquent implements IdentifiableEvent {
      * @return string
      */
     public function getTitle() {
-        return $this->title . (isset($this->place) ? ",\n" . $this->place : '');
+        return $this->title;
     }
 
     /**
@@ -65,6 +66,7 @@ class Rehearsal extends \Eloquent implements IdentifiableEvent {
      * @return bool
      */
     public function isAllDay() {
+        //TODO: Add all day logic
         return false;
     }
 
@@ -84,6 +86,15 @@ class Rehearsal extends \Eloquent implements IdentifiableEvent {
      */
     public function getEnd() {
         return $this->end;
+    }
+
+    /**
+     * Check if this date has a place
+     *
+     * @return Boolean
+     */
+    public function hasPlace() {
+        return isset($this->place);
     }
 
     /**
@@ -118,13 +129,22 @@ class Rehearsal extends \Eloquent implements IdentifiableEvent {
      *
      * @param array $columns
      * @param bool $with_old
-     * @return static
+     * @return Rehearsal|\Eloquent[]|\Illuminate\Database\Eloquent\Collection
      */
     public static function all($columns = ['*'], $with_old = false) {
         if ($with_old) {
             return parent::all($columns);
         } else {
-            return parent::where('semester_id', '>=', Semester::current()->id)->get($columns);
+            return parent::where('start', '>=', Carbon::today())->get($columns);
         }
+    }
+
+    /**
+     * Get the next rehersal after now()
+     *
+     * @return \Illuminate\Database\Eloquent\Model|null|static The next rehearsal
+     */
+    public static function getNextRehearsal() {
+        return Rehearsal::where('start', '>=', Carbon::now())->first();
     }
 }

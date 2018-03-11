@@ -7,9 +7,6 @@ use App\Gig;
 use App\Rehearsal;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Http\Request;
-
-use App\Http\Requests;
 use Illuminate\Support\Facades\Input;
 use MaddHatter\LaravelFullcalendar\Event;
 use MaddHatter\LaravelFullcalendar\Facades\Calendar;
@@ -45,32 +42,47 @@ class DateController extends Controller {
             $view_type = $this->view_types[0];
         }
 
-        if (Input::has('set') && array_key_exists(Input::get('set'), $this->sets)) {
-            $sets = [Input::get('set') => $this->sets[Input::get('set')]];
-        } else {
-            $sets = $this->sets;
+        $sets = new Collection();
+        $sets_keys = new Collection();
+        // Check for valid input. Should be an array of "set"s, referencing keys in $this->sets
+        if (Input::has('sets') && is_array(Input::get('sets'))) {
+            foreach (Input::get('sets') as $set_input) {
+                if (array_key_exists($set_input, $this->sets)) {
+                    $sets->add($this->sets[$set_input]);
+                    $sets_keys->add($set_input);
+                }
+            }
         }
 
-        if (false !== $view = call_user_func_array([$this, $this->view_types[$view_type]], ['dates' => $this->getDates($sets)])) {
+        // If we have no valid parameter we take the default.
+        if ($sets->isEmpty()) {
+            $sets = $this->sets;
+            $sets_keys = array_keys($this->sets);
+        } else {
+            $sets = $sets->toArray();
+            $sets_keys = $sets_keys->toArray();
+        }
+
+        if (false !== $view = call_user_func_array([$this, $this->view_types[$view_type]], ['dates' => $this->getDates($sets), 'current_sets' => $sets_keys])) {
             return $view;
         } else {
-            return redirect()->route('index')->withErrors(trans('date.view_type_not_found'));
+            return redirect()->route('index', ['current_sets' => $sets_keys])->withErrors(trans('date.view_type_not_found'));
         }
     }
 
-    protected function calendarIndex (\Illuminate\Support\Collection $dates) {
+    protected function calendarIndex (\Illuminate\Support\Collection $dates, array $sets_keys) {
         $calendar = Calendar::addEvents($dates);
         $calendar->setId('dates');
 
-        return view('date.calendar', ['calendar' => $calendar]);
+        return view('date.calendar', ['calendar' => $calendar, 'current_sets' => $sets_keys]);
     }
 
-    protected function listIndex (\Illuminate\Support\Collection $dates) {
+    protected function listIndex (\Illuminate\Support\Collection $dates, array $sets_keys) {
         $dates = $dates->sortBy(function (Event $date) {
             return Carbon::now()->diffInSeconds($date->getStart(), false);
         });
 
-        return view('date.list', ['dates' => $dates]);
+        return view('date.list', ['dates' => $dates, 'current_sets' => $sets_keys]);
     }
 
     private function getDates (array $sets) {

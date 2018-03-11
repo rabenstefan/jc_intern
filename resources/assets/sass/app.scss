@@ -369,26 +369,27 @@ i.fa {
   color: $font-color-inverse;
   background-color: $main-color;
   height: inherit;
+  margin-top: 0px;
   @include shadow-2d($main-color-darker);
 
-  &:hover, &:focus, &:active {
-    border-bottom: none !important;
+  &:hover, &:focus, &:active, &.btn-pressed {
+    border-bottom: 0px !important;
     margin-top: 3px !important;
     color: #fff !important;
     outline: none !important;
   }
 
-  &.btn-success {
+  &.btn-success, &.btn-birthdays, &.btn-yes {
     background-color: $success-color;
     @include shadow-2d($success-color-darker);
   }
 
-  &.btn-warning {
+  &.btn-warning, &.btn-gigs, &.btn-maybe {
     background-color: $warning-color;
     @include shadow-2d($warning-color-darker);
   }
 
-  &.btn-error {
+  &.btn-error, &.btn-all, &.btn-no {
     background-color: $error-color;
     @include shadow-2d($error-color-darker);
   }
@@ -521,6 +522,39 @@ i.fa {
   }
 }
 
+.button-set-2d {
+  a.btn-2d {
+    margin-left: -4px;
+
+    &:first-child {
+      margin-left: 0px;
+    }
+  }
+
+  i {
+    @include noselect();
+    cursor: pointer;
+    font-size: 1.2em;
+    top: 0;
+
+    &.fa-with-overlay {
+      margin-right: 9px;
+      font-size: 0.6em;
+
+      &:before {
+        margin-right: -12px;
+        font-size: 2em;
+      }
+    }
+
+    &.inactive {
+      color: $font-color-inverse;
+      background-color: $grey;
+      @include shadow-2d($grey-darker);
+    }
+  }
+}
+
 .slider-2d {
   input[type="checkbox"] {
     display: none;
@@ -618,12 +652,14 @@ i.fa {
   }
 
   .panel-body {
+    padding: 10px;
     background-color: #fafafa;
     @include border-radius(0);
   }
 
   &.panel-2d-grey, & .panel-2d {
     .panel-heading {
+      padding: 5px 10px;
       color: $font-color;
       background-color: $grey;
       @include shadow-2d($grey-darker);

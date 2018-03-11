@@ -8,8 +8,6 @@ use App\Voice;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
-use App\Http\Requests;
-
 class RehearsalController extends Controller {
     protected $validation = [
         'title'     => 'required|string|max:100',
@@ -180,8 +178,10 @@ class RehearsalController extends Controller {
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
+     *
+     * @throws \Exception
      */
     public function destroy($id) {
         $rehearsal = Rehearsal::find($id);

@@ -1,5 +1,8 @@
 <?php
 
+setlocale(LC_TIME, 'German');
+Carbon\Carbon::setLocale('de');
+
 return [
 
     /*
@@ -39,7 +42,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://intern.jazzchor-bonn.de'),
+    'url' => env('APP_URL', 'https://intern.jazzchor-bonn.de'),
 
     /*
     |--------------------------------------------------------------------------
@@ -52,7 +55,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'Europe/Berlin',
 
     /*
     |--------------------------------------------------------------------------

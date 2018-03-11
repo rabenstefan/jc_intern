@@ -12,6 +12,7 @@ use App\User;
 use Illuminate\Support\Facades\Input;
 
 class UserController extends Controller {
+    //TODO: Make password not required for edit.
     protected $validation = [
         'first_name'=> 'required|alpha|max:255',
         'last_name' => 'required|alpha|max:255',

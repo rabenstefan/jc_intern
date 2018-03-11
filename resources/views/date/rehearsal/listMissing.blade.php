@@ -11,7 +11,7 @@
                 <div class="col-xs-12">
                     <div class="panel panel-2d">
                         <div class="panel-heading">
-                            {{ trans('date.rehearsal_listMissing_title') . ' ' . $currentRehearsal->title . ' (' . $currentRehearsal->start . ')' }}
+                            {{ $currentRehearsal->title . ' (' . $currentRehearsal->start->format('d.m.Y H:i') . ', ' . $currentRehearsal->start->diffForHumans() . ')' }}
                         </div>
 
                         <div id="attendance-list">
@@ -41,18 +41,7 @@
                                                                 $users = \App\User::getUsersOfVoice($sub_voice->id)
                                                                 ?>
                                                                 @foreach($users as $user)
-                                                                    <div class="col-xs-6 col-sm-3 col-lg-2 names">
-                                                                        {{ $user->first_name . ' ' . $user->last_name }}
-                                                                    </div>
-                                                                    <div class="col-xs-6 col-sm-3 col-lg-2 sliders">
-                                                                        <span class="slider-2d" data-function="changeAttendance">
-                                                                            <input type="checkbox"<?php echo $user->missedRehearsal($currentRehearsal->id) ? '' : ' checked="checked"'; ?> id="slider-attending-{{ $user->id }}">
-                                                                            <label for="slider-attending-{{ $user->id }}">
-                                                                                <i class="fa fa-calendar-times-o label-off" title="{{ trans('date.missed') }}"></i>
-                                                                                <i class="fa fa-calendar-check-o label-on" title="{{ trans('date.attended') }}"></i>
-                                                                            </label>
-                                                                        </span>
-                                                                    </div>
+                                                                        @include('date.listMissing.user_entry', ['user' => $user, 'currentRehearsal' => $currentRehearsal])
                                                                 @endforeach
                                                             </div>
                                                         </div>
@@ -72,4 +61,71 @@
 @endsection
 
 @section('js')
+    <script type="text/javascript">
+        /**
+         * Switches a slider to the opposite value. Sets the corresponding checkbox.
+         *
+         * @param sliderElement
+         * @param currentState
+         * @return Boolean success
+         */
+        function sliderSwitch (sliderElement, currentState) {
+            if ($(sliderElement).hasClass('inactive')) return false;
+
+            $(sliderElement).find('input[type="checkbox"]').prop('checked', !currentState);
+            return true;
+        }
+
+        /**
+         * Handles AJAX-call to change the attendance of a rehearsal.
+         *
+         * This method is called from the main.js via the "data-function" attribute on the switch for attendance.
+         *
+         * @param sliderElement
+         */
+        function changeAttendance (sliderElement) {
+            // Make slider inactive.
+            $(sliderElement).addClass('inactive');
+
+            // Do we need to excuse the user or is she attending?
+            // If the slider's checkbox is "checked" we have to excuse her.
+            var currentlyAttending = $(sliderElement).find('input[type="checkbox"]').prop('checked');
+
+            var url = $(sliderElement).data('attendance-url');
+
+            saveAttendance(url, sliderElement, currentlyAttending);
+        }
+
+        /**
+         * Function only calls API via POST and handles the returned messages.
+         *
+         * @param url
+         * @param sliderElement
+         * @param currentlyAttending
+         * @param user_id
+         */
+        function saveAttendance(url, sliderElement, currentlyAttending) {
+            // Request the url via post, include csrf-token and comment.
+            $.post(url, {
+                    _token: '{{ csrf_token() }}',
+                    attending: !currentlyAttending
+                }, function (data) {
+                    // Success?
+                    if (data.success) {
+                        // Make slider active again.
+                        $(sliderElement).removeClass('inactive');
+
+                        // Get slider's current state and switch it and its event.
+                        sliderSwitch(sliderElement, currentlyAttending);
+                    } else {
+                        // Warn user.
+                        $.notify(data.message, 'danger');
+
+                        // Make slider active again.
+                        $(sliderElement).removeClass('inactive');
+                    }
+                },
+                'json');
+        }
+    </script>
 @endsection

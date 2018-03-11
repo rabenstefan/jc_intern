@@ -4,6 +4,7 @@ namespace App;
 
 use DateTime;
 use MaddHatter\LaravelFullcalendar\IdentifiableEvent;
+use Carbon\Carbon;
 
 class Gig extends \Eloquent implements IdentifiableEvent {
     protected $dates = ['start', 'end'];
@@ -45,7 +46,7 @@ class Gig extends \Eloquent implements IdentifiableEvent {
      * @return string
      */
     public function getTitle() {
-        return $this->title . (isset($this->place) ? ",\n" . $this->place : '');
+        return $this->title;
     }
 
     /**
@@ -54,6 +55,7 @@ class Gig extends \Eloquent implements IdentifiableEvent {
      * @return bool
      */
     public function isAllDay() {
+        //TODO: Add all day logic
         return false;
     }
 
@@ -76,6 +78,15 @@ class Gig extends \Eloquent implements IdentifiableEvent {
     }
 
     /**
+     * Check if this date has a place
+     *
+     * @return Boolean
+     */
+    public function hasPlace() {
+        return isset($this->place);
+    }
+
+    /**
      * Get the event's ID
      *
      * @return int|string|null
@@ -95,18 +106,35 @@ class Gig extends \Eloquent implements IdentifiableEvent {
         return $this->calendar_options;
     }
 
+    public function isAttending(User $user) {
+        $attendance = Commitment::where('user_id', $user->id)->where('gig_id', $this->id)->first();
+
+        if (null === $attendance) return 'no';
+        $attendances = \Config::get('enums.attendances');
+        return array_flip($attendances)[$attendance->attendance];
+    }
+
     /**
      * No need for old events.
      *
      * @param array $columns
      * @param bool $with_old
-     * @return static
+     * @return Gig|\Eloquent[]|\Illuminate\Database\Eloquent\Collection
      */
     public static function all($columns = ['*'], $with_old = false) {
         if ($with_old) {
             return parent::all($columns);
         } else {
-            return parent::where('semester_id', '>=', Semester::current()->id)->get($columns);
+            return parent::where('start', '>=', Carbon::today())->get($columns);
         }
+    }
+
+    /**
+     * Get the next gig after now().
+     *
+     * @return \Illuminate\Database\Eloquent\Model|null|static The next Gig
+     */
+    public static function getNextGig() {
+        return Gig::where('start', '>=', Carbon::now())->first();
     }
 }

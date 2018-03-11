@@ -21,10 +21,10 @@ class Birthday implements Event {
     public function __construct(User $user = null) {
         $this->title = trans('form.birthday') . "\n" . $user->first_name . ' ' . $user->last_name;
 
-        // Date arithmetic: Set to current year, add one year if date is more than one month ago.
+        // Date arithmetic: Set to current year, add one year if date is more than one week ago.
         $dateCurrentYear = $user->birthday;
         $dateCurrentYear->year = date('Y');
-        if ($dateCurrentYear->lt(Carbon::now()->subMonths(1))) {
+        if ($dateCurrentYear->lt(Carbon::now()->subWeek(1))) {
             $dateCurrentYear->addYear();
         }
 
@@ -42,7 +42,7 @@ class Birthday implements Event {
      * @return string
      */
     public function getTitle() {
-        return $this->title . (isset($this->place) ? "\n" . $this->place : '');
+        return $this->title;
     }
 
     /**
@@ -73,6 +73,15 @@ class Birthday implements Event {
     }
 
     /**
+     * Check if this date has a place
+     *
+     * @return Boolean
+     */
+    public function hasPlace() {
+        return false;
+    }
+
+    /**
      * Optional FullCalendar.io settings for this event
      *
      * @return array
@@ -81,6 +90,11 @@ class Birthday implements Event {
         return $this->calendar_options;
     }
 
+    /**
+     * Override the all function.
+     *
+     * @return Collection
+     */
     public static function all() {
         $collection = new Collection();
         $users = User::all();
