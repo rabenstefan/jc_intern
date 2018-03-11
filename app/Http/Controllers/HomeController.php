@@ -42,7 +42,7 @@ class HomeController extends Controller
         $upcoming_birthdays = Birthday::all()->filter(function($value) {
             return $value->getStart()->gte(Carbon::now()->subDays(3)) && $value->getStart()->lte(Carbon::now()->addDays(10));});
 
-        // Show "add semester" if current semester is (almost) over.
+        // Show "add semester" if current semester is (almost) over and it's the last one.
         $semester_warning = (new Carbon(Semester::current()->end))->diffInMonths(Carbon::today()) <= 1;
 
         return view('home', [

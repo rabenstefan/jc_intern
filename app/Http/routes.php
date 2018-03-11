@@ -52,6 +52,8 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::get('dates/{view_type?}', 'DateController@index')->name('date.index');
 
+    Route::post('semester/new', 'SemesterController@generateNewSemester')->name('semester.generateNew');
+
     Route::group(['middleware' => 'admin'], function() {
         Route::resource('role', 'RoleController');
     });
