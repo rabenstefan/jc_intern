@@ -23,6 +23,10 @@ class Semester extends \Eloquent {
 
     public static function current() {
         $today = Carbon::today();
-        return Semester::where('start', '<=', $today)->where('end', '>=', $today)->first();
+        return Semester::where('start', '<=', $today)->where('end', '>=', $today)->firstOrFail();
+    }
+
+    public static function last() {
+        return Semester::orderBy('end', 'desc')->firstOrFail();
     }
 }

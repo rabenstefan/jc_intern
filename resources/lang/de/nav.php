@@ -15,4 +15,7 @@ return [
     'rehearsal_create'  => 'Probe planen',
     'attendance_last_rehearsal' => 'Letzte Probenteilnahme',
     'gig_create'        => 'Auftritt planen',
+    'sheets'            => 'Hefte',
+    'sheet_list'        => 'Liste',
+    'sheet_create'      => 'Serie hinzufügen'
 ];
