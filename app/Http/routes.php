@@ -48,6 +48,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::post('gig/commitment/{gig_id}', 'CommitmentController@commitSelf')->name('commitment.commitSelf');
 
     Route::resource('sheet', 'SheetController');
+    Route::put('sheet/ajaxUpdate/{id}', 'SheetController@ajaxUpdate');
 
     Route::get('dates/{view_type?}', 'DateController@index')->name('date.index');
 
