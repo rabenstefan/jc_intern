@@ -5780,13 +5780,13 @@ button.close {
 
 .modal a.close-modal {
   position: absolute;
-  top: -12.5px;
-  right: -12.5px;
+  top: 0.5em;
+  right: 0.5em;
   display: block;
   width: 2em;
   height: 2em;
   border-radius: 1em;
-  background-color: #3F7DBD; }
+  background-color: #d9534f; }
 
 .modal a.close-modal:hover {
   text-decoration: none; }
@@ -6016,13 +6016,13 @@ i.fa {
     margin-top: 3px !important;
     color: #fff !important;
     outline: none !important; }
-  .btn-2d.btn-success, .btn-2d.btn-birthday, .btn-2d.btn-yes, #calendar-dates .btn-2d.btn-success, #calendar-dates .btn-2d.btn-birthday, #calendar-dates .btn-2d.btn-yes {
+  .btn-2d.btn-success, .btn-2d.btn-birthdays, .btn-2d.btn-yes, #calendar-dates .btn-2d.btn-success, #calendar-dates .btn-2d.btn-birthdays, #calendar-dates .btn-2d.btn-yes {
     background-color: #5cb85c;
     border-radius: 0;
     border: none;
     border-bottom: 3px solid #3c763d;
     box-shadow: none; }
-  .btn-2d.btn-warning, .btn-2d.btn-gig, .btn-2d.btn-maybe, #calendar-dates .btn-2d.btn-warning, #calendar-dates .btn-2d.btn-gig, #calendar-dates .btn-2d.btn-maybe {
+  .btn-2d.btn-warning, .btn-2d.btn-gigs, .btn-2d.btn-maybe, #calendar-dates .btn-2d.btn-warning, #calendar-dates .btn-2d.btn-gigs, #calendar-dates .btn-2d.btn-maybe {
     background-color: #f0ad4e;
     border-radius: 0;
     border: none;
