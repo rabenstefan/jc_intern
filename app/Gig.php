@@ -125,7 +125,7 @@ class Gig extends \Eloquent implements IdentifiableEvent {
         if ($with_old) {
             return parent::all($columns);
         } else {
-            return parent::where('start', '>=', Carbon::today())->get($columns);
+            return parent::where('end', '>=', Carbon::today())->get($columns);
         }
     }
 

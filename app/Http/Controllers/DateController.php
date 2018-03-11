@@ -63,7 +63,9 @@ class DateController extends Controller {
             $sets_keys = $sets_keys->toArray();
         }
 
-        if (false !== $view = call_user_func_array([$this, $this->view_types[$view_type]], ['dates' => $this->getDates($sets), 'current_sets' => $sets_keys])) {
+        $with_old = 'calendar' === $view_type;
+
+        if (false !== $view = call_user_func_array([$this, $this->view_types[$view_type]], ['dates' => $this->getDates($sets, $with_old), 'current_sets' => $sets_keys])) {
             return $view;
         } else {
             return redirect()->route('index', ['current_sets' => $sets_keys])->withErrors(trans('date.view_type_not_found'));
@@ -85,11 +87,11 @@ class DateController extends Controller {
         return view('date.list', ['dates' => $dates, 'current_sets' => $sets_keys]);
     }
 
-    private function getDates (array $sets) {
+    private function getDates (array $sets, bool $with_old = false) {
         $data = new Collection();
 
         foreach ($sets as $set) {
-            $data->add(call_user_func_array([$set, 'all'], []));
+            $data->add(call_user_func_array([$set, 'all'], [['*'], $with_old]));
         }
 
         return $data->flatten();
