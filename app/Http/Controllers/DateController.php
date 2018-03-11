@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Input;
 use MaddHatter\LaravelFullcalendar\Event;
 use MaddHatter\LaravelFullcalendar\Facades\Calendar;
+use Symfony\Component\Debug\Exception\FatalThrowableError;
 
 class DateController extends Controller {
     private $view_types = [
@@ -42,49 +43,39 @@ class DateController extends Controller {
             $view_type = $this->view_types[0];
         }
 
-        $sets = new Collection();
-        $sets_keys = new Collection();
-        // Check for valid input. Should be an array of "set"s, referencing keys in $this->sets
-        if (Input::has('sets') && is_array(Input::get('sets'))) {
-            foreach (Input::get('sets') as $set_input) {
-                if (array_key_exists($set_input, $this->sets)) {
-                    $sets->add($this->sets[$set_input]);
-                    $sets_keys->add($set_input);
-                }
-            }
-        }
-
-        // If we have no valid parameter we take the default.
-        if ($sets->isEmpty()) {
-            $sets = $this->sets;
-            $sets_keys = array_keys($this->sets);
-        } else {
-            $sets = $sets->toArray();
-            $sets_keys = $sets_keys->toArray();
+        $filters = null;
+        if (Input::has('showOnly') && is_array(Input::get('showOnly')) && (count(Input::get('showOnly')) > 0 )) {
+            $filters = Input::get('showOnly');
         }
 
         $with_old = 'calendar' === $view_type;
 
-        if (false !== $view = call_user_func_array([$this, $this->view_types[$view_type]], ['dates' => $this->getDates($sets, $with_old), 'current_sets' => $sets_keys])) {
+        if (false !== $view = call_user_func_array([$this, $this->view_types[$view_type]], ['dates' => $this->getDates($this->sets, $with_old), 'override_filters' => $filters])) {
             return $view;
         } else {
-            return redirect()->route('index', ['current_sets' => $sets_keys])->withErrors(trans('date.view_type_not_found'));
+            return redirect()->route('index', ['override_filters' => $filters])->withErrors(trans('date.view_type_not_found'));
         }
     }
 
-    protected function calendarIndex (\Illuminate\Support\Collection $dates, array $sets_keys) {
+    protected function calendarIndex (\Illuminate\Support\Collection $dates, $filters) {
+        if (!(null === $filters || is_array($filters))) {
+            throw new FatalThrowableError('Type of second parameter of calendarIndex has to be null or array');
+        }
         $calendar = Calendar::addEvents($dates);
         $calendar->setId('dates');
 
-        return view('date.calendar', ['calendar' => $calendar, 'current_sets' => $sets_keys]);
+        return view('date.calendar', ['calendar' => $calendar, 'override_filters' => $filters]);
     }
 
-    protected function listIndex (\Illuminate\Support\Collection $dates, array $sets_keys) {
+    protected function listIndex (\Illuminate\Support\Collection $dates, $filters) {
+        if (!(null === $filters || is_array($filters))) {
+            throw new FatalThrowableError('Type of second parameter of listIndex has to be null or array');
+        }
         $dates = $dates->sortBy(function (Event $date) {
             return Carbon::now()->diffInSeconds($date->getStart(), false);
         });
 
-        return view('date.list', ['dates' => $dates, 'current_sets' => $sets_keys]);
+        return view('date.list', ['dates' => $dates, 'override_filters' => $filters]);
     }
 
     private function getDates (array $sets, bool $with_old = false) {

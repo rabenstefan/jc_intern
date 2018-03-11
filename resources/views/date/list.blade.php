@@ -38,7 +38,7 @@
                                 {!! Form::textInput2d('excuse', null, ['placeholder' => trans('form.optional')]) !!}
                                 {!! Form::submitInput2d([], trans('date.excuse')) !!}
                             </form>
-                            @include('date.settings_bar', ['view_type' => 'list', 'current_sets' => $current_sets])
+                            @include('date.settings_bar', ['view_type' => 'list', 'override_filters' => $override_filters])
                             @each('date.list.row', $dates, 'date')
                         </div>
                     </div>

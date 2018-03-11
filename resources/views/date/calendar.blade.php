@@ -45,7 +45,7 @@
                         </div>
 
                         <div class="panel-body">
-                            @include('date.settings_bar', ['view_type' => 'calendar', 'current_sets' => $current_sets])
+                            @include('date.settings_bar', ['view_type' => 'calendar', 'override_filters' => $override_filters])
                             @include('date.calendar.row', ['calendar' => $calendar])
                         </div>
                     </div>
