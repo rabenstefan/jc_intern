@@ -13,7 +13,7 @@ class SemestersTableSeeder extends Seeder
     {
         DB::table('semesters')->insert([
             [
-                'id' => 0,
+                'id' => 2,
                 'start' => '2017-10-01',
                 'end' => '2018-03-31',
                 'label' => 'Wintersemester 17/18',

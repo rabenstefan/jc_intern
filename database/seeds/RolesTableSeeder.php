@@ -12,7 +12,7 @@ class RolesTableSeeder extends Seeder
     public function run()
     {
         DB::table('roles')->insert([
-            'id' => 0,
+            'id' => 3,
             'label' => 'Vorstand',
             'can_plan_rehearsal' => true,
             'can_plan_gig' => true,
@@ -43,8 +43,8 @@ class RolesTableSeeder extends Seeder
         ]);
 
         DB::table('role_user')->insert([
-            'user_id' => 0,
-            'role_id' => 0,
+            'user_id' => 3,
+            'role_id' => 3,
         ]);
 
         DB::table('role_user')->insert([
