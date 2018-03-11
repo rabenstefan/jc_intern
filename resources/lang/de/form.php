@@ -42,4 +42,7 @@ return [
     'search'        => 'Suchen',
     'excuse'        => 'Entschuldigung',
     'optional'      => '(optional)',
+    'error_user_not_found' => 'Es gibt kein Chormitglied namens :name.',
+    'error_sheet_not_found' => 'Heftserie nicht :id nicht gefunden.',
+    'error_arbitrary' => 'Fehler beim bearbeiten der Anfrage.',
 ];

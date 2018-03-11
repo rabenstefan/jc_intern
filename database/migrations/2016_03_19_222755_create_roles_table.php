@@ -17,6 +17,7 @@ class CreateRolesTable extends Migration
             $table->string('label');
             $table->boolean('can_plan_rehearsal');
             $table->boolean('can_plan_gig');
+            $table->boolean('can_organise_sheets');
             $table->boolean('can_send_mail'); // Maybe sometimes implemented...
             $table->boolean('can_configure_system'); // Tweak system parameters and such.
             $table->boolean('only_own_voice')->default(false); // Only relevant for Stimmfuehrer.
