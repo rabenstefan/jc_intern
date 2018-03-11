@@ -2,10 +2,14 @@
 <html lang="de">
 <head>
     <meta charset="utf-8">
+    <meta name="robots" content="noindex, nofollow">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Jazzchor Bonn intern - @yield('title')</title>
+    @if(View::hasSection('title'))
+        <title>@yield('title') - Jazzchor der Uni Bonn</title>
+        @else <title>Interner Bereich - Jazzchor der Uni Bonn</title>
+    @endif
 
     <!-- Fonts -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel='stylesheet' type='text/css'>
