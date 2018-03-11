@@ -161,7 +161,7 @@
 
         $(document).ready(function () {
             // Make the search react to inputs (with timeout delay).
-            $('#search').bind('input propertychange', function (e) {
+            $('#search').bind('input propertychange', function (event) {
                 // If it's the propertychange event, make sure it's the value that changed.
                 if (window.event && event.type == 'propertychange' && event.propertyName != 'value')
                     return;
