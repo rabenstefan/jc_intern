@@ -18,7 +18,7 @@
     </div>
     <div class="col-xs-12 col-md-6">
         @foreach(['calendar', 'list'] as $button)
-        <a class="btn btn-{{$button}} btn-2d" href="{{ route('date.index', ['view_type' => $button, 'sets' => $current_sets]) }}">
+        <a class="btn btn-{{$button}} btn-2d {{ $button === $view_type ? 'btn-pressed' : '' }}" href="{{ route('date.index', ['view_type' => $button, 'sets' => $current_sets]) }}">
             {{ trans('nav.dates_'.$button) }}
         </a>
         @endforeach
