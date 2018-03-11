@@ -12,4 +12,5 @@ return [
     'next_rehearsal'    => 'Die nächste Probe ist :diff (:datetime). Ort: :location.',
     'next_gig'          => 'Der nächste Auftritt ist :diff (:datetime). Ort: :location.',
     'upcoming_birthdays' => 'Insgesamt :count Geburtstage in den letzten 3 und den nächsten 10 Tagen.',
+    'semester_warning'  => 'Neues Semester muss angelegt werden!'
 ];
