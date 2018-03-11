@@ -17,6 +17,7 @@ class Birthday implements Event {
     private $end;
 
     public $description = '';
+    public $needs_answer = false;
 
     public function __construct(User $user = null) {
         $this->title = trans('form.birthday') . "\n" . $user->first_name . ' ' . $user->last_name;
