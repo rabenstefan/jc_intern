@@ -2,9 +2,7 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
-
-class Commitment extends Model
+class Commitment extends \Eloquent
 {
     public function user() {
         return $this->hasOne('App\User');

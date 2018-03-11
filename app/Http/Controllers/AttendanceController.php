@@ -8,8 +8,6 @@ use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
-use App\Http\Requests;
-
 class AttendanceController extends Controller {
     /**
      * AttendanceController constructor.
@@ -19,7 +17,7 @@ class AttendanceController extends Controller {
     public function __construct() {
         $this->middleware('auth');
 
-        $this->middleware('admin:rehearsal', ['except' => 'excuseSelf']);
+        $this->middleware('admin:rehearsal', ['except' => ['excuseSelf', 'confirmSelf']]);
     }
 
     public function listMissing ($id = null) {

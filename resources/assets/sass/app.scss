@@ -369,41 +369,27 @@ i.fa {
   color: $font-color-inverse;
   background-color: $main-color;
   height: inherit;
+  margin-top: 0px;
   @include shadow-2d($main-color-darker);
 
   &:hover, &:focus, &:active, &.btn-pressed {
-    border-bottom: none !important;
+    border-bottom: 0px !important;
     margin-top: 3px !important;
     color: #fff !important;
     outline: none !important;
   }
 
-  &.btn-success {
+  &.btn-success, &.btn-birthdays, &.btn-yes {
     background-color: $success-color;
     @include shadow-2d($success-color-darker);
   }
 
-  &.btn-warning {
+  &.btn-warning, &.btn-gigs, &.btn-maybe {
     background-color: $warning-color;
     @include shadow-2d($warning-color-darker);
   }
 
-  &.btn-error {
-    background-color: $error-color;
-    @include shadow-2d($error-color-darker);
-  }
-
-  &.btn-birthdays {
-    background-color: $success-color;
-    @include shadow-2d($success-color-darker);
-  }
-
-  &.btn-gigs {
-    background-color: $warning-color;
-    @include shadow-2d($warning-color-darker);
-  }
-
-  &.btn-all {
+  &.btn-error, &.btn-all, &.btn-no {
     background-color: $error-color;
     @include shadow-2d($error-color-darker);
   }
@@ -532,6 +518,39 @@ i.fa {
     border-left-color: $success-color;
     &:after {
       background-color: $success-color-darker;
+    }
+  }
+}
+
+.button-set-2d {
+  a.btn-2d {
+    margin-left: -4px;
+
+    &:first-child {
+      margin-left: 0px;
+    }
+  }
+
+  i {
+    @include noselect();
+    cursor: pointer;
+    font-size: 1.2em;
+    top: 0;
+
+    &.fa-with-overlay {
+      margin-right: 9px;
+      font-size: 0.6em;
+
+      &:before {
+        margin-right: -12px;
+        font-size: 2em;
+      }
+    }
+
+    &.inactive {
+      color: $font-color-inverse;
+      background-color: $grey;
+      @include shadow-2d($grey-darker);
     }
   }
 }

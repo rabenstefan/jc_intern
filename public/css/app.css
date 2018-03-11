@@ -6006,46 +6006,29 @@ i.fa {
   color: #f0f0f0;
   background-color: #3F7DBD;
   height: inherit;
+  margin-top: 0px;
   border-radius: 0;
   border: none;
   border-bottom: 3px solid #174C84;
   box-shadow: none; }
   .btn-2d:hover, .btn-2d:focus, .btn-2d:active, .btn-2d.btn-pressed, #calendar-dates .btn-2d:hover, #calendar-dates .btn-2d:focus, #calendar-dates .btn-2d:active, #calendar-dates .btn-2d.btn-pressed {
-    border-bottom: none !important;
+    border-bottom: 0px !important;
     margin-top: 3px !important;
     color: #fff !important;
     outline: none !important; }
-  .btn-2d.btn-success, #calendar-dates .btn-2d.btn-success {
+  .btn-2d.btn-success, .btn-2d.btn-birthdays, .btn-2d.btn-yes, #calendar-dates .btn-2d.btn-success, #calendar-dates .btn-2d.btn-birthdays, #calendar-dates .btn-2d.btn-yes {
     background-color: #5cb85c;
     border-radius: 0;
     border: none;
     border-bottom: 3px solid #3c763d;
     box-shadow: none; }
-  .btn-2d.btn-warning, #calendar-dates .btn-2d.btn-warning {
+  .btn-2d.btn-warning, .btn-2d.btn-gigs, .btn-2d.btn-maybe, #calendar-dates .btn-2d.btn-warning, #calendar-dates .btn-2d.btn-gigs, #calendar-dates .btn-2d.btn-maybe {
     background-color: #f0ad4e;
     border-radius: 0;
     border: none;
     border-bottom: 3px solid #8a6d3b;
     box-shadow: none; }
-  .btn-2d.btn-error, #calendar-dates .btn-2d.btn-error {
-    background-color: #d9534f;
-    border-radius: 0;
-    border: none;
-    border-bottom: 3px solid #a94442;
-    box-shadow: none; }
-  .btn-2d.btn-birthdays, #calendar-dates .btn-2d.btn-birthdays {
-    background-color: #5cb85c;
-    border-radius: 0;
-    border: none;
-    border-bottom: 3px solid #3c763d;
-    box-shadow: none; }
-  .btn-2d.btn-gigs, #calendar-dates .btn-2d.btn-gigs {
-    background-color: #f0ad4e;
-    border-radius: 0;
-    border: none;
-    border-bottom: 3px solid #8a6d3b;
-    box-shadow: none; }
-  .btn-2d.btn-all, #calendar-dates .btn-2d.btn-all {
+  .btn-2d.btn-error, .btn-2d.btn-all, .btn-2d.btn-no, #calendar-dates .btn-2d.btn-error, #calendar-dates .btn-2d.btn-all, #calendar-dates .btn-2d.btn-no {
     background-color: #d9534f;
     border-radius: 0;
     border: none;
@@ -6150,6 +6133,42 @@ i.fa {
   border-left-color: #5cb85c; }
   #list-dates .event-birthday.context-box-2d:after {
     background-color: #3c763d; }
+
+.button-set-2d a.btn-2d {
+  margin-left: -4px; }
+  .button-set-2d a.btn-2d:first-child {
+    margin-left: 0px; }
+
+.button-set-2d i {
+  -webkit-touch-callout: none;
+  /* iOS Safari */
+  -webkit-user-select: none;
+  /* Chrome/Safari/Opera */
+  -khtml-user-select: none;
+  /* Konqueror */
+  -moz-user-select: none;
+  /* Firefox */
+  -ms-user-select: none;
+  /* IE/Edge */
+  user-select: none;
+  /* non-prefixed version, currently
+                                  not supported by any browser */
+  cursor: pointer;
+  font-size: 1.2em;
+  top: 0; }
+  .button-set-2d i.fa-with-overlay {
+    margin-right: 9px;
+    font-size: 0.6em; }
+    .button-set-2d i.fa-with-overlay:before {
+      margin-right: -12px;
+      font-size: 2em; }
+  .button-set-2d i.inactive {
+    color: #f0f0f0;
+    background-color: #CCCCCC;
+    border-radius: 0;
+    border: none;
+    border-bottom: 3px solid #A6A6A6;
+    box-shadow: none; }
 
 .slider-2d input[type="checkbox"] {
   display: none; }

@@ -128,7 +128,8 @@
             // Request the url via post, include csrf-token and comment.
             $.post(url, {
                 _token: '{{ csrf_token() }}',
-                comment: excuse
+                comment: excuse,
+                attendance: currentlyAttending
             }, function (data) {
                 // Success?
                 if (data.success) {
@@ -147,6 +148,7 @@
 
                     // Make slider active again.
                     $(sliderElement).removeClass('inactive');
+                    $(this).removeClass('btn-pressed');
                 }
 
                 $.modal.close();
@@ -162,13 +164,36 @@
                 saveAttendance($(this).attr('action'),
                     $(this).data('sliderElement'),
                     $(this).data('currentlyAttending'),
-                    $('#excuse').val());
+                    $('#excuse').val()
+                );
 
                 $('#excuse').val('');
             }).on($.modal.CLOSE, function () {
                 // If the modal gets closed without entering the form reset and release switch.
                 // Make all sliders active again.
                 $('.slider-2d').removeClass('inactive');
+            });
+
+            // On click of a gig attendance button.
+            $('.button-set-2d > a.btn').click(function (event) {
+                event.preventDefault();
+
+                //TODO: Restore pressed button if modal was unsuccessful.
+                $('.button-set-2d > a.btn').removeClass('btn-pressed');
+
+                $(this).addClass('btn-pressed');
+
+                if ($(this).data('attendance') !== 'yes') {
+                    // Display modal to put in an excuse.
+                    $('#excuse-form').attr('action', $(this).data('url'))
+                        .data('sliderElement', this)
+                        .data('currentlyAttending', $(this).data('attendance'))
+                        .modal();
+                } else {
+                    // Save attendance directly, without modal of excuse.
+                    saveAttendance($(this).data('url'), null, 'yes', '');
+                    eventSwitch(this, true);
+                }
             });
         });
     </script>

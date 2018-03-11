@@ -4,10 +4,16 @@
     <?php $notAttending = false; ?>
 @endif
 
+@if($date->getShortName() == 'gig')
+    <?php $attending = $date->isAttending(Auth::user()); ?>
+@else
+    <?php $attending = false; ?>
+@endif
+
 <div class="row list-item">
-    <div class="col-xs-12 context-box-2d event event-{{ $date->getShortName() }}{{ $notAttending ? ' event-not-going' : '' }}">
+    <div class="col-xs-12 context-box-2d event event-{{ $date->getShortName() }}{{ $notAttending || $attending == 'no' ? ' event-not-going' : '' }}">
         <div class="row">
-            <div class="col-xs-12 col-sm-6 col-md-8 col-lg-10">
+            <div class="col-xs-12 col-sm-8 col-md-8 col-lg-10">
                 <h4 class="title">
                     {{ $date->getTitle() }}
                     <span class="not-going-note" style="display: <?php echo $notAttending ? 'inline' : 'none'; ?>;">{{  ' &ndash; ' . trans('date.not_attending') }}</span>
@@ -31,7 +37,7 @@
                     {{ $date->description }}
                 </span>
             </div>
-            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-2 event-controls">
+            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-2 event-controls">
                 @if(isset($date->getEventOptions()['url']) && Auth::user()->isAdmin($date->getShortName()))
                     <span>
                         <a href="{{ $date->getEventOptions()['url'] }}" class="btn btn-2d" title="{{ trans('form.edit') }}">
@@ -46,6 +52,18 @@
                             <i class="fa fa-calendar-times-o label-off" title="{{ trans('date.excuse') }}"></i>
                             <i class="fa fa-calendar-check-o label-on" title="{{ trans('date.attend') }}"></i>
                         </label>
+                    </span>
+                @elseif($date->getShortName() == 'gig')
+                    <span class="button-set-2d">
+                        <a href="#" class="btn btn-2d btn-no{{ $attending == 'no' ? ' btn-pressed' : '' }}" data-url="{{ route('commitment.commitSelf', ['gig_id' => $date->getId()]) }}" data-attendance="no">
+                            <i class="fa fa-calendar-times-o"></i>
+                        </a>
+                        <a href="#" class="btn btn-2d btn-maybe{{ $attending == 'maybe' ? ' btn-pressed' : '' }}" data-url="{{ route('commitment.commitSelf', ['gig_id' => $date->getId()]) }}" data-attendance="maybe">
+                            <i class="fa fa-calendar-o fa-with-overlay">?</i>
+                        </a>
+                        <a href="#" class="btn btn-2d btn-yes{{ $attending == 'yes' ? ' btn-pressed' : '' }}" data-url="{{ route('commitment.commitSelf', ['gig_id' => $date->getId()]) }}" data-attendance="yes">
+                            <i class="fa fa-calendar-check-o"></i>
+                        </a>
                     </span>
                 @endif
             </div>

@@ -106,6 +106,14 @@ class Gig extends \Eloquent implements IdentifiableEvent {
         return $this->calendar_options;
     }
 
+    public function isAttending(User $user) {
+        $attendance = Commitment::where('user_id', $user->id)->where('gig_id', $this->id)->first();
+
+        if (null === $attendance) return 'no';
+        $attendances = \Config::get('enums.attendances');
+        return array_flip($attendances)[$attendance->attendance];
+    }
+
     /**
      * No need for old events.
      *

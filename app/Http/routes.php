@@ -45,6 +45,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::resource('gig', 'GigController', [
         'except' => ['index']
     ]);
+    Route::post('gig/commitment/{gig_id}', 'CommitmentController@commitSelf')->name('commitment.commitSelf');
 
     Route::get('dates/{view_type?}', 'DateController@index')->name('date.index');
 
