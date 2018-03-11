@@ -126,13 +126,23 @@
                                 @endif
                             </ul>
                         </li>
-                        {{--
-                        @if (Auth::user()->isAdmin())
-                            <li>
-                                <a href="{{ route('role.index') }}">{{ trans('nav.roles') }}</a>
-                            </li>
-                        @endif
-                        --}}
+                        <li>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {{ trans('nav.sheets') }}&nbsp;<span class="caret"></span>
+                            </a>
+
+                            <ul class="dropdown-menu multi-level" role="menu">
+
+                                @if (Auth::user()->isAdmin('sheet'))
+                                    <li>
+                                        <a href="{{ route('sheet.index') }}">{{ trans('nav.sheet_list') }}</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('sheet.create') }}">{{ trans('nav.sheet_create') }}</a>
+                                    </li>
+                                @endif
+                            </ul>
+                        </li>
                     @endif
                 </ul>
 

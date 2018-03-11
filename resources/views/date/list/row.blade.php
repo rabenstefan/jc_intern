@@ -10,8 +10,14 @@
     <?php $attending = false; ?>
 @endif
 
+@if(true === $date->needs_answer)
+    <?php $unanswered = true !== $date->hasAnswered(Auth::user()); ?>
+@else
+    <?php $unanswered = false; /* event doesnt need answer (like birthday) */ ?>
+@endif
+
 <div class="row list-item">
-    <div class="col-xs-12 context-box-2d event event-{{ $date->getShortName() }}{{ $notAttending || $attending == 'no' ? ' event-not-going' : '' }}">
+    <div class="col-xs-12 context-box-2d event event-{{ $date->getShortName() }} {{ $notAttending || $attending == 'no' ? 'event-not-going' : '' }} {{ $unanswered ? 'event-unanswered' : '' }}">
         <div class="row">
             <div class="col-xs-12 col-sm-8 col-md-8 col-lg-10">
                 <h4 class="title">
