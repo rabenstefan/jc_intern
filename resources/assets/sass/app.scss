@@ -713,7 +713,8 @@ i.fa {
       min-height: 6em;
       padding: 10px;
       margin-bottom: 1em;
-      background-color: $font-color-inverse;
+      background-color: $grey-lighter;
+      @include shadow-2d($grey);
       border-top: 1em solid $main-color;
 
       &.panel-element-warning {
