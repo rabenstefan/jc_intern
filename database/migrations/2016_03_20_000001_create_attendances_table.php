@@ -60,5 +60,7 @@ class CreateAttendancesTable extends Migration
      */
     public function down() {
         Schema::drop('attendances');
+        Schema::drop('attendance_user');
+        Schema::drop('attendance_rehearsal');
     }
 }

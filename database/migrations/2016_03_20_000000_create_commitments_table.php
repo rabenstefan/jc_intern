@@ -60,5 +60,7 @@ class CreateCommitmentsTable extends Migration
     public function down()
     {
         Schema::drop('commitments');
+        Schema::drop('commitment_user');
+        Schema::drop('commitment_gig');
     }
 }
