@@ -2,6 +2,10 @@
 
 @section('title'){{ trans('date.index_title') }}@endsection
 
+@section('additional_js_files')
+    {!! Html::script('js/dateFilters.js') !!}
+@endsection
+
 @section('content')
     <div class="row" id="{{ trans('date.index_title') }}">
         <div class="col-xs-12">
