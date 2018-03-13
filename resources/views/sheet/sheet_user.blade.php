@@ -12,7 +12,16 @@
         <div class="col-xs-12">
             <div class="panel panel-2d">
                 <div class="panel-heading">
-                    {{ trans('sheet.sheet_user_edit') }}
+                    <div class="panel-title pull-left">
+                        {{ trans('sheet.sheet_user_edit') }}
+                    </div>
+                    <div class="panel-title pull-right">
+                        <a href="{{ URL::action('SheetController@show', [$sheet->id]) }}">
+                            {{ trans('sheet.to_series') }}
+                            <i class="fa fa-external-link"></i>
+                        </a>
+                    </div>
+                    <div class="clearfix"></div>
                 </div>
                 <div class="panel-body">
                     {{ Form::open([
@@ -22,7 +31,7 @@
                     ]) }}
                     <div class="row">
                         <div class="col-xs-3 owner">
-                            <label for="sheet-user-number">{{ trans('sheet.owner') }}</label>
+                            <label for="sheet-user-number">{{ trans('sheet.owner') }}<a href="{{ URL::action('SheetController@sheetsPerUser', [$user->id]) }}"><i class="fa fa-external-link"></i></a></label>
                             <select id="sheet-user-owner" name="userid" class="form-control form-control-2d" data-current="{{ $user->name }}">
                             @foreach($usersArray as $id => $username)
                                 <option value="{{ $id }}" @if ($username == $user->name) selected="selected" @endif>{{ $username }}</option>

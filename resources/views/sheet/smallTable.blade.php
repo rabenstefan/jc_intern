@@ -5,7 +5,7 @@
 </tr>
 @foreach($sheets as $id => $sheet)
 <tr>
-    <td>{{ $sheet['name'] }}</td>
+    <td>{{ HTML::linkAction('SheetController@show', $sheet['name'], [$id], ['style' => 'padding: 0']) }}</td>
     <td class="number">@foreach($sheet['numbers'] as $number)<span class="sheet-number" data-sheet-number="{{ $number }}">{{ HTML::linkAction('SheetController@sheetUser', $number, [$id, $number], ['style' => 'padding: 0']) }} @if ($number != end($sheet['numbers'])), @endif</span>@endforeach</td>
 </tr>
 @endforeach

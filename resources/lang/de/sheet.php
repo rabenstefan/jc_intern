@@ -21,6 +21,7 @@ return [
     'sheet_user_edit' => 'Daten ändern',
     'owner'         => 'Besitzer',
     'status'        => 'Status',
-    'change_data'   => 'Daten ändern'
+    'change_data'   => 'Daten ändern',
+    'to_series'     => 'Zur Serie',
 
 ];
