@@ -1,5 +1,5 @@
-<?php $filters = ['birthday', 'gig', 'rehearsal'];
-$view_types = ['calendar', 'list']; ?>
+<?php $filters = \App\Http\Controllers\DateController::getFilterTypes();
+$view_types = \App\Http\Controllers\DateController::getViewTypes(); ?>
 
 <div class="row">
     <div class="col-xs-12 col-md-1">
@@ -45,12 +45,9 @@ $view_types = ['calendar', 'list']; ?>
             @else
                 // Some options to override filters have been passed as GET-parameters. We will now try to parse them to javascript
                 dateFilters.showAll();
-                <?php $override_filters = array_intersect($filters, $override_filters); ?> {{-- Because never trust the client! --}}
                 @if(count($override_filters) === 0)
                     $.notify('{!! trans('date.filters_invalid') !!}', {className: 'warning', autoHideDelay: 5000});
-                @else @foreach(array_diff($filters, $override_filters) as $singular)
-                    {{-- Sinve $override_filters was modified by array_intersect above, we now have
-                        all instances of filters we want to hide --}}
+                @else @foreach($override_filters as $singular)
                     <?php $plural = str_plural($singular); ?>
                     dateFilters.hideByType('{{$singular}}', '{{$plural}}');
                 @endforeach @endif
