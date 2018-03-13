@@ -49,6 +49,9 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::resource('sheet', 'SheetController');
     Route::put('sheet/ajaxUpdate/{id}', 'SheetController@ajaxUpdate');
+    Route::get('sheet/user/{id}', 'SheetController@sheetsPerUser');
+    Route::get('sheet/{id}/number/{number}', 'SheetController@sheetUser');
+    Route::put('sheet/{id}/number/{number}', 'SheetController@sheetUserUpdate');
 
     Route::get('dates/{view_type?}', 'DateController@index')->name('date.index');
 

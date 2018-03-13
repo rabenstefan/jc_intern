@@ -98,6 +98,19 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Sheet');
     }
 
+    public function borrowed(){
+        return $this->belongsToMany('App\Sheet')->withPivot('number', 'status')->wherePivot('status', '=', Sheet::STATUS_BORROWED);
+    }
+
+    public function lost(){
+        return $this->belongsToMany('App\Sheet')->withPivot('number', 'status')->wherePivot('status', '=', Sheet::STATUS_LOST);
+    }
+
+    public function bought(){
+        return $this->belongsToMany('App\Sheet')->withPivot('number', 'status')->wherePivot('status', '=', Sheet::STATUS_BOUGHT);
+    }
+
+
     public function attendances(){
         return $this->belongsToMany('App\Attendance');
     }
@@ -210,5 +223,9 @@ class User extends Authenticatable
         } else {
             return parent::where('last_echo', Semester::current()->id)->get($columns);
         }
+    }
+
+    public function getNameAttribute(){
+        return $this->first_name . ' ' . $this->last_name;
     }
 }
