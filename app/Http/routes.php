@@ -51,6 +51,8 @@ Route::group(['middleware' => 'web'], function () {
     Route::put('sheet/ajaxUpdate/{id}', 'SheetController@ajaxUpdate');
 
     Route::get('dates/{view_type?}', 'DateController@index')->name('date.index');
+    Route::get('calendar_sync', 'DateController@calendarSync')->name('date.calendarSync');
+    Route::get('render_ical', 'DateController@renderIcal')->name('date.renderIcal');
 
     Route::post('semester/new', 'SemesterController@generateNewSemester')->name('semester.generateNew');
 

@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Input;
 use MaddHatter\LaravelFullcalendar\Event;
 use MaddHatter\LaravelFullcalendar\Facades\Calendar;
 use Symfony\Component\Debug\Exception\FatalThrowableError;
+use Cache;
 
 class DateController extends Controller {
     private static $view_types = [
@@ -133,5 +134,62 @@ class DateController extends Controller {
         }
 
         return $data->flatten();
+    }
+
+
+    public function calendarSync() {
+        return view('date.calendar_sync', ['date_types' => array_keys(self::$date_types)]);
+    }
+
+    public function renderIcal() {
+        $date_types = [];
+        if (Input::has('show_types') && is_array(Input::get('show_types')) && (count(Input::get('show_types')) > 0 )) {
+            $show_types = Input::get('show_types');
+
+            foreach (self::$date_types as $key => $value) {
+                if (in_array($key, $show_types)) {
+                    $date_types[$key] = $value;
+                }
+            }
+        }
+
+        if (empty($date_types)) {
+            $date_types = self::$date_types;
+        }
+
+        $calendar_id = implode('-', array_keys($date_types));
+
+        // Only re-render every 2 hours
+        $cached = Cache::get('render_Ical_'.$calendar_id);
+        if (null === $cached) {
+            $dates = $this->getDates($date_types);
+
+            $vCalendar = new \Eluceo\iCal\Component\Calendar('jazzchor_'.$calendar_id);
+            foreach ($dates as $date) {
+                $vEvent = new \Eluceo\iCal\Component\Event();
+                $vEvent
+                    ->setDtStart($date->getStart())
+                    ->setDtEnd($date->getEnd())
+                    ->setNoTime($date->isAllDay())
+                    ->setSummary($date->getTitle())
+                    ->setDescription($date->description)
+                ;
+                if (true === $date->hasPlace()) {
+                    $vEvent->setLocation($date->place);
+                }
+                $vCalendar->addComponent($vEvent);
+            }
+
+
+            header('Content-Type: text/calendar; charset=utf-8');
+            header('Content-Disposition: attachment; filename="calendar_'.$calendar_id.'.ics"');
+            $new = $vCalendar->render();
+            Cache::put('render_Ical_'.$calendar_id, $new, 120);
+            return $new;
+        } else {
+            header('Content-Type: text/calendar; charset=utf-8');
+            header('Content-Disposition: attachment; filename="calendar_'.$calendar_id.'.ics"');
+            return $cached;
+        }
     }
 }
