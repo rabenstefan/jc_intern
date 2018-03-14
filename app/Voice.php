@@ -30,6 +30,10 @@ class Voice extends \Eloquent {
         return Voice::all()->where('child_group', true);
     }
 
+    public static function getRoot(){
+        return Voice::whereNull('super_group' )->first();
+    }
+
     /**
      * Get the distinct parent voices of the given set of voices.
      *

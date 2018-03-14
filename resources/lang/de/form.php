@@ -45,4 +45,9 @@ return [
     'error_user_not_found' => 'Es gibt kein Chormitglied namens :name.',
     'error_sheet_not_found' => 'Heftserie nicht :id nicht gefunden.',
     'error_arbitrary' => 'Fehler beim bearbeiten der Anfrage.',
+    'name' => 'Name',
+    'error_number' => 'Seriennummer :number nicht gefunden',
+    'error_username' => 'Benutzername :username falsch formatiert',
+    'error_status'  => 'Status :status ist ungültig',
+    'error_double_number' => 'Heft mit Seriennummer :number existiert bereits',
 ];

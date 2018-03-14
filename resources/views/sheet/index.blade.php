@@ -32,7 +32,7 @@
                             <th style="width: 30%;">{{ trans('sheet.lost') }}</th>
                             <th style="width: 30%;">{{ trans('sheet.bought') }}</th>
                             <th style="width: 30%;">{{ trans('sheet.available') }}</th>
-
+                            <th style="width: 30%;">{{ trans('sheet.distribute') }}</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -40,26 +40,37 @@
                             <tr class="sheet-row">
                                 <td class="sheetlabel">{{ HTML::linkAction('SheetController@show', $sheet->label, [$sheet->id], ['style' => 'padding: 0']) }}</td>
                                 <td class="borrowed">
-                                    {{ Form::open(['action' => ['SheetController@ajaxUpdate', $sheet->id], 'method' => 'PUT', 'class' => 'borrow-form', 'style' => "display: inline-block", 'data-sheet-id' => $sheet->id, 'data-amount' => $sheet->amount, 'data-borrowed-count' => $sheet->borrowed->count()]) }}
+                                    {{ Form::open([
+                                        'action' => ['SheetController@ajaxUpdate', $sheet->id],
+                                        'method' => 'PUT',
+                                        'class' => 'borrow-form',
+                                        'style' => "display: inline-block",
+                                        'data-amount' => $sheet->amount,
+                                    ]) }}
 
-                                        <span id="borrowed-count">{{ $sheet->borrowed->count()}} / {{  $sheet->amount }}</span>
-                                        <button type="button" class="btn btn-xs btn-2d search-activator">
-                                            <i class="fa fa-plus"></i>
-                                        </button>
-                                        {{ Form::text('borrowed', '', ['class' => 'ajax-search form-control form-control-2d', 'style' => "display:none", 'list' => 'userlist']) }}
+                                    <span data-count="{{ $sheet->borrowed->count() }}">{{ $sheet->borrowed->count()}} / {{  $sheet->amount }}</span>
+                                    <button type="button" class="btn btn-xs btn-2d search-activator">
+                                        <i class="fa fa-plus"></i>
+                                    </button>
+                                    {{ Form::text('borrowed', '', ['class' => 'ajax-search form-control form-control-2d', 'style' => "display:none", 'list' => 'userlist']) }}
                                     {{  Form::close() }}
                                 </td>
                                 <td class="lost">
-                                    {{ $sheet->lost->count()}} / {{  $sheet->amount }}
+                                    <span data-count="{{ $sheet->lost->count() }}">{{ $sheet->lost->count()}} / {{  $sheet->amount }}</span>
 
                                 </td>
                                 <td class="bought">
-                                    {{ $sheet->bought->count()}} / {{  $sheet->amount }}
+                                    <span data-count="{{ $sheet->bought->count() }}">{{ $sheet->bought->count()}} / {{  $sheet->amount }}</span>
 
                                 </td>
-                                <td class="availableCount">
-                                    {{ $sheet->availableCount }} / {{  $sheet->amount }}
+                                <td class="available">
+                                    <span data-count="{{ $sheet->availableCount }}">{{ $sheet->availableCount }} / {{  $sheet->amount }}</span>
 
+                                </td>
+                                <td class="distribute">
+                                    <a href="{{ URL::action('SheetController@distribute', ['id' => $sheet->id]) }}" class="btn btn-2d">
+                                        <i class="fa @if(rand(1,100)<=2) fa-{{ Config::get('fa.font-awesome')[array_rand(Config::get('fa.font-awesome'))] }} @else fa-clipboard-list @endif"></i>
+                                    </a>
                                 </td>
                             </tr>
                         @endforeach
@@ -140,6 +151,12 @@
 
             $('.borrow-form').submit(function(){
                 var $form = $(this);
+                var $borrowedSpan = $form.closest('tr').find('td.borrowed span');
+                var $availableSpan = $form.closest('tr').find('td.available span');
+
+                var borrowedCount = parseInt($borrowedSpan.attr('data-count'));
+                var availableCount = parseInt($availableSpan.attr('data-count'));
+
 
                 $.ajax({
                     type: "POST",
@@ -148,18 +165,19 @@
                     dataType: 'json',
                     success: function(data)
                     {
-                        var amount = parseInt($form.data('amount'));
-                        var borrowedCount = parseInt($form.attr('data-borrowed-count'));
+                        var amount = parseInt($form.attr('data-amount'));
                         $.notify(data.message, {'class': 'error', 'autoHide': false}) // show response from the php script.
                         borrowedCount = borrowedCount + 1;
-                        var selector = 'form[data-sheet-id="' + data.sheetId +'"]';
-                        $form = $(selector);
-                        $form.attr('data-borrowed-count', borrowedCount);
-                        $form.find('#borrowed-count').first().text(borrowedCount + ' / ' + amount);
+                        availableCount = availableCount - 1;
+                        $borrowedSpan.attr('data-count', borrowedCount);
+                        $availableSpan.attr('data-count', availableCount);
+                        $borrowedSpan.text(borrowedCount + ' / ' + amount);
+                        $availableSpan.text(availableCount + ' / ' + amount);
+                        $form.find('input[type="text"]').val('');
                     },
                     error: function(data) {
                         $data = data.responseJSON;
-                        if ($data.error){
+                        if ($data && $data.error){
                             $.notify($data.message, {'class': 'notifyjs-bootstrap-error'}) // show response from the php script.
                         }
                     }
