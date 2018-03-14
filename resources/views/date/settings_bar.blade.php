@@ -1,4 +1,5 @@
-<?php $filters = \App\Http\Controllers\DateController::getFilterTypes();
+<?php $date_types = \App\Http\Controllers\DateController::getDateTypes();
+$date_statuses = \App\Http\Controllers\DateController::getDateStatuses();
 $view_types = \App\Http\Controllers\DateController::getViewTypes(); ?>
 
 <div class="row">
@@ -6,14 +7,23 @@ $view_types = \App\Http\Controllers\DateController::getViewTypes(); ?>
         {{ trans('date.show_only') }}:
     </div>
     <div class="col-xs-12 col-md-5">
-        @foreach($filters as $button)
+        @foreach($date_types as $button)
             <?php $button_plural = str_plural($button); ?>
-            <div id="toggle-{{$button_plural}}" class="btn btn-{{$button_plural}} btn-2d btn-pressed">
+            <div id="toggle-{{$button_plural}}" class="btn btn-{{$button_plural}} btn-2d btn-pressed btn-date-type">
                 {{ trans('date.'.$button_plural) }}
             </div>
         @endforeach
+        <br>
+            @if('list' === $view_type)
+        @foreach($date_statuses as $button)
+                <div id="toggle-{{$button}}" class="btn btn-{{$button}} btn-2d btn-pressed btn-date-status">
+                    {{ trans('date.'.$button) }}
+                </div>
+            @endforeach
+            <br>
+            @endif
         <div id="toggle-all" class="btn btn-all btn-2d">
-                {{ trans('nav.all') }}
+                {{ trans('date.all') }}
         </div>
     </div>
     <div class="col-xs-12 visible-xs visible-sm">
@@ -34,23 +44,43 @@ $view_types = \App\Http\Controllers\DateController::getViewTypes(); ?>
 
     <script type="text/javascript">
         $(document).ready(function () {
-            @foreach($filters as $filter)
-                dateFilters.availableFilters.push({'singular': '{{ $filter }}', 'plural': '{{ str_plural($filter) }}'});
-            @endforeach
+
+            @if('calendar' === $view_type)
+                dateFilters.eventContainerIdentifier = '.fc-event';
+            @elseif('list' === $view_type)
+                dateFilters.eventContainerIdentifier = '.list-item';
+            @endif
+
+            dateFilters.activeFilters = {
+                @foreach($date_types as $filter)
+                '{{ $filter }}': {
+                    'plural': '{{ str_plural($filter) }}',
+                    'visible': true
+                },
+                @endforeach
+                @foreach($date_statuses as $filter)
+                '{{ $filter }}': {
+                    'plural': '{{  $filter }}',
+                    'visible': true
+                },
+                @endforeach
+            };
 
             dateFilters.prepareButtons();
 
-            @if(null === $override_filters)
-                dateFilters.applyAllFromCookie();
+            @if(count($override_types) === 0 && count($override_statuses) === 0 )
+                dateFilters.readCookie();
+                dateFilters.applyAllFilters(false);
             @else
                 // Some options to override filters have been passed as GET-parameters. We will now try to parse them to javascript
-                dateFilters.showAll();
-                @if(count($override_filters) === 0)
-                    $.notify('{!! trans('date.filters_invalid') !!}', {className: 'warning', autoHideDelay: 5000});
-                @else @foreach($override_filters as $singular)
+                @foreach($override_types as $singular)
                     <?php $plural = str_plural($singular); ?>
-                    dateFilters.hideByType('{{$singular}}', '{{$plural}}');
-                @endforeach @endif
+                    dateFilters.prepareHideFilter('{{$singular}}');
+                @endforeach
+                @foreach($override_statuses as $status)
+                    dateFilters.prepareHideFilter('{{ $status }}');
+                @endforeach
+                dateFilters.applyAllFilters();
             @endif
         });
     </script>

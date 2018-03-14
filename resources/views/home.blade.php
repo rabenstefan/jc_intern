@@ -25,7 +25,8 @@
                         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
                             <div class="panel-element panel-element-info">
                                 {{ trans('home.unanswered_gigs', ['count' => Auth::user()->unansweredGigsCount()] ) }}
-                                <a href="{{ route('date.index', ['view_type' => 'list', 'hideByType' => ['answered', 'birthday']]) }}">{{ trans('home.all_unanswered') }}</a>
+                                <a href="{{ route('date.index', ['view_type' => 'list', 'hideByType' => ['birthday'], 'hideByStatus' => \App\Http\Controllers\DateController::invertDateStatuses(['unanswered', 'maybe-going'])]) }}">{{ trans('home.all_unanswered_maybe') }}</a>
+                                <a href="{{ route('date.index', ['view_type' => 'list', 'hideByType' => ['birthday'], 'hideByStatus' => \App\Http\Controllers\DateController::invertDateStatuses(['unanswered'])]) }}">{{ trans('home.all_unanswered') }}</a>
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">

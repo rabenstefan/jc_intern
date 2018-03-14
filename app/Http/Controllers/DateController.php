@@ -15,8 +15,8 @@ use Cache;
 
 class DateController extends Controller {
     private static $view_types = [
-        'calendar' => 'calendarIndex',
         'list'     => 'listIndex',
+        'calendar' => 'calendarIndex',
     ];
 
     private static $date_types = [
@@ -25,11 +25,11 @@ class DateController extends Controller {
         'birthdays'  => Birthday::class,
     ];
 
-    private static $additional_filters = [
-        'answered',
-        'unanswered',
+    private static $date_statuses = [ // Statuses that the UI can filter by
         'going',
-        'not-going'
+        'not-going',
+        'maybe-going',
+        'unanswered'
     ];
 
     public static function getViewTypes() {
@@ -45,13 +45,8 @@ class DateController extends Controller {
         return array_map('str_singular', array_keys(self::$date_types));
     }
 
-    /**
-     * Returns all properties that the UI can distinguish enough to hide elements by.
-     *
-     * @return array
-     */
-    public static function getFilterTypes() {
-        return array_merge(self::getDateTypes(), self::$additional_filters);
+    public static function getDateStatuses() {
+        return self::$date_statuses;
     }
 
     /**
@@ -66,10 +61,9 @@ class DateController extends Controller {
         return array_diff($available_types, array_intersect($available_types, $date_types));
     }
 
-    /*public static function invertFilters(array $filters) {
-        $filter_types = self::getFilterTypes();
-        return array_diff($filter_types, array_intersect($filter_types, $filters));
-    }*/ // Useless function
+    public static function invertDateStatuses(array $date_statuses) {
+        return array_diff(self::$date_statuses, array_intersect(self::$date_statuses, $date_statuses));
+    }
 
     /**
      * DateController constructor.
@@ -90,40 +84,41 @@ class DateController extends Controller {
             $view_type = self::$view_types[0];
         }
 
-        $filters = null;
+        $override_types = [];
         if (Input::has('hideByType') && is_array(Input::get('hideByType')) && (count(Input::get('hideByType')) > 0 )) {
-            $filters = Input::get('hideByType');
-            $filters = array_intersect(self::getFilterTypes(), $filters); // Because never trust the client!
+            $override_types = Input::get('hideByType');
+            $override_types = array_intersect(self::getDateTypes(), $override_types); // Because never trust the client!
+        }
+
+        $override_statuses = [];
+        if (Input::has('hideByStatus') && is_array(Input::get('hideByStatus')) && (count(Input::get('hideByStatus')) > 0 )) {
+            $override_statuses = Input::get('hideByStatus');
+            $override_statuses = array_intersect(self::getDateStatuses(), $override_statuses); // Because never trust the client!
         }
 
         $with_old = 'calendar' === $view_type;
 
-        if (false !== $view = call_user_func_array([$this, self::$view_types[$view_type]], ['dates' => $this->getDates(self::$date_types, $with_old), 'override_filters' => $filters])) {
+        if (false !== $view = call_user_func_array([$this, self::$view_types[$view_type]],
+                ['dates' => $this->getDates(self::$date_types, $with_old),
+                    'override_types' => $override_types, 'override_statuses' => $override_statuses])) {
             return $view;
         } else {
-            return redirect()->route('index', ['override_filters' => $filters])->withErrors(trans('date.view_type_not_found'));
+            return redirect()->route('index', ['override_types' => $override_types, 'override_statuses' => $override_statuses])->withErrors(trans('date.view_type_not_found'));
         }
     }
 
-    protected function calendarIndex (\Illuminate\Support\Collection $dates, $filters) {
-        if (!(null === $filters || is_array($filters))) {
-            throw new FatalThrowableError('Type of second parameter of calendarIndex has to be null or array');
-        }
+    protected function calendarIndex (\Illuminate\Support\Collection $dates, array $override_types = [], array $override_statuses = []) {
         $calendar = Calendar::addEvents($dates);
         $calendar->setId('dates');
-
-        return view('date.calendar', ['calendar' => $calendar, 'override_filters' => $filters]);
+        return view('date.calendar', ['calendar' => $calendar, 'override_types' => $override_types, 'override_statuses' => $override_statuses]);
     }
 
-    protected function listIndex (\Illuminate\Support\Collection $dates, $filters) {
-        if (!(null === $filters || is_array($filters))) {
-            throw new FatalThrowableError('Type of second parameter of listIndex has to be null or array');
-        }
+    protected function listIndex (\Illuminate\Support\Collection $dates, array $override_types = [], array $override_statuses = []) {
         $dates = $dates->sortBy(function (Event $date) {
             return Carbon::now()->diffInSeconds($date->getStart(), false);
         });
 
-        return view('date.list', ['dates' => $dates, 'override_filters' => $filters]);
+        return view('date.list', ['dates' => $dates, 'override_types' => $override_types, 'override_statuses' => $override_statuses]);
     }
 
     private function getDates (array $date_types, bool $with_old = false) {
