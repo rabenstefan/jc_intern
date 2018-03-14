@@ -57,8 +57,8 @@
                                 <input type="checkbox"<?php echo $notAttending ? '' : ' checked="checked"'; ?> id="slider-attending-{{ $date->getShortName() }}-{{ $date->getId() }}">
                                 <label for="slider-attending-{{ $date->getShortName() }}-{{ $date->getId() }}">
                                     <span class="slider"></span>
-                                    <i class="fa fa-calendar-times-o" title="{{ trans('date.excuse') }}"></i>
-                                    <i class="fa fa-calendar-check-o" title="{{ trans('date.attend') }}"></i>
+                                    <i class="far fa-calendar-times" title="{{ trans('date.excuse') }}"></i>
+                                    <i class="far fa-calendar-check" title="{{ trans('date.attend') }}"></i>
                                 </label>
                             </span>
                         </div>
@@ -68,13 +68,13 @@
                         <div class="col-xs-12">
                             <span class="button-set-2d">
                                 <a href="#" class="btn btn-2d btn-no{{ $attending == 'no' ? ' btn-pressed' : '' }}" data-url="{{ route('commitment.commitSelf', ['gig_id' => $date->getId()]) }}" data-attendance="no">
-                                    <i class="fa fa-calendar-times-o"></i>
+                                    <i class="far fa-calendar-times"></i>
                                 </a>
                                 <a href="#" class="btn btn-2d btn-maybe{{ $attending == 'maybe' ? ' btn-pressed' : '' }}" data-url="{{ route('commitment.commitSelf', ['gig_id' => $date->getId()]) }}" data-attendance="maybe">
-                                    <i class="fa fa-calendar-o fa-with-overlay">?</i>
+                                    <i class="far fa-calendar fa-with-overlay">?</i>
                                 </a>
                                 <a href="#" class="btn btn-2d btn-yes{{ $attending == 'yes' ? ' btn-pressed' : '' }}" data-url="{{ route('commitment.commitSelf', ['gig_id' => $date->getId()]) }}" data-attendance="yes">
-                                    <i class="fa fa-calendar-check-o"></i>
+                                    <i class="far fa-calendar-check"></i>
                                 </a>
                             </span>
                         </div>
@@ -85,7 +85,7 @@
                         <div class="col-xs-12">
                             <span class="edit-btn-container">
                                 <a href="{{ $date->getEventOptions()['url'] }}" class="btn btn-2d" title="{{ trans('form.edit') }}">
-                                    <i class="fa fa-pencil"></i>
+                                    <i class="fa fa-pencil-alt"></i>
                                 </a>
                             </span>
                         </div>

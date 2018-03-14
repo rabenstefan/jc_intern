@@ -6,7 +6,7 @@
     {{-- Output role 'Musikalische Leitung' first. --}}
     <div class="row">
         <div class="col-xs-12">
-            <h1>{{ trans('sheet.show_title', ['label' => $sheet->label]) }} <a class="btn btn-2d" href="{{ URL::action('SheetController@edit', [$sheet->id]) }}"><i class="fa fa-pencil"></i></a></h1>
+            <h1>{{ trans('sheet.show_title', ['label' => $sheet->label]) }} <a class="btn btn-2d" href="{{ URL::action('SheetController@edit', [$sheet->id]) }}"><i class="fa fa-pencil-alt"></i></a></h1>
         </div>
     </div>
     @if (count($borrowed) > 0)
