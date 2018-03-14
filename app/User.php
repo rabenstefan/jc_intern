@@ -210,6 +210,14 @@ class User extends Authenticatable
         return User::where(['voice_id' => $voiceId, 'last_echo' => Semester::current()->id])->get();
     }
 
+    public function scopeCurrent($query){
+        return $query->where('last_echo', Semester::current()->id);
+    }
+
+    public function scopeOfVoice($query, $voiceId) {
+        return $query->where('voice_id', $voiceId);
+    }
+
     /**
      * No need for old users usually.
      *

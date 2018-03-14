@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Sheet;
 use App\User;
+use App\Voice;
+use Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Http\Request;
 
 class SheetController extends Controller
 {
@@ -29,13 +32,52 @@ class SheetController extends Controller
     }
 
     public function create(){
-
         return view('sheet.create');
     }
 
-    public function edit(){
+    public function store(Request $request){
+        $this->validate($request, Sheet::$rules);
+        $sheet = Sheet::create($request->only(['label', 'amount']));
+        $sheet->save();
+        return redirect()->action('SheetController@distribute', ['id' => $sheet->id]);
 
-        return view('sheet.edit');
+    }
+
+    public function edit($id){
+        $sheet = Sheet::findOrFail($id);
+        return view('sheet.edit', ['sheet' => $sheet]);
+    }
+
+    public function destroy($id){
+        $sheet = Sheet::findOrFail($id);
+        DB::delete('delete from sheet_user where sheet_id = :id', ['id' => $sheet->id]);
+        $sheet->delete();
+        return response()->redirectToAction('SheetController@index');
+    }
+
+    public function distribute($id){
+        $sheet = Sheet::findOrFail($id);
+        $parentVoices = Voice::getParentVoices(Voice::getChildVoices());
+        $users = User::all();
+        return view('sheet.distribute', ['sheet' => $sheet, 'parentVoices' => $parentVoices, 'users' => $users]);
+    }
+
+    public function processDistribute($id){
+        $sheet = Sheet::findOrFail($id);
+        if (!Input::has('users')){
+            return response()->redirectToAction('SheetController@distribute', ['id' => $sheet->id])->withErrors(['no input']);
+        }
+        $userIds = Input::get('users');
+        $users = User::findMany($userIds);
+        if ($users->count() == 0){
+            return response()->redirectToAction('SheetController@distribute', ['id' => $sheet->id])->withErrors(['no users']);
+        }
+
+        foreach ($users as $user){
+            $number = $sheet->getNextFreeNumber();
+            $user->sheets()->attach($sheet->id, ['status' => Sheet::STATUS_BORROWED, 'number' => $number]);
+        }
+        return response()->redirectToAction('SheetController@show', ['id' => $sheet->id]);
     }
 
     public function show($id){
@@ -207,6 +249,22 @@ class SheetController extends Controller
         if ($status != $oldStatus || $number != $oldNumber || $user != $oldUser){
             DB::update('update sheet_user set status = :status, number = :number, user_id = :userid where id = :pivot', ['status' => $status, 'number' => $number, 'userid' => $user->id, 'pivot' => $oldUser->pivot->id]);
         }
-        return redirect()->action('SheetController@sheetUser', ['id' => $sheet->id, 'number' => $number]);
+        return redirect()->action('SheetController@sheetUser', ['id' => $sheet->id, 'number' => $number])->with('message_success', trans('sheet.sheet_user_update_success'));
+    }
+
+    public function returnSheet($id, $number){
+        $sheet = Sheet::find($id);
+        if (!$sheet){
+            return response()->json(['error' => 'wrong_input', 'message' => trans('form.error_arbitrary')], 500);
+        }
+        $user = $sheet->users()->wherePivot('number', '=', $number)->first();
+        if (!$user){
+            return response()->json(['error' => 'wrong_input', 'message' => trans('form.error_number'), ['number' => $number]], 500);
+        }
+
+        DB::delete('delete from sheet_user where id = :pivot', [ 'pivot' => $user->pivot->id]);
+
+        return redirect()->action('SheetController@show', ['id' => $sheet->id]);
+
     }
 }

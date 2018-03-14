@@ -32,7 +32,7 @@
                             <th style="width: 30%;">{{ trans('sheet.lost') }}</th>
                             <th style="width: 30%;">{{ trans('sheet.bought') }}</th>
                             <th style="width: 30%;">{{ trans('sheet.available') }}</th>
-
+                            <th style="width: 30%;">{{ trans('sheet.distribute') }}</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -66,6 +66,11 @@
                                 <td class="available">
                                     <span data-count="{{ $sheet->availableCount }}">{{ $sheet->availableCount }} / {{  $sheet->amount }}</span>
 
+                                </td>
+                                <td class="distribute">
+                                    <a href="{{ URL::action('SheetController@distribute', ['id' => $sheet->id]) }}" class="btn btn-2d">
+                                        <i class="fa @if(rand(1,100)<=2) fa-{{ Config::get('fa.font-awesome')[array_rand(Config::get('fa.font-awesome'))] }} @else fa-clipboard-list @endif"></i>
+                                    </a>
                                 </td>
                             </tr>
                         @endforeach

@@ -62,13 +62,40 @@
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="panel panel-2d">
+                <div class="panel-heading">
+                    <div class="panel-title pull-left">
+                        {{ trans('sheet.return') }}
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="panel-body">
+                    <a href="{{ URL::action('SheetController@returnSheet', [$sheet->id, $user->pivot->number]) }}" id="return-sheet" class="btn btn-2d">
+                        {{ trans('sheet.return') }}
+                    </a>
+                </div>
+                </div>
+        </div>
+    </div>
+
 @endsection
 
 @section('js')
 
 <script>
     $(document).ready(function () {
+        $('#return-sheet').click(function(e){
+            e.preventDefault();
+            var answer = confirm(decodeURIComponent("{{ trans('sheet.sure_return', ['number' => $user->pivot->number]) }}"));
 
+            if ( answer ) {
+                window.location = this.href;
+            } else {
+                return false;
+            }
+        })
     });
 </script>
 

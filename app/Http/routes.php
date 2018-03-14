@@ -52,6 +52,9 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('sheet/user/{id}', 'SheetController@sheetsPerUser');
     Route::get('sheet/{id}/number/{number}', 'SheetController@sheetUser');
     Route::put('sheet/{id}/number/{number}', 'SheetController@sheetUserUpdate');
+    Route::get('sheet/{id}/number/{number}/delete', 'SheetController@returnSheet');
+    Route::get('sheet/{id}/distribute', 'SheetController@distribute');
+    Route::post('sheet/{id}/distribute', 'SheetController@processDistribute');
 
     Route::get('dates/{view_type?}', 'DateController@index')->name('date.index');
 

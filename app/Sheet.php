@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Sheet extends Model
 {
@@ -16,6 +17,13 @@ class Sheet extends Model
         Sheet::STATUS_LOST,
         Sheet::STATUS_BOUGHT
     ];
+
+    public static $rules = [
+        'label' => 'required|unique:sheets',
+        'amount' => 'required|numeric'
+    ];
+
+    protected $fillable = ['label', 'amount'];
 
     public function users() {
         return $this->belongsToMany('App\User')->withPivot('id', 'number', 'status');
@@ -49,14 +57,17 @@ class Sheet extends Model
     }
 
     public function getNextFreeNumber(){
-        $users = $this->users;
-        if ($users->count() == 0)
-            return 1;
-        $numbers  = [];
-        foreach ($users as $user)
-            $numbers[] = $user->pivot->number;
 
-        rsort($numbers);
-        return $numbers[0] + 1;
+
+        $sheetUser = DB::table('sheet_user')
+            ->select('number')
+            ->where('sheet_id', '=', $this->id)
+            ->orderBy('number', 'desc')
+            ->first();
+
+        if (!$sheetUser)
+            return 1;
+        else
+            return intval($sheetUser->number) +1;
     }
 }
