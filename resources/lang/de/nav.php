@@ -17,5 +17,7 @@ return [
     'gig_create'        => 'Auftritt planen',
     'sheets'            => 'Hefte',
     'sheet_list'        => 'Liste',
-    'sheet_create'      => 'Serie hinzufügen'
+    'sheet_create'      => 'Serie hinzufügen',
+    'calendar_sync'     => 'Automatische Synchronisation',
+    'admin'             => 'Administration'
 ];

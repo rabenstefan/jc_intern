@@ -47,5 +47,9 @@ return [
     'going'         => 'Zugesagt',
     'not-going'     => 'Abgesagt',
     'maybe-going'   => 'Vielleicht',
-    'unanswered'    => 'keine Rückmeldung'
+    'unanswered'    => 'keine Rückmeldung',
+    'calendar_sync_explanation'   => 'Hier können die verschiedenen Kalendar zur Synchronisierung abgerufen werden. Je nach Gerät funktioniert das über Webcal oder HTTP besser.',
+    'http'          => 'HTTP',
+    'webcal'        => 'Webcal',
+    'and'           => 'und'
 ];
