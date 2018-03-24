@@ -87,12 +87,12 @@
 
 .modal a.close-modal:before {
   content: "\f00d";
-  font-family: "Font Awesome\ 5 Free", sans-serif;
+  font-family: Font Awesome\ 5 Free, sans-serif;
   display: block;
   color: $font-color-inverse;
   font-size: 1.5em;
-  margin-left: -0.4em;
-  margin-top: -0.05em;
+  margin-left: -0.35em;
+  margin-top: 0.15em;
 }
 
 .modal-spinner {
@@ -697,6 +697,21 @@ i.fa {
     @include shadow-2d($main-color-darker);
     font-weight: bold;
 
+    &.panel-heading-warning {
+      background-color: $warning-color;
+      @include shadow-2d($warning-color-darker);
+    }
+
+    &.panel-heading-error {
+      background-color: $error-color;
+      @include shadow-2d($error-color-darker);
+    }
+
+    &.panel-heading-success {
+      background-color: $success-color;
+      @include shadow-2d($success-color-darker);
+    }
+
     .dropdown-menu {
       color: $font-color-inverse;
       background-color: $main-color;
@@ -728,11 +743,6 @@ i.fa {
       margin-bottom: 1em;
       background-color: $grey-lighter;
       @include shadow-2d($grey);
-      border-top: 1em solid $main-color;
-
-      &.panel-element-warning {
-        border-top-color: $warning-color;
-      }
     }
   }
 
@@ -772,7 +782,7 @@ ul.messages-list-2d {
 
     &:before {
       content: "\f12a";
-      font-family: "Font Awesome\ 5 Free", sans-serif;
+      font-family: Font Awesome\ 5 Free, sans-serif;
       padding: 0 1em;
     }
 
@@ -814,22 +824,22 @@ div.checkbox input, div.radio input {
 
   &[type='checkbox'] + span:before {
     content: '\f096';
-    font-family: "Font Awesome\ 5 Free", sans-serif;
+    font-family: Font Awesome\ 5 Free, sans-serif;
   }
 
   &[type='checkbox']:checked + span:before {
     content: '\f046';
-    font-family: "Font Awesome\ 5 Free", sans-serif;
+    font-family: Font Awesome\ 5 Free, sans-serif;
   }
 
   &[type='radio'] + span:before {
     content: '\f10c';
-    font-family: "Font Awesome\ 5 Free", sans-serif;
+    font-family: Font Awesome\ 5 Free, sans-serif;
   }
 
   &[type='radio']:checked + span:before {
     content: '\f192';
-    font-family: "Font Awesome\ 5 Free", sans-serif;
+    font-family: Font Awesome\ 5 Free, sans-serif;
   }
 
   &:focus + span:before,
@@ -862,7 +872,7 @@ div.checkbox input, div.radio input {
 
   &:before {
     content: "\f12a";
-    font-family: "Font Awesome\ 5 Free", sans-serif;
+    font-family: Font Awesome\ 5 Free, sans-serif;
     padding: 0 1em;
   }
 
