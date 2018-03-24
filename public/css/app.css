@@ -5773,9 +5773,9 @@ button.close {
   padding: 2em;
   text-align: left;
   background-color: #fdfdfd;
-  border-radius: 0;
-  border: none;
-  border-bottom: 3px solid #afafaf;
+  border-radius: 0 ;
+  border: none ;
+  border-bottom: 3px solid #afafaf ;
   box-shadow: none; }
 
 .modal a.close-modal {
@@ -5785,7 +5785,7 @@ button.close {
   display: block;
   width: 2em;
   height: 2em;
-  border-radius: 1em;
+  border-radius: 1em ;
   background-color: #FA3D4F; }
 
 .modal a.close-modal:hover {
@@ -5854,9 +5854,9 @@ i.fa {
 .navbar-2d {
   color: #fdfdfd;
   background-color: #38444f;
-  border-radius: 0;
-  border: none;
-  border-bottom: 3px solid #222a32;
+  border-radius: 0 ;
+  border: none ;
+  border-bottom: 3px solid #222a32 ;
   box-shadow: none; }
   .navbar-2d a, .navbar-2d .navbar-brand {
     color: #fdfdfd; }
@@ -5934,9 +5934,9 @@ i.fa {
     border-radius: 6px 0 6px 6px; }
   .navbar-2d .navbar-toggle {
     color: #fdfdfd;
-    border-radius: 0;
-    border: none;
-    border-bottom: 3px solid #222a32;
+    border-radius: 0 ;
+    border: none ;
+    border-bottom: 3px solid #222a32 ;
     box-shadow: none; }
     .navbar-2d .navbar-toggle:hover, .navbar-2d .navbar-toggle:focus, .navbar-2d .navbar-toggle:active {
       color: #fff;
@@ -5956,9 +5956,9 @@ i.fa {
   .navbar-2d .dropdown-menu {
     color: #fdfdfd;
     background-color: #38444f;
-    border-radius: 0;
-    border: none;
-    border-bottom: 3px solid #222a32;
+    border-radius: 0 ;
+    border: none ;
+    border-bottom: 3px solid #222a32 ;
     box-shadow: none;
     border-top: 2px solid #222a32; }
     .navbar-2d .dropdown-menu > li > a {
@@ -6007,40 +6007,51 @@ i.fa {
   background-color: #38444f;
   height: inherit;
   margin-top: 0px;
-  border-radius: 0;
-  border: none;
-  border-bottom: 3px solid #222a32;
+  border-radius: 0 ;
+  border: none ;
+  border-bottom: 3px solid #222a32 ;
   box-shadow: none; }
   .btn-2d:hover, .btn-2d:focus, .btn-2d:active, .btn-2d.btn-pressed, #calendar-dates .btn-2d:hover, #calendar-dates .btn-2d:focus, #calendar-dates .btn-2d:active, #calendar-dates .btn-2d.btn-pressed {
     border-bottom: 0px !important;
     margin-top: 3px !important;
     color: #fff !important;
     outline: none !important; }
+  .btn-2d.btn-unpressed, #calendar-dates .btn-2d.btn-unpressed {
+    background-color: #c3c3c3 !important;
+    border-radius: 0 !important;
+    border: none !important;
+    border-bottom: 3px solid #afafaf !important;
+    box-shadow: none; }
+    .btn-2d.btn-unpressed:hover, .btn-2d.btn-unpressed:focus, .btn-2d.btn-unpressed:active, #calendar-dates .btn-2d.btn-unpressed:hover, #calendar-dates .btn-2d.btn-unpressed:focus, #calendar-dates .btn-2d.btn-unpressed:active {
+      border-bottom: 0px !important;
+      margin-top: 3px !important;
+      color: #fff !important;
+      outline: none !important; }
   .btn-2d.btn-success, .btn-2d.btn-birthdays, .btn-2d.btn-yes, #calendar-dates .btn-2d.btn-success, #calendar-dates .btn-2d.btn-birthdays, #calendar-dates .btn-2d.btn-yes {
     background-color: #56E438;
-    border-radius: 0;
-    border: none;
-    border-bottom: 3px solid #44C728;
+    border-radius: 0 ;
+    border: none ;
+    border-bottom: 3px solid #44C728 ;
     box-shadow: none; }
   .btn-2d.btn-warning, .btn-2d.btn-gigs, .btn-2d.btn-maybe, #calendar-dates .btn-2d.btn-warning, #calendar-dates .btn-2d.btn-gigs, #calendar-dates .btn-2d.btn-maybe {
     background-color: #FFA63F;
-    border-radius: 0;
-    border: none;
-    border-bottom: 3px solid #DF8D2D;
+    border-radius: 0 ;
+    border: none ;
+    border-bottom: 3px solid #DF8D2D ;
     box-shadow: none; }
   .btn-2d.btn-error, .btn-2d.btn-all, .btn-2d.btn-no, #calendar-dates .btn-2d.btn-error, #calendar-dates .btn-2d.btn-all, #calendar-dates .btn-2d.btn-no {
     background-color: #FA3D4F;
-    border-radius: 0;
-    border: none;
-    border-bottom: 3px solid #DA2C3D;
+    border-radius: 0 ;
+    border: none ;
+    border-bottom: 3px solid #DA2C3D ;
     box-shadow: none; }
   .panel-heading .btn-2d.btn-add, .btn-2d.btn-inv, .panel-heading #calendar-dates .btn-2d.btn-add, #calendar-dates .btn-2d.btn-inv {
     color: #38444f;
     background-color: #fdfdfd;
     padding: 0 6px;
-    border-radius: 0;
-    border: none;
-    border-bottom: 3px solid #afafaf;
+    border-radius: 0 ;
+    border: none ;
+    border-bottom: 3px solid #afafaf ;
     box-shadow: none; }
     .panel-heading .btn-2d.btn-add:hover, .panel-heading .btn-2d.btn-add:focus, .panel-heading .btn-2d.btn-add:active, .btn-2d.btn-inv:hover, .btn-2d.btn-inv:focus, .btn-2d.btn-inv:active, .panel-heading #calendar-dates .btn-2d.btn-add:hover, .panel-heading #calendar-dates .btn-2d.btn-add:focus, .panel-heading #calendar-dates .btn-2d.btn-add:active, #calendar-dates .btn-2d.btn-inv:hover, #calendar-dates .btn-2d.btn-inv:focus, #calendar-dates .btn-2d.btn-inv:active {
       border-bottom: none;
@@ -6072,17 +6083,17 @@ i.fa {
 .event, #calendar-dates .fc-event {
   color: #020202;
   background-color: #fdfdfd;
-  border-radius: 0;
-  border: none;
-  border-bottom: 3px solid #afafaf;
+  border-radius: 0 ;
+  border: none ;
+  border-bottom: 3px solid #afafaf ;
   box-shadow: none; }
 
 .event-not-going, #calendar-dates .fc-event.event-not-going {
   color: #fdfdfd;
   background-color: #c3c3c3;
-  border-radius: 0;
-  border: none;
-  border-bottom: 3px solid #afafaf;
+  border-radius: 0 ;
+  border: none ;
+  border-bottom: 3px solid #afafaf ;
   box-shadow: none; }
 
 #calendar-dates .fc-event {
@@ -6184,9 +6195,9 @@ i.fa {
   .button-set-2d i.inactive {
     color: #fdfdfd;
     background-color: #c3c3c3;
-    border-radius: 0;
-    border: none;
-    border-bottom: 3px solid #afafaf;
+    border-radius: 0 ;
+    border: none ;
+    border-bottom: 3px solid #afafaf ;
     box-shadow: none; }
 
 .slider-2d input[type="checkbox"] {
@@ -6235,9 +6246,9 @@ i.fa {
     bottom: 0.2em;
     padding: 0.2em 0.5em;
     background-color: #FA3D4F;
-    border-radius: 0;
-    border: none;
-    border-bottom: 3px solid #DA2C3D;
+    border-radius: 0 ;
+    border: none ;
+    border-bottom: 3px solid #DA2C3D ;
     box-shadow: none;
     transition: .4s;
     z-index: 99; }
@@ -6256,9 +6267,9 @@ i.fa {
 .slider-2d input[type="checkbox"]:checked + label .slider:before {
   transform: translateX(2.4em);
   background-color: #56E438;
-  border-radius: 0;
-  border: none;
-  border-bottom: 3px solid #44C728;
+  border-radius: 0 ;
+  border: none ;
+  border-bottom: 3px solid #44C728 ;
   box-shadow: none;
   content: "\f274"; }
 
@@ -6276,24 +6287,24 @@ i.fa {
 
 /** Cool panels, additionally used to .panel class. **/
 .panel-2d {
-  border-radius: 0;
-  border: none;
-  border-bottom: 3px solid #afafaf;
+  border-radius: 0 ;
+  border: none ;
+  border-bottom: 3px solid #afafaf ;
   box-shadow: none; }
   .panel-2d .panel-heading {
     color: #fdfdfd;
     background-color: #38444f;
-    border-radius: 0;
-    border: none;
-    border-bottom: 3px solid #222a32;
+    border-radius: 0 ;
+    border: none ;
+    border-bottom: 3px solid #222a32 ;
     box-shadow: none;
     font-weight: bold; }
     .panel-2d .panel-heading .dropdown-menu {
       color: #fdfdfd;
       background-color: #38444f;
-      border-radius: 0;
-      border: none;
-      border-bottom: 3px solid #222a32;
+      border-radius: 0 ;
+      border: none ;
+      border-bottom: 3px solid #222a32 ;
       box-shadow: none;
       top: 2.5em;
       right: inherit;
@@ -6307,15 +6318,15 @@ i.fa {
   .panel-2d .panel-body {
     padding: 10px;
     background-color: #fafafa;
-    border-radius: 0; }
+    border-radius: 0 ; }
     .panel-2d .panel-body .panel-element {
       min-height: 6em;
       padding: 10px;
       margin-bottom: 1em;
       background-color: #eaeaea;
-      border-radius: 0;
-      border: none;
-      border-bottom: 3px solid #c3c3c3;
+      border-radius: 0 ;
+      border: none ;
+      border-bottom: 3px solid #c3c3c3 ;
       box-shadow: none;
       border-top: 1em solid #38444f; }
       .panel-2d .panel-body .panel-element.panel-element-warning {
@@ -6324,9 +6335,9 @@ i.fa {
     padding: 5px 10px;
     color: #020202;
     background-color: #c3c3c3;
-    border-radius: 0;
-    border: none;
-    border-bottom: 3px solid #afafaf;
+    border-radius: 0 ;
+    border: none ;
+    border-bottom: 3px solid #afafaf ;
     box-shadow: none;
     font-weight: normal; }
   .panel-2d.panel-2d-grey .panel-body, .panel-2d .panel-2d .panel-body {
@@ -6336,9 +6347,9 @@ i.fa {
 .form-control-2d {
   color: #020202;
   background-color: #fdfdfd;
-  border-radius: 0;
-  border: none;
-  border-bottom: 3px solid #afafaf;
+  border-radius: 0 ;
+  border: none ;
+  border-bottom: 3px solid #afafaf ;
   box-shadow: none; }
   .form-control-2d:focus {
     border-color: #020202;
@@ -6412,9 +6423,9 @@ div.checkbox input, div.radio input {
   padding: 1em 2em 1em 0;
   color: #38444f;
   background-color: #fff;
-  border-radius: 0;
-  border: none;
-  border-bottom: 3px solid #afafaf;
+  border-radius: 0 ;
+  border: none ;
+  border-bottom: 3px solid #afafaf ;
   box-shadow: none; }
   .notifyjs-shadow2d-base:before {
     content: "\f12a";
@@ -6423,32 +6434,32 @@ div.checkbox input, div.radio input {
   .notifyjs-shadow2d-base.notifyjs-shadow2d-success {
     color: #56E438;
     background-color: #97F084;
-    border-radius: 0;
-    border: none;
-    border-bottom: 3px solid #44C728;
+    border-radius: 0 ;
+    border: none ;
+    border-bottom: 3px solid #44C728 ;
     box-shadow: none; }
     .notifyjs-shadow2d-base.notifyjs-shadow2d-success:before {
       content: "\f00c"; }
   .notifyjs-shadow2d-base.notifyjs-shadow2d-warning {
     color: #FFA63F;
     background-color: #FFCA8D;
-    border-radius: 0;
-    border: none;
-    border-bottom: 3px solid #DF8D2D;
+    border-radius: 0 ;
+    border: none ;
+    border-bottom: 3px solid #DF8D2D ;
     box-shadow: none; }
   .notifyjs-shadow2d-base.notifyjs-shadow2d-danger {
     color: #FA3D4F;
     background-color: #FC8B96;
-    border-radius: 0;
-    border: none;
-    border-bottom: 3px solid #DA2C3D;
+    border-radius: 0 ;
+    border: none ;
+    border-bottom: 3px solid #DA2C3D ;
     box-shadow: none; }
   .notifyjs-shadow2d-base.notifyjs-shadow2d-help {
     color: #fdfdfd;
     background-color: #38444f;
-    border-radius: 0;
-    border: none;
-    border-bottom: 3px solid #222a32;
+    border-radius: 0 ;
+    border: none ;
+    border-bottom: 3px solid #222a32 ;
     box-shadow: none;
     padding: 1em;
     display: block;

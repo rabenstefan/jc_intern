@@ -121,12 +121,12 @@ class RehearsalAttendanceController extends AttendanceController {
     /**
      * Helper to update or create an attendance.
      *
-     * @param Event $rehearsal
+     * @param $rehearsal
      * @param User $user
      * @param array $data
      * @return bool
      */
-    protected function storeAttendance(Event $rehearsal, User $user, array $data) {
+    protected function storeAttendance($rehearsal, User $user, array $data) {
         // Check if we have an attendance for this user/rehearsal.
         $attendance = RehearsalAttendance::where(
             'user_id', $user->id

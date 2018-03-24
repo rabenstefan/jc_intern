@@ -10,28 +10,42 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Input;
 use MaddHatter\LaravelFullcalendar\Event;
 use MaddHatter\LaravelFullcalendar\Facades\Calendar;
-use Symfony\Component\Debug\Exception\FatalThrowableError;
 use Cache;
 
 class DateController extends Controller {
+    // There are multiple ways to display the dates.
     private static $view_types = [
         'list'     => 'listIndex',
         'calendar' => 'calendarIndex',
     ];
 
+    // These are the types our dates can be in.
     private static $date_types = [
         'rehearsals' => Rehearsal::class,
         'gigs'       => Gig::class,
         'birthdays'  => Birthday::class,
     ];
 
-    private static $date_statuses = [ // Statuses that the UI can filter by
+    // Statuses that the UI can filter by.
+    private static $date_statuses = [
         'going',
         'not-going',
         'maybe-going',
         'unanswered'
     ];
 
+    /**
+     * DateController constructor.
+     */
+    public function __construct() {
+        $this->middleware('auth', ['except' => ['renderIcal']]);
+    }
+
+    /**
+     * Get the supported types of displaying the dates.
+     *
+     * @return array
+     */
     public static function getViewTypes() {
         return array_keys(self::$view_types);
     }
@@ -56,20 +70,13 @@ class DateController extends Controller {
      * @param array $date_types
      * @return array
      */
-    public static function invertDateTypes(array $date_types) {
+    public static function invertDateTypes (array $date_types) {
         $available_types = self::getDateTypes();
         return array_diff($available_types, array_intersect($available_types, $date_types));
     }
 
-    public static function invertDateStatuses(array $date_statuses) {
+    public static function invertDateStatuses (array $date_statuses) {
         return array_diff(self::$date_statuses, array_intersect(self::$date_statuses, $date_statuses));
-    }
-
-    /**
-     * DateController constructor.
-     */
-    public function __construct() {
-        $this->middleware('auth', ['except' => ['renderIcal']]);
     }
 
     /**
@@ -98,16 +105,31 @@ class DateController extends Controller {
 
         $with_old = 'calendar' === $view_type;
 
-        if (false !== $view = call_user_func_array([$this, self::$view_types[$view_type]],
-                ['dates' => $this->getDates(self::$date_types, $with_old),
-                    'override_types' => $override_types, 'override_statuses' => $override_statuses])) {
-            return $view;
-        } else {
-            return redirect()->route('index', ['override_types' => $override_types, 'override_statuses' => $override_statuses])->withErrors(trans('date.view_type_not_found'));
-        }
+        $view = call_user_func_array(
+            [
+                $this,
+                self::$view_types[$view_type]
+            ],
+            [
+                'dates' => $this->getDates(self::$date_types, $with_old),
+                'override_types' => $override_types,
+                'override_statuses' => $override_statuses
+            ]
+        );
+
+        return false !== $view ? $view : redirect()->route(
+            'index',
+            ['override_types' => $override_types, 'override_statuses' => $override_statuses]
+        )->withErrors(trans('date.view_type_not_found'));
     }
 
-    protected function calendarIndex (\Illuminate\Support\Collection $dates, array $override_types = [], array $override_statuses = []) {
+    /**
+     * @param $dates
+     * @param array $override_types
+     * @param array $override_statuses
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    protected function calendarIndex ($dates, array $override_types = [], array $override_statuses = []) {
         $calendar = Calendar::addEvents($dates);
         $calendar->setId('dates');
         return view('date.calendar', ['calendar' => $calendar, 'override_types' => $override_types, 'override_statuses' => $override_statuses]);
@@ -181,8 +203,9 @@ class DateController extends Controller {
         }
 
         return response($ical)->setExpires(Carbon::now('UTC')->addHours(12)) // make sync-clients wait for 12 hours
-            ->withHeaders(['Content-Type' => 'text/calendar; charset=utf-8', 'Content-Disposition' => 'attachment; filename="calendar_'.$calendar_id.'.ics"']);
-
-
+            ->withHeaders([
+                'Content-Type' => 'text/calendar; charset=utf-8',
+                'Content-Disposition' => 'attachment; filename="calendar_'.$calendar_id.'.ics"'
+            ]);
     }
 }

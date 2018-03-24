@@ -26,7 +26,7 @@ abstract class AttendanceController extends Controller {
      * @param String $attendance
      * @return \Illuminate\Http\JsonResponse
      */
-    public function changeEventAttendance (Request $request, Event $event, $userId, $attendance = null) {
+    public function changeEventAttendance (Request $request, $event, $userId, $attendance = null) {
         if (null === $event) {
             if ($request->wantsJson()) {
                 return \Response::json(['success' => false, 'message' => trans('date.event_not_found')]);
@@ -92,7 +92,7 @@ abstract class AttendanceController extends Controller {
      * @param Boolean $attending
      * @return \Illuminate\Http\JsonResponse
      */
-    public function changeOwnEventAttendance (Request $request, Event $event, $attending) {
+    public function changeOwnEventAttendance (Request $request, $event, $attending) {
         if (null === $event) {
             if ($request->wantsJson()) {
                 return \Response::json(['success' => false, 'message' => trans('date.event_not_found')]);
@@ -145,5 +145,5 @@ abstract class AttendanceController extends Controller {
      * @param array $data
      * @return bool
      */
-    abstract protected function storeAttendance(Event $event, User $user, array $data);
+    abstract protected function storeAttendance($event, User $user, array $data);
 }

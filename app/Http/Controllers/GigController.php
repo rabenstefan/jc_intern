@@ -3,13 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Gig;
-use App\Semester;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 
-use App\Http\Requests;
-
-class GigController extends Controller {
+class GigController extends EventController {
     protected $validation = [
         'title'     => 'required|string|max:100',
         'description' => 'string|max:500',
@@ -19,7 +15,7 @@ class GigController extends Controller {
     ];
 
     public function __construct() {
-        $this->middleware('auth');
+        parent::__construct();
 
         $this->middleware('admin:gig');
     }
@@ -42,18 +38,7 @@ class GigController extends Controller {
     public function store(Request $request) {
         $this->validate($request, $this->validation);
 
-        //TODO: Right calculation.
-        $data = array_merge($request->all(),
-            [
-                'semester_id' => Semester::current()->id,
-            ]
-        );
-
-        $start = new Carbon($data['start']);
-        $end   = new Carbon($data['end']);
-
-        $data['start'] = $start->toDateTimeString();
-        $data['end'] = $end->toDateTimeString();
+        $data = $this->prepareDates($request->all());
 
         Gig::create($data);
 
@@ -104,18 +89,7 @@ class GigController extends Controller {
 
         $this->validate($request, $this->validation);
 
-        //TODO: Right calculation.
-        $data = array_merge($request->all(),
-            [
-                'semester_id' => Semester::current()->id,
-            ]
-        );
-
-        $start = new Carbon($data['start']);
-        $end   = new Carbon($data['end']);
-
-        $data['start'] = $start->toDateTimeString();
-        $data['end'] = $end->toDateTimeString();
+        $data = $this->prepareDates($request->all());
 
         $gig->update($data);
         $gig->save();
@@ -128,8 +102,9 @@ class GigController extends Controller {
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
     public function destroy($id) {
         $gig = Gig::find($id);

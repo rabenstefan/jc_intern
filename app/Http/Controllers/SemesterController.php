@@ -16,13 +16,28 @@ class SemesterController extends Controller
         $this->middleware('auth');
     }
 
+    public function getSemester(Carbon $date) {
+        $semester = Semester::first()->where(
+            'start', '<=', $date->toDateString()
+        )->where(
+            'end', '>=', $date->toDateString()
+        );
+
+        if (null === $semester) {
+            $this->generateNewSemester();
+            return $this->getSemester($date);
+        }
+
+        return $semester;
+    }
+
     /**
      * Generate a new Semester completely programmatic.
      *
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return bool|\Illuminate\Http\JsonResponse
      */
-    public function generateNewSemester(Request $request) {
+    public function generateNewSemester(Request $request = null) {
         // Start to add new semester object.
         $newSemester = new Semester();
 
@@ -35,10 +50,14 @@ class SemesterController extends Controller
         $newSemester->end = new Carbon($newSemester->start);
 
         if (!Config::has('semester')) {
-            if ($request->wantsJson()) {
-                return \Response::json(['success' => false, 'message' => trans('semester.config_missing')]);
+            if (null !== $request) {
+                if ($request->wantsJson()) {
+                    return \Response::json(['success' => false, 'message' => trans('semester.config_missing')]);
+                } else {
+                    return back()->withErrors(trans('semester.config_missing'));
+                }
             } else {
-                return back()->withErrors(trans('semester.config_missing'));
+                return false;
             }
         }
 
@@ -63,10 +82,14 @@ class SemesterController extends Controller
             }
         } else {
             // Something is very wrong. One shouldn't land here.
-            if ($request->wantsJson()) {
-                return \Response::json(['success' => false, 'message' => trans('semester.wrong_start')]);
+            if (null !== $request) {
+                if ($request->wantsJson()) {
+                    return \Response::json(['success' => false, 'message' => trans('semester.wrong_start')]);
+                } else {
+                    return back()->withErrors(trans('semester.wrong_start'));
+                }
             } else {
-                return back()->withErrors(trans('semester.wrong_start'));
+                return false;
             }
         }
         // End calculation of end date.
@@ -75,18 +98,26 @@ class SemesterController extends Controller
         if ($newSemester->save()) {
             // Semester successfully saved.
             //TODO: Do we have to trigger sth. here?
-            if ($request->wantsJson()) {
-                return \Response::json(['success' => true, 'message' => trans('semester.semester_created_successful')]);
+            if (null !== $request) {
+                if ($request->wantsJson()) {
+                    return \Response::json(['success' => true, 'message' => trans('semester.semester_created_successful')]);
+                } else {
+                    $request->session()->flash('message_success', trans('semester.semester_created_successful'));
+                    return back();
+                }
             } else {
-                $request->session()->flash('message_success', trans('semester.semester_created_successful'));
-                return back();
+                return true;
             }
         } else {
             // Semester not successfully saved.
-            if ($request->wantsJson()) {
-                return \Response::json(['success' => false, 'message' => trans('semester.semester_creation_error')]);
+            if (null !== $request) {
+                if ($request->wantsJson()) {
+                    return \Response::json(['success' => false, 'message' => trans('semester.semester_creation_error')]);
+                } else {
+                    return back()->withErrors(trans('semester.semester_creation_error'));
+                }
             } else {
-                return back()->withErrors(trans('semester.semester_creation_error'));
+                return false;
             }
         }
     }

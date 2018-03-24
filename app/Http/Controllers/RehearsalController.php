@@ -3,12 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Rehearsal;
-use App\Semester;
 use App\Voice;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
-class RehearsalController extends Controller {
+class RehearsalController extends EventController {
     protected $validation = [
         'title'     => 'required|string|max:100',
         'description' => 'string|max:500',
@@ -24,7 +23,7 @@ class RehearsalController extends Controller {
     ];
 
     public function __construct() {
-        $this->middleware('auth');
+        parent::__construct();
 
         $this->middleware('admin:rehearsal');
     }
@@ -55,18 +54,7 @@ class RehearsalController extends Controller {
     public function store(Request $request) {
         $this->validate($request, $this->validation);
 
-        //TODO: Right calculation.
-        $data = array_merge($request->all(),
-            [
-                'semester_id' => Semester::current()->id,
-            ]
-        );
-
-        $start = new Carbon($data['start']);
-        $end   = new Carbon($data['end']);
-
-        $data['start'] = $start->toDateTimeString();
-        $data['end'] = $end->toDateTimeString();
+        $data = $this->prepareDates($request->all());
 
         Rehearsal::create($data);
 
@@ -154,18 +142,7 @@ class RehearsalController extends Controller {
         
         $this->validate($request, $this->validation);
 
-        //TODO: Right calculation.
-        $data = array_merge($request->all(),
-            [
-                'semester_id' => Semester::current()->id,
-            ]
-        );
-
-        $start = new Carbon($data['start']);
-        $end   = new Carbon($data['end']);
-
-        $data['start'] = $start->toDateTimeString();
-        $data['end'] = $end->toDateTimeString();
+        $data = $this->prepareDates($request->all());
 
         $rehearsal->update($data);
         $rehearsal->save();

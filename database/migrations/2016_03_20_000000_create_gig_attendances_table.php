@@ -33,8 +33,8 @@ class CreateGigAttendancesTable extends Migration
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
-            $table->integer('gig_attendances_id')->unsigned();
-            $table->foreign('gig_attendances_id')->references('id')->on('gig_attendances')->onDelete('cascade');
+            $table->integer('gig_attendance_id')->unsigned();
+            $table->foreign('gig_attendance_id')->references('id')->on('gig_attendances')->onDelete('cascade');
 
             $table->timestamps();
         });
@@ -45,8 +45,8 @@ class CreateGigAttendancesTable extends Migration
             $table->integer('gig_id')->unsigned();
             $table->foreign('gig_id')->references('id')->on('gigs')->onDelete('cascade');
 
-            $table->integer('gig_attendances_id')->unsigned();
-            $table->foreign('gig_attendances_id')->references('id')->on('gig_attendances')->onDelete('cascade');
+            $table->integer('gig_attendance_id')->unsigned();
+            $table->foreign('gig_attendance_id')->references('id')->on('gig_attendances')->onDelete('cascade');
 
             $table->timestamps();
         });

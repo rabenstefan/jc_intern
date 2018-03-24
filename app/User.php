@@ -175,7 +175,7 @@ class User extends Authenticatable
         })->first();
 
         // If there is no attendance return "missed".
-        return (null === $attendance ? false : $attendance->excused);
+        return (null === $attendance ? false : $attendance->attendance);
     }
 
     /**
@@ -189,7 +189,7 @@ class User extends Authenticatable
         $all_rehearsals = Rehearsal::all(['id'], $with_old);
         $conditions = [['missed', 1]];
         if (true === $unexcused_only) {
-            array_push($conditions, ['excused', 0]);
+            array_push($conditions, ['attendance', 0]);
         }
         return $this->attendances()->where($conditions)->whereIn('rehearsal_id', $all_rehearsals)->count();
     }
