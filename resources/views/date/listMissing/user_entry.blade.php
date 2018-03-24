@@ -1,5 +1,5 @@
 
-<div class="col-xs-6 col-sm-3 col-lg-2 names">
+<div class="col-xs-6 col-sm-3 col-lg-1 names">
     {{ $user->first_name . ' ' . $user->last_name }}
     @if($user->excusedRehearsal($currentRehearsal->id))
         <span class="pull-right"><i class="fa fa-bed" title="{{ trans('date.excused') }}"></i></span>
