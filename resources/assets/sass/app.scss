@@ -7,17 +7,17 @@
   fieldset { display: table-cell; }
 }
 
-@mixin border-radius($radius) {
-  -webkit-border-radius: $radius;
-  -moz-border-radius: $radius;
-  -ms-border-radius: $radius;
-  border-radius: $radius;
+@mixin border-radius($radius, $important: '') {
+  -webkit-border-radius: $radius #{$important};
+  -moz-border-radius: $radius #{$important};
+  -ms-border-radius: $radius #{$important};
+  border-radius: $radius #{$important};
 }
 
-@mixin shadow-2d($color) {
-  @include border-radius(0);
-  border: none;
-  border-bottom: 3px solid $color;
+@mixin shadow-2d($color, $important: '') {
+  @include border-radius(0, $important);
+  border: none #{$important};
+  border-bottom: 3px solid $color #{$important};
   @include box-shadow(none);
 }
 
@@ -372,11 +372,24 @@ i.fa {
   margin-top: 0px;
   @include shadow-2d($main-color-darker);
 
-  &:hover, &:focus, &:active, &.btn-pressed {
+  @mixin active {
     border-bottom: 0px !important;
     margin-top: 3px !important;
     color: #fff !important;
     outline: none !important;
+  }
+
+  &:hover, &:focus, &:active, &.btn-pressed {
+    @include active();
+  }
+
+  &.btn-unpressed {
+    background-color: $grey !important;
+    @include shadow-2d($grey-darker, '!important');
+
+    &:hover, &:focus, &:active {
+      @include active();
+    }
   }
 
   &.btn-success, &.btn-birthdays, &.btn-yes {

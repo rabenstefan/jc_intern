@@ -88,13 +88,13 @@ if (true === $date->needs_answer) {
                     <div class="row">
                         <div class="col-xs-12">
                             <span class="button-set-2d">
-                                <a href="#" class="btn btn-2d btn-no{{ $attending == 'no' ? ' btn-pressed' : '' }}" data-url="{{ route('commitment.commitSelf', ['gig_id' => $date->getId()]) }}" data-attendance="no">
+                                <a href="#" class="btn btn-2d btn-no {{ $attending == 'no' ? 'btn-pressed' : 'btn-unpressed' }}" data-url="{{ route('commitment.commitSelf', ['gig_id' => $date->getId()]) }}" data-attendance="no">
                                     <i class="far fa-calendar-times"></i>
                                 </a>
-                                <a href="#" class="btn btn-2d btn-maybe{{ $attending == 'maybe' ? ' btn-pressed' : '' }}" data-url="{{ route('commitment.commitSelf', ['gig_id' => $date->getId()]) }}" data-attendance="maybe">
+                                <a href="#" class="btn btn-2d btn-maybe {{ $attending == 'maybe' ? 'btn-pressed' : 'btn-unpressed' }}" data-url="{{ route('commitment.commitSelf', ['gig_id' => $date->getId()]) }}" data-attendance="maybe">
                                     <i class="far fa-calendar fa-with-overlay">?</i>
                                 </a>
-                                <a href="#" class="btn btn-2d btn-yes{{ $attending == 'yes' ? ' btn-pressed' : '' }}" data-url="{{ route('commitment.commitSelf', ['gig_id' => $date->getId()]) }}" data-attendance="yes">
+                                <a href="#" class="btn btn-2d btn-yes {{ $attending == 'yes' ? 'btn-pressed' : 'btn-unpressed' }}" data-url="{{ route('commitment.commitSelf', ['gig_id' => $date->getId()]) }}" data-attendance="yes">
                                     <i class="far fa-calendar-check"></i>
                                 </a>
                             </span>
