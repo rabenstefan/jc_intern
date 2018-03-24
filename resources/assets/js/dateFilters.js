@@ -50,7 +50,9 @@
             $.each(dateFilters.activeFilters, function (name, filter) {
                 if (filter.visible === true) {
                     $('#toggle-' + filter.plural).addClass('btn-pressed');
+                    $('#toggle-' + filter.plural).removeClass('btn-unpressed');
                 } else {
+                    $('#toggle-' + filter.plural).addClass('btn-unpressed');
                     $('#toggle-' + filter.plural).removeClass('btn-pressed');
                 }
             });

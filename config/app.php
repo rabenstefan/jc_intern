@@ -42,6 +42,7 @@ return [
     |
     */
 
+    'domain' => env('APP_DOMAIN', 'intern.jazzchor-bonn.de'),
     'url' => env('APP_URL', 'https://intern.jazzchor-bonn.de'),
 
     /*

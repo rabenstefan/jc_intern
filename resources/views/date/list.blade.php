@@ -153,6 +153,7 @@
                     // Make slider active again.
                     $(sliderElement).removeClass('inactive');
                     $(this).removeClass('btn-pressed');
+                    $(this).addClass('btn-unpressed');
                 }
 
                 $.modal.close();
@@ -183,9 +184,11 @@
                 event.preventDefault();
 
                 //TODO: Restore pressed button if modal was unsuccessful.
-                $('.button-set-2d > a.btn').removeClass('btn-pressed');
+                $(this).siblings().addClass('btn-unpressed');
+                $(this).siblings().removeClass('btn-pressed');
 
                 $(this).addClass('btn-pressed');
+                $(this).removeClass('btn-unpressed');
 
                 if ($(this).data('attendance') !== 'yes') {
                     // Display modal to put in an excuse.

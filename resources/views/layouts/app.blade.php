@@ -98,30 +98,34 @@
                             </a>
 
                             <ul class="dropdown-menu multi-level" role="menu">
-                                <li class="dropdown-submenu">
-                                    <a href="{{ route('date.index', ['view' => 'list']) }}">{{ trans('nav.all') }}</a>
-
-                                    <ul class="dropdown-menu hidden-xs">
+                                <li>
+                                    <a href="{{ route('date.index', ['view' => 'list']) }}">{{ trans('nav.dates_list') }}</a>
+                                </li>
                                         <li>
                                             <a href="{{ route('date.index', ['view' => 'calendar']) }}">{{ trans('nav.dates_calendar') }}</a>
                                         </li>
-                                        <li>
-                                            <a href="{{ route('date.index', ['view' => 'list']) }}">{{ trans('nav.dates_list') }}</a>
-                                        </li>
-                                    </ul>
-                                </li>
 
-                                @if (Auth::user()->isAdmin('rehearsal'))
-                                    <li>
-                                        <a href="{{ route('rehearsal.create') }}">{{ trans('nav.rehearsal_create') }}</a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ route('attendance.listMissing') }}">{{ trans('nav.attendance_last_rehearsal') }}</a>
-                                    </li>
-                                @endif
-                                @if (Auth::user()->isAdmin('gig'))
-                                    <li>
-                                        <a href="{{ route('gig.create') }}">{{ trans('nav.gig_create') }}</a>
+                                        <li>
+                                            <a href="{{ route('date.calendarSync') }}">{{ trans('nav.calendar_sync') }}</a>
+                                        </li>
+
+                                @if (Auth::user()->isAdmin('rehearsal') || Auth::user()->isAdmin('gig'))
+                                    <li class="dropdown-submenu"><a href="#">{{ trans('nav.admin') }}</a>
+                                        <ul class="dropdown-menu hidden-xs">
+                                            @if (Auth::user()->isAdmin('rehearsal'))
+                                                <li>
+                                                    <a href="{{ route('rehearsal.create') }}">{{ trans('nav.rehearsal_create') }}</a>
+                                                </li>
+                                                <li>
+                                                    <a href="{{ route('attendance.listMissing') }}">{{ trans('nav.attendance_last_rehearsal') }}</a>
+                                                </li>
+                                            @endif
+                                            @if (Auth::user()->isAdmin('gig'))
+                                                <li>
+                                                    <a href="{{ route('gig.create') }}">{{ trans('nav.gig_create') }}</a>
+                                                </li>
+                                            @endif
+                                        </ul>
                                     </li>
                                 @endif
                             </ul>

@@ -69,7 +69,7 @@ class DateController extends Controller {
      * DateController constructor.
      */
     public function __construct() {
-        $this->middleware('auth');
+        $this->middleware('auth', ['except' => ['renderIcal']]);
     }
 
     /**
