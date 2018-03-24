@@ -108,5 +108,22 @@ class SheetsTableSeeder extends Seeder
             'number' => '3',
             'status' => 'bought'
         ]);
+
+        DB::table('sheet_user')->insert([
+            'id' => 10,
+            'user_id' => 4,
+            'sheet_id' => 4,
+            'number' => '3',
+            'status' => 'lost'
+        ]);
+
+        DB::table('sheet_user')->insert([
+            'id' => 11,
+            'user_id' => 19,
+            'sheet_id' => 4,
+            'number' => '4',
+            'status' => 'bought'
+        ]);
+
     }
 }

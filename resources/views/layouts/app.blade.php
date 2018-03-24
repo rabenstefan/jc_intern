@@ -9,7 +9,7 @@
     <title>@yield('title', 'Interner Bereich') - Jazzchor der Uni Bonn</title>
 
     <!-- Fonts -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel='stylesheet' type='text/css'>
+    <link href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Exo+2" rel="stylesheet">
 
     <!-- Styles -->
