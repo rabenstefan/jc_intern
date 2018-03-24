@@ -2,10 +2,9 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
-class Semester extends Model
-{
+class Semester extends \Eloquent {
     public function gigs() {
         return $this->belongsToMany('App\Gig');
     }
@@ -23,6 +22,11 @@ class Semester extends Model
     }
 
     public static function current() {
-        return Semester::all()->last();
+        $today = Carbon::today();
+        return Semester::where('start', '<=', $today)->where('end', '>=', $today)->firstOrFail();
+    }
+
+    public static function last() {
+        return Semester::orderBy('end', 'desc')->firstOrFail();
     }
 }

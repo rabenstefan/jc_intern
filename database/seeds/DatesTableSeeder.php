@@ -13,6 +13,16 @@ class DatesTableSeeder extends Seeder
     {
         DB::table('rehearsals')->insert([
             'semester_id' => 1,
+            'title'       => 'Erste Probe',
+            'start'       => '2018-03-11 19:30:00',
+            'end'         => '2018-03-11 21:45:00',
+            'place'       => 'Hörsaal X',
+            'mandatory'   => true,
+            'weight'      => 1.0,
+        ]);
+
+        DB::table('rehearsals')->insert([
+            'semester_id' => 1,
             'title'       => 'Schnupper-Probe',
             'start'       => '2018-04-11 19:30:00',
             'end'         => '2018-04-11 21:45:00',

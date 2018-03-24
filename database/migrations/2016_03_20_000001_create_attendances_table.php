@@ -34,7 +34,7 @@ class CreateAttendancesTable extends Migration
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
-            $table->integer('attendance_id')->unsigned()->default(0);
+            $table->integer('attendance_id')->unsigned()->default(1);
             $table->foreign('attendance_id')->references('id')->on('attendances')->onDelete('cascade');
 
             $table->timestamps();
@@ -46,7 +46,7 @@ class CreateAttendancesTable extends Migration
             $table->integer('rehearsal_id')->unsigned();
             $table->foreign('rehearsal_id')->references('id')->on('rehearsals')->onDelete('cascade');
 
-            $table->integer('attendance_id')->unsigned()->default(0);
+            $table->integer('attendance_id')->unsigned()->default(1);
             $table->foreign('attendance_id')->references('id')->on('attendances')->onDelete('cascade');
 
             $table->timestamps();
@@ -59,8 +59,8 @@ class CreateAttendancesTable extends Migration
      * @return void
      */
     public function down() {
+        Schema::drop('attendances');
         Schema::drop('attendance_user');
         Schema::drop('attendance_rehearsal');
-        Schema::drop('attendances');
     }
 }

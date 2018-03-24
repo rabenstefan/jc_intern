@@ -2,6 +2,10 @@
 
 @section('title'){{ trans('date.index_title') }}@endsection
 
+@section('additional_js_files')
+    {!! Html::script('js/dateFilters.js') !!}
+@endsection
+
 @section('content')
     <div class="row" id="{{ trans('date.index_title') }}">
         <div class="col-xs-12">
@@ -38,7 +42,7 @@
                                 {!! Form::textInput2d('excuse', null, ['placeholder' => trans('form.optional')]) !!}
                                 {!! Form::submitInput2d([], trans('date.excuse')) !!}
                             </form>
-                            @include('date.settings_bar', ['view_type' => 'list', 'current_sets' => $current_sets])
+                            @include('date.settings_bar', ['view_type' => 'list', 'override_filters' => $override_filters])
                             @each('date.list.row', $dates, 'date')
                         </div>
                     </div>

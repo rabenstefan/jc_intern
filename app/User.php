@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -96,6 +97,19 @@ class User extends Authenticatable
     public function sheets() {
         return $this->belongsToMany('App\Sheet');
     }
+
+    public function borrowed(){
+        return $this->belongsToMany('App\Sheet')->withPivot('number', 'status')->wherePivot('status', '=', Sheet::STATUS_BORROWED);
+    }
+
+    public function lost(){
+        return $this->belongsToMany('App\Sheet')->withPivot('number', 'status')->wherePivot('status', '=', Sheet::STATUS_LOST);
+    }
+
+    public function bought(){
+        return $this->belongsToMany('App\Sheet')->withPivot('number', 'status')->wherePivot('status', '=', Sheet::STATUS_BOUGHT);
+    }
+
 
     public function attendances(){
         return $this->belongsToMany('App\Attendance');
@@ -194,5 +208,32 @@ class User extends Authenticatable
 
     public static function getUsersOfVoice($voiceId) {
         return User::where(['voice_id' => $voiceId, 'last_echo' => Semester::current()->id])->get();
+    }
+
+    public function scopeCurrent($query){
+        return $query->where('last_echo', Semester::current()->id);
+    }
+
+    public function scopeOfVoice($query, $voiceId) {
+        return $query->where('voice_id', $voiceId);
+    }
+
+    /**
+     * No need for old users usually.
+     *
+     * @param array $columns
+     * @param bool $with_old
+     * @return User|\Eloquent[]|\Illuminate\Database\Eloquent\Collection
+     */
+    public static function all($columns = ['*'], $with_old = false) {
+        if ($with_old) {
+            return parent::all($columns);
+        } else {
+            return parent::where('last_echo', Semester::current()->id)->get($columns);
+        }
+    }
+
+    public function getNameAttribute(){
+        return $this->first_name . ' ' . $this->last_name;
     }
 }

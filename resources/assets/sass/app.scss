@@ -72,13 +72,13 @@
 
 .modal a.close-modal {
   position: absolute;
-  top: -12.5px;
-  right: -12.5px;
+  top: 0.5em;
+  right: 0.5em;
   display: block;
   width: 2em;
   height: 2em;
   @include border-radius(1em);
-  background-color: $main-color;
+  background-color: $error-color;
 }
 
 .modal a.close-modal:hover {
@@ -416,12 +416,35 @@ i.fa {
 }
 
 /** Style calendar. **/
+// Set width for all device widths.
+@media (max-width: $screen-xs-max) {
+  .row .event {
+    width: 92%;
+  }
+}
+
+@media (min-width: $screen-sm-min) {
+  .row .event {
+    width: 96%;
+  }
+}
+
+@media (min-width: $screen-lg-min) {
+  .row .event {
+    width: 98%;
+  }
+}
+
+.row .event {
+  width: 98%;
+  margin: 0.25em 1em;
+  padding-bottom: 0.5em;
+}
+
 .event, #calendar-dates .fc-event {
   color: $font-color;
   background-color: $font-color-inverse;
   @include shadow-2d($grey-darker);
-  padding-bottom: 1em;
-  margin-bottom: 0.5em;
 }
 
 .event-not-going, #calendar-dates .fc-event.event-not-going {
@@ -491,6 +514,11 @@ i.fa {
     font-size: 1.2em;
     margin-top: 1em;
 
+    .edit-btn-container, .button-set-2d {
+      padding: 0.2em;
+      margin-bottom: 0.2em;
+    }
+
     .btn {
       font-size: 1em;
     }
@@ -525,6 +553,7 @@ i.fa {
 .button-set-2d {
   a.btn-2d {
     margin-left: -4px;
+    margin-bottom: 0.4em;
 
     &:first-child {
       margin-left: 0px;
@@ -561,47 +590,71 @@ i.fa {
   }
 
   label {
+    width: 4.8em;
+    height: 2.4em;
+    margin-bottom: 0;
     color: $font-color;
     @include noselect();
     cursor: pointer;
     font-size: 1.2em;
+    font-weight: normal !important;
+    position: relative;
+    display: inline-block;
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      font-family: FontAwesome;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      color: $font-color-inverse;
+      background-color: $grey-darker;
+      -webkit-transition: .4s;
+      transition: .4s;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "\f273";
+      height: 2em;
+      width: 2em;
+      left: 0.2em;
+      bottom: 0.2em;
+      padding: 0.2em 0.5em;
+      background-color: $error-color;
+      @include shadow-2d($error-color-darker);
+      -webkit-transition: .4s;
+      transition: .4s;
+      z-index: 99;
+    }
 
     i {
-      position: relative;
-      padding: 10px 12px;
+      position: absolute;
+      top: 0;
+      padding: 0.6em 0.7em;
+      color: $grey-lighter;
+      z-index: 90;
 
-      &.label-on {
-        color: $success-color;
-        background-color: $success-color-lighter;
-        @include shadow-2d($success-color);
-        margin-left: -5px;
-        top: 0;
-      }
-
-      &.label-off {
-        color: $error-color-lighter;
-        background-color: $error-color;
-        border-bottom: none;
-        top: 3px;
+      &:last-child {
+        right: 0;
       }
     }
   }
 
   input[type="checkbox"]:checked + label {
-    i {
-      &.label-on {
-        color: $success-color-lighter;
-        background-color: $success-color;
-        border-bottom: none;
-        top: 3px;
-      }
+    .slider {
+      background-color: $grey;
+    }
 
-      &.label-off {
-        color: $error-color;
-        background-color: $error-color-lighter;
-        @include shadow-2d($error-color);
-        top: 0;
-      }
+    .slider:before {
+      -webkit-transform: translateX(2.4em);
+      -ms-transform: translateX(2.4em);
+      transform: translateX(2.4em);
+      background-color: $success-color;
+      @include shadow-2d($success-color-darker);
+      content: "\f274";
     }
   }
 }
@@ -655,6 +708,19 @@ i.fa {
     padding: 10px;
     background-color: #fafafa;
     @include border-radius(0);
+
+    .panel-element {
+      min-height: 6em;
+      padding: 10px;
+      margin-bottom: 1em;
+      background-color: $grey-lighter;
+      @include shadow-2d($grey);
+      border-top: 1em solid $main-color;
+
+      &.panel-element-warning {
+        border-top-color: $warning-color;
+      }
+    }
   }
 
   &.panel-2d-grey, & .panel-2d {

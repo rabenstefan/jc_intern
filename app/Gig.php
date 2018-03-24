@@ -9,6 +9,8 @@ use Carbon\Carbon;
 class Gig extends \Eloquent implements IdentifiableEvent {
     protected $dates = ['start', 'end'];
 
+    public $needs_answer = true; // Sould always be true
+
     protected $calendar_options = [
         'className' => 'event-gig',
         'url' => '',
@@ -114,6 +116,19 @@ class Gig extends \Eloquent implements IdentifiableEvent {
         return array_flip($attendances)[$attendance->attendance];
     }
 
+    public function hasAnswered(User $user, bool $maybe_is_not_an_answer = true) {
+        $attendance = Commitment::where('user_id', $user->id)->where('gig_id', $this->id)->first();
+
+        if (null === $attendance) {
+            return false;
+        } else if ($maybe_is_not_an_answer) {
+            $attendances = \Config::get('enums.attendances');
+            return $attendance->attendace !== $attendances['maybe'];
+        } else {
+            return true;
+        }
+    }
+
     /**
      * No need for old events.
      *
@@ -125,7 +140,7 @@ class Gig extends \Eloquent implements IdentifiableEvent {
         if ($with_old) {
             return parent::all($columns);
         } else {
-            return parent::where('start', '>=', Carbon::today())->get($columns);
+            return parent::where('end', '>=', Carbon::today())->get($columns);
         }
     }
 

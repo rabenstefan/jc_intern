@@ -11,6 +11,7 @@
     {!! Html::script('js/moment.min.js') !!}
     {!! Html::script('js/fullcalendar.min.js') !!}
     {!! Html::script('js/lang/de.js') !!}
+    {!! Html::script('js/dateFilters.js') !!}
 @endsection
 
 @section('content')
@@ -45,7 +46,7 @@
                         </div>
 
                         <div class="panel-body">
-                            @include('date.settings_bar', ['view_type' => 'calendar'])
+                            @include('date.settings_bar', ['view_type' => 'calendar', 'override_filters' => $override_filters])
                             @include('date.calendar.row', ['calendar' => $calendar])
                         </div>
                     </div>

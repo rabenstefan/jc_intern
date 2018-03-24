@@ -94,7 +94,7 @@ return [
     |
     */
 
-    'key' => '=5}5jK)]p33tC6R*jkwd$<T<VG/T@((_',
+    'key' => env('APP_KEY', '=5}5jK)]p33tC6R*jkwd$<T<VG/T@((_'),
 
     'cipher' => 'AES-256-CBC',
 
