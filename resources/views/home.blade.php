@@ -25,6 +25,8 @@
                         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
                             <div class="panel-element panel-element-info">
                                 {{ trans('home.unanswered_gigs', ['count' => Auth::user()->unansweredGigsCount()] ) }}
+                                <a href="{{ route('date.index', ['view_type' => 'list', 'hideByType' => ['birthday'], 'hideByStatus' => \App\Http\Controllers\DateController::invertDateStatuses(['unanswered', 'maybe-going'])]) }}">{{ trans('home.all_unanswered_maybe') }}</a>
+                                <a href="{{ route('date.index', ['view_type' => 'list', 'hideByType' => ['birthday'], 'hideByStatus' => \App\Http\Controllers\DateController::invertDateStatuses(['unanswered'])]) }}">{{ trans('home.all_unanswered') }}</a>
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
@@ -35,16 +37,20 @@
                         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
                             <div class="panel-element panel-element-info">
                                 {{ trans('home.next_rehearsal', $next_rehearsal) }}
+                                <a href="{{ route('date.index', ['view_type' => 'list', 'hideByType' => \App\Http\Controllers\DateController::invertDateTypes(['rehearsal'])]) }}">{{ trans('home.all_rehearsals') }}</a>
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
                             <div class="panel-element panel-element-info">
                                 {{ trans('home.next_gig', $next_gig) }}
+                                <a href="{{ route('date.index', ['view_type' => 'list', 'hideByType' => \App\Http\Controllers\DateController::invertDateTypes(['gig'])]) }}">{{ trans('home.all_gigs') }}</a>
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
                             <!-- TODO what happens when there are no birthdays in range? -->
-                            <div class="panel-element panel-element-info">{{ trans('home.upcoming_birthdays', ['count' => $upcoming_birthdays->count()])}}</div>
+                            <div class="panel-element panel-element-info">{{ trans('home.upcoming_birthdays', ['count' => $upcoming_birthdays->count()])}}
+                                <a href="{{ route('date.index', ['view_type' => 'list', 'hideByType' => \App\Http\Controllers\DateController::invertDateTypes(['birthday'])]) }}">{{ trans('home.all_birthdays') }}</a>
+                            </div>
                         </div>
                     </div>
                 </div>

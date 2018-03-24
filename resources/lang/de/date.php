@@ -42,5 +42,10 @@ return [
     'user_not_given'      => 'Nutzer nicht gegeben',
     'user_not_found'      => 'Nutzer nicht gefunden',
     'attendance_not_given' => 'Anwesenheit oder Abwesenheit nicht gegeben',
-    'filters_invalid' => 'Die angegebenen Filteroptionen sind ungültig.'
+    'filters_invalid' => 'Die angegebenen Filteroptionen sind ungültig.',
+    'all'           => 'Alle anzeigen',
+    'going'         => 'Zugesagt',
+    'not-going'     => 'Abgesagt',
+    'maybe-going'   => 'Vielleicht',
+    'unanswered'    => 'keine Rückmeldung'
 ];
