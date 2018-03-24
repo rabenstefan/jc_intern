@@ -87,7 +87,7 @@
 
 .modal a.close-modal:before {
   content: "\f00d";
-  font-family: "FontAwesome", sans-serif;
+  font-family: "Font Awesome\ 5 Free", sans-serif;
   display: block;
   color: $font-color-inverse;
   font-size: 1.5em;
@@ -604,7 +604,7 @@ i.fa {
     .slider {
       position: absolute;
       cursor: pointer;
-      font-family: FontAwesome;
+      font-family: Font Awesome\ 5 Free;
       top: 0;
       left: 0;
       right: 0;
@@ -759,7 +759,7 @@ ul.messages-list-2d {
 
     &:before {
       content: "\f12a";
-      font-family: "FontAwesome", sans-serif;
+      font-family: "Font Awesome\ 5 Free", sans-serif;
       padding: 0 1em;
     }
 
@@ -780,7 +780,7 @@ div.radio input[type='radio'] + span:before {
   width: 1em;
   height: 1em;
   display: inline-block;
-  font: normal normal normal 14px/1 FontAwesome;
+  font: normal normal normal 14px/1 Font Awesome\ 5 Free;
   font-size: 20px;
   top: 2px;
   position: relative;
@@ -801,22 +801,22 @@ div.checkbox input, div.radio input {
 
   &[type='checkbox'] + span:before {
     content: '\f096';
-    font-family: "FontAwesome", sans-serif;
+    font-family: "Font Awesome\ 5 Free", sans-serif;
   }
 
   &[type='checkbox']:checked + span:before {
     content: '\f046';
-    font-family: "FontAwesome", sans-serif;
+    font-family: "Font Awesome\ 5 Free", sans-serif;
   }
 
   &[type='radio'] + span:before {
     content: '\f10c';
-    font-family: "FontAwesome", sans-serif;
+    font-family: "Font Awesome\ 5 Free", sans-serif;
   }
 
   &[type='radio']:checked + span:before {
     content: '\f192';
-    font-family: "FontAwesome", sans-serif;
+    font-family: "Font Awesome\ 5 Free", sans-serif;
   }
 
   &:focus + span:before,
@@ -849,7 +849,7 @@ div.checkbox input, div.radio input {
 
   &:before {
     content: "\f12a";
-    font-family: "FontAwesome", sans-serif;
+    font-family: "Font Awesome\ 5 Free", sans-serif;
     padding: 0 1em;
   }
 

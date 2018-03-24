@@ -5793,7 +5793,7 @@ button.close {
 
 .modal a.close-modal:before {
   content: "\f00d";
-  font-family: "FontAwesome", sans-serif;
+  font-family: "Font Awesome\ 5 Free", sans-serif;
   display: block;
   color: #fdfdfd;
   font-size: 1.5em;
@@ -6218,7 +6218,7 @@ i.fa {
   .slider-2d label .slider {
     position: absolute;
     cursor: pointer;
-    font-family: FontAwesome;
+    font-family: Font Awesome\ 5 Free;
     top: 0;
     left: 0;
     right: 0;
@@ -6351,7 +6351,7 @@ ul.messages-list-2d {
     padding: 0.2em 0; }
     ul.messages-list-2d li:before {
       content: "\f12a";
-      font-family: "FontAwesome", sans-serif;
+      font-family: "Font Awesome\ 5 Free", sans-serif;
       padding: 0 1em; }
     ul.messages-list-2d li.text-success:before {
       content: "\f00c"; }
@@ -6366,7 +6366,7 @@ div.radio input[type='radio'] + span:before {
   width: 1em;
   height: 1em;
   display: inline-block;
-  font: normal normal normal 14px/1 FontAwesome;
+  font: normal normal normal 14px/1 Font Awesome\ 5 Free;
   font-size: 20px;
   top: 2px;
   position: relative;
@@ -6380,16 +6380,16 @@ div.checkbox input, div.radio input {
   height: 1px; }
   div.checkbox input[type='checkbox'] + span:before, div.radio input[type='checkbox'] + span:before {
     content: '\f096';
-    font-family: "FontAwesome", sans-serif; }
+    font-family: "Font Awesome\ 5 Free", sans-serif; }
   div.checkbox input[type='checkbox']:checked + span:before, div.radio input[type='checkbox']:checked + span:before {
     content: '\f046';
-    font-family: "FontAwesome", sans-serif; }
+    font-family: "Font Awesome\ 5 Free", sans-serif; }
   div.checkbox input[type='radio'] + span:before, div.radio input[type='radio'] + span:before {
     content: '\f10c';
-    font-family: "FontAwesome", sans-serif; }
+    font-family: "Font Awesome\ 5 Free", sans-serif; }
   div.checkbox input[type='radio']:checked + span:before, div.radio input[type='radio']:checked + span:before {
     content: '\f192';
-    font-family: "FontAwesome", sans-serif; }
+    font-family: "Font Awesome\ 5 Free", sans-serif; }
   div.checkbox input:focus + span:before,
   div.checkbox input:hover + span:before, div.radio input:focus + span:before,
   div.radio input:hover + span:before {
@@ -6418,7 +6418,7 @@ div.checkbox input, div.radio input {
   box-shadow: none; }
   .notifyjs-shadow2d-base:before {
     content: "\f12a";
-    font-family: "FontAwesome", sans-serif;
+    font-family: "Font Awesome\ 5 Free", sans-serif;
     padding: 0 1em; }
   .notifyjs-shadow2d-base.notifyjs-shadow2d-success {
     color: #56E438;
