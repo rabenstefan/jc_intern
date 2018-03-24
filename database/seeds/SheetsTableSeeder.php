@@ -38,7 +38,7 @@ class SheetsTableSeeder extends Seeder
 
         DB::table('sheet_user')->insert([
             'id' => 1,
-            'user_id' => 0,
+            'user_id' => 1,
             'sheet_id' => 1,
             'number' => '1',
             'status' => 'borrowed'
@@ -46,7 +46,7 @@ class SheetsTableSeeder extends Seeder
 
         DB::table('sheet_user')->insert([
             'id' => 2,
-            'user_id' => 0,
+            'user_id' => 1,
             'sheet_id' => 2,
             'number' => '1',
             'status' => 'borrowed'
@@ -54,7 +54,7 @@ class SheetsTableSeeder extends Seeder
 
         DB::table('sheet_user')->insert([
             'id' => 3,
-            'user_id' => 1,
+            'user_id' => 2,
             'sheet_id' => 2,
             'number' => '2',
             'status' => 'borrowed'
@@ -62,7 +62,7 @@ class SheetsTableSeeder extends Seeder
 
         DB::table('sheet_user')->insert([
             'id' => 4,
-            'user_id' => 1,
+            'user_id' => 2,
             'sheet_id' => 4,
             'number' => '1',
             'status' => 'lost'
@@ -70,7 +70,7 @@ class SheetsTableSeeder extends Seeder
 
         DB::table('sheet_user')->insert([
             'id' => 5,
-            'user_id' => 1,
+            'user_id' => 2,
             'sheet_id' => 4,
             'number' => '2',
             'status' => 'borrowed'
@@ -78,7 +78,7 @@ class SheetsTableSeeder extends Seeder
 
         DB::table('sheet_user')->insert([
             'id' => 6,
-            'user_id' => 1,
+            'user_id' => 2,
             'sheet_id' => 3,
             'number' => '1',
             'status' => 'borrowed'
@@ -86,7 +86,7 @@ class SheetsTableSeeder extends Seeder
 
         DB::table('sheet_user')->insert([
             'id' => 7,
-            'user_id' => 2,
+            'user_id' => 3,
             'sheet_id' => 3,
             'number' => '2',
             'status' => 'borrowed'
@@ -94,7 +94,7 @@ class SheetsTableSeeder extends Seeder
 
         DB::table('sheet_user')->insert([
             'id' => 8,
-            'user_id' => 3,
+            'user_id' => 4,
             'sheet_id' => 3,
             'number' => '3',
             'status' => 'borrowed'
@@ -103,7 +103,7 @@ class SheetsTableSeeder extends Seeder
 
         DB::table('sheet_user')->insert([
             'id' => 9,
-            'user_id' => 4,
+            'user_id' => 5,
             'sheet_id' => 2,
             'number' => '3',
             'status' => 'bought'
@@ -111,7 +111,7 @@ class SheetsTableSeeder extends Seeder
 
         DB::table('sheet_user')->insert([
             'id' => 10,
-            'user_id' => 4,
+            'user_id' => 5,
             'sheet_id' => 4,
             'number' => '3',
             'status' => 'lost'

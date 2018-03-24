@@ -15,9 +15,13 @@ class VoicesTableSeeder extends Seeder
             [
                 'id' => 1,
                 'name' => 'Gesamter Chor',
-                'super_group' => 'NULL',
+                'super_group' => null,
                 'child_group' => false,
-            ], [
+            ]
+        ]);
+
+        DB::table('voices')->insert([
+            [
                 'id' => 2,
                 'name' => 'Sopran',
                 'super_group' => 1,
@@ -37,7 +41,11 @@ class VoicesTableSeeder extends Seeder
                 'name' => 'Bass',
                 'super_group' => 1,
                 'child_group' => false,
-            ], [
+            ]
+        ]);
+
+        DB::table('voices')->insert([
+            [
                 'id' => 6,
                 'name' => 'Sopran 1',
                 'super_group' => 2,
