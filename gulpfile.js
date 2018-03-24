@@ -22,6 +22,7 @@ elixir(function(mix) {
         'dropdown.js',
         'transition.js',
         'collapse.js',
-        'js.cookie.js'
+        'js.cookie.js',
+        'dateFilters.js'
     ]);
 });
