@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCommitmentsTable extends Migration
+class CreateGigAttendancesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,7 +12,7 @@ class CreateCommitmentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('commitments', function (Blueprint $table) {
+        Schema::create('gig_attendances', function (Blueprint $table) {
             $table->increments('id');
 
             $table->integer('user_id')->unsigned();
@@ -27,26 +27,26 @@ class CreateCommitmentsTable extends Migration
             $table->timestamps();
         });
 
-        Schema::create('commitment_user', function (Blueprint $table) {
+        Schema::create('gig_attendance_user', function (Blueprint $table) {
             $table->increments('id');
 
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
-            $table->integer('commitment_id')->unsigned();
-            $table->foreign('commitment_id')->references('id')->on('commitments')->onDelete('cascade');
+            $table->integer('gig_attendances_id')->unsigned();
+            $table->foreign('gig_attendances_id')->references('id')->on('gig_attendances')->onDelete('cascade');
 
             $table->timestamps();
         });
 
-        Schema::create('commitment_gig', function (Blueprint $table) {
+        Schema::create('gig_attendance_gig', function (Blueprint $table) {
             $table->increments('id');
 
             $table->integer('gig_id')->unsigned();
             $table->foreign('gig_id')->references('id')->on('gigs')->onDelete('cascade');
 
-            $table->integer('commitment_id')->unsigned();
-            $table->foreign('commitment_id')->references('id')->on('commitments')->onDelete('cascade');
+            $table->integer('gig_attendances_id')->unsigned();
+            $table->foreign('gig_attendances_id')->references('id')->on('gig_attendances')->onDelete('cascade');
 
             $table->timestamps();
         });
@@ -59,8 +59,8 @@ class CreateCommitmentsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('commitments');
-        Schema::drop('commitment_user');
-        Schema::drop('commitment_gig');
+        Schema::drop('gig_attendance_user');
+        Schema::drop('gig_attendance_gig');
+        Schema::drop('gig_attendances');
     }
 }

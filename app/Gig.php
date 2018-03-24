@@ -2,19 +2,22 @@
 
 namespace App;
 
-use DateTime;
 use MaddHatter\LaravelFullcalendar\IdentifiableEvent;
 use Carbon\Carbon;
 
 class Gig extends \Eloquent implements IdentifiableEvent {
-    protected $dates = ['start', 'end'];
+    use Event;
 
-    public $needs_answer = true; // Sould always be true
+    protected $dates = ['start', 'end'];
 
     protected $calendar_options = [
         'className' => 'event-gig',
         'url' => '',
         'shortName' => 'gig'
+    ];
+
+    protected $casts = [
+        'binary_answer' => 'boolean'
     ];
 
     /**
@@ -29,10 +32,11 @@ class Gig extends \Eloquent implements IdentifiableEvent {
         'end',
         'place',
         'semester_id',
+        'binary_answer',
     ];
 
-    public function commitments() {
-        return $this->belongsToMany('App\Commitment');
+    public function gig_attendances() {
+        return $this->belongsToMany('App\GigAttendance');
     }
 
     public function semester() {
@@ -53,52 +57,6 @@ class Gig extends \Eloquent implements IdentifiableEvent {
     }
 
     /**
-     * Is it an all day event?
-     *
-     * @return bool
-     */
-    public function isAllDay() {
-        //TODO: Add all day logic
-        return false;
-    }
-
-    /**
-     * Get the start time
-     *
-     * @return DateTime
-     */
-    public function getStart() {
-        return $this->start;
-    }
-
-    /**
-     * Get the end time
-     *
-     * @return DateTime
-     */
-    public function getEnd() {
-        return $this->end;
-    }
-
-    /**
-     * Check if this date has a place
-     *
-     * @return Boolean
-     */
-    public function hasPlace() {
-        return isset($this->place);
-    }
-
-    /**
-     * Get the event's ID
-     *
-     * @return int|string|null
-     */
-    public function getId() {
-        return $this->id;
-    }
-
-    /**
      * Optional FullCalendar.io settings for this event
      *
      * @return array
@@ -110,39 +68,15 @@ class Gig extends \Eloquent implements IdentifiableEvent {
     }
 
     public function isAttending(User $user) {
-        $attendance = Commitment::where('user_id', $user->id)->where('gig_id', $this->id)->first();
+        $attendance = GigAttendance::where('user_id', $user->id)->where('gig_id', $this->id)->first();
 
-        if (null === $attendance) return 'no';
-        $attendances = \Config::get('enums.attendances');
-        return array_flip($attendances)[$attendance->attendance];
+        return $this->isAttendingEvent($attendance);
     }
 
-    public function hasAnswered(User $user, bool $maybe_is_not_an_answer = true) {
-        $attendance = Commitment::where('user_id', $user->id)->where('gig_id', $this->id)->first();
+    public function hasAnswered(User $user) {
+        $attendance = GigAttendance::where('user_id', $user->id)->where('gig_id', $this->id)->first();
 
-        if (null === $attendance) {
-            return false;
-        } else if ($maybe_is_not_an_answer) {
-            $attendances = \Config::get('enums.attendances');
-            return $attendance->attendace !== $attendances['maybe'];
-        } else {
-            return true;
-        }
-    }
-
-    /**
-     * No need for old events.
-     *
-     * @param array $columns
-     * @param bool $with_old
-     * @return Gig|\Eloquent[]|\Illuminate\Database\Eloquent\Collection
-     */
-    public static function all($columns = ['*'], $with_old = false) {
-        if ($with_old) {
-            return parent::all($columns);
-        } else {
-            return parent::where('end', '>=', Carbon::today())->get($columns);
-        }
+        return $this->hasAnsweredEvent($attendance);
     }
 
     /**

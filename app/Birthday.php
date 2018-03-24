@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Collection;
 use MaddHatter\LaravelFullcalendar\Event;
 
 class Birthday implements Event {
+    use Date;
+
     protected $calendar_options = [
         'className' => 'event-birthday',
         'shortName' => 'birthday'
@@ -18,7 +20,6 @@ class Birthday implements Event {
     private $end;
 
     public $description = '';
-    public $needs_answer = false;
 
     public function __construct(User $user = null) {
         $this->title = trans('form.birthday') . " " . $user->first_name . ' ' . $user->last_name;
@@ -54,24 +55,6 @@ class Birthday implements Event {
      */
     public function isAllDay() {
         return true;
-    }
-
-    /**
-     * Get the start time
-     *
-     * @return DateTime
-     */
-    public function getStart() {
-        return $this->start;
-    }
-
-    /**
-     * Get the end time
-     *
-     * @return DateTime
-     */
-    public function getEnd() {
-        return $this->end;
     }
 
     /**

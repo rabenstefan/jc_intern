@@ -2,26 +2,15 @@
 
 namespace App;
 
-class Attendance extends \Eloquent {
-    protected $casts = [
-        'excused' => 'boolean',
-        'missed'  => 'boolean',
-    ];
-
-    public function user() {
-        return $this->hasOne('App\User');
+trait Attendance {
+    public function event() {
+        return null;
     }
 
-    public function rehearsal() {
-        return $this->hasOne('App\Rehearsal');
-    }
-
-    /**
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param Integer $rehearsalId
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeForRehearsal ($query, $rehearsalId) {
-        return $query->where('rehearsal_id', $rehearsalId);
+    public function getPossibleAnswers() {
+        if ($this->event()->hasBinaryAnswer()) {
+            return \Config::get('enums.attendances_binary_reversed');
+        }
+        return \Config::get('enums.attendances_reversed');
     }
 }

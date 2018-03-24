@@ -17,6 +17,7 @@ class DatesTableSeeder extends Seeder
             'start'       => '2018-03-11 19:30:00',
             'end'         => '2018-03-11 21:45:00',
             'place'       => 'Hörsaal X',
+            'binary_answer'   => true,
             'mandatory'   => true,
             'weight'      => 1.0,
         ]);
@@ -27,6 +28,7 @@ class DatesTableSeeder extends Seeder
             'start'       => '2018-04-11 19:30:00',
             'end'         => '2018-04-11 21:45:00',
             'place'       => 'Hörsaal X',
+            'binary_answer'   => true,
             'mandatory'   => true,
             'weight'      => 1.0,
         ]);
@@ -37,6 +39,7 @@ class DatesTableSeeder extends Seeder
             'start'       => '2018-04-18 19:30:00',
             'end'         => '2018-04-18 21:45:00',
             'place'       => 'Hörsaal X',
+            'binary_answer'   => true,
             'mandatory'   => true,
             'weight'      => 1.0,
         ]);
@@ -50,6 +53,7 @@ class DatesTableSeeder extends Seeder
             'start'       => '2018-04-21 19:30:00',
             'end'         => '2018-04-21 21:00:00',
             'place'       => 'Franziskuskirche',
+            'binary_answer'   => true,
         ]);
 
         factory(App\Gig::class, 5)->create();

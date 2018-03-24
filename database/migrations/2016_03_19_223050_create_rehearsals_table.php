@@ -25,7 +25,8 @@ class CreateRehearsalsTable extends Migration
 
             $table->integer('semester_id')->unsigned();
             $table->foreign('semester_id')->references('id')->on('semesters')->onDelete('cascade');
-            
+
+            $table->boolean('binary_answer')->default(true);
             $table->boolean('mandatory')->default(true);
             $table->float('weight', 4, 2)->default(1.0); // Only if mandatory: How much does a miss weight?
             $table->timestamps();

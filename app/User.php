@@ -83,7 +83,7 @@ class User extends Authenticatable
     }
 
     public function commitments() {
-        return $this->belongsToMany('App\Commitment');
+        return $this->belongsToMany('App\GigAttendance');
     }
 
     public function roles() {
@@ -112,7 +112,7 @@ class User extends Authenticatable
 
 
     public function attendances(){
-        return $this->belongsToMany('App\Attendance');
+        return $this->belongsToMany('App\RehearsalAttendance');
     }
 
     /*

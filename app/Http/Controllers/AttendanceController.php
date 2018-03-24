@@ -2,66 +2,36 @@
 
 namespace App\Http\Controllers;
 
-use App\Attendance;
-use App\Rehearsal;
+use App\Event;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
-class AttendanceController extends Controller {
+abstract class AttendanceController extends Controller {
     /**
-     * AttendanceController constructor.
+     * RehearsalAttendanceController constructor.
      *
      * Only
      */
     public function __construct() {
         $this->middleware('auth');
-
-        $this->middleware('admin:rehearsal', ['except' => ['excuseSelf', 'confirmSelf']]);
-    }
-
-    public function listMissing ($id = null) {
-        //TODO: Select right rehearsals (only of current semester).
-        $rehearsals = Rehearsal::where('start', '<=', Carbon::now())->orderBy('start', 'asc')->get();
-
-        if (null === $id || (null === ($rehearsal = Rehearsal::find($id)))) {
-            // Get current or last rehearsal.
-            $rehearsal = $rehearsals->last();
-        }
-
-        if (null === $rehearsal) {
-            return back()->withErrors(trans('date.no_last_rehearsal'));
-        }
-
-        $users = User::with(['attendances' => function ($query) use ($rehearsal) {
-            return $query->where('rehearsal_id', $rehearsal->id)->get();
-        }])->get();
-
-        return view('date.rehearsal.listMissing', [
-            'currentRehearsal' => $rehearsal,
-            'users'     => $users,
-            'rehearsals'=> $rehearsals
-        ]);
     }
 
     /**
      * Function for an admin to login if someone attends or is missing.
      *
      * @param Request $request
-     * @param Integer $rehearsalId
+     * @param Event $event
      * @param Integer $userId
-     * @param Boolean $attending
+     * @param String $attendance
      * @return \Illuminate\Http\JsonResponse
      */
-    public function changeAttendance (Request $request, $rehearsalId, $userId, $attending = null) {
-        // Try to get the rehearsal.
-        $rehearsal = Rehearsal::find($rehearsalId);
-
-        if (null === $rehearsal) {
+    public function changeEventAttendance (Request $request, Event $event, $userId, $attendance = null) {
+        if (null === $event) {
             if ($request->wantsJson()) {
-                return \Response::json(['success' => false, 'message' => trans('date.rehearsal_not_found')]);
+                return \Response::json(['success' => false, 'message' => trans('date.event_not_found')]);
             } else {
-                return back()->withErrors(trans('date.rehearsal_not_found'));
+                return back()->withErrors(trans('date.event_not_found'));
             }
         }
 
@@ -84,8 +54,8 @@ class AttendanceController extends Controller {
             }
         }
 
-        if (null === $attending && $request->has('attending')) {
-            $attending = $request->get('attending') == 'true';
+        if (null === $attendance && $request->has('attendance')) {
+            $attendance = $request->get('attendance');
         } else {
             if ($request->wantsJson()) {
                 return \Response::json(['success' => false, 'message' => trans('date.attendance_not_given')]);
@@ -94,8 +64,8 @@ class AttendanceController extends Controller {
             }
         }
 
-        // Store the attendance for found rehearsal and user.
-        if (!$this->storeAttendance($rehearsal, $user, ['missed' => !$attending])) {
+        // Store the attendance for found event and user.
+        if (!$this->storeAttendance($event, $user, ['attendance' => $attendance])) {
             // Did not work.
             if ($request->wantsJson()) {
                 return \Response::json(['success' => false, 'message' => trans('date.attendance_error')]);
@@ -105,7 +75,7 @@ class AttendanceController extends Controller {
         }
 
         // If we arrive here everything went fine.
-        $message = $attending ? trans('date.attendance_saved') : trans('date.excuse_saved');
+        $message = $attendance ? trans('date.attendance_saved') : trans('date.excuse_saved');
         if ($request->wantsJson()) {
             return \Response::json(['success' => true, 'message' => $message]);
         } else {
@@ -118,19 +88,16 @@ class AttendanceController extends Controller {
      * Function to change the currently logged in user's attendance for a given rehearsal.
      *
      * @param Request $request
-     * @param Integer $rehearsalId
+     * @param Event $event
      * @param Boolean $attending
      * @return \Illuminate\Http\JsonResponse
      */
-    public function changeOwnAttendance (Request $request, $rehearsalId, $attending) {
-        // Try to get the rehearsal.
-        $rehearsal = Rehearsal::find($rehearsalId);
-
-        if (null === $rehearsal) {
+    public function changeOwnEventAttendance (Request $request, Event $event, $attending) {
+        if (null === $event) {
             if ($request->wantsJson()) {
-                return \Response::json(['success' => false, 'message' => trans('date.rehearsal_not_found')]);
+                return \Response::json(['success' => false, 'message' => trans('date.event_not_found')]);
             } else {
-                return back()->withErrors(trans('date.rehearsal_not_found'));
+                return back()->withErrors(trans('date.event_not_found'));
             }
         }
 
@@ -144,10 +111,10 @@ class AttendanceController extends Controller {
         // Change the attendance respectively.
         if ($attending) {
             // Confirm attendance of current user for rehearsal with given comments.
-            $success = $this->confirmUser($rehearsal, $user, $data);
+            $success = $this->confirmUser($event, $user, $data);
         } else {
             // Excuse current user for rehearsal with given comments.
-            $success = $this->excuseUser($rehearsal, $user, $data);
+            $success = $this->excuseUser($event, $user, $data);
         }
 
         // Check if changing the attendance worked.
@@ -171,95 +138,12 @@ class AttendanceController extends Controller {
     }
 
     /**
-     * Function to excuse the currently logged in user for a given rehearsal.
-     *
-     * @param Request $request
-     * @param Integer $rehearsalId
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function confirmSelf(Request $request, $rehearsalId) {
-        return $this->changeOwnAttendance($request, $rehearsalId, true);
-    }
-
-    /**
-     * Function to excuse the currently logged in user for a given rehearsal.
-     * 
-     * @param Request $request
-     * @param Integer $rehearsalId
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function excuseSelf(Request $request, $rehearsalId) {
-        return $this->changeOwnAttendance($request, $rehearsalId, false);
-    }
-
-    /**
-     * Helper to excuse a single user.
-     *
-     * @param $rehearsal
-     * @param $user
-     * @param array $data
-     * @return bool
-     */
-    private function excuseUser(Rehearsal $rehearsal, User $user, array $data) {
-        $data['excused'] = true;
-        $data['missed']  = true;
-
-        return $this->storeAttendance($rehearsal, $user, $data);
-    }
-
-    /**
-     * Helper to excuse a single user.
-     *
-     * @param $rehearsal
-     * @param $user
-     * @param array $data
-     * @return bool
-     */
-    private function confirmUser(Rehearsal $rehearsal, User $user, array $data) {
-        $data['excused'] = false;
-        $data['missed']  = false;
-        $data['comment'] = '';
-
-        return $this->storeAttendance($rehearsal, $user, $data);
-    }
-
-    /**
      * Helper to update or create an attendance.
      *
-     * @param $rehearsal
-     * @param $user
-     * @param $data
+     * @param Event $event
+     * @param User $user
+     * @param array $data
      * @return bool
      */
-    private function storeAttendance(Rehearsal $rehearsal, User $user, array $data) {
-        // Check if we have an attendance for this user/rehearsal.
-        $attendance = Attendance::where('user_id', $user->id)->where('rehearsal_id', $rehearsal->id)->first();
-
-        if (null === $attendance) {
-            // Make new attendance.
-            $attendance = new Attendance();
-
-            $attendance->user_id = $user->id;
-            $attendance->rehearsal_id = $rehearsal->id;
-
-            // Connect to user and rehearsal via pivot tables.
-            $user->attendances()->save($attendance);
-            $rehearsal->attendances()->save($attendance);
-        }
-
-        // Set attributes accordingly.
-        if (isset($data['excused'])) {
-            $attendance->excused = $data['excused'];
-        }
-        if (isset($data['comment'])) {
-            $attendance->comment = $data['comment'];
-        }
-        if (isset($data['internal_comment'])) {
-            $attendance->internal_comment = $data['internal_comment'];
-        }
-
-        $attendance->missed = $data['missed'];
-
-        return $attendance->save();
-    }
+    abstract protected function storeAttendance(Event $event, User $user, array $data);
 }

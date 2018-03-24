@@ -10,7 +10,7 @@
     <?php $attending = false; ?>
 @endif
 
-@if(true === $date->needs_answer)
+@if(true === $date->needsAnswer())
     <?php $unanswered = true !== $date->hasAnswered(Auth::user()); ?>
 @else
     <?php $unanswered = false; /* event doesnt need answer (like birthday) */ ?>
@@ -18,7 +18,7 @@
 
 <?php
 $applicable_filters = [$date->getShortName()];
-if (true === $date->needs_answer) {
+if (true === $date->needsAnswer()) {
     if (true === $date->hasAnswered(Auth::user())) {
         switch ($date->isAttending(Auth::user())) {
         case 'yes': case true:

@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Commitment;
+use App\GigAttendance;
 use App\Gig;
 use App\User;
 use Illuminate\Http\Request;
 
-class CommitmentController extends Controller {
+class GigAttendanceController extends Controller {
     /**
-     * AttendanceController constructor.
+     * RehearsalAttendanceController constructor.
      *
      * Only
      */
@@ -77,11 +77,11 @@ class CommitmentController extends Controller {
      */
     private function storeAttendance(Gig $gig, User $user, array $data) {
         // Check if we have a commitment for this user/rehearsal.
-        $commitment = Commitment::where('user_id', $user->id)->where('gig_id', $gig->id)->first();
+        $commitment = GigAttendance::where('user_id', $user->id)->where('gig_id', $gig->id)->first();
 
         if (null === $commitment) {
             // Make new commitment.
-            $commitment = new Commitment();
+            $commitment = new GigAttendance();
 
             $commitment->user_id = $user->id;
             $commitment->gig_id = $gig->id;

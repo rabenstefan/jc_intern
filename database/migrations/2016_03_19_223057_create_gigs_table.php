@@ -20,6 +20,7 @@ class CreateGigsTable extends Migration
             $table->dateTime('end');
             $table->string('place');
 
+            $table->boolean('binary_answer')->default(false);
             $table->integer('semester_id')->unsigned();
             $table->foreign('semester_id')->references('id')->on('semesters')->onDelete('cascade');
 

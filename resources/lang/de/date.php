@@ -9,6 +9,7 @@ return [
     'index_title'         => 'Termine',
     'gig_not_found'       => 'Auftritt nicht gefunden',
     'rehearsal_not_found' => 'Probe nicht gefunden',
+    'event_not_found'     => 'Termin nicht gefunden',
     'no_last_rehearsal'   => 'Keine Probe in der Vergangenheit gefunden',
     'gig_create_title'    => 'Auftritt erstellen',
     'gig_show_title'      => 'Auftritt bearbeiten',
