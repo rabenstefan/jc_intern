@@ -10,6 +10,7 @@ use MaddHatter\LaravelFullcalendar\Event;
 class Birthday implements Event {
     protected $calendar_options = [
         'className' => 'event-birthday',
+        'shortName' => 'birthday'
     ];
 
     private $title;
@@ -20,7 +21,7 @@ class Birthday implements Event {
     public $needs_answer = false;
 
     public function __construct(User $user = null) {
-        $this->title = trans('form.birthday') . "\n" . $user->first_name . ' ' . $user->last_name;
+        $this->title = trans('form.birthday') . " " . $user->first_name . ' ' . $user->last_name;
 
         // Date arithmetic: Set to current year, add one year if date is more than one week ago.
         $dateCurrentYear = $user->birthday;

@@ -14,6 +14,7 @@ class Rehearsal extends \Eloquent implements IdentifiableEvent {
     protected $calendar_options = [
         'className' => 'event-rehearsal',
         'url' => '',
+        'shortName' => 'rehearsal'
     ];
 
     protected $casts = [

@@ -5,68 +5,102 @@
         {'singular': 'rehearsal', 'plural': 'rehearsals'}
     ];*/
 
+    var cookie_name = 'activeDateFilters';
+
+    /**
+     * Check if arr1 is completely contained in arr2
+     * @param arr1
+     * @param arr2
+     * @returns {boolean}
+     */
 
     window.dateFilters = {
-        'availableFilters': [],
+        'activeFilters' : {},
 
-        'hideByType': function (singular, plural) {
-            $('.event.event-' + singular).parent('.row.list-item').hide(); //For List View
-            $('.fc-event.event-' + singular).hide(); // For Calendar View
-            $('#toggle-' + plural).removeClass('btn-pressed');
-            Cookies.set('EventFilterActive_' + singular, 'hidden');
+        'eventContainerIdentifier': '.list-item',
+
+        'prepareHideFilter': function(name) {
+            dateFilters.activeFilters[name].visible = false;
         },
 
-        'showByType': function (singular, plural) {
-            $('.event.event-' + singular).parent('.row.list-item').show();
-            $('.fc-event.event-' + singular).show();
-            $('#toggle-' + plural).addClass('btn-pressed');
-            Cookies.set('EventFilterActive_' + singular, 'visible');
+        'prepareShowFilter': function(name) {
+            dateFilters.activeFilters[name].visible = true;
         },
 
-        'showAll': function () {
-            $.each(dateFilters.availableFilters, function(n, filter){
-                dateFilters.showByType(filter.singular, filter.plural);
-            });
-        },
-
-        'toggleByType': function(singular, plural) {
-            // We check hasClass and not the Cookie, to not confuse people who use multiple tabs/windows.
-            if ($('#toggle-' + plural).hasClass('btn-pressed')) {
-                // Previously shown. Hide!
-                dateFilters.hideByType(singular, plural);
+        'prepareToggleFilter': function (name) {
+            if (true === dateFilters.activeFilters[name].visible) {
+                dateFilters.prepareHideFilter(name);
             } else {
-                // Hidden. Show!
-                dateFilters.showByType(singular, plural);
+                dateFilters.prepareShowFilter(name);
             }
         },
 
-        'applyFromCookie' : function(singular, plural) {
-            var visibility = Cookies.get('EventFilterActive_'+singular);
-            if (!(undefined === visibility)) {
-                if ('hidden' === visibility) {
-                    dateFilters.hideByType(singular, plural);
-                } else if ('visible'  === visibility) {
-                    dateFilters.showByType(singular, plural);
-                }
-            }
-        },
-
-        'applyAllFromCookie': function() {
-            $.each(dateFilters.availableFilters, function(n, filter){
-                dateFilters.applyFromCookie(filter.singular, filter.plural);
+        'prepareShowAll': function() {
+            $.each(dateFilters.activeFilters, function(name) {
+                dateFilters.prepareShowFilter(name);
             });
         },
 
-        'prepareButtons': function() {
+        /**
+         * Read the prepared filters and apply them to the current view.
+         *
+         * @param set_cookie Save the active filters to a cookie
+         */
+        'applyAllFilters': function(set_cookie = true) {
+            $.each(dateFilters.activeFilters, function (name, filter) {
+                if (filter.visible === true) {
+                    $('#toggle-' + filter.plural).addClass('btn-pressed');
+                } else {
+                    $('#toggle-' + filter.plural).removeClass('btn-pressed');
+                }
+            });
 
-            $.each(dateFilters.availableFilters, function(n, filter){
+            $(dateFilters.eventContainerIdentifier).each(function (index, element) {
+                var visible = true;
+                var jEl = $(element);
+                $.each(jEl.data('filters'), function (n, name) {
+                    if (true !== dateFilters.activeFilters[name].visible) {
+                        // Only be visible if all applicable filters are set to visible
+                        visible = false;
+                        return false; // break
+                    }
+                });
+
+                if (visible) {
+                    jEl.show();
+                } else {
+                    jEl.hide();
+                }
+            });
+
+            if (true === set_cookie) {
+                dateFilters.setCookie();
+            }
+        },
+
+        'readCookie': function() {
+            // This will hopefully mitigate some incomplete cookies. It will also preserve settings not available in the current view (which might not be a preferred behaviour, but we are rolling with it for now)
+            $.extend(dateFilters.activeFilters, Cookies.getJSON(cookie_name));
+        },
+
+        'setCookie': function() {
+            Cookies.set(cookie_name, dateFilters.activeFilters);
+        },
+
+        /**
+         * To be called in document.ready to attach functions to the buttons
+         */
+        'prepareButtons': function() {
+            $.each(dateFilters.activeFilters, function(name, filter) {
                 $('#toggle-'+filter.plural).click(function() {
-                    dateFilters.toggleByType(filter.singular, filter.plural);
+                    dateFilters.prepareToggleFilter(name);
+                    dateFilters.applyAllFilters();
                 });
             });
             $('#toggle-all').click(function () {
-                dateFilters.showAll();
+                dateFilters.prepareShowAll();
+                dateFilters.applyAllFilters();
             });
-        }
+        },
     }
 }(jQuery);

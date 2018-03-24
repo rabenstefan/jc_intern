@@ -16,8 +16,29 @@
     <?php $unanswered = false; /* event doesnt need answer (like birthday) */ ?>
 @endif
 
-<div class="row list-item">
-    <div class="col-xs-12 context-box-2d event event-{{ $date->getShortName() }} {{ $notAttending || $attending == 'no' ? 'event-not-going' : '' }} {{ $unanswered ? 'event-unanswered' : '' }}">
+<?php
+$applicable_filters = [$date->getShortName()];
+if (true === $date->needs_answer) {
+    if (true === $date->hasAnswered(Auth::user())) {
+        switch ($date->isAttending(Auth::user())) {
+        case 'yes': case true:
+            $applicable_filters[] = 'going';
+            break;
+        case 'no': case false:
+            $applicable_filters[] = 'not-going';
+            break;
+        case 'maybe':
+            $applicable_filters[] = 'maybe-going';
+            break;
+    }
+        } else {
+        $applicable_filters[] = 'unanswered';
+    }
+}
+?>
+
+<div class="row list-item" data-filters='["{{ implode('", "', $applicable_filters) }}"]'>
+    <div class="col-xs-12 context-box-2d event event-{{ implode(" event-", $applicable_filters) }}">
         <div class="row">
             <div class="col-xs-12 col-sm-8 col-md-8 col-lg-10">
                 <h4 class="title">
