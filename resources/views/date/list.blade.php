@@ -113,7 +113,7 @@
                 $('#excuse-form').attr('action', url)
                     .data('currentlyAttending', currentlyAttending)
                     .data('sliderElement', sliderElement)
-                    .modal();
+                    .modal({'closeClass': 'fas'});
             } else {
                 url = $(sliderElement).data('attend-url');
                 saveAttendance(url, sliderElement, currentlyAttending, null);
@@ -195,7 +195,7 @@
                     $('#excuse-form').attr('action', $(this).data('url'))
                         .data('sliderElement', this)
                         .data('currentlyAttending', $(this).data('attendance'))
-                        .modal();
+                        .modal({'closeClass': 'fas'});
                 } else {
                     // Save attendance directly, without modal of excuse.
                     saveAttendance($(this).data('url'), null, 'yes', '');
