@@ -92,7 +92,7 @@ if (true === $date->needsAnswer()) {
                                     <i class="far fa-calendar-times"></i>
                                 </a>
                                 <a href="#" class="btn btn-2d btn-maybe {{ $attending == 'maybe' ? 'btn-pressed' : 'btn-unpressed' }}" data-url="{{ route('commitment.commitSelf', ['gig_id' => $date->getId()]) }}" data-attendance="maybe">
-                                    <i class="far fa-calendar fa-with-overlay">?</i>
+                                    <i class="fas fa-question"></i>
                                 </a>
                                 <a href="#" class="btn btn-2d btn-yes {{ $attending == 'yes' ? 'btn-pressed' : 'btn-unpressed' }}" data-url="{{ route('commitment.commitSelf', ['gig_id' => $date->getId()]) }}" data-attendance="yes">
                                     <i class="far fa-calendar-check"></i>

@@ -1,7 +1,26 @@
 @import "../../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
 @import url(https://fonts.googleapis.com/css?family=Raleway);
 @import "config";
+
 @import "fa";
+/*
+To use font awesome, simply use
+
+.myclass {
+  @import fa();
+  &:before {
+    @import fa-{my-icon}();
+  }
+}
+
+or
+
+.myclass:before {
+  @import fa();
+  @import fa-{my-icon}();
+}
+ */
+
 
 /* Responsive table fix for Firefox. */
 @-moz-document url-prefix() {
@@ -92,8 +111,8 @@
   display: block;
   color: $font-color-inverse;
   font-size: 1.5em;
+  margin-top: 0.15em;
   margin-left: -0.35em;
-  margin-top: -0.07em;
 }
 
 .modal-spinner {
@@ -636,7 +655,7 @@ i.fa {
       width: 2em;
       left: 0.2em;
       bottom: 0.2em;
-      padding: 0.2em 0.5em;
+      padding: 0.35em 0.55em;
       background-color: $error-color;
       @include shadow-2d($error-color-darker);
       -webkit-transition: .4s;

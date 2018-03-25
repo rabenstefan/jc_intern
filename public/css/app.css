@@ -5740,6 +5740,23 @@ button.close {
  This is sprinkled in throughout the mixins. */
 /* Font Awesome uses the Unicode Private Use Area (PUA) to ensure screen
 readers do not read off random characters that represent icons */
+/*
+To use font awesome, simply use
+
+.myclass {
+  @import fa();
+  &:before {
+    @import fa-{my-icon}();
+  }
+}
+
+or
+
+.myclass:before {
+  @import fa();
+  @import fa-{my-icon}();
+}
+ */
 /* Responsive table fix for Firefox. */
 @-moz-document url-prefix() {
   fieldset {
@@ -5815,8 +5832,8 @@ readers do not read off random characters that represent icons */
   display: block;
   color: #fdfdfd;
   font-size: 1.5em;
-  margin-left: -0.35em;
-  margin-top: -0.07em; }
+  margin-top: 0.15em;
+  margin-left: -0.35em; }
 
 .modal-spinner {
   display: none;
@@ -6270,7 +6287,7 @@ i.fa {
     width: 2em;
     left: 0.2em;
     bottom: 0.2em;
-    padding: 0.2em 0.5em;
+    padding: 0.35em 0.55em;
     background-color: #FA3D4F;
     border-radius: 0 ;
     border: none ;
