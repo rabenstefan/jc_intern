@@ -5731,6 +5731,15 @@ button.close {
   .hidden-print {
     display: none !important; } }
 
+/**
+  Collection of shortcuts for Font Awesome (v5.0). Copied from the original fontawesome.css and fa-regular.css
+
+  FA's recommends its own SASS-mixins and -extends. However, these are not working correctly (probably because we use an outdated Gulp)
+ */
+/* Font Awesome Solid, when regular is not available.
+ This is sprinkled in throughout the mixins. */
+/* Font Awesome uses the Unicode Private Use Area (PUA) to ensure screen
+readers do not read off random characters that represent icons */
 /* Responsive table fix for Firefox. */
 @-moz-document url-prefix() {
   fieldset {
@@ -5792,13 +5801,22 @@ button.close {
   text-decoration: none; }
 
 .modal a.close-modal:before {
+  font-family: 'Font Awesome\ 5 Free';
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  display: inline-block;
+  font-style: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+  font-weight: 400;
+  font-weight: 900;
   content: "\f00d";
-  font-family: "Font Awesome\ 5 Free", sans-serif;
   display: block;
   color: #fdfdfd;
   font-size: 1.5em;
-  margin-left: -0.4em;
-  margin-top: -0.05em; }
+  margin-left: -0.35em;
+  margin-top: -0.07em; }
 
 .modal-spinner {
   display: none;
@@ -6229,7 +6247,15 @@ i.fa {
   .slider-2d label .slider {
     position: absolute;
     cursor: pointer;
-    font-family: Font Awesome\ 5 Free;
+    font-family: 'Font Awesome\ 5 Free';
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    display: inline-block;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    line-height: 1;
+    font-weight: 400;
     top: 0;
     left: 0;
     right: 0;
@@ -6299,6 +6325,24 @@ i.fa {
     border-bottom: 3px solid #222a32 ;
     box-shadow: none;
     font-weight: bold; }
+    .panel-2d .panel-heading.panel-heading-warning {
+      background-color: #FFA63F;
+      border-radius: 0 ;
+      border: none ;
+      border-bottom: 3px solid #DF8D2D ;
+      box-shadow: none; }
+    .panel-2d .panel-heading.panel-heading-error {
+      background-color: #FA3D4F;
+      border-radius: 0 ;
+      border: none ;
+      border-bottom: 3px solid #DA2C3D ;
+      box-shadow: none; }
+    .panel-2d .panel-heading.panel-heading-success {
+      background-color: #56E438;
+      border-radius: 0 ;
+      border: none ;
+      border-bottom: 3px solid #44C728 ;
+      box-shadow: none; }
     .panel-2d .panel-heading .dropdown-menu {
       color: #fdfdfd;
       background-color: #38444f;
@@ -6316,21 +6360,72 @@ i.fa {
         color: #222a32;
         background: none; }
   .panel-2d .panel-body {
+    position: relative;
     padding: 10px;
-    background-color: #fafafa;
+    background-color: #eaeaea;
     border-radius: 0 ; }
     .panel-2d .panel-body .panel-element {
       min-height: 6em;
       padding: 10px;
       margin-bottom: 1em;
-      background-color: #eaeaea;
+      background-color: #c3c3c3;
       border-radius: 0 ;
       border: none ;
-      border-bottom: 3px solid #c3c3c3 ;
-      box-shadow: none;
-      border-top: 1em solid #38444f; }
+      border-bottom: 3px solid #afafaf ;
+      box-shadow: none; }
+      .panel-2d .panel-body .panel-element:after {
+        position: absolute;
+        font-family: 'Font Awesome\ 5 Free';
+        -moz-osx-font-smoothing: grayscale;
+        -webkit-font-smoothing: antialiased;
+        display: inline-block;
+        font-style: normal;
+        font-variant: normal;
+        text-rendering: auto;
+        line-height: 1;
+        font-weight: 400;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        font-size: 10em;
+        overflow: hidden;
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        vertical-align: middle; }
       .panel-2d .panel-body .panel-element.panel-element-warning {
-        border-top-color: #FFA63F; }
+        background-color: #FFCA8D;
+        border-radius: 0 ;
+        border: none ;
+        border-bottom: 3px solid #FFA63F ;
+        box-shadow: none; }
+        .panel-2d .panel-body .panel-element.panel-element-warning:after {
+          font-weight: 900;
+          content: "\f128";
+          color: #DF8D2D; }
+      .panel-2d .panel-body .panel-element.panel-element-error {
+        background-color: #FC8B96;
+        border-radius: 0 ;
+        border: none ;
+        border-bottom: 3px solid #FA3D4F ;
+        box-shadow: none; }
+        .panel-2d .panel-body .panel-element.panel-element-error:after {
+          font-weight: 900;
+          content: "\f00d";
+          color: #DA2C3D; }
+      .panel-2d .panel-body .panel-element.panel-element-success {
+        background-color: #97F084;
+        border-radius: 0 ;
+        border: none ;
+        border-bottom: 3px solid #56E438 ;
+        box-shadow: none; }
+        .panel-2d .panel-body .panel-element.panel-element-success:after {
+          font-weight: 900;
+          content: "\f00c";
+          color: #44C728; }
+      .panel-2d .panel-body .panel-element .panel-element-body {
+        z-index: 2;
+        position: relative; }
   .panel-2d.panel-2d-grey .panel-heading, .panel-2d .panel-2d .panel-heading {
     padding: 5px 10px;
     color: #020202;
@@ -6340,8 +6435,6 @@ i.fa {
     border-bottom: 3px solid #afafaf ;
     box-shadow: none;
     font-weight: normal; }
-  .panel-2d.panel-2d-grey .panel-body, .panel-2d .panel-2d .panel-body {
-    background-color: #fefefe; }
 
 /** Cool inputs, additionally used to .form-control class. **/
 .form-control-2d {
@@ -6361,10 +6454,20 @@ ul.messages-list-2d {
   ul.messages-list-2d li {
     padding: 0.2em 0; }
     ul.messages-list-2d li:before {
+      font-family: 'Font Awesome\ 5 Free';
+      -moz-osx-font-smoothing: grayscale;
+      -webkit-font-smoothing: antialiased;
+      display: inline-block;
+      font-style: normal;
+      font-variant: normal;
+      text-rendering: auto;
+      line-height: 1;
+      font-weight: 400;
+      font-weight: 900;
       content: "\f12a";
-      font-family: "Font Awesome\ 5 Free", sans-serif;
       padding: 0 1em; }
     ul.messages-list-2d li.text-success:before {
+      font-weight: 900;
       content: "\f00c"; }
 
 .text-success i.fa-check {
@@ -6377,30 +6480,69 @@ div.radio input[type='radio'] + span:before {
   width: 1em;
   height: 1em;
   display: inline-block;
-  font: normal normal normal 14px/1 Font Awesome\ 5 Free;
-  font-size: 20px;
+  font-family: 'Font Awesome\ 5 Free';
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  display: inline-block;
+  font-style: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+  font-weight: 400;
+  font-size: 1.5em;
   top: 2px;
   position: relative;
   margin-left: -1em;
   padding-left: 0;
-  padding-right: 1.5em;
-  background-color: #fff; }
+  padding-right: 1.5em; }
 
 div.checkbox input, div.radio input {
   display: none;
   height: 1px; }
   div.checkbox input[type='checkbox'] + span:before, div.radio input[type='checkbox'] + span:before {
-    content: '\f096';
-    font-family: "Font Awesome\ 5 Free", sans-serif; }
+    font-family: 'Font Awesome\ 5 Free';
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    display: inline-block;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    line-height: 1;
+    font-weight: 400;
+    content: "\f0c8"; }
   div.checkbox input[type='checkbox']:checked + span:before, div.radio input[type='checkbox']:checked + span:before {
-    content: '\f046';
-    font-family: "Font Awesome\ 5 Free", sans-serif; }
+    font-family: 'Font Awesome\ 5 Free';
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    display: inline-block;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    line-height: 1;
+    font-weight: 400;
+    content: "\f14a"; }
   div.checkbox input[type='radio'] + span:before, div.radio input[type='radio'] + span:before {
-    content: '\f10c';
-    font-family: "Font Awesome\ 5 Free", sans-serif; }
+    font-family: 'Font Awesome\ 5 Free';
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    display: inline-block;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    line-height: 1;
+    font-weight: 400;
+    content: "\f111"; }
   div.checkbox input[type='radio']:checked + span:before, div.radio input[type='radio']:checked + span:before {
-    content: '\f192';
-    font-family: "Font Awesome\ 5 Free", sans-serif; }
+    font-family: 'Font Awesome\ 5 Free';
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    display: inline-block;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    line-height: 1;
+    font-weight: 400;
+    content: "\f192"; }
   div.checkbox input:focus + span:before,
   div.checkbox input:hover + span:before, div.radio input:focus + span:before,
   div.radio input:hover + span:before {
@@ -6428,8 +6570,17 @@ div.checkbox input, div.radio input {
   border-bottom: 3px solid #afafaf ;
   box-shadow: none; }
   .notifyjs-shadow2d-base:before {
+    font-family: 'Font Awesome\ 5 Free';
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    display: inline-block;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    line-height: 1;
+    font-weight: 400;
+    font-weight: 900;
     content: "\f12a";
-    font-family: "Font Awesome\ 5 Free", sans-serif;
     padding: 0 1em; }
   .notifyjs-shadow2d-base.notifyjs-shadow2d-success {
     color: #56E438;
@@ -6439,6 +6590,7 @@ div.checkbox input, div.radio input {
     border-bottom: 3px solid #44C728 ;
     box-shadow: none; }
     .notifyjs-shadow2d-base.notifyjs-shadow2d-success:before {
+      font-weight: 900;
       content: "\f00c"; }
   .notifyjs-shadow2d-base.notifyjs-shadow2d-warning {
     color: #FFA63F;
