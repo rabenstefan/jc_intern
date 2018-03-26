@@ -11,7 +11,6 @@
     {!! Html::script('js/moment.min.js') !!}
     {!! Html::script('js/fullcalendar.min.js') !!}
     {!! Html::script('js/lang/de.js') !!}
-    {!! Html::script('js/dateFilters.js') !!}
 @endsection
 
 @section('content')

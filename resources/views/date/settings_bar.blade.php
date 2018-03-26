@@ -68,12 +68,17 @@ $view_types = \App\Http\Controllers\DateController::getViewTypes(); ?>
 
             dateFilters.prepareButtons();
 
+            function changePageUrl() {
+                window.history.pushState({}, "", "{!! route('date.index', ['view_type' => $view_type]) !!}");
+            }
+
             @if(true === $override_show_all)
                     // By construction, all dates should be visible already.
                     //dateFilters.prepareShowAll();
                     //dateFilters.applyAllFilters();
                     // The only thing left to do is reset the cookie.
                     dateFilters.setCookie();
+                    changePageUrl();
             @else
                 @if(count($override_types) === 0 && count($override_statuses) === 0)
                     dateFilters.readCookie();
@@ -88,6 +93,7 @@ $view_types = \App\Http\Controllers\DateController::getViewTypes(); ?>
                         dateFilters.prepareHideFilter('{{ $status }}');
                     @endforeach
                     dateFilters.applyAllFilters();
+                    changePageUrl();
                 @endif
             @endif
         });
