@@ -19,10 +19,22 @@ class HomeController extends Controller
         $this->middleware('auth');
     }
 
-    private function eventQueryBuild($event_class, String $table_name, Carbon $reference_date, $user, $count = 3) {
+
+    /**
+     * Prepares a query to an event by already adjoining attendances of $user. This way, we can filter by attendance more easily.
+     * Note that $limit is not applied until ->get() is ran on the return value of this function.
+     *
+     * @param $event_class
+     * @param String $table_name
+     * @param Carbon $reference_date
+     * @param $user
+     * @param int $limit
+     * @return mixed
+     */
+    private function eventQueryBuild($event_class, String $table_name, Carbon $reference_date, $user, $limit = 3) {
         $singular = str_singular($table_name);
 
-        $upcoming = $event_class::where('end', '>', $reference_date)->orderBy('start')->limit($count);
+        $upcoming = $event_class::where('end', '>', $reference_date)->orderBy('start')->limit($limit);
 
         $upcoming = $upcoming->leftJoin($singular . '_attendances', function($leftJoin) use ($user, $table_name, $singular) {
             $leftJoin->on($table_name . '.id', '=', $singular . '_attendances.' . $singular . '_id');
@@ -32,6 +44,15 @@ class HomeController extends Controller
         return $upcoming;
     }
 
+    /**
+     * Take a pre-prepared query and modify it to hide one attendance type.
+     *
+     * @param $query
+     * @param String $table_name
+     * @param int $attendance
+     * @param bool $hide_if_null
+     * @return mixed
+     */
     private function eventQueryHideByAttendance($query, String $table_name, int $attendance, bool $hide_if_null = false) {
         $singular = str_singular($table_name);
 
@@ -43,6 +64,14 @@ class HomeController extends Controller
         });
     }
 
+    /**
+     * Take a pre-prepared query and modify it to only show the given attendance types. null can be in the array.
+     *
+     * @param $query
+     * @param String $table_name
+     * @param array $attendances
+     * @return mixed
+     */
     private function eventQueryShowByAttendance($query, String $table_name, array $attendances) {
         $singular = str_singular($table_name);
 
@@ -58,6 +87,14 @@ class HomeController extends Controller
         return $query;
     }
 
+    /**
+     * Collect all information necessary to display the unanswered-panel
+     *
+     * @param array $event_types an array of ['class' => {class}, 'table_name' => string]-arrays, where {class} is a subclass of Event
+     * @param Carbon $reference_date
+     * @param $user
+     * @return array
+     */
     private function prepareUnansweredPanel(array $event_types, Carbon $reference_date, $user) {
         $count = ['unanswered' => 0, 'maybe' => 0, 'total' => 0];
         foreach ($event_types as $event_type) {
@@ -81,6 +118,12 @@ class HomeController extends Controller
         return ['state' => $state, 'count' => $count, 'data' => []];
     }
 
+    /**
+     * Collect all information necessary for the missed_rehearsals-panel
+     *
+     * @param User $user
+     * @return array
+     */
     private function prepareMissedRehearsalsPanel(User $user) {
         $count = ['total' => $user->missedRehearsalsCount(), 'unexcused' => $user->missedRehearsalsCount(true)];
         $count['excused'] = $count['total'] - $count['unexcused'];
@@ -93,8 +136,19 @@ class HomeController extends Controller
         return ['state' => $state, 'count' => $count, 'data' => []];
     }
 
-    private function prepareNextEventsPanel($event_class, String $table_name, Carbon $reference_date, $user, bool $hide_not_attending = true, $count = 3) {
-        $upcoming = $this->eventQueryBuild($event_class, $table_name, $reference_date, $user, $count);
+    /**
+     * Collect all information necessary to display one of the next_{event}-panels.
+     *
+     * @param $event_class a subclass of Event
+     * @param String $table_name the name of the table in the database
+     * @param Carbon $reference_date
+     * @param $user
+     * @param bool $hide_not_attending
+     * @param int $limit
+     * @return array
+     */
+    private function prepareNextEventsPanel($event_class, String $table_name, Carbon $reference_date, $user, bool $hide_not_attending = true, $limit = 3) {
+        $upcoming = $this->eventQueryBuild($event_class, $table_name, $reference_date, $user, $limit);
 
         if (true === $hide_not_attending) {
             $upcoming = $this->eventQueryHideByAttendance($upcoming, $table_name, \Config::get('enums.attendances')['no'], false);
@@ -104,6 +158,12 @@ class HomeController extends Controller
         return ['state' => 'info', 'count' => $data->count(), 'data' => $data];
     }
 
+    /**
+     * Collect all information necessary to display upcoming birthdays
+     *
+     * @param Carbon $reference_date
+     * @return array
+     */
     private function prepareNextBirthdaysPanel(Carbon $reference_date) {
         $upcoming_birthdays = Birthday::all();
 

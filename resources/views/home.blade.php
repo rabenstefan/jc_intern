@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-    <?php use \App\Http\Controllers\DateController ?> {{-- TODO: Yikes! --}}
     <div class="row">
         <div class="col-md-12">
             <h1>{{ trans('home.dashboard') }}</h1>
@@ -20,8 +19,8 @@
                                         <p>{{ trans('home.unanswered_body_success') }}</p>
                                     @else
                                         <p>{{ trans('home.unanswered_body', $unanswered_panel['count']) }}</p>
-                                        <a href="{{ route('date.index', ['view_type' => 'list', 'hideByType' => ['birthday'], 'hideByStatus' => DateController::invertDateStatuses(['unanswered'])]) }}">{{ trans('home.to_unanswered') }}</a><br>
-                                        <a href="{{ route('date.index', ['view_type' => 'list', 'hideByType' => ['birthday'], 'hideByStatus' => DateController::invertDateStatuses(['unanswered', 'maybe-going'])]) }}">{{ trans('home.to_unanswered_maybe') }}</a>
+                                        <a href="{{ route('date.index', ['view_type' => 'list', 'hideByType' => ['birthday'], 'hideByStatus' => invert_date_statuses(['unanswered'])]) }}">{{ trans('home.to_unanswered') }}</a><br>
+                                        <a href="{{ route('date.index', ['view_type' => 'list', 'hideByType' => ['birthday'], 'hideByStatus' => invert_date_statuses(['unanswered', 'maybe-going'])]) }}">{{ trans('home.to_unanswered_maybe') }}</a>
                                     @endif
                                 </div>
                             </div>
@@ -44,7 +43,7 @@
                                             </li>
                                         @endforeach
                                     </ul>
-                                    <a href="{{ route('date.index', ['view_type' => 'list', 'hideByType' => DateController::invertDateTypes(['gig'])]) }}">{{ trans('home.to_gigs') }}</a>
+                                    <a href="{{ route('date.index', ['view_type' => 'list', 'hideByType' => invert_date_types(['gig'])]) }}">{{ trans('home.to_gigs') }}</a>
                                 </div>
                             </div>
                         </div><div class="clearfix visible-sm-block"></div>
@@ -66,7 +65,7 @@
                                             </li>
                                         @endforeach
                                     </ul>
-                                <a href="{{ route('date.index', ['view_type' => 'list', 'hideByType' => DateController::invertDateTypes(['rehearsal'])]) }}">{{ trans('home.to_rehearsals') }}</a>
+                                <a href="{{ route('date.index', ['view_type' => 'list', 'hideByType' => invert_date_types(['rehearsal'])]) }}">{{ trans('home.to_rehearsals') }}</a>
                                 </div>
                             </div>
                         </div><div class="clearfix visible-md-block"></div>
@@ -80,7 +79,7 @@
                                     @else
                                         <p>{{ trans('home.missed_rehearsals_body', $missed_rehearsals_panel['count']) }}</p>
                                     @endif
-                                    <a href="{{ route('date.index', ['view_type' => 'list', 'hideByType' => DateController::invertDateTypes(['rehearsal'])]) }}">{{ trans('home.to_future_rehearsals') }}</a>
+                                    <a href="{{ route('date.index', ['view_type' => 'list', 'hideByType' => invert_date_types(['rehearsal'])]) }}">{{ trans('home.to_future_rehearsals') }}</a>
                                 </div>
                             </div>
                         </div><div class="clearfix visible-lg-block"></div><div class="clearfix visible-sm-block"></div>
@@ -108,7 +107,7 @@
                                         </li>
                                     @endforeach
                                     </ul>
-                                <a href="{{ route('date.index', ['view_type' => 'list', 'hideByType' => DateController::invertDateTypes(['birthday'])]) }}">{{ trans('home.to_birthdays') }}</a>
+                                <a href="{{ route('date.index', ['view_type' => 'list', 'hideByType' => invert_date_types(['birthday'])]) }}">{{ trans('home.to_birthdays') }}</a>
                                 </div>
                             </div>
                         </div>

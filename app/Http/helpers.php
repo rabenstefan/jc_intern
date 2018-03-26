@@ -23,6 +23,19 @@ function array_xor_value(array $array, $value, bool $strict = true) {
 
 
 /**
+ * LaTeX: $bigger \setMinus $smaller
+ *
+ * shows the difference between $bigger and $smaller, but ignores everything in $smaller which is not in $bigger
+ *
+ * @param array $bigger
+ * @param array $smaller
+ * @return array
+ */
+function set_minus(array $bigger, array $smaller) {
+    return array_diff($bigger, array_intersect($bigger, $smaller));
+}
+
+/**
  * Returns the power set of a one dimensional array, a 2-D array.
  * [a,b,c] -> [ [a], [b], [c], [a, b], [a, c], [b, c], [a, b, c] ]
  *
@@ -47,6 +60,14 @@ function power_set(array $in, int $minLength = 1) {
     return $return;
 }
 
+/**
+ * Shorten a string if it is longer than $length. If a string has been shortened, $indicator will be appended.
+ *
+ * @param String $string
+ * @param int $length
+ * @param String $indicator
+ * @return string
+ */
 function str_shorten(String $string, int $length, String $indicator = '') {
     $result = mb_substr($string, 0, $length);
     if ($result != $string) {
@@ -54,3 +75,27 @@ function str_shorten(String $string, int $length, String $indicator = '') {
     }
     return $result;
 }
+
+
+/**
+ * Compare the given date types to the available ones and return the inverse.
+ * If a date type is unknown, it will be dropped.
+ *
+ * @param array $date_types
+ * @return array
+ */
+function invert_date_types (array $date_types) {
+    return set_minus(\App\Http\Controllers\DateController::getDateTypes(), $date_types);
+}
+
+/**
+ * Compare the given date statuses to the available ones and return the inverse.
+ * If a date status is unknown, it will be dropped.
+ *
+ * @param array $date_statuses
+ * @return array
+ */
+function invert_date_statuses (array $date_statuses) {
+    return set_minus(\App\Http\Controllers\DateController::getDateStatuses(), $date_statuses);
+}
+

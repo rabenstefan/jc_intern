@@ -64,22 +64,6 @@ class DateController extends Controller {
     }
 
     /**
-     * Compare the given date types to the available ones and return the inverse.
-     * If a date type is unknown, it will be dropped.
-     *
-     * @param array $date_types
-     * @return array
-     */
-    public static function invertDateTypes (array $date_types) {
-        $available_types = self::getDateTypes();
-        return array_diff($available_types, array_intersect($available_types, $date_types));
-    }
-
-    public static function invertDateStatuses (array $date_statuses) {
-        return array_diff(self::$date_statuses, array_intersect(self::$date_statuses, $date_statuses));
-    }
-
-    /**
      * Display a listing of the resource.
      *
      * @param String $view_type
