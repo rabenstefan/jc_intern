@@ -47,7 +47,7 @@ if (true === $date->needsAnswer()) {
                     @if($date->hasPlace())
                         <br>
                         {{ $date->place }}
-                        <a href="https://www.google.com/maps/search/{{ $date->place }}/" title="{{ trans('date.address_search') }}" target="_blank" class="pull-right text-large">{{ trans('date.goto_maps') }} <i class="fa fa-map-o"></i></a>
+                        <a href="https://www.google.com/maps/search/{{ $date->place }}/" title="{{ trans('date.address_search') }}" target="_blank" class="pull-right text-large">{{ trans('date.goto_maps') }} <i class="far fa-map"></i></a>
                     @endif
                 </h4>
 

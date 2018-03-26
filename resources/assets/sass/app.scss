@@ -758,60 +758,100 @@ i.fa {
     background-color: $grey-lighter;
     @include border-radius(0);
 
+    .panel-heading {
+      text-align: center;
+      z-index: 2;
+      @extend .text-large;
+    }
+
     .panel-element {
-      min-height: 6em;
+      //min-height: 12em;
       padding: 10px;
       margin-bottom: 1em;
       background-color: $grey;
       @include shadow-2d($grey-darker);
 
-      &:after {
-        position: absolute;
-        @include fa();
-        z-index: 1;
-        left: 0;
-        top: 0;
-        font-size: 10em;
-        overflow: hidden;
-        width: 100%;
-        height: 100%;
-        text-align: center;
-        vertical-align: middle;
-      }
-
       &.panel-element-warning {
         background-color: $warning-color-lighter;
         @include shadow-2d($warning-color);
-        &:after {
-          @include fa-question();
-          color: $warning-color-darker;
-        }
       }
 
       &.panel-element-error {
         background-color: $error-color-lighter;
         @include shadow-2d($error-color);
-        &:after {
-          @include fa-times();
-          color: $error-color-darker;
-        }
       }
 
       &.panel-element-success {
         background-color: $success-color-lighter;
         @include shadow-2d($success-color);
-        &:after {
-          @include fa-check();
-          color: $success-color-darker;
-        }
       }
 
       .panel-element-body {
         z-index: 2;
         position: relative;
       }
+
+      .panel-element-body {
+        .panel-element-main {
+          font-weight: bold;
+          padding-bottom: 10px;
+          text-align: center;
+          @extend .text-large;
+
+          &.panel-element-main-number {
+            font-size: 2em;
+          }
+        }
+      }
+
+      &.panel-element-background-icon {
+        &:after {
+          position: absolute;
+          @include fa();
+          z-index: 1;
+          left: 0;
+          top: 20px;
+          font-size: 10em;
+          overflow: hidden;
+          width: 100%;
+          height: 100%;
+          text-align: center;
+          opacity: 0.8;
+        }
+
+        &.panel-element-warning {
+          &:after {
+            @include fa-question();
+            color: $warning-color-darker;
+          }
+        }
+
+        &.panel-element-error {
+          &:after {
+            @include fa-times();
+            color: $error-color-darker;
+          }
+        }
+
+        &.panel-element-success {
+          &:after {
+            @include fa-check();
+            color: $success-color-darker;
+          }
+        }
+
+        .panel-element-body {
+          .panel-element-main {
+            &.panel-element-main-number {
+              padding-top: 10px;
+              padding-bottom: 30px;
+            }
+          }
+        }
+      }
     }
   }
+
 
   &.panel-2d-grey, & .panel-2d {
     .panel-heading {

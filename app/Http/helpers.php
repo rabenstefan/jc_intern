@@ -46,3 +46,11 @@ function power_set(array $in, int $minLength = 1) {
     }
     return $return;
 }
+
+function str_shorten(String $string, int $length, String $indicator = '') {
+    $result = mb_substr($string, 0, $length);
+    if ($result != $string) {
+        $result .= $indicator;
+    }
+    return $result;
+}

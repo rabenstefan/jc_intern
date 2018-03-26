@@ -5879,7 +5879,7 @@ i.fa {
   background-color: #fff; }
 
 /** General classes. **/
-.text-large {
+.text-large, .panel-2d .panel-body .panel-heading, .panel-2d .panel-body .panel-element .panel-element-body .panel-element-main {
   font-size: 1.2em; }
 
 .container {
@@ -6381,8 +6381,10 @@ i.fa {
     padding: 10px;
     background-color: #eaeaea;
     border-radius: 0 ; }
+    .panel-2d .panel-body .panel-heading {
+      text-align: center;
+      z-index: 2; }
     .panel-2d .panel-body .panel-element {
-      min-height: 6em;
       padding: 10px;
       margin-bottom: 1em;
       background-color: #c3c3c3;
@@ -6390,7 +6392,34 @@ i.fa {
       border: none ;
       border-bottom: 3px solid #afafaf ;
       box-shadow: none; }
-      .panel-2d .panel-body .panel-element:after {
+      .panel-2d .panel-body .panel-element.panel-element-warning {
+        background-color: #FFCA8D;
+        border-radius: 0 ;
+        border: none ;
+        border-bottom: 3px solid #FFA63F ;
+        box-shadow: none; }
+      .panel-2d .panel-body .panel-element.panel-element-error {
+        background-color: #FC8B96;
+        border-radius: 0 ;
+        border: none ;
+        border-bottom: 3px solid #FA3D4F ;
+        box-shadow: none; }
+      .panel-2d .panel-body .panel-element.panel-element-success {
+        background-color: #97F084;
+        border-radius: 0 ;
+        border: none ;
+        border-bottom: 3px solid #56E438 ;
+        box-shadow: none; }
+      .panel-2d .panel-body .panel-element .panel-element-body {
+        z-index: 2;
+        position: relative; }
+      .panel-2d .panel-body .panel-element .panel-element-body .panel-element-main {
+        font-weight: bold;
+        padding-bottom: 10px;
+        text-align: center; }
+        .panel-2d .panel-body .panel-element .panel-element-body .panel-element-main.panel-element-main-number {
+          font-size: 2em; }
+      .panel-2d .panel-body .panel-element.panel-element-background-icon:after {
         position: absolute;
         font-family: 'Font Awesome\ 5 Free';
         -moz-osx-font-smoothing: grayscale;
@@ -6403,46 +6432,28 @@ i.fa {
         font-weight: 400;
         z-index: 1;
         left: 0;
-        top: 0;
+        top: 20px;
         font-size: 10em;
         overflow: hidden;
         width: 100%;
         height: 100%;
         text-align: center;
-        vertical-align: middle; }
-      .panel-2d .panel-body .panel-element.panel-element-warning {
-        background-color: #FFCA8D;
-        border-radius: 0 ;
-        border: none ;
-        border-bottom: 3px solid #FFA63F ;
-        box-shadow: none; }
-        .panel-2d .panel-body .panel-element.panel-element-warning:after {
-          font-weight: 900;
-          content: "\f128";
-          color: #DF8D2D; }
-      .panel-2d .panel-body .panel-element.panel-element-error {
-        background-color: #FC8B96;
-        border-radius: 0 ;
-        border: none ;
-        border-bottom: 3px solid #FA3D4F ;
-        box-shadow: none; }
-        .panel-2d .panel-body .panel-element.panel-element-error:after {
-          font-weight: 900;
-          content: "\f00d";
-          color: #DA2C3D; }
-      .panel-2d .panel-body .panel-element.panel-element-success {
-        background-color: #97F084;
-        border-radius: 0 ;
-        border: none ;
-        border-bottom: 3px solid #56E438 ;
-        box-shadow: none; }
-        .panel-2d .panel-body .panel-element.panel-element-success:after {
-          font-weight: 900;
-          content: "\f00c";
-          color: #44C728; }
-      .panel-2d .panel-body .panel-element .panel-element-body {
-        z-index: 2;
-        position: relative; }
+        opacity: 0.8; }
+      .panel-2d .panel-body .panel-element.panel-element-background-icon.panel-element-warning:after {
+        font-weight: 900;
+        content: "\f128";
+        color: #DF8D2D; }
+      .panel-2d .panel-body .panel-element.panel-element-background-icon.panel-element-error:after {
+        font-weight: 900;
+        content: "\f00d";
+        color: #DA2C3D; }
+      .panel-2d .panel-body .panel-element.panel-element-background-icon.panel-element-success:after {
+        font-weight: 900;
+        content: "\f00c";
+        color: #44C728; }
+      .panel-2d .panel-body .panel-element.panel-element-background-icon .panel-element-body .panel-element-main.panel-element-main-number {
+        padding-top: 10px;
+        padding-bottom: 30px; }
   .panel-2d.panel-2d-grey .panel-heading, .panel-2d .panel-2d .panel-heading {
     padding: 5px 10px;
     color: #020202;

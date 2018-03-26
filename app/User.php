@@ -186,18 +186,14 @@ class User extends Authenticatable
      * @return int Number of missed rehearsals
      */
     public function missedRehearsalsCount($unexcused_only = false, $with_old=false) {
+        //TODO: Need ability to show missed rehearsals of the current semester so far.
+        //TODO: Count according to "weight" of rehearsal
         $all_rehearsals = Rehearsal::all(['id'], $with_old);
         $conditions = [['missed', 1]];
         if (true === $unexcused_only) {
             array_push($conditions, ['attendance', 0]);
         }
         return $this->attendances()->where($conditions)->whereIn('rehearsal_id', $all_rehearsals)->count();
-    }
-
-
-    public function unansweredGigsCount($with_old=false) {
-        $all_gigs = Gig::all(['id'], $with_old);
-        return $this->commitments()->whereIn('gig_id', $all_gigs)->count();
     }
 
     public static function getMusicalLeader() {
