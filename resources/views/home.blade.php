@@ -37,7 +37,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" title="{{ trans('home.next_gigs_addendum') }}">
                             <div class="panel-heading  panel-heading-{{ $next_gigs_panel['state'] }}">{{ trans('home.next_gigs_heading') }}</div>
                             <div class="panel-element panel-element-{{ $next_gigs_panel['state'] }}">
                                 <div class="panel-element-body">

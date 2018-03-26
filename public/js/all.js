@@ -964,11 +964,6 @@ $(document).ready(function () {
 }));
 
 +function($) {
-    /*var filters = [
-        {'singular': 'birthday', 'plural': 'birthdays'},
-        {'singular': 'gig', 'plural': 'gigs'},
-        {'singular': 'rehearsal', 'plural': 'rehearsals'}
-    ];*/
 
     var cookie_name = 'activeDateFilters';
 
@@ -1012,6 +1007,7 @@ $(document).ready(function () {
          * @param set_cookie Save the active filters to a cookie
          */
         'applyAllFilters': function(set_cookie = true) {
+            // Show/Hide Toggle Buttons
             $.each(dateFilters.activeFilters, function (name, filter) {
                 if (filter.visible === true) {
                     $('#toggle-' + filter.plural).addClass('btn-pressed');
@@ -1022,6 +1018,7 @@ $(document).ready(function () {
                 }
             });
 
+            // Show/Hide elements in view
             $(dateFilters.eventContainerIdentifier).each(function (index, element) {
                 var visible = true;
                 var jEl = $(element);
@@ -1046,7 +1043,7 @@ $(document).ready(function () {
         },
 
         'readCookie': function() {
-            // This will hopefully mitigate some incomplete cookies. It will also preserve settings not available in the current view (which might not be a preferred behaviour, but we are rolling with it for now)
+            // Using $.extend will hopefully mitigate some incomplete cookies. It will also preserve settings not available in the current view (which might not be a preferred behaviour, but we are rolling with it for now)
             $.extend(dateFilters.activeFilters, Cookies.getJSON(cookie_name));
         },
 

@@ -18,7 +18,7 @@ return [
     'unanswered_body_success' => 'Für alle Termine zurückgemeldet. Dankeschön!',
     'to_unanswered' => 'Anzeigen (ohne "vielleicht")',
     'to_unanswered_maybe' => 'Anzeigen (inklusive "vielleicht")',
-    'next_gigs_body'    => 'Die nächsten drei Auftritte:',
+    'next_gigs_body'    => 'Die nächsten drei Auftritte für dich:',
     'next_rehearsals_body'  => 'Die nächsten drei Proben:',
     'missed_rehearsals_body'    => 'Du hast :total Fehlproben, davon :unexcused unentschuldigt.',
     'missed_rehearsals_body_success'    => 'Du hast keine Fehlproben. Toll!',
@@ -29,14 +29,14 @@ return [
     'yesterday' => 'Gestern',
     'past_in_days' => 'Vor :days Tagen',
     'future_in_days' => 'In :days Tagen',
-    'to_gigs'   => 'Auftritte anzeigen',
-    'to_rehearsals' => 'Proben anzeigen',
+    'to_gigs'   => 'Alle Auftritte anzeigen',
+    'to_rehearsals' => 'Alle Proben anzeigen',
     'to_future_rehearsals' => 'Die nächsten Proben anzeigen',
     'to_birthdays'  => 'Geburtstage anzeigen',
     'to_dates'  => 'Alle Termine anzeigen',
     'unanswered_body_maybe' => 'Bei :maybe Terminen steht noch "vielleicht.',
     'unanswered_body_unanswered' => 'Bei :unanswered Terminen fehlen noch Rückmeldungen.',
     'show'  => 'Anzeigen',
-
+    'next_gigs_addendum'    => 'Auftritte, die du abgesagt hast, werden in dieser Liste augeblendet.'
 
 ];

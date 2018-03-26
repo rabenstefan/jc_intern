@@ -60,7 +60,7 @@ $view_types = \App\Http\Controllers\DateController::getViewTypes(); ?>
                 @endforeach
                 @foreach($date_statuses as $filter)
                 '{{ $filter }}': {
-                    'plural': '{{  $filter }}',
+                    'plural': '{{ $filter }}', //statuses dont have a plural we want to use
                     'visible': true
                 },
                 @endforeach
@@ -68,17 +68,21 @@ $view_types = \App\Http\Controllers\DateController::getViewTypes(); ?>
 
             dateFilters.prepareButtons();
 
-            function changePageUrl() {
-                window.history.pushState({}, "", "{!! route('date.index', ['view_type' => $view_type]) !!}");
+            /**
+             * This function will be called if GET-parameters to override filters have been given to PHP.
+             * Essentially, this makes any changes, that the users does to their filter settings (after loading the page) safe (and save) through reloads.
+             */
+            function resetPageUrl() {
+                window.history.replaceState({}, "", "{!! route('date.index', ['view_type' => $view_type]) !!}");
             }
 
             @if(true === $override_show_all)
                     // By construction, all dates should be visible already.
                     //dateFilters.prepareShowAll();
                     //dateFilters.applyAllFilters();
-                    // The only thing left to do is reset the cookie.
+                    // The only thing left to do is reset the cookie and the URL.
                     dateFilters.setCookie();
-                    changePageUrl();
+                    resetPageUrl();
             @else
                 @if(count($override_types) === 0 && count($override_statuses) === 0)
                     dateFilters.readCookie();
@@ -92,8 +96,8 @@ $view_types = \App\Http\Controllers\DateController::getViewTypes(); ?>
                     @foreach($override_statuses as $status)
                         dateFilters.prepareHideFilter('{{ $status }}');
                     @endforeach
-                    dateFilters.applyAllFilters();
-                    changePageUrl();
+                    dateFilters.applyAllFilters(true);
+                    resetPageUrl();
                 @endif
             @endif
         });
