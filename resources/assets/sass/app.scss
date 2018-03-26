@@ -778,6 +778,12 @@ i.fa {
 
       &.panel-element-error {
         background-color: $error-color-lighter;
+        .panel-element-body {
+          color: $font-color-inverse;
+          a {
+            font-weight: bold;
+          }
+        }
         @include shadow-2d($error-color);
       }
 
@@ -820,9 +826,14 @@ i.fa {
         }
 
         &.panel-element-warning {
+          .panel-element-main-number {
+            color: $grey-lighter;
+          }
           &:after {
             @include fa-question();
             color: $warning-color-darker;
+            font-size: 6em;
+            top: 50px;
           }
         }
 
@@ -837,6 +848,8 @@ i.fa {
           &:after {
             @include fa-check();
             color: $success-color-darker;
+            font-size: 7em;
+            top: 40px;
           }
         }
 

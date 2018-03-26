@@ -33,6 +33,10 @@ return [
     'to_rehearsals' => 'Proben anzeigen',
     'to_future_rehearsals' => 'Die nächsten Proben anzeigen',
     'to_birthdays'  => 'Geburtstage anzeigen',
+    'to_dates'  => 'Alle Termine anzeigen',
+    'unanswered_body_maybe' => 'Bei :maybe Terminen steht noch "vielleicht.',
+    'unanswered_body_unanswered' => 'Bei :unanswered Terminen fehlen noch Rückmeldungen.',
+    'show'  => 'Anzeigen',
 
 
 ];

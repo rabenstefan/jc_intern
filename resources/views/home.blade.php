@@ -14,13 +14,25 @@
                             <div class="panel-heading  panel-heading-{{ $unanswered_panel['state'] }}">{{ trans('home.unanswered_heading') }}</div>
                             <div class="panel-element panel-element-background-icon panel-element-{{ $unanswered_panel['state'] }}">
                                 <div class="panel-element-body">
-                                    <div class="panel-element-main panel-element-main-number ">{{ $unanswered_panel['count']['total'] }}</div>
                                     @if(0 === $unanswered_panel['count']['total'])
+                                        <div class="panel-element-main panel-element-main-number ">&nbsp;</div>
                                         <p>{{ trans('home.unanswered_body_success') }}</p>
+                                        <a href="{{ route('date.index', ['view_type' => 'list']) }}">{{ trans('home.to_dates') }}</a>
                                     @else
-                                        <p>{{ trans('home.unanswered_body', $unanswered_panel['count']) }}</p>
-                                        <a href="{{ route('date.index', ['view_type' => 'list', 'hideByType' => ['birthday'], 'hideByStatus' => invert_date_statuses(['unanswered'])]) }}">{{ trans('home.to_unanswered') }}</a><br>
-                                        <a href="{{ route('date.index', ['view_type' => 'list', 'hideByType' => ['birthday'], 'hideByStatus' => invert_date_statuses(['unanswered', 'maybe-going'])]) }}">{{ trans('home.to_unanswered_maybe') }}</a>
+                                        <div class="panel-element-main panel-element-main-number ">{{ $unanswered_panel['count']['total'] }}</div>
+                                        @if(0 === $unanswered_panel['count']['unanswered']) {{-- Only 'Maybe's --}}
+                                            <p>{{ trans('home.unanswered_body_maybe', $unanswered_panel['count']) }}</p>
+                                            <a href="{{ route('date.index', ['view_type' => 'list', 'hideByType' => ['birthday'], 'hideByStatus' => invert_date_statuses(['unanswered', 'maybe-going'])]) }}">{{ trans('home.show') }}</a><br>
+                                            <a href="{{ route('date.index', ['view_type' => 'list', 'showAll' => 'true']) }}">{{ trans('home.to_dates') }}</a>
+                                        @elseif(0 === $unanswered_panel['count']['maybe']) {{-- Only 'Unanswered's --}}
+                                            <p>{{ trans('home.unanswered_body_unanswered', $unanswered_panel['count']) }}</p>
+                                            <a href="{{ route('date.index', ['view_type' => 'list', 'hideByType' => ['birthday'], 'hideByStatus' => invert_date_statuses(['unanswered', 'maybe-going'])]) }}">{{ trans('home.show') }}</a><br>
+                                            <a href="{{ route('date.index', ['view_type' => 'list', 'showAll' => 'true']) }}">{{ trans('home.to_dates') }}</a>
+                                        @else
+                                            <p>{{ trans('home.unanswered_body', $unanswered_panel['count']) }}</p>
+                                            <a href="{{ route('date.index', ['view_type' => 'list', 'hideByType' => ['birthday'], 'hideByStatus' => invert_date_statuses(['unanswered'])]) }}">{{ trans('home.to_unanswered') }}</a><br>
+                                            <a href="{{ route('date.index', ['view_type' => 'list', 'hideByType' => ['birthday'], 'hideByStatus' => invert_date_statuses(['unanswered', 'maybe-going'])]) }}">{{ trans('home.to_unanswered_maybe') }}</a>
+                                        @endif
                                     @endif
                                 </div>
                             </div>
