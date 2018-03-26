@@ -68,19 +68,27 @@ $view_types = \App\Http\Controllers\DateController::getViewTypes(); ?>
 
             dateFilters.prepareButtons();
 
-            @if(count($override_types) === 0 && count($override_statuses) === 0 )
-                dateFilters.readCookie();
-                dateFilters.applyAllFilters(false);
+            @if(true === $override_show_all)
+                    // By construction, all dates should be visible already.
+                    //dateFilters.prepareShowAll();
+                    //dateFilters.applyAllFilters();
+                    // The only thing left to do is reset the cookie.
+                    dateFilters.setCookie();
             @else
-                // Some options to override filters have been passed as GET-parameters. We will now try to parse them to javascript
-                @foreach($override_types as $singular)
-                    <?php $plural = str_plural($singular); ?>
-                    dateFilters.prepareHideFilter('{{$singular}}');
-                @endforeach
-                @foreach($override_statuses as $status)
-                    dateFilters.prepareHideFilter('{{ $status }}');
-                @endforeach
-                dateFilters.applyAllFilters();
+                @if(count($override_types) === 0 && count($override_statuses) === 0)
+                    dateFilters.readCookie();
+                    dateFilters.applyAllFilters(false);
+                @else
+                    // Some options to override filters have been passed as GET-parameters. We will now try to parse them to javascript
+                    @foreach($override_types as $singular)
+                        <?php $plural = str_plural($singular); ?>
+                        dateFilters.prepareHideFilter('{{$singular}}');
+                    @endforeach
+                    @foreach($override_statuses as $status)
+                        dateFilters.prepareHideFilter('{{ $status }}');
+                    @endforeach
+                    dateFilters.applyAllFilters();
+                @endif
             @endif
         });
     </script>
