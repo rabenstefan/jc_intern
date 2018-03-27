@@ -1,31 +1,12 @@
-<?php
-$applicable_filters = [$date->getShortName()];
-if (true === $date->needsAnswer()) {
-    if (true === $date->hasAnswered(Auth::user())) {
-        switch ($date->isAttending(Auth::user())) {
-            case 'yes': case true:
-                $applicable_filters[] = 'going';
-                break;
-            case 'no': case false:
-                $applicable_filters[] = 'not-going';
-                break;
-            case 'maybe':
-                $applicable_filters[] = 'maybe-going';
-                break;
-        }
-    } else {
-        $applicable_filters[] = 'unanswered';
-    }
-}
-?>
-
-<div class="row list-item" data-filters='["{{ implode('", "', $applicable_filters) }}"]'>
-    <div class="col-xs-12 context-box-2d event event-{{ implode(" event-", $applicable_filters) }}">
+<div class="row list-item" data-filters='["{{ implode('", "', $date->getApplicableFilters()) }}"]'>
+    <div class="col-xs-12 context-box-2d event event-{{ implode(" event-", $date->getApplicableFilters()) }}">
         <div class="row">
             <div class="col-xs-12 col-sm-8 col-md-8 col-lg-10">
                 <h4 class="title">
                     {{ $date->getTitle() }}
-                    <span class="not-going-note" style="display: none{{-- Is attending? none --}};">{{  ' &ndash; ' . trans('date.not_attending') }}</span>
+                    <span class="not-going-note" style="{{ in_array('not-going', $date->getApplicableFilters())  ? 'display: inline;' : 'display: none;' }};">
+                        {{ ' &ndash; ' . trans('date.not_attending') }}
+                    </span>
                     @if($date->hasPlace())
                         <br>
                         {{ $date->place }}
@@ -59,7 +40,10 @@ if (true === $date->needsAnswer()) {
                     @if($date->hasBinaryAnswer())
                         <div class="row">
                             <div class="col-xs-12">
-                                <span class="slider-2d" data-function="changeAttendance" data-excuse-url="{{ route('attendances.excuseSelf', ['rehearsal_id' => $date->getId()]) }}" data-attend-url="{{ route('attendances.confirmSelf', ['rehearsal_id' => $date->getId()]) }}">
+                                <span class="slider-2d"
+                                      data-function="changeAttendance"
+                                      data-attend-url="{{ route('attendances.changeOwnAttendance', ['events_name' => $date->getShortNamePlural(), 'event_id' => $date->getId(), 'shorthand' => 'attend']) }}"
+                                      data-excuse-url="{{ route('attendances.changeOwnAttendance', ['events_name' => $date->getShortNamePlural(), 'event_id' => $date->getId(), 'shorthand' => 'excuse']) }}">
                                     <input type="checkbox" {{ $date->isAttending(Auth::user()) ? '' : ' checked="checked"' }} id="slider-attending-{{ $date->getShortName() }}-{{ $date->getId() }}">
                                     <label for="slider-attending-{{ $date->getShortName() }}-{{ $date->getId() }}">
                                         <span class="slider"></span>
@@ -73,13 +57,22 @@ if (true === $date->needsAnswer()) {
                         <div class="row">
                             <div class="col-xs-12">
                                 <span class="button-set-2d">
-                                    <a href="#" class="btn btn-2d btn-no {{ $date->isAttending(Auth::user()) == 'no' ? 'btn-pressed' : 'btn-unpressed' }}" data-url="{{ route('commitments.changeOwnAttendance', ['gig_id' => $date->getId()]) }}" data-attendance="no">
+                                    <a href="#"
+                                       class="btn btn-2d btn-no {{ $date->isAttending(Auth::user()) == 'no' ? 'btn-pressed' : 'btn-unpressed' }}"
+                                       data-url="{{ route('attendances.changeOwnAttendance', ['events_name' => $date->getShortNamePlural(), 'event_id' => $date->getId()])}}"
+                                       data-attendance="no">
                                         <i class="far fa-calendar-times"></i>
                                     </a>
-                                    <a href="#" class="btn btn-2d btn-maybe {{ $date->isAttending(Auth::user()) == 'maybe' ? 'btn-pressed' : 'btn-unpressed' }}" data-url="{{ route('commitments.changeOwnAttendance', ['gig_id' => $date->getId()]) }}" data-attendance="maybe">
+                                    <a href="#"
+                                       class="btn btn-2d btn-maybe {{ $date->isAttending(Auth::user()) == 'maybe' ? 'btn-pressed' : 'btn-unpressed' }}"
+                                       data-url="{{ route('attendances.changeOwnAttendance', ['events_name' => $date->getShortNamePlural(), 'event_id' => $date->getId()])}}"
+                                       data-attendance="maybe">
                                         <i class="far fa-calendar fa-with-overlay">?</i>
                                     </a>
-                                    <a href="#" class="btn btn-2d btn-yes {{ $date->isAttending(Auth::user()) == 'yes' ? 'btn-pressed' : 'btn-unpressed' }}" data-url="{{ route('commitments.changeOwnAttendance', ['gig_id' => $date->getId()]) }}" data-attendance="yes">
+                                    <a href="#"
+                                       class="btn btn-2d btn-yes {{ $date->isAttending(Auth::user()) == 'yes' ? 'btn-pressed' : 'btn-unpressed' }}"
+                                       data-url="{{ route('attendances.changeOwnAttendance', ['events_name' => $date->getShortNamePlural(), 'event_id' => $date->getId()])}}"
+                                       data-attendance="yes">
                                         <i class="far fa-calendar-check"></i>
                                     </a>
                                 </span>

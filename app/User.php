@@ -78,12 +78,16 @@ class User extends Authenticatable
         return $this->belongsTo('App\Semester', 'last_echo');
     }
 
-    public function beer_count() {
-        return $this->belongsToMany('App\BeerCount');
+    public function gig_attendances(){
+        return $this->belongsToMany('App\GigAttendance');
     }
 
-    public function commitments() {
-        return $this->belongsToMany('App\GigAttendance');
+    public function rehearsal_attendances(){
+        return $this->belongsToMany('App\RehearsalAttendance');
+    }
+
+    public function beer_count() {
+        return $this->belongsToMany('App\BeerCount');
     }
 
     public function roles() {
@@ -108,11 +112,6 @@ class User extends Authenticatable
 
     public function bought(){
         return $this->belongsToMany('App\Sheet')->withPivot('number', 'status')->wherePivot('status', '=', Sheet::STATUS_BOUGHT);
-    }
-
-
-    public function attendances(){
-        return $this->belongsToMany('App\RehearsalAttendance');
     }
 
     /*

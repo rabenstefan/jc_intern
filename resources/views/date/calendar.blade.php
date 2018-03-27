@@ -45,7 +45,16 @@
                         </div>
 
                         <div class="panel-body">
-                            @include('date.settings_bar', ['view_type' => 'calendar', 'override_types' => $override_types, 'override_statuses' => $override_statuses, 'override_show_all' => $override_show_all])
+
+                            @include('date.settings_bar', [
+                                'view_type'         => 'calendar',
+                                'override_types'    => $override_types,
+                                'override_statuses' => $override_statuses,
+                                'override_show_all' => $override_show_all,
+                                'date_types'        => $date_types,
+                                'date_statuses'     => $date_statuses,
+                                'view_types'        => $view_types
+                            ])
                             @include('date.calendar.row', ['calendar' => $calendar])
                         </div>
                     </div>

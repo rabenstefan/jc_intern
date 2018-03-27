@@ -3,7 +3,6 @@
 namespace App;
 
 use MaddHatter\LaravelFullcalendar\IdentifiableEvent;
-use Carbon\Carbon;
 
 class Gig extends \Eloquent implements IdentifiableEvent {
     use Event;
@@ -35,6 +34,12 @@ class Gig extends \Eloquent implements IdentifiableEvent {
         'binary_answer',
     ];
 
+    public function __construct(array $attributes = []) {
+        parent::__construct($attributes);
+
+        $this->setApplicableFilters();
+    }
+
     public function gig_attendances() {
         return $this->belongsToMany('App\GigAttendance');
     }
@@ -45,6 +50,10 @@ class Gig extends \Eloquent implements IdentifiableEvent {
 
     public function getShortName() {
         return 'gig';
+    }
+
+    public function getShortNamePlural() {
+        return 'gigs';
     }
 
     /**

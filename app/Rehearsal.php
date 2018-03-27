@@ -3,7 +3,6 @@
 namespace App;
 
 use MaddHatter\LaravelFullcalendar\IdentifiableEvent;
-use Carbon\Carbon;
 
 class Rehearsal extends \Eloquent implements IdentifiableEvent {
     use Event;
@@ -39,6 +38,12 @@ class Rehearsal extends \Eloquent implements IdentifiableEvent {
         'voice_id',
     ];
 
+    public function __construct(array $attributes = []) {
+        parent::__construct($attributes);
+
+        $this->setApplicableFilters();
+    }
+
     public function semester() {
         return $this->hasOne('App\Semester');
     }
@@ -53,6 +58,10 @@ class Rehearsal extends \Eloquent implements IdentifiableEvent {
 
     public function getShortName() {
         return 'rehearsal';
+    }
+
+    public function getShortNamePlural() {
+        return 'rehearsals';
     }
 
     /**

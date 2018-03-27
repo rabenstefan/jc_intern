@@ -9,6 +9,25 @@ trait Date {
     // This is for carbon dates.
     protected $dates = ['start', 'end'];
 
+    // This is for view stuff (visibility and such).
+    protected $applicable_filters = [];
+
+    /**
+     * Get all filters, that are applicable to this date.
+     *
+     * @return array
+     */
+    public function getApplicableFilters() {
+        return $this->applicable_filters;
+    }
+
+    /**
+     * Set the currently known applicable filters of this date (only the name of the Date).
+     */
+    protected function setApplicableFilters() {
+        $this->applicable_filters[] = $this->getShortName();
+    }
+
     /**
      * Is it an all day event?
      *
@@ -45,6 +64,14 @@ trait Date {
     public function hasPlace() {
         return isset($this->place);
     }
+
+    /**
+     * Getters for name of the class (needed for views).
+     *
+     * @return string
+     */
+    abstract function getShortName();
+    abstract function getShortNamePlural();
 
     /**
      * Get the event's ID

@@ -81,7 +81,7 @@ class RehearsalAttendanceController extends AttendanceController {
      */
     public function changeAttendance (Request $request, $rehearsalId, $userId, $attendance = null) {
         // Try to get the rehearsal.
-        $rehearsal = Rehearsal::find($rehearsalId);
+        $rehearsal = Rehearsal::find($rehearsalId)->first();
 
         if (null === $rehearsal) {
             if ($request->wantsJson()) {

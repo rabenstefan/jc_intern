@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Event;
-use App\Rehearsal;
 use App\User;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 abstract class AttendanceController extends Controller {
@@ -17,6 +15,49 @@ abstract class AttendanceController extends Controller {
     public function __construct() {
         $this->middleware('auth');
     }
+
+    /**
+     * Shorthand "I will attend $event_id" for routes.
+     *
+     * @param Request $request
+     * @param $event_id
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
+     */
+    public function attendSelf(Request $request, $event_id) {
+        return $this->changeOwnAttendance($request, $event_id, 'yes');
+    }
+
+    /**
+     * Shorthand "I might attend $event_id" for routes.
+     *
+     * @param Request $request
+     * @param $event_id
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
+     */
+    public function maybeSelf(Request $request, $event_id) {
+        return $this->changeOwnAttendance($request, $event_id, 'maybe');
+    }
+
+    /**
+     * Shorthand "I won't attend $event_id" for routes.
+     *
+     * @param Request $request
+     * @param $event_id
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
+     */
+    public function excuseSelf(Request $request, $event_id) {
+        return $this->changeOwnAttendance($request, $event_id, 'no');
+    }
+
+    /**
+     * Change the own attendance for given $event_id.
+     *
+     * @param Request $request
+     * @param $event_id
+     * @param null $attending
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
+     */
+    public abstract function changeOwnAttendance(Request $request, $event_id, $attending = null);
 
     /**
      * Function to change if user with $user_id will attend.
@@ -138,4 +179,48 @@ abstract class AttendanceController extends Controller {
      * @return bool
      */
     abstract protected function storeAttendance($event, User $user, array $data);
+
+    /**
+     * This function simplifies the routing by choosing the appropriate controller and function to call.
+     *
+     * @param Request $request
+     * @param $events_name
+     * @param $event_id
+     * @param null $shorthand
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
+     */
+    public static function attendanceRouteSwitch(Request $request, $events_name, $event_id, $shorthand = null) {
+        // The right controller gets chosen based on the event name (in plural for routes!).
+        $controller = null;
+
+        if ($events_name == 'gigs') {
+            $controller = new GigAttendanceController();
+        } else if ($events_name == 'rehearsals') {
+            $controller = new RehearsalAttendanceController();
+        } else {
+            // Not a known type of event.
+            if ($request->wantsJson()) {
+                return \Response::json(['success' => false, 'message' => trans('date.route_invalid')]);
+            } else {
+                return back()->withErrors(trans('date.route_invalid'));
+            }
+        }
+
+        // We have the right controller now, choose the right method, too.
+        switch ($shorthand) {
+            case 'attend':
+                return $controller->attendSelf($request, $event_id);
+                break;
+            case 'maybe':
+                return $controller->maybeSelf($request, $event_id);
+                break;
+            case 'excuse':
+                return $controller->excuseSelf($request, $event_id);
+                break;
+            default:
+            case 'change':
+                return $controller->changeOwnAttendance($request, $event_id);
+                break;
+        }
+    }
 }

@@ -3,15 +3,13 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateGigAttendancesTable extends Migration
-{
+class CreateGigAttendancesTable extends Migration {
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up()
-    {
+    public function up() {
         Schema::create('gig_attendances', function (Blueprint $table) {
             $table->increments('id');
 
@@ -57,8 +55,7 @@ class CreateGigAttendancesTable extends Migration
      *
      * @return void
      */
-    public function down()
-    {
+    public function down() {
         Schema::drop('gig_attendance_user');
         Schema::drop('gig_gig_attendance');
         Schema::drop('gig_attendances');

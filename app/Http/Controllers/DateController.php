@@ -77,72 +77,78 @@ class DateController extends Controller {
             $view_type = self::$view_types[0];
         }
 
-        $override_types = [];
+        $view_variables = [];
+
+        $view_variables['override_types'] = [];
         if (Input::has('hideByType') && is_array(Input::get('hideByType')) && (count(Input::get('hideByType')) > 0 )) {
-            $override_types = Input::get('hideByType');
-            $override_types = array_intersect(self::getDateTypes(), $override_types); // Because never trust the client!
+            $view_variables['override_types'] = Input::get('hideByType');
+            $view_variables['override_types'] = array_intersect(self::getDateTypes(), $view_variables['override_types']); // Because never trust the client!
         }
 
-        $override_statuses = [];
+        $view_variables['override_statuses'] = [];
         if (Input::has('hideByStatus') && is_array(Input::get('hideByStatus')) && (count(Input::get('hideByStatus')) > 0 )) {
-            $override_statuses = Input::get('hideByStatus');
-            $override_statuses = array_intersect(self::getDateStatuses(), $override_statuses); // Because never trust the client!
+            $view_variables['override_statuses'] = Input::get('hideByStatus');
+            $view_variables['override_statuses'] = array_intersect(self::getDateStatuses(), $view_variables['override_statuses']); // Because never trust the client!
         }
 
         // showAll overrides all hideBy's
-        $override_show_all = Input::has('showAll') && 'true' === Input::get('showAll');
+        $view_variables['override_show_all'] = Input::has('showAll') && 'true' === Input::get('showAll');
 
-        $with_old = 'calendar' === $view_type;
+        // Prepare rest of view variables.
+        // Always show calender with old dates, too.
+        $view_variables = array_merge($view_variables, [
+            'date_types'        => $this->getDateTypes(),
+            'date_statuses'     => $this->getDateStatuses(),
+            'view_types'        => $this->getViewTypes(),
+        ]);
 
+        // Generate new view by calling view type index.
         $view = call_user_func_array(
             [
                 $this,
                 self::$view_types[$view_type]
             ],
             [
-                'dates' => $this->getDates(self::$date_types, $with_old),
-                'override_types' => $override_types,
-                'override_statuses' => $override_statuses,
-                'override_show_all' => $override_show_all,
+                'dates'          => $this->getDates(self::$date_types, 'calendar' === $view_type),
+                'view_variables' => $view_variables
             ]
         );
 
-        return false !== $view ? $view : redirect()->route(
-            'index',
-            ['override_types' => $override_types, 'override_statuses' => $override_statuses, 'override_show_all' => $override_show_all]
-        )->withErrors(trans('date.view_type_not_found'));
+        // If the call didn't work out: Redirect to date index with errors.
+        if (false !== $view) {
+            return $view;
+        } else {
+            return redirect()->route('index', $view_variables)->withErrors(trans('date.view_type_not_found'));
+        }
     }
 
     /**
      * Render the calender view of the given dates.
      *
      * @param $dates
-     * @param array $override_types
-     * @param array $override_statuses
-     * @param bool $override_show_all
+     * @param array $view_variables
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    protected function calendarIndex ($dates, array $override_types = [], array $override_statuses = [], bool $override_show_all) {
-        $calendar = Calendar::addEvents($dates);
-        $calendar->setId('dates');
-        return view('date.calendar', ['calendar' => $calendar, 'override_types' => $override_types, 'override_statuses' => $override_statuses, 'override_show_all' => $override_show_all]);
+    protected function calendarIndex ($dates, array $view_variables) {
+        $view_variables['calendar'] = Calendar::addEvents($dates);
+        $view_variables['calendar']->setId('dates');
+
+        return view('date.calendar', $view_variables);
     }
 
     /**
      * Render the list view of the given dates.
      *
      * @param \Illuminate\Support\Collection $dates
-     * @param array $override_types
-     * @param array $override_statuses
-     * @param boolean $override_show_all
+     * @param array $view_variables
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    protected function listIndex (\Illuminate\Support\Collection $dates, array $override_types = [], array $override_statuses = [], bool $override_show_all) {
-        $dates = $dates->sortBy(function (Event $date) {
+    protected function listIndex (\Illuminate\Support\Collection $dates, array $view_variables) {
+        $view_variables['dates'] = $dates->sortBy(function (Event $date) {
             return Carbon::now()->diffInSeconds($date->getStart(), false);
         });
 
-        return view('date.list', ['dates' => $dates, 'override_types' => $override_types, 'override_statuses' => $override_statuses, 'override_show_all' => $override_show_all]);
+        return view('date.list', $view_variables);
     }
 
     /**
@@ -162,7 +168,9 @@ class DateController extends Controller {
 
 
     public function calendarSync() {
-        return view('date.calendar_sync', ['date_types' => array_keys(self::$date_types)]);
+        return view('date.calendar_sync', [
+            'date_types' => array_keys(self::$date_types)
+        ]);
     }
 
     /**

@@ -3,7 +3,34 @@
 namespace App;
 
 trait Event {
-    use Date;
+    use Date {
+        Date::setApplicableFilters as private setDateApplicableFilters;
+    }
+
+    /**
+     * Extend the Date's applicable filters by the attendance of the event.
+     */
+    protected function setApplicableFilters() {
+        $this->setDateApplicableFilters();
+
+        if (true === $this->needsAnswer()) {
+            if (true === $this->hasAnswered(\Auth::user())) {
+                switch ($this->isAttending(\Auth::user())) {
+                    case 'yes':
+                        $this->applicable_filters[] = 'going';
+                        break;
+                    case 'maybe':
+                        $this->applicable_filters[] = 'maybe-going';
+                        break;
+                    case 'no':
+                        $this->applicable_filters[] = 'not-going';
+                        break;
+                }
+            } else {
+                $this->applicable_filters[] = 'unanswered';
+            }
+        }
+    }
 
     /**
      * Returns true if only 'yes' and 'no' are acceptable answers for this date.
@@ -19,21 +46,22 @@ trait Event {
     }
 
     /**
-     * If the answer is binary, gives boolean, else the attendance string.
+     * Gives the attendance string.
      *
      * @param $attendance
-     * @return String|boolean
+     * @return String
      */
     public function isAttendingEvent($attendance) {
-        if ($this->hasBinaryAnswer()) {
-            if (null === $attendance) return false;
-            return \Config::get('enums.attendances_reversed')[$attendance->attendance] == 'yes';
-        } else {
-            if (null === $attendance) return \Config::get('enums.attendances_reversed')[0];
-            return \Config::get('enums.attendances_reversed')[$attendance->attendance];
-        }
+        if (null === $attendance) return \Config::get('enums.attendances_reversed')[0];
+        return \Config::get('enums.attendances_reversed')[$attendance->attendance];
     }
 
+    /**
+     * True, if a user has answered the event.
+     *
+     * @param $attendance
+     * @return bool
+     */
     public function hasAnsweredEvent($attendance) {
         if (null === $attendance) {
             return false;
@@ -44,6 +72,11 @@ trait Event {
         }
     }
 
+    /**
+     * All Events need an answer of the user.
+     *
+     * @return bool
+     */
     public function needsAnswer() {
         return true;
     }

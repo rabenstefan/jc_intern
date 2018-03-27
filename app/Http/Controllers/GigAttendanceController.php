@@ -8,12 +8,12 @@ use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
-class GigAttendanceController extends Controller {
+class GigAttendanceController extends AttendanceController {
     /**
      * GigAttendanceController constructor.
      */
     public function __construct() {
-        $this->middleware('auth');
+        parent::__construct();
 
         //TODO: Role management.
         $this->middleware('admin:rehearsal', ['except' => 'changeOwnAttendance']);
@@ -23,12 +23,13 @@ class GigAttendanceController extends Controller {
      * Function to set a commitment (with appropriate status) for the current user.
      *
      * @param Request $request
-     * @param $gig_id
-     * @return $this|\Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
+     * @param $event_id
+     * @param boolean $attending
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
      */
-    public function changeOwnAttendance(Request $request, $gig_id) {
-        // Try to get the gig if it is in the future.
-        $gig = Gig::find($gig_id)->where('start', '<=', Carbon::now()->toDateString());
+    public function changeOwnAttendance(Request $request, $event_id, $attending = null) {
+        // Try to get the gig if it is in the future. Can't change attendance for past.
+        $gig = Gig::find($event_id)->where('start', '>=', Carbon::now()->toDateTimeString())->first();
 
         if (null === $gig) {
             if ($request->wantsJson()) {
@@ -41,10 +42,15 @@ class GigAttendanceController extends Controller {
         // Get logged in user and prepare data for saving.
         $user = \Auth::user();
         $data = [
-            'attendance' => $request->has('attendance') ? $request->get('attendance') : null,
             'comment' => $request->has('comment') ? $request->get('comment') : null,
             'internal_comment' => null,
         ];
+
+        if (null !== $attending) {
+            $data['attending'] = $attending;
+        } else {
+            $data['attending'] = $request->has('attendance') ? $request->get('attendance') : null;
+        }
 
         // Change the commitment respectively.
         $success = $this->storeAttendance($gig, $user, $data);
@@ -75,7 +81,7 @@ class GigAttendanceController extends Controller {
      * @param array $data
      * @return bool
      */
-    private function storeAttendance(Gig $gig, User $user, array $data) {
+    protected function storeAttendance($gig, User $user, array $data) {
         // Check if we have a attendance for this user/gig.
         $attendance = GigAttendance::where(
             'user_id', $user->id
@@ -91,7 +97,7 @@ class GigAttendanceController extends Controller {
             $attendance->gig_id = $gig->id;
 
             // Connect to user and rehearsal via pivot tables.
-            $user->attendances()->save($attendance);
+            $user->gig_attendances()->save($attendance);
             $gig->gig_attendances()->save($attendance);
         }
 

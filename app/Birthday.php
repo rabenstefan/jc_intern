@@ -38,10 +38,16 @@ class Birthday implements Event {
 
         $this->start = $dateCurrentYear;
         $this->end   = $dateCurrentYear;
+
+        $this->setApplicableFilters();
     }
 
     public function getShortName() {
         return 'birthday';
+    }
+
+    public function getShortNamePlural() {
+        return 'birthdays';
     }
 
     /**

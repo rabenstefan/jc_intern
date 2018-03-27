@@ -5,6 +5,16 @@ namespace App;
 class RehearsalAttendance extends \Eloquent {
     use Attendance;
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'rehearsal_id',
+        'user_id',
+    ];
+
     protected $casts = [
         'missed'  => 'boolean',
     ];

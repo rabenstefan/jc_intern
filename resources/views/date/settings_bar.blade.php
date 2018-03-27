@@ -1,29 +1,29 @@
-<?php $date_types = \App\Http\Controllers\DateController::getDateTypes();
-$date_statuses = \App\Http\Controllers\DateController::getDateStatuses();
-$view_types = \App\Http\Controllers\DateController::getViewTypes(); ?>
-
 <div class="row">
     <div class="col-xs-12 col-md-1">
         {{ trans('date.show_only') }}:
     </div>
     <div class="col-xs-12 col-md-5">
-        @foreach($date_types as $button)
-            <?php $button_plural = str_plural($button); ?>
-            <div id="toggle-{{$button_plural}}" class="btn btn-{{$button_plural}} btn-2d btn-pressed btn-date-type">
-                {{ trans('date.'.$button_plural) }}
-            </div>
-        @endforeach
-        <br>
-            @if('list' === $view_type)
-        @foreach($date_statuses as $button)
-                <div id="toggle-{{$button}}" class="btn btn-{{$button}} btn-2d btn-pressed btn-date-status">
-                    {{ trans('date.'.$button) }}
+        <div class="row btn-2d-container">
+            @foreach($date_types as $button)
+                <?php $button_plural = str_plural($button); ?>
+                <div id="toggle-{{$button_plural}}" class="btn btn-{{$button_plural}} btn-2d btn-pressed btn-date-type">
+                    {{ trans('date.'.$button_plural) }}
                 </div>
             @endforeach
-            <br>
+        </div>
+        <div class="row btn-2d-container">
+            @if('list' === $view_type)
+                @foreach($date_statuses as $button)
+                    <div id="toggle-{{$button}}" class="btn btn-{{$button}} btn-2d btn-pressed btn-date-status">
+                        {{ trans('date.'.$button) }}
+                    </div>
+                @endforeach
             @endif
-        <div id="toggle-all" class="btn btn-all btn-2d">
-                {{ trans('date.all') }}
+        </div>
+        <div class="row btn-2d-container">
+            <div id="toggle-all" class="btn btn-all btn-2d">
+                    {{ trans('date.all') }}
+            </div>
         </div>
     </div>
     <div class="col-xs-12 visible-xs visible-sm">

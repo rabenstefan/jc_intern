@@ -3,15 +3,13 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateRehearsalAttendancesTable extends Migration
-{
+class CreateRehearsalAttendancesTable extends Migration {
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up()
-    {
+    public function up() {
         Schema::create('rehearsal_attendances', function (Blueprint $table) {
             $table->increments('id');
 
