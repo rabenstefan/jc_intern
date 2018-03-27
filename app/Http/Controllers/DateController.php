@@ -137,7 +137,7 @@ class DateController extends Controller {
      * @param boolean $override_show_all
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    protected function listIndex (\Illuminate\Support\Collection $dates, array $override_types = [], array $override_statuses = [], boolean $override_show_all) {
+    protected function listIndex (\Illuminate\Support\Collection $dates, array $override_types = [], array $override_statuses = [], bool $override_show_all) {
         $dates = $dates->sortBy(function (Event $date) {
             return Carbon::now()->diffInSeconds($date->getStart(), false);
         });

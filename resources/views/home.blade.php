@@ -50,12 +50,13 @@
                                                     {{ trans('home.at_time') }} {{ $gig->getStart()->formatLocalized('%H:%M') }}
                                                 @endif
                                                 @if(true === $gig->hasPlace())
-                                                    <a href="https://www.google.com/maps/search/{{ $gig->place }}/" style="padding:0;" title="{{ trans('date.address_search') }}" target="_blank">({{ str_shorten($gig->place, 10, '...') }})</a>
+                                                    <br>
+                                                    <a href="https://www.google.com/maps/search/@urlescape($gig->place)/" style="padding:0;" title="{{ trans('date.address_search') }}" target="_blank">({{ str_shorten($gig->place, 10, '...') }}  <i class="far fa-map"></i>)</a>
                                                 @endif
                                             </li>
                                         @endforeach
                                     </ul>
-                                    <a href="{{ route('date.index', ['view_type' => 'list', 'hideByType' => invert_date_types(['gig'])]) }}">{{ trans('home.to_gigs') }}</a>
+                                    <a href="{{ route('dates.index', ['view_type' => 'list', 'hideByType' => invert_date_types(['gig'])]) }}">{{ trans('home.to_gigs') }}</a>
                                 </div>
                             </div>
                         </div><div class="clearfix visible-sm-block"></div>
@@ -72,12 +73,13 @@
                                                     {{ trans('home.at_time') }} {{ $rehearsal->getStart()->formatLocalized('%H:%M') }}
                                                 @endif
                                                 @if(true === $rehearsal->hasPlace())
-                                                    <a href="https://www.google.com/maps/search/{{ $rehearsal->place }}/" style="padding:0;" title="{{ trans('date.address_search') }}" target="_blank">({{ str_shorten($rehearsal->place, 10, '...') }})</a>
+                                                    <br>
+                                                    <a href="https://www.google.com/maps/search/@urlescape($rehearsal->place)/" style="padding:0;" title="{{ trans('date.address_search') }}" target="_blank">({{ str_shorten($rehearsal->place, 10, '...') }}  <i class="far fa-map"></i>)</a>
                                                 @endif
                                             </li>
                                         @endforeach
                                     </ul>
-                                <a href="{{ route('date.index', ['view_type' => 'list', 'hideByType' => invert_date_types(['rehearsal'])]) }}">{{ trans('home.to_rehearsals') }}</a>
+                                <a href="{{ route('dates.index', ['view_type' => 'list', 'hideByType' => invert_date_types(['rehearsal'])]) }}">{{ trans('home.to_rehearsals') }}</a>
                                 </div>
                             </div>
                         </div><div class="clearfix visible-md-block"></div>

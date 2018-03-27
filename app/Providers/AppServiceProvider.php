@@ -29,6 +29,11 @@ class AppServiceProvider extends ServiceProvider
         // Buttons
         \Html::component('addButton', 'components.button.btn-add', ['title', 'href', 'classes' => [], 'attributes' => []]);
         \Form::component('submitInput2d', 'components.button.submit', ['attributes' => [], 'title' => trans('form.save')]);
+
+        // Add an urlescape directive to Blade templates.
+        \Blade::directive('urlescape', function ($expression) {
+            return '<?php echo urlencode(' . $expression . '); ?>';
+        });
     }
 
     /**

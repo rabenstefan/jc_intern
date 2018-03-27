@@ -73,7 +73,7 @@ $view_types = \App\Http\Controllers\DateController::getViewTypes(); ?>
              * Essentially, this makes any changes, that the users does to their filter settings (after loading the page) safe (and save) through reloads.
              */
             function resetPageUrl() {
-                window.history.replaceState({}, "", "{!! route('date.index', ['view_type' => $view_type]) !!}");
+                window.history.replaceState({}, "", "{!! route('dates.index', ['view_type' => $view_type]) !!}");
             }
 
             @if(true === $override_show_all)
