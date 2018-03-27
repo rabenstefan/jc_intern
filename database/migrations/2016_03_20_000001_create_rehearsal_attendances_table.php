@@ -21,7 +21,7 @@ class CreateRehearsalAttendancesTable extends Migration
             $table->integer('rehearsal_id')->unsigned();
             $table->foreign('rehearsal_id')->references('id')->on('rehearsals')->onDelete('cascade');
 
-            $table->integer('attendance')->default(0); // 0 = attending, 1 = maybe, 2 = not attending
+            $table->integer('attendance')->default(2); // 0 = not attending, 1 = maybe, 2 = attending
             $table->string('comment')->nullable();
             $table->string('internal_comment')->nullable();
             $table->boolean('missed')->default(false);
@@ -40,7 +40,7 @@ class CreateRehearsalAttendancesTable extends Migration
             $table->timestamps();
         });
 
-        Schema::create('rehearsal_attendance_rehearsal', function (Blueprint $table) {
+        Schema::create('rehearsal_rehearsal_attendance', function (Blueprint $table) {
             $table->increments('id');
 
             $table->integer('rehearsal_id')->unsigned();
@@ -60,7 +60,7 @@ class CreateRehearsalAttendancesTable extends Migration
      */
     public function down() {
         Schema::drop('rehearsal_attendance_user');
-        Schema::drop('rehearsal_attendance_rehearsal');
+        Schema::drop('rehearsal_rehearsal_attendance');
         Schema::drop('rehearsal_attendances');
     }
 }

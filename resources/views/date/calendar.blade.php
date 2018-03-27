@@ -32,12 +32,12 @@
                                     <ul class="dropdown-menu">
                                         @if (Auth::user()->isAdmin('rehearsal'))
                                             <li>
-                                                <a href="{{ route('rehearsal.create') }}">{{ trans('nav.rehearsal_create') }}</a>
+                                                <a href="{{ route('rehearsals.create') }}">{{ trans('nav.rehearsal_create') }}</a>
                                             </li>
                                         @endif
                                         @if (Auth::user()->isAdmin('gig'))
                                             <li>
-                                                <a href="{{ route('gig.create') }}">{{ trans('nav.gig_create') }}</a>
+                                                <a href="{{ route('gigs.create') }}">{{ trans('nav.gig_create') }}</a>
                                             </li>
                                         @endif
                                     </ul>

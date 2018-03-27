@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Event;
 use App\RehearsalAttendance;
 use App\Rehearsal;
 use App\Semester;
 use App\User;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 
 class RehearsalAttendanceController extends AttendanceController {
@@ -22,14 +23,21 @@ class RehearsalAttendanceController extends AttendanceController {
         $this->middleware('admin:rehearsal', ['except' => ['excuseSelf', 'confirmSelf']]);
     }
 
-    public function listMissing ($id = null) {
+    /**
+     * View shows a list to select which users were actually attending the last rehearsal (optionally: The rehearsal
+     * with $rehearsal_id).
+     *
+     * @param null $rehearsal_id
+     * @return $this|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function listAttendances ($rehearsal_id = null) {
         $rehearsals = Rehearsal::where(
             'start', '<=', Carbon::now()
         )->where(
-            'semester', Semester::current()->id
+            'semester_id', Semester::current()->id
         )->orderBy('start', 'asc')->get();
 
-        if (null === $id || (null === ($rehearsal = Rehearsal::find($id)))) {
+        if (null === $rehearsal_id || (null === ($rehearsal = Rehearsal::find($rehearsal_id)))) {
             // Get current or last rehearsal.
             $rehearsal = $rehearsals->last();
         }
@@ -42,11 +50,24 @@ class RehearsalAttendanceController extends AttendanceController {
             return $query->where('rehearsal_id', $rehearsal->id)->get();
         }])->get();
 
-        return view('date.rehearsal.listMissing', [
+        return view('date.rehearsal.listAttendances', [
             'currentRehearsal' => $rehearsal,
             'users'     => $users,
             'rehearsals'=> $rehearsals
         ]);
+    }
+
+    public function changePresence(Request $request, $rehearsal_id, $user_id, $missed) {
+        // Try to get the rehearsal.
+        $rehearsal = Rehearsal::find($rehearsal_id);
+
+        if (null === $rehearsal) {
+            if ($request->wantsJson()) {
+                return \Response::json(['success' => false, 'message' => trans('date.rehearsal_not_found')]);
+            } else {
+                return back()->withErrors(trans('date.rehearsal_not_found'));
+            }
+        }
     }
 
     /**
@@ -82,8 +103,8 @@ class RehearsalAttendanceController extends AttendanceController {
      * @return \Illuminate\Http\JsonResponse
      */
     public function changeOwnAttendance (Request $request, $rehearsalId, $attendance) {
-        // Try to get the rehearsal.
-        $rehearsal = Rehearsal::find($rehearsalId);
+        // Try to get the rehearsal if it is in the future.
+        $rehearsal = Rehearsal::find($rehearsalId)->where('start', '<=', Carbon::now()->toDateString());
 
         if (null === $rehearsal) {
             if ($request->wantsJson()) {
@@ -121,7 +142,7 @@ class RehearsalAttendanceController extends AttendanceController {
     /**
      * Helper to update or create an attendance.
      *
-     * @param $rehearsal
+     * @param Rehearsal $rehearsal
      * @param User $user
      * @param array $data
      * @return bool
@@ -141,15 +162,19 @@ class RehearsalAttendanceController extends AttendanceController {
             $attendance->user_id = $user->id;
             $attendance->rehearsal_id = $rehearsal->id;
 
+            $config = \Config::get('enums.attendances');
+            if (!isset($data['attendance']) || !isset($config[$data['attendance']])) {
+                return false;
+            }
+
+            $attendance->attendance = $config[$data['attendance']];
+
             // Connect to user and rehearsal via pivot tables.
             $user->attendances()->save($attendance);
-            $rehearsal->attendances()->save($attendance);
+            $rehearsal->rehearsal_attendances()->save($attendance);
         }
 
         // Set attributes accordingly.
-        if (isset($data['attendance'])) {
-            $attendance->attendance = $data['attendance'];
-        }
         if (isset($data['comment'])) {
             $attendance->comment = $data['comment'];
         }

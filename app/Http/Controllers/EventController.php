@@ -18,9 +18,10 @@ class EventController extends DateController {
         $start = new Carbon($data['start']);
         $end   = new Carbon($data['end']);
 
+        $semester = $this->getSemester($start);
         $data = array_merge($data,
             [
-                'semester_id' => $this->getSemester($start)->id,
+                'semester_id' => $semester->id,
             ]
         );
 

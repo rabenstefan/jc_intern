@@ -15,7 +15,7 @@ class AdminOrOwnMiddleware
      * @return mixed
      */
     public function handle($request, Closure $next) {
-        if(empty($request->user()) || (!$request->user()->isAdmin() && $request->user()->id != $request->route('user'))) {
+        if(empty($request->user()) || (!$request->user()->isAdmin() && $request->user()->id != $request->route('users'))) {
             return redirect()->route('index')->withErrors([trans('home.no_admin')]);
         }
         return $next($request);

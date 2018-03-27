@@ -37,10 +37,10 @@ class Voice extends \Eloquent {
     /**
      * Get the distinct parent voices of the given set of voices.
      *
-     * @param Collection $voices
+     * @param Voice $voices
      * @return Collection
      */
-    public static function getParentVoices(Collection $voices) {
+    public static function getParentVoices($voices) {
         $parents = new Collection();
 
         $voices->load('super_group');

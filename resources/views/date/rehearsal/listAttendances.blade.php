@@ -38,10 +38,11 @@
 
                                                             <div class="row">
                                                                 <?php
+                                                                /** @var App\Voice $sub_voice */
                                                                 $users = \App\User::getUsersOfVoice($sub_voice->id)
                                                                 ?>
                                                                 @foreach($users as $user)
-                                                                        @include('date.listMissing.user_entry', ['user' => $user, 'currentRehearsal' => $currentRehearsal])
+                                                                        @include('date.rehearsal.listAttendances.user_entry', ['user' => $user, 'currentRehearsal' => $currentRehearsal])
                                                                 @endforeach
                                                             </div>
                                                         </div>
@@ -102,7 +103,6 @@
          * @param url
          * @param sliderElement
          * @param currentlyAttending
-         * @param user_id
          */
         function saveAttendance(url, sliderElement, currentlyAttending) {
             // Request the url via post, include csrf-token and comment.

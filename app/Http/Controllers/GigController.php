@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Gig;
+use App\GigAttendance;
+use App\User;
 use Illuminate\Http\Request;
 
 class GigController extends EventController {
@@ -38,13 +40,17 @@ class GigController extends EventController {
     public function store(Request $request) {
         $this->validate($request, $this->validation);
 
-        $data = $this->prepareDates($request->all());
+        // Just take all the data from the request as Gig data.
+        $data = $request->all();
+        // Prepare the dates (including adding semesters).
+        $data = $this->prepareDates($data);
 
+        // Create new gig with data.
         Gig::create($data);
 
         $request->session()->flash('message_success', trans('date.success'));
 
-        return redirect()->route('date.index');
+        return redirect()->route('dates.index');
     }
 
     /**
@@ -84,7 +90,7 @@ class GigController extends EventController {
         $gig = Gig::find($id);
 
         if (null === $gig) {
-            return redirect()->route('date.index')->withErrors([trans('date.not_found')]);
+            return redirect()->route('dates.index')->withErrors([trans('date.not_found')]);
         }
 
         $this->validate($request, $this->validation);
@@ -96,7 +102,7 @@ class GigController extends EventController {
 
         $request->session()->flash('message_success', trans('date.success'));
 
-        return redirect()->route('date.index');
+        return redirect()->route('dates.index');
     }
 
     /**
@@ -104,19 +110,36 @@ class GigController extends EventController {
      *
      * @param  int $id
      * @return \Illuminate\Http\Response
-     * @throws \Exception
      */
     public function destroy($id) {
         $gig = Gig::find($id);
 
         if (null === $gig) {
-            return redirect()->route('date.index')->withErrors([trans('date.not_found')]);
+            return redirect()->route('dates.index')->withErrors([trans('date.not_found')]);
         }
 
-        $gig->delete();
+        try {
+            // Do not have to delete attendances explicitly, because foreign key triggers cascade.
+            $gig->delete();
+        } catch (\Exception $exception) {
+            return redirect()->route('dates.index')->withErrors(
+                [
+                    trans('date.delete_error', ['message' => $exception->getMessage()])
+                ]
+            );
+        }
 
         \Session::flash('message_success', trans('date.delete_success'));
 
-        return redirect()->route('date.index');
+        return redirect()->route('dates.index');
+    }
+
+    private function add_gig_attendances(Gig $gig) {
+        foreach(User::all() as $user) {
+            $gig->gig_attendances()->create([
+                'gig_id'  => $gig->id,
+                'user_id' => $user->id,
+            ]);
+        }
     }
 }

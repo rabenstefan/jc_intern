@@ -31,38 +31,38 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::get('/', 'HomeController@index')->name('index');
 
-    Route::resource('user', 'UserController');
+    Route::resource('users', 'UserController');
 
     // The index is in the DateController.
-    Route::resource('rehearsal', 'RehearsalController', [
+    Route::resource('rehearsals', 'RehearsalController', [
         'except' => ['index']
     ]);
-    Route::get('rehearsal/attendance/list/{id?}', 'RehearsalAttendanceController@listMissing')->name('attendance.listMissing');
-    Route::post('rehearsal/attend/{rehearsal_id}', 'RehearsalAttendanceController@confirmSelf')->name('attendance.confirmSelf');
-    Route::post('rehearsal/excuse/{rehearsal_id}', 'RehearsalAttendanceController@excuseSelf')->name('attendance.excuseSelf');
-    Route::post('rehearsal/attend/{rehearsal_id}/{user_id}', 'RehearsalAttendanceController@changeAttendance')->name('attendance.changeAttendance');
+    Route::get('rehearsals/attendances/list/{id?}', 'RehearsalAttendanceController@listAttendances')->name('attendances.listAttendances');
+    Route::post('rehearsals/{rehearsal_id}/attend', 'RehearsalAttendanceController@confirmSelf')->name('attendances.confirmSelf');
+    Route::post('rehearsals/{rehearsal_id}/present/{user_id}', 'RehearsalAttendanceController@changeAttendance')->name('attendances.changeAttendance');
+    Route::post('rehearsals/{rehearsal_id}/excuse', 'RehearsalAttendanceController@excuseSelf')->name('attendances.excuseSelf');
 
-    Route::resource('gig', 'GigController', [
+    Route::resource('gigs', 'GigController', [
         'except' => ['index']
     ]);
-    Route::post('gig/commitment/{gig_id}', 'GigAttendanceController@commitSelf')->name('commitment.commitSelf');
+    Route::post('gigs/{gig_id}/attendances', 'GigAttendanceController@changeOwnAttendance')->name('commitments.changeOwnAttendance');
 
-    Route::resource('sheet', 'SheetController');
-    Route::put('sheet/ajaxUpdate/{id}', 'SheetController@ajaxUpdate');
-    Route::get('sheet/user/{id}', 'SheetController@sheetsPerUser');
-    Route::get('sheet/{id}/number/{number}', 'SheetController@sheetUser');
-    Route::put('sheet/{id}/number/{number}', 'SheetController@sheetUserUpdate');
-    Route::get('sheet/{id}/number/{number}/delete', 'SheetController@returnSheet');
-    Route::get('sheet/{id}/distribute', 'SheetController@distribute');
-    Route::post('sheet/{id}/distribute', 'SheetController@processDistribute');
+    Route::resource('sheets', 'SheetController');
+    Route::put('sheets/ajaxUpdate/{id}', 'SheetController@ajaxUpdate');
+    Route::get('sheets/user/{id}', 'SheetController@sheetsPerUser');
+    Route::get('sheets/{id}/number/{number}', 'SheetController@sheetUser');
+    Route::put('sheets/{id}/number/{number}', 'SheetController@sheetUserUpdate');
+    Route::get('sheets/{id}/number/{number}/delete', 'SheetController@returnSheet');
+    Route::get('sheets/{id}/distribute', 'SheetController@distribute');
+    Route::post('sheets/{id}/distribute', 'SheetController@processDistribute');
 
-    Route::get('dates/{view_type?}', 'DateController@index')->name('date.index');
-    Route::get('calendar_sync', 'DateController@calendarSync')->name('date.calendarSync');
-    Route::get('render_ical', 'DateController@renderIcal')->name('date.renderIcal');
+    Route::get('dates/{view_type?}', 'DateController@index')->name('dates.index');
+    Route::get('calendar_sync', 'DateController@calendarSync')->name('dates.calendarSync');
+    Route::get('render_ical', 'DateController@renderIcal')->name('dates.renderIcal');
 
-    Route::post('semester/new', 'SemesterController@generateNewSemester')->name('semester.generateNew');
+    Route::post('semesters/new', 'SemesterController@generateNewSemester')->name('semesters.generateNew');
 
     Route::group(['middleware' => 'admin'], function() {
-        Route::resource('role', 'RoleController');
+        Route::resource('roles', 'RoleController');
     });
 });

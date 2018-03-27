@@ -16,12 +16,19 @@ class SemesterController extends Controller
         $this->middleware('auth');
     }
 
+    /**
+     * Get the semester object for a given Carbon date.
+     * If the semester does not yet exist, create all semesters up to the needed one (recursively).
+     *
+     * @param Carbon $date
+     * @return Semester
+     */
     public function getSemester(Carbon $date) {
-        $semester = Semester::first()->where(
+        $semester = Semester::where(
             'start', '<=', $date->toDateString()
         )->where(
             'end', '>=', $date->toDateString()
-        );
+        )->first();
 
         if (null === $semester) {
             $this->generateNewSemester();
@@ -32,7 +39,7 @@ class SemesterController extends Controller
     }
 
     /**
-     * Generate a new Semester completely programmatic.
+     * Generate a new Semester completely programmatic. Can be called via route (with Request object) or internal.
      *
      * @param Request $request
      * @return bool|\Illuminate\Http\JsonResponse
@@ -97,7 +104,6 @@ class SemesterController extends Controller
 
         if ($newSemester->save()) {
             // Semester successfully saved.
-            //TODO: Do we have to trigger sth. here?
             if (null !== $request) {
                 if ($request->wantsJson()) {
                     return \Response::json(['success' => true, 'message' => trans('semester.semester_created_successful')]);

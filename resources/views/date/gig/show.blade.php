@@ -16,7 +16,7 @@
                     <div class="panel panel-2d">
                         <div class="panel-heading">{{ trans('date.gig_show_title') }}</div>
 
-                        @include('date.gig.form', ['options' => ['url' => route('gig.update', ['gig' => $gig->id]), 'method' => 'PUT'], 'gig' => $gig])
+                        @include('date.gig.form', ['options' => ['url' => route('gigs.update', ['gig' => $gig->id]), 'method' => 'PUT'], 'gig' => $gig])
                     </div>
                 </div>
             </div>

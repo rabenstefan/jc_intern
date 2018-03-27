@@ -77,17 +77,17 @@
 
                             <ul class="dropdown-menu" role="menu">
                                 <li>
-                                    <a href="{{ route('user.index') }}">{{ trans('nav.user_list') }}</a>
+                                    <a href="{{ route('users.index') }}">{{ trans('nav.user_list') }}</a>
                                 </li>
                                 <li>
-                                    <a href="{{ route('user.show', Auth::user()->id) }}">{{ trans('nav.user_show_own') }}</a>
+                                    <a href="{{ route('users.show', Auth::user()->id) }}">{{ trans('nav.user_show_own') }}</a>
                                 </li>
                                 @if(Auth::user()->isAdmin())
                                     <li>
-                                        <a href="{{ route('user.create') }}">{{ trans('nav.add_user') }}</a>
+                                        <a href="{{ route('users.create') }}">{{ trans('nav.add_user') }}</a>
                                     </li>
                                     <li>
-                                        <a href="{{ route('role.index') }}">{{ trans('nav.roles') }}</a>
+                                        <a href="{{ route('roles.index') }}">{{ trans('nav.roles') }}</a>
                                     </li>
                                 @endif
                             </ul>
@@ -99,14 +99,14 @@
 
                             <ul class="dropdown-menu multi-level" role="menu">
                                 <li>
-                                    <a href="{{ route('date.index', ['view' => 'list']) }}">{{ trans('nav.dates_list') }}</a>
+                                    <a href="{{ route('dates.index', ['view' => 'list']) }}">{{ trans('nav.dates_list') }}</a>
                                 </li>
                                         <li>
-                                            <a href="{{ route('date.index', ['view' => 'calendar']) }}">{{ trans('nav.dates_calendar') }}</a>
+                                            <a href="{{ route('dates.index', ['view' => 'calendar']) }}">{{ trans('nav.dates_calendar') }}</a>
                                         </li>
 
                                         <li>
-                                            <a href="{{ route('date.calendarSync') }}">{{ trans('nav.calendar_sync') }}</a>
+                                            <a href="{{ route('dates.calendarSync') }}">{{ trans('nav.calendar_sync') }}</a>
                                         </li>
 
                                 @if (Auth::user()->isAdmin('rehearsal') || Auth::user()->isAdmin('gig'))
@@ -114,15 +114,15 @@
                                         <ul class="dropdown-menu hidden-xs">
                                             @if (Auth::user()->isAdmin('rehearsal'))
                                                 <li>
-                                                    <a href="{{ route('rehearsal.create') }}">{{ trans('nav.rehearsal_create') }}</a>
+                                                    <a href="{{ route('rehearsals.create') }}">{{ trans('nav.rehearsal_create') }}</a>
                                                 </li>
                                                 <li>
-                                                    <a href="{{ route('attendance.listMissing') }}">{{ trans('nav.attendance_last_rehearsal') }}</a>
+                                                    <a href="{{ route('attendances.listAttendances') }}">{{ trans('nav.attendance_last_rehearsal') }}</a>
                                                 </li>
                                             @endif
                                             @if (Auth::user()->isAdmin('gig'))
                                                 <li>
-                                                    <a href="{{ route('gig.create') }}">{{ trans('nav.gig_create') }}</a>
+                                                    <a href="{{ route('gigs.create') }}">{{ trans('nav.gig_create') }}</a>
                                                 </li>
                                             @endif
                                         </ul>
@@ -139,10 +139,10 @@
 
                                 @if (Auth::user()->isAdmin('sheet'))
                                     <li>
-                                        <a href="{{ route('sheet.index') }}">{{ trans('nav.sheet_list') }}</a>
+                                        <a href="{{ route('sheets.index') }}">{{ trans('nav.sheet_list') }}</a>
                                     </li>
                                     <li>
-                                        <a href="{{ route('sheet.create') }}">{{ trans('nav.sheet_create') }}</a>
+                                        <a href="{{ route('sheets.create') }}">{{ trans('nav.sheet_create') }}</a>
                                     </li>
                                 @endif
                             </ul>

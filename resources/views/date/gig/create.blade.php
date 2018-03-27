@@ -16,7 +16,7 @@
                     <div class="panel panel-2d">
                         <div class="panel-heading">{{ trans('date.gig_create_title') }}</div>
 
-                        @include('date.gig.form', ['options' => ['url' => route('gig.store'), 'method' => 'POST']])
+                        @include('date.gig.form', ['options' => ['url' => route('gigs.store'), 'method' => 'POST']])
                     </div>
                 </div>
             </div>

@@ -5,6 +5,16 @@ namespace App;
 class GigAttendance extends \Eloquent {
     use Attendance;
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'gig_id',
+        'user_id',
+    ];
+
     public function user() {
         return $this->hasOne('App\User');
     }

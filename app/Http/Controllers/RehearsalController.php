@@ -52,6 +52,7 @@ class RehearsalController extends EventController {
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request) {
+        //TODO: Create all attendances for all users.
         $this->validate($request, $this->validation);
 
         $data = $this->prepareDates($request->all());
@@ -89,7 +90,7 @@ class RehearsalController extends EventController {
 
         $request->session()->flash('message_success', trans('date.success'));
 
-        return redirect()->route('date.index');
+        return redirect()->route('dates.index');
     }
 
     /**
@@ -137,7 +138,7 @@ class RehearsalController extends EventController {
         $rehearsal = Rehearsal::find($id);
 
         if (null === $rehearsal) {
-            return redirect()->route('date.index')->withErrors([trans('date.not_found')]);
+            return redirect()->route('dates.index')->withErrors([trans('date.not_found')]);
         }
         
         $this->validate($request, $this->validation);
@@ -149,7 +150,7 @@ class RehearsalController extends EventController {
 
         $request->session()->flash('message_success', trans('date.success'));
 
-        return redirect()->route('date.index');
+        return redirect()->route('dates.index');
     }
 
     /**
@@ -164,13 +165,13 @@ class RehearsalController extends EventController {
         $rehearsal = Rehearsal::find($id);
 
         if (null === $rehearsal) {
-            return redirect()->route('date.index')->withErrors([trans('date.not_found')]);
+            return redirect()->route('dates.index')->withErrors([trans('date.not_found')]);
         }
 
         $rehearsal->delete();
 
         \Session::flash('message_success', trans('date.delete_success'));
 
-        return redirect()->route('date.index');
+        return redirect()->route('dates.index');
     }
 }

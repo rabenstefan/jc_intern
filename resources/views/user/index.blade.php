@@ -14,7 +14,7 @@
                 @if(Auth::user()->isAdmin())
                 <div class="col-xs-12 col-md-6">
                     <br>
-                    <a href="{{ route('user.create') }}" title="{{ trans('user.add_user') }}" class="btn btn-2d">
+                    <a href="{{ route('users.create') }}" title="{{ trans('user.add_user') }}" class="btn btn-2d">
                         <i class="fa fa-plus"></i>&nbsp;{{ trans('user.add_user') }}
                     </a>
                 </div>
@@ -52,7 +52,7 @@
                             <div class="panel-heading">
                                 {{ $voice->name }}
                                 @if(Auth::user()->isAdmin())
-                                    {!! Html::addButton(trans('user.add_user'), route('user.create', ['voice' => $voice->id])) !!}
+                                    {!! Html::addButton(trans('user.add_user'), route('users.create', ['voice' => $voice->id])) !!}
                                 @endif
                             </div>
 
@@ -63,7 +63,7 @@
                                             <div class="panel-heading">
                                                 {{ $sub_voice->name }}
                                                 @if(Auth::user()->isAdmin())
-                                                    {!! Html::addButton(trans('user.add_user'), route('user.create', ['voice' => $sub_voice->id])) !!}
+                                                    {!! Html::addButton(trans('users.add_user'), route('users.create', ['voice' => $sub_voice->id])) !!}
                                                 @endif
                                             </div>
 

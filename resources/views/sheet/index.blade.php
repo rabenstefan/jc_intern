@@ -14,7 +14,7 @@
                 @if(Auth::user()->isAdmin('sheet'))
                 <div class="col-xs-12 col-md-6">
                     <br>
-                    <a href="{{ route('sheet.create') }}" title="{{ trans('nav.sheet_create') }}" class="btn btn-2d">
+                    <a href="{{ route('sheets.create') }}" title="{{ trans('nav.sheet_create') }}" class="btn btn-2d">
                         <i class="fa fa-plus"></i>&nbsp;{{ trans('nav.sheet_create') }}
                     </a>
                 </div>

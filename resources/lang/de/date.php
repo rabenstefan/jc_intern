@@ -24,6 +24,7 @@ return [
     'not_found'           => 'Termin nicht gefunden',
     'success'             => 'Termin erfolgreich gespeichert',
     'delete_success'      => 'Termin wurde gelöscht',
+    'delete_error'        => 'Termin wurde nicht gelöscht (:message)',
     'attendance_saved'    => 'Anwesenheit wurde eingetragen',
     'excuse_saved'        => 'Abwesenheit wurde eingetragen',
     'commitment_change_success' => 'Termin wurde gespeichert',

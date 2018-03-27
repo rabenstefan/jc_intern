@@ -1,8 +1,8 @@
 <tr{!! isset($role) ? ' id="role-'.$role->id.'"' : ' id="new-role"' !!}>
     @if(isset($role))
-        {!! Form::open(['url' => route('role.update', $role->id), 'method' => 'PUT']) !!}
+        {!! Form::open(['url' => route('roles.update', $role->id), 'method' => 'PUT']) !!}
     @else
-        {!! Form::open(['url' => route('role.store'), 'method' => 'POST']) !!}
+        {!! Form::open(['url' => route('roles.store'), 'method' => 'POST']) !!}
     @endif
     <td>
         @if(isset($role))

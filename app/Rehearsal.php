@@ -70,7 +70,7 @@ class Rehearsal extends \Eloquent implements IdentifiableEvent {
      * @return array
      */
     public function getEventOptions() {
-        $this->calendar_options['url'] = route('rehearsal.show', ['rehearsal' => $this->id]);
+        $this->calendar_options['url'] = route('rehearsals.show', ['rehearsal' => $this->id]);
         
         return $this->calendar_options;
     }

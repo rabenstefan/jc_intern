@@ -16,7 +16,7 @@
                     <div class="panel panel-2d">
                         <div class="panel-heading">{{ trans('date.rehearsal_create_title') }}</div>
 
-                        @include('date.rehearsal.form', ['options' => ['url' => route('rehearsal.store'), 'method' => 'POST']])
+                        @include('date.rehearsal.form', ['options' => ['url' => route('rehearsals.store'), 'method' => 'POST']])
                     </div>
                 </div>
             </div>

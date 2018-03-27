@@ -31,7 +31,7 @@ $view_types = \App\Http\Controllers\DateController::getViewTypes(); ?>
     </div>
     <div class="col-xs-12 col-md-6">
         @foreach($view_types as $button)
-        <a class="btn btn-{{$button}} btn-2d {{ $button === $view_type ? 'btn-pressed' : 'btn-unpressed' }}" href="{{ route('date.index', ['view_type' => $button]) }}">
+        <a class="btn btn-{{$button}} btn-2d {{ $button === $view_type ? 'btn-pressed' : 'btn-unpressed' }}" href="{{ route('dates.index', ['view_type' => $button]) }}">
             {{ trans('nav.dates_'.$button) }}
         </a>
         @endforeach

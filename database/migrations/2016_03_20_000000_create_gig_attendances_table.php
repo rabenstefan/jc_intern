@@ -21,7 +21,7 @@ class CreateGigAttendancesTable extends Migration
             $table->integer('gig_id')->unsigned();
             $table->foreign('gig_id')->references('id')->on('gigs')->onDelete('cascade');
 
-            $table->integer('attendance')->default(0); // 0 = attending, 1 = maybe, 2 = not attending
+            $table->integer('attendance')->default(0); // 0 = not attending, 1 = maybe, 2 = attending
             $table->string('comment')->nullable();
             $table->string('internal_comment')->nullable();
             $table->timestamps();
@@ -39,7 +39,7 @@ class CreateGigAttendancesTable extends Migration
             $table->timestamps();
         });
 
-        Schema::create('gig_attendance_gig', function (Blueprint $table) {
+        Schema::create('gig_gig_attendance', function (Blueprint $table) {
             $table->increments('id');
 
             $table->integer('gig_id')->unsigned();
@@ -60,7 +60,7 @@ class CreateGigAttendancesTable extends Migration
     public function down()
     {
         Schema::drop('gig_attendance_user');
-        Schema::drop('gig_attendance_gig');
+        Schema::drop('gig_gig_attendance');
         Schema::drop('gig_attendances');
     }
 }

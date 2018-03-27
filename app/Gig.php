@@ -62,7 +62,7 @@ class Gig extends \Eloquent implements IdentifiableEvent {
      * @return array
      */
     public function getEventOptions() {
-        $this->calendar_options['url'] = route('gig.show', ['gig' => $this->id]);
+        $this->calendar_options['url'] = route('gigs.show', ['gig' => $this->id]);
 
         return $this->calendar_options;
     }

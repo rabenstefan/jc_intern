@@ -84,7 +84,7 @@ class UserController extends Controller {
 
         $request->session()->flash('message_success', trans('user.success'));
 
-        return redirect()->route('user.show', ['id' => $user->id]);
+        return redirect()->route('users.show', ['id' => $user->id]);
     }
 
     /**
@@ -110,7 +110,7 @@ class UserController extends Controller {
         if (null !== $user) {
             return view('user.profile', ['user' => $user]);
         } else {
-            return redirect()->route('user.index')->withErrors([trans('user.not_found')]);
+            return redirect()->route('users.index')->withErrors([trans('user.not_found')]);
         }
     }
 
@@ -125,7 +125,7 @@ class UserController extends Controller {
         $user = User::find($id);
 
         if (null === $user) {
-            return redirect()->route('user.index')->withErrors([trans('user.not_found')]);
+            return redirect()->route('users.index')->withErrors([trans('user.not_found')]);
         }
 
         $this->validate($request, $this->validation);
@@ -135,26 +135,27 @@ class UserController extends Controller {
 
         $request->session()->flash('message_success', trans('user.success'));
 
-        return redirect()->route('user.show', ['id' => $id]);
+        return redirect()->route('users.show', ['id' => $id]);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
     public function destroy($id) {
         $user = User::find($id);
 
         if (null === $user) {
-            return redirect()->route('user.index')->withErrors([trans('user.not_found')]);
+            return redirect()->route('users.index')->withErrors([trans('user.not_found')]);
         }
 
         $user->delete();
 
         \Session::flash('message_success', trans('user.delete_success'));
 
-        return redirect()->route('user.index');
+        return redirect()->route('users.index');
     }
 }

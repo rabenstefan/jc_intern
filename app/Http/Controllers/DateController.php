@@ -82,6 +82,8 @@ class DateController extends Controller {
     /**
      * Display a listing of the resource.
      *
+     * Either renders a list view (default) or a calendar view of the dates. Can be filtered by Input.
+     *
      * @param String $view_type
      * @return \Illuminate\Http\Response
      */
@@ -124,6 +126,8 @@ class DateController extends Controller {
     }
 
     /**
+     * Render the calender view of the given dates.
+     *
      * @param $dates
      * @param array $override_types
      * @param array $override_statuses
@@ -135,6 +139,14 @@ class DateController extends Controller {
         return view('date.calendar', ['calendar' => $calendar, 'override_types' => $override_types, 'override_statuses' => $override_statuses]);
     }
 
+    /**
+     * Render the list view of the given dates.
+     *
+     * @param \Illuminate\Support\Collection $dates
+     * @param array $override_types
+     * @param array $override_statuses
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     protected function listIndex (\Illuminate\Support\Collection $dates, array $override_types = [], array $override_statuses = []) {
         $dates = $dates->sortBy(function (Event $date) {
             return Carbon::now()->diffInSeconds($date->getStart(), false);
@@ -143,6 +155,11 @@ class DateController extends Controller {
         return view('date.list', ['dates' => $dates, 'override_types' => $override_types, 'override_statuses' => $override_statuses]);
     }
 
+    /**
+     * @param array $date_types
+     * @param bool $with_old
+     * @return \Illuminate\Support\Collection
+     */
     private function getDates (array $date_types, bool $with_old = false) {
         $data = new Collection();
 
@@ -158,6 +175,11 @@ class DateController extends Controller {
         return view('date.calendar_sync', ['date_types' => array_keys(self::$date_types)]);
     }
 
+    /**
+     * Method to render and ICAL calender.
+     *
+     * @return mixed
+     */
     public function renderIcal() {
         $date_types = [];
         if (Input::has('show_types') && is_array(Input::get('show_types')) && (count(Input::get('show_types')) > 0 )) {

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Event;
+use App\Rehearsal;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -18,15 +19,15 @@ abstract class AttendanceController extends Controller {
     }
 
     /**
-     * Function for an admin to login if someone attends or is missing.
+     * Function to change if user with $user_id will attend.
      *
      * @param Request $request
      * @param Event $event
-     * @param Integer $userId
+     * @param Integer $user_id
      * @param String $attendance
      * @return \Illuminate\Http\JsonResponse
      */
-    public function changeEventAttendance (Request $request, $event, $userId, $attendance = null) {
+    public function changeEventAttendance (Request $request, $event, $user_id, $attendance = null) {
         if (null === $event) {
             if ($request->wantsJson()) {
                 return \Response::json(['success' => false, 'message' => trans('date.event_not_found')]);
@@ -36,7 +37,7 @@ abstract class AttendanceController extends Controller {
         }
 
         // Try to get the user.
-        if (null === $userId) {
+        if (null === $user_id) {
             if ($request->wantsJson()) {
                 return \Response::json(['success' => false, 'message' => trans('date.user_not_given')]);
             } else {
@@ -44,7 +45,7 @@ abstract class AttendanceController extends Controller {
             }
         }
 
-        $user = User::find($userId);
+        $user = User::find($user_id);
 
         if (null === $user) {
             if ($request->wantsJson()) {
@@ -64,24 +65,7 @@ abstract class AttendanceController extends Controller {
             }
         }
 
-        // Store the attendance for found event and user.
-        if (!$this->storeAttendance($event, $user, ['attendance' => $attendance])) {
-            // Did not work.
-            if ($request->wantsJson()) {
-                return \Response::json(['success' => false, 'message' => trans('date.attendance_error')]);
-            } else {
-                return back()->withErrors(trans('date.attendance_error'));
-            }
-        }
-
-        // If we arrive here everything went fine.
-        $message = $attendance ? trans('date.attendance_saved') : trans('date.excuse_saved');
-        if ($request->wantsJson()) {
-            return \Response::json(['success' => true, 'message' => $message]);
-        } else {
-            $request->session()->flash('message_success', $message);
-            return back();
-        }
+        return $this->changeUserEventAttendance($request, $event, $user, $attendance);
     }
 
     /**
@@ -103,23 +87,31 @@ abstract class AttendanceController extends Controller {
 
         // Get logged in user and prepare data for saving.
         $user = \Auth::user();
+        return $this->changeUserEventAttendance($request, $event, $user, $attending);
+    }
+
+    /**
+     * Change event attendance for given User.
+     *
+     * @param Request $request
+     * @param $event
+     * @param User $user
+     * @param $attendance
+     * @return $this|\Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
+     */
+    private function changeUserEventAttendance(Request $request, $event, User $user, $attendance) {
         $data = [
             'comment' => $request->has('comment') ? $request->get('comment') : '',
-            'internal_comment' => '',
+            'internal_comment' => $request->has('internal_comment') ? $request->get('internal_comment') : '',
+            'attendance' => $attendance,
         ];
 
         // Change the attendance respectively.
-        if ($attending) {
-            // Confirm attendance of current user for rehearsal with given comments.
-            $success = $this->confirmUser($event, $user, $data);
-        } else {
-            // Excuse current user for rehearsal with given comments.
-            $success = $this->excuseUser($event, $user, $data);
-        }
+        $success = $this->storeAttendance($event, $user, $data);
 
         // Check if changing the attendance worked.
         if (!$success) {
-            $message = $attending ? trans('date.attendance_error') : trans('date.excuse_error');
+            $message = 'yes' == $attendance ? trans('date.attendance_error') : trans('date.excuse_error');
             if ($request->wantsJson()) {
                 return \Response::json(['success' => false, 'message' => $message]);
             } else {
@@ -128,7 +120,7 @@ abstract class AttendanceController extends Controller {
         }
 
         // If we arrive here everything went fine.
-        $message = $attending ? trans('date.attendance_saved') : trans('date.excuse_saved');
+        $message = 'yes' == $attendance ? trans('date.attendance_saved') : trans('date.excuse_saved');
         if ($request->wantsJson()) {
             return \Response::json(['success' => true, 'message' => $message]);
         } else {
@@ -140,7 +132,7 @@ abstract class AttendanceController extends Controller {
     /**
      * Helper to update or create an attendance.
      *
-     * @param Event $event
+     * @param $event
      * @param User $user
      * @param array $data
      * @return bool
