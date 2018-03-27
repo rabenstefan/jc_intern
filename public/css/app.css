@@ -5731,6 +5731,32 @@ button.close {
   .hidden-print {
     display: none !important; } }
 
+/**
+  Collection of shortcuts for Font Awesome (v5.0). Copied from the original fontawesome.css and fa-regular.css
+
+  FA's recommends its own SASS-mixins and -extends. However, these are not working correctly (probably because we use an outdated Gulp)
+ */
+/* Font Awesome Solid, when regular is not available.
+ This is sprinkled in throughout the mixins. */
+/* Font Awesome uses the Unicode Private Use Area (PUA) to ensure screen
+readers do not read off random characters that represent icons */
+/*
+To use font awesome, simply use
+
+.myclass {
+  @import fa();
+  &:before {
+    @import fa-{my-icon}();
+  }
+}
+
+or
+
+.myclass:before {
+  @import fa();
+  @import fa-{my-icon}();
+}
+ */
 /* Responsive table fix for Firefox. */
 @-moz-document url-prefix() {
   fieldset {
@@ -5786,19 +5812,28 @@ button.close {
   width: 2em;
   height: 2em;
   border-radius: 1em ;
-  background-color: #FA3D4F; }
+  background-color: #e7280f; }
 
 .modal a.close-modal:hover {
   text-decoration: none; }
 
 .modal a.close-modal:before {
+  font-family: 'Font Awesome\ 5 Free';
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  display: inline-block;
+  font-style: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+  font-weight: 400;
+  font-weight: 900;
   content: "\f00d";
-  font-family: "Font Awesome\ 5 Free", sans-serif;
   display: block;
   color: #fdfdfd;
   font-size: 1.5em;
-  margin-left: -0.4em;
-  margin-top: -0.05em; }
+  margin-top: 0.15em;
+  margin-left: -0.35em; }
 
 .modal-spinner {
   display: none;
@@ -5819,10 +5854,10 @@ body {
   -webkit-font-smoothing: antialiased; }
 
 a {
-  color: #38444f;
+  color: #135895;
   padding: 0 1em; }
   a:hover, a:focus, a:active {
-    color: #222a32; }
+    color: #083a68; }
 
 i.fa {
   -webkit-touch-callout: none;
@@ -5844,7 +5879,7 @@ i.fa {
   background-color: #fff; }
 
 /** General classes. **/
-.text-large {
+.text-large, .panel-2d .panel-body .panel-heading, .panel-2d .panel-body .panel-element .panel-element-body .panel-element-main {
   font-size: 1.2em; }
 
 .container {
@@ -5853,10 +5888,10 @@ i.fa {
 /** Additional class for navbars. **/
 .navbar-2d {
   color: #fdfdfd;
-  background-color: #38444f;
+  background-color: #135895;
   border-radius: 0 ;
   border: none ;
-  border-bottom: 3px solid #222a32 ;
+  border-bottom: 3px solid #083a68 ;
   box-shadow: none; }
   .navbar-2d a, .navbar-2d .navbar-brand {
     color: #fdfdfd; }
@@ -5864,14 +5899,14 @@ i.fa {
       color: #fff; }
   .navbar-2d a.dropdown-toggle {
     color: #fff;
-    background-color: #38444f; }
+    background-color: #135895; }
   .navbar-2d .nav li {
-    border-left: 1px solid #222a32; }
+    border-left: 1px solid #083a68; }
     .navbar-2d .nav li:last-child {
-      border-right: 1px solid #222a32; }
+      border-right: 1px solid #083a68; }
     .navbar-2d .nav li > a {
       color: #fdfdfd;
-      background: #38444f;
+      background: #135895;
       line-height: 20px;
       border: none; }
       @media (max-width: 767px) {
@@ -5879,10 +5914,10 @@ i.fa {
           border: none; } }
       .navbar-2d .nav li > a:hover, .navbar-2d .nav li > a:focus, .navbar-2d .nav li > a:active {
         color: #fff;
-        background: #38444f;
+        background: #135895;
         text-decoration: none;
         margin-bottom: -2px;
-        border-top: 2px solid #222a32; }
+        border-top: 2px solid #083a68; }
       @media (max-width: 767px) {
         .navbar-2d .nav li > a:hover, .navbar-2d .nav li > a:focus, .navbar-2d .nav li > a:active {
           border: none;
@@ -5891,9 +5926,9 @@ i.fa {
     border: none; }
   .navbar-2d .navbar-nav > .open > a, .navbar-2d .navbar-nav > .open > a:hover, .navbar-2d .navbar-nav > .open > a:focus {
     color: #fff;
-    background-color: #38444f;
-    border-top: 2px solid #222a32;
-    border-color: #222a32;
+    background-color: #135895;
+    border-top: 2px solid #083a68;
+    border-color: #083a68;
     margin-bottom: -2px;
     outline: none; }
   .navbar-2d .navbar-nav .open .dropdown-menu > li > a {
@@ -5901,7 +5936,7 @@ i.fa {
     .navbar-2d .navbar-nav .open .dropdown-menu > li > a:hover, .navbar-2d .navbar-nav .open .dropdown-menu > li > a:focus, .navbar-2d .navbar-nav .open .dropdown-menu > li > a:active {
       color: #fff;
       border: none;
-      border-top: 1px solid #222a32;
+      border-top: 1px solid #083a68;
       margin-bottom: -1px; }
   .navbar-2d .dropdown-submenu {
     position: relative; }
@@ -5936,11 +5971,11 @@ i.fa {
     color: #fdfdfd;
     border-radius: 0 ;
     border: none ;
-    border-bottom: 3px solid #222a32 ;
+    border-bottom: 3px solid #083a68 ;
     box-shadow: none; }
     .navbar-2d .navbar-toggle:hover, .navbar-2d .navbar-toggle:focus, .navbar-2d .navbar-toggle:active {
       color: #fff;
-      background-color: #38444f;
+      background-color: #135895;
       border-bottom: none;
       margin-top: 11px; }
     .navbar-2d .navbar-toggle .icon-bar {
@@ -5955,17 +5990,17 @@ i.fa {
         margin: 7.5px -15px; } }
   .navbar-2d .dropdown-menu {
     color: #fdfdfd;
-    background-color: #38444f;
+    background-color: #135895;
     border-radius: 0 ;
     border: none ;
-    border-bottom: 3px solid #222a32 ;
+    border-bottom: 3px solid #083a68 ;
     box-shadow: none;
-    border-top: 2px solid #222a32; }
+    border-top: 2px solid #083a68; }
     .navbar-2d .dropdown-menu > li > a {
       color: #fdfdfd;
       border: none; }
     .navbar-2d .dropdown-menu > li > a:hover, .navbar-2d .dropdown-menu > li > a:focus {
-      color: #222a32;
+      color: #083a68;
       background: none; }
 
 /** If the page has a sidebar-nav. **/
@@ -5975,7 +6010,7 @@ i.fa {
     margin-right: 3px; }
   .sidebar-nav-2d .nav > li > a:hover, .sidebar-nav-2d .nav > li > a:focus, .sidebar-nav-2d .nav > li > a:active, .sidebar-nav-2d .nav > li.active > a {
     background: none;
-    border-right: 1px solid #38444f;
+    border-right: 1px solid #135895;
     margin-right: 2px; }
   .sidebar-nav-2d .nav > li.active > a {
     border-right-width: 3px;
@@ -5992,24 +6027,24 @@ i.fa {
     #scroll-spy-nav {
       width: 9em; } }
   #scroll-spy-nav > a {
-    color: #38444f;
+    color: #135895;
     padding: 0.2em; }
     #scroll-spy-nav > a:hover, #scroll-spy-nav > a:focus, #scroll-spy-nav > a:active {
-      color: #222a32;
+      color: #083a68;
       text-decoration: none; }
 
 .btn-link {
-  color: #38444f; }
+  color: #135895; }
 
 /** Cool buttons, additionally used to .btn class. **/
 .btn-2d, #calendar-dates .btn-2d {
   color: #fdfdfd;
-  background-color: #38444f;
+  background-color: #135895;
   height: inherit;
   margin-top: 0px;
   border-radius: 0 ;
   border: none ;
-  border-bottom: 3px solid #222a32 ;
+  border-bottom: 3px solid #083a68 ;
   box-shadow: none; }
   .btn-2d:hover, .btn-2d:focus, .btn-2d:active, .btn-2d.btn-pressed, #calendar-dates .btn-2d:hover, #calendar-dates .btn-2d:focus, #calendar-dates .btn-2d:active, #calendar-dates .btn-2d.btn-pressed {
     border-bottom: 0px !important;
@@ -6028,25 +6063,25 @@ i.fa {
       color: #fff !important;
       outline: none !important; }
   .btn-2d.btn-success, .btn-2d.btn-birthdays, .btn-2d.btn-yes, #calendar-dates .btn-2d.btn-success, #calendar-dates .btn-2d.btn-birthdays, #calendar-dates .btn-2d.btn-yes {
-    background-color: #56E438;
+    background-color: #0bac35;
     border-radius: 0 ;
     border: none ;
-    border-bottom: 3px solid #44C728 ;
+    border-bottom: 3px solid #047823 ;
     box-shadow: none; }
   .btn-2d.btn-warning, .btn-2d.btn-gigs, .btn-2d.btn-maybe, #calendar-dates .btn-2d.btn-warning, #calendar-dates .btn-2d.btn-gigs, #calendar-dates .btn-2d.btn-maybe {
-    background-color: #FFA63F;
+    background-color: #e78d0f;
     border-radius: 0 ;
     border: none ;
-    border-bottom: 3px solid #DF8D2D ;
+    border-bottom: 3px solid #a06006 ;
     box-shadow: none; }
   .btn-2d.btn-error, .btn-2d.btn-all, .btn-2d.btn-no, #calendar-dates .btn-2d.btn-error, #calendar-dates .btn-2d.btn-all, #calendar-dates .btn-2d.btn-no {
-    background-color: #FA3D4F;
+    background-color: #e7280f;
     border-radius: 0 ;
     border: none ;
-    border-bottom: 3px solid #DA2C3D ;
+    border-bottom: 3px solid #a01806 ;
     box-shadow: none; }
   .panel-heading .btn-2d.btn-add, .btn-2d.btn-inv, .panel-heading #calendar-dates .btn-2d.btn-add, #calendar-dates .btn-2d.btn-inv {
-    color: #38444f;
+    color: #135895;
     background-color: #fdfdfd;
     padding: 0 6px;
     border-radius: 0 ;
@@ -6056,7 +6091,7 @@ i.fa {
     .panel-heading .btn-2d.btn-add:hover, .panel-heading .btn-2d.btn-add:focus, .panel-heading .btn-2d.btn-add:active, .btn-2d.btn-inv:hover, .btn-2d.btn-inv:focus, .btn-2d.btn-inv:active, .panel-heading #calendar-dates .btn-2d.btn-add:hover, .panel-heading #calendar-dates .btn-2d.btn-add:focus, .panel-heading #calendar-dates .btn-2d.btn-add:active, #calendar-dates .btn-2d.btn-inv:hover, #calendar-dates .btn-2d.btn-inv:focus, #calendar-dates .btn-2d.btn-inv:active {
       border-bottom: none;
       margin-top: 3px;
-      color: #222a32 !important;
+      color: #083a68 !important;
       outline: none; }
     @media (max-width: 767px) {
       .panel-heading .btn-2d.btn-add .title, .btn-2d.btn-inv .title, .panel-heading #calendar-dates .btn-2d.btn-add .title, #calendar-dates .btn-2d.btn-inv .title {
@@ -6097,10 +6132,10 @@ i.fa {
   box-shadow: none; }
 
 #calendar-dates .fc-event {
-  border-left: 9px solid #38444f;
+  border-left: 9px solid #135895;
   padding-left: 3px; }
   #calendar-dates .fc-event:after {
-    background-color: #222a32;
+    background-color: #083a68;
     width: 9px;
     height: 3px;
     content: "";
@@ -6110,19 +6145,19 @@ i.fa {
     left: -9px; }
 
 #calendar-dates .event-rehearsal {
-  border-left-color: #38444f; }
+  border-left-color: #135895; }
   #calendar-dates .event-rehearsal:after {
-    background-color: #222a32; }
+    background-color: #083a68; }
 
 #calendar-dates .event-gig {
-  border-left-color: #FFA63F; }
+  border-left-color: #e78d0f; }
   #calendar-dates .event-gig:after {
-    background-color: #DF8D2D; }
+    background-color: #a06006; }
 
 #calendar-dates .event-birthday {
-  border-left-color: #56E438; }
+  border-left-color: #0bac35; }
   #calendar-dates .event-birthday:after {
-    background-color: #44C728; }
+    background-color: #047823; }
 
 #calendar-dates .fc-day-grid-event .fc-content {
   white-space: normal; }
@@ -6149,19 +6184,19 @@ i.fa {
   font-size: 1.2em; }
 
 #list-dates .event-rehearsal.context-box-2d {
-  border-left-color: #38444f; }
+  border-left-color: #135895; }
   #list-dates .event-rehearsal.context-box-2d:after {
-    background-color: #222a32; }
+    background-color: #083a68; }
 
 #list-dates .event-gig.context-box-2d {
-  border-left-color: #FFA63F; }
+  border-left-color: #e78d0f; }
   #list-dates .event-gig.context-box-2d:after {
-    background-color: #DF8D2D; }
+    background-color: #a06006; }
 
 #list-dates .event-birthday.context-box-2d {
-  border-left-color: #56E438; }
+  border-left-color: #0bac35; }
   #list-dates .event-birthday.context-box-2d:after {
-    background-color: #44C728; }
+    background-color: #047823; }
 
 .button-set-2d a.btn-2d {
   margin-left: -4px;
@@ -6229,7 +6264,15 @@ i.fa {
   .slider-2d label .slider {
     position: absolute;
     cursor: pointer;
-    font-family: Font Awesome\ 5 Free;
+    font-family: 'Font Awesome\ 5 Free';
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    display: inline-block;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    line-height: 1;
+    font-weight: 400;
     top: 0;
     left: 0;
     right: 0;
@@ -6244,11 +6287,11 @@ i.fa {
     width: 2em;
     left: 0.2em;
     bottom: 0.2em;
-    padding: 0.2em 0.5em;
-    background-color: #FA3D4F;
+    padding: 0.35em 0.55em;
+    background-color: #e7280f;
     border-radius: 0 ;
     border: none ;
-    border-bottom: 3px solid #DA2C3D ;
+    border-bottom: 3px solid #a01806 ;
     box-shadow: none;
     transition: .4s;
     z-index: 99; }
@@ -6266,17 +6309,17 @@ i.fa {
 
 .slider-2d input[type="checkbox"]:checked + label .slider:before {
   transform: translateX(2.4em);
-  background-color: #56E438;
+  background-color: #0bac35;
   border-radius: 0 ;
   border: none ;
-  border-bottom: 3px solid #44C728 ;
+  border-bottom: 3px solid #047823 ;
   box-shadow: none;
   content: "\f274"; }
 
 .context-box-2d {
-  border-left: 9px solid #38444f; }
+  border-left: 9px solid #135895; }
   .context-box-2d:after {
-    background-color: #222a32;
+    background-color: #083a68;
     width: 9px;
     height: 3px;
     content: "";
@@ -6293,18 +6336,36 @@ i.fa {
   box-shadow: none; }
   .panel-2d .panel-heading {
     color: #fdfdfd;
-    background-color: #38444f;
+    background-color: #135895;
     border-radius: 0 ;
     border: none ;
-    border-bottom: 3px solid #222a32 ;
+    border-bottom: 3px solid #083a68 ;
     box-shadow: none;
     font-weight: bold; }
-    .panel-2d .panel-heading .dropdown-menu {
-      color: #fdfdfd;
-      background-color: #38444f;
+    .panel-2d .panel-heading.panel-heading-warning {
+      background-color: #e78d0f;
       border-radius: 0 ;
       border: none ;
-      border-bottom: 3px solid #222a32 ;
+      border-bottom: 3px solid #a06006 ;
+      box-shadow: none; }
+    .panel-2d .panel-heading.panel-heading-error {
+      background-color: #e7280f;
+      border-radius: 0 ;
+      border: none ;
+      border-bottom: 3px solid #a01806 ;
+      box-shadow: none; }
+    .panel-2d .panel-heading.panel-heading-success {
+      background-color: #0bac35;
+      border-radius: 0 ;
+      border: none ;
+      border-bottom: 3px solid #047823 ;
+      box-shadow: none; }
+    .panel-2d .panel-heading .dropdown-menu {
+      color: #fdfdfd;
+      background-color: #135895;
+      border-radius: 0 ;
+      border: none ;
+      border-bottom: 3px solid #083a68 ;
       box-shadow: none;
       top: 2.5em;
       right: inherit;
@@ -6313,24 +6374,96 @@ i.fa {
         color: #fdfdfd;
         border: none; }
       .panel-2d .panel-heading .dropdown-menu > li > a:hover, .panel-2d .panel-heading .dropdown-menu > li > a:focus {
-        color: #222a32;
+        color: #083a68;
         background: none; }
   .panel-2d .panel-body {
+    position: relative;
     padding: 10px;
-    background-color: #fafafa;
+    background-color: #eaeaea;
     border-radius: 0 ; }
+    .panel-2d .panel-body .panel-heading {
+      text-align: center;
+      z-index: 2; }
     .panel-2d .panel-body .panel-element {
-      min-height: 6em;
       padding: 10px;
       margin-bottom: 1em;
-      background-color: #eaeaea;
+      background-color: #c3c3c3;
       border-radius: 0 ;
       border: none ;
-      border-bottom: 3px solid #c3c3c3 ;
-      box-shadow: none;
-      border-top: 1em solid #38444f; }
+      border-bottom: 3px solid #afafaf ;
+      box-shadow: none; }
       .panel-2d .panel-body .panel-element.panel-element-warning {
-        border-top-color: #FFA63F; }
+        background-color: #f0b560;
+        border-radius: 0 ;
+        border: none ;
+        border-bottom: 3px solid #e78d0f ;
+        box-shadow: none; }
+      .panel-2d .panel-body .panel-element.panel-element-error {
+        background-color: #f07160;
+        border-radius: 0 ;
+        border: none ;
+        border-bottom: 3px solid #e7280f ;
+        box-shadow: none; }
+        .panel-2d .panel-body .panel-element.panel-element-error .panel-element-body {
+          color: #fdfdfd; }
+          .panel-2d .panel-body .panel-element.panel-element-error .panel-element-body a {
+            font-weight: bold; }
+      .panel-2d .panel-body .panel-element.panel-element-success {
+        background-color: #52cd73;
+        border-radius: 0 ;
+        border: none ;
+        border-bottom: 3px solid #0bac35 ;
+        box-shadow: none; }
+      .panel-2d .panel-body .panel-element .panel-element-body {
+        z-index: 2;
+        position: relative; }
+      .panel-2d .panel-body .panel-element .panel-element-body .panel-element-main {
+        font-weight: bold;
+        padding-bottom: 10px;
+        text-align: center; }
+        .panel-2d .panel-body .panel-element .panel-element-body .panel-element-main.panel-element-main-number {
+          font-size: 2em; }
+      .panel-2d .panel-body .panel-element.panel-element-background-icon:after {
+        position: absolute;
+        font-family: 'Font Awesome\ 5 Free';
+        -moz-osx-font-smoothing: grayscale;
+        -webkit-font-smoothing: antialiased;
+        display: inline-block;
+        font-style: normal;
+        font-variant: normal;
+        text-rendering: auto;
+        line-height: 1;
+        font-weight: 400;
+        z-index: 1;
+        left: 0;
+        top: 20px;
+        font-size: 10em;
+        overflow: hidden;
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        opacity: 0.8; }
+      .panel-2d .panel-body .panel-element.panel-element-background-icon.panel-element-warning .panel-element-main-number {
+        color: #eaeaea; }
+      .panel-2d .panel-body .panel-element.panel-element-background-icon.panel-element-warning:after {
+        font-weight: 900;
+        content: "\f128";
+        color: #a06006;
+        font-size: 6em;
+        top: 50px; }
+      .panel-2d .panel-body .panel-element.panel-element-background-icon.panel-element-error:after {
+        font-weight: 900;
+        content: "\f00d";
+        color: #a01806; }
+      .panel-2d .panel-body .panel-element.panel-element-background-icon.panel-element-success:after {
+        font-weight: 900;
+        content: "\f00c";
+        color: #047823;
+        font-size: 7em;
+        top: 40px; }
+      .panel-2d .panel-body .panel-element.panel-element-background-icon .panel-element-body .panel-element-main.panel-element-main-number {
+        padding-top: 10px;
+        padding-bottom: 30px; }
   .panel-2d.panel-2d-grey .panel-heading, .panel-2d .panel-2d .panel-heading {
     padding: 5px 10px;
     color: #020202;
@@ -6340,8 +6473,6 @@ i.fa {
     border-bottom: 3px solid #afafaf ;
     box-shadow: none;
     font-weight: normal; }
-  .panel-2d.panel-2d-grey .panel-body, .panel-2d .panel-2d .panel-body {
-    background-color: #fefefe; }
 
 /** Cool inputs, additionally used to .form-control class. **/
 .form-control-2d {
@@ -6361,10 +6492,20 @@ ul.messages-list-2d {
   ul.messages-list-2d li {
     padding: 0.2em 0; }
     ul.messages-list-2d li:before {
+      font-family: 'Font Awesome\ 5 Free';
+      -moz-osx-font-smoothing: grayscale;
+      -webkit-font-smoothing: antialiased;
+      display: inline-block;
+      font-style: normal;
+      font-variant: normal;
+      text-rendering: auto;
+      line-height: 1;
+      font-weight: 400;
+      font-weight: 900;
       content: "\f12a";
-      font-family: "Font Awesome\ 5 Free", sans-serif;
       padding: 0 1em; }
     ul.messages-list-2d li.text-success:before {
+      font-weight: 900;
       content: "\f00c"; }
 
 .text-success i.fa-check {
@@ -6377,34 +6518,73 @@ div.radio input[type='radio'] + span:before {
   width: 1em;
   height: 1em;
   display: inline-block;
-  font: normal normal normal 14px/1 Font Awesome\ 5 Free;
-  font-size: 20px;
+  font-family: 'Font Awesome\ 5 Free';
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  display: inline-block;
+  font-style: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+  font-weight: 400;
+  font-size: 1.5em;
   top: 2px;
   position: relative;
   margin-left: -1em;
   padding-left: 0;
-  padding-right: 1.5em;
-  background-color: #fff; }
+  padding-right: 1.5em; }
 
 div.checkbox input, div.radio input {
   display: none;
   height: 1px; }
   div.checkbox input[type='checkbox'] + span:before, div.radio input[type='checkbox'] + span:before {
-    content: '\f096';
-    font-family: "Font Awesome\ 5 Free", sans-serif; }
+    font-family: 'Font Awesome\ 5 Free';
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    display: inline-block;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    line-height: 1;
+    font-weight: 400;
+    content: "\f0c8"; }
   div.checkbox input[type='checkbox']:checked + span:before, div.radio input[type='checkbox']:checked + span:before {
-    content: '\f046';
-    font-family: "Font Awesome\ 5 Free", sans-serif; }
+    font-family: 'Font Awesome\ 5 Free';
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    display: inline-block;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    line-height: 1;
+    font-weight: 400;
+    content: "\f14a"; }
   div.checkbox input[type='radio'] + span:before, div.radio input[type='radio'] + span:before {
-    content: '\f10c';
-    font-family: "Font Awesome\ 5 Free", sans-serif; }
+    font-family: 'Font Awesome\ 5 Free';
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    display: inline-block;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    line-height: 1;
+    font-weight: 400;
+    content: "\f111"; }
   div.checkbox input[type='radio']:checked + span:before, div.radio input[type='radio']:checked + span:before {
-    content: '\f192';
-    font-family: "Font Awesome\ 5 Free", sans-serif; }
+    font-family: 'Font Awesome\ 5 Free';
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    display: inline-block;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    line-height: 1;
+    font-weight: 400;
+    content: "\f192"; }
   div.checkbox input:focus + span:before,
   div.checkbox input:hover + span:before, div.radio input:focus + span:before,
   div.radio input:hover + span:before {
-    color: #222a32; }
+    color: #083a68; }
 
 .notifyjs-corner {
   top: 6em !important;
@@ -6416,50 +6596,60 @@ div.checkbox input, div.radio input {
 
 .notifyjs-container {
   margin: 0 !important;
-  border-top-color: #222a32; }
+  border-top-color: #083a68; }
 
 .notifyjs-shadow2d-base {
   font-weight: bold;
   padding: 1em 2em 1em 0;
-  color: #38444f;
+  color: #135895;
   background-color: #fff;
   border-radius: 0 ;
   border: none ;
   border-bottom: 3px solid #afafaf ;
   box-shadow: none; }
   .notifyjs-shadow2d-base:before {
+    font-family: 'Font Awesome\ 5 Free';
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    display: inline-block;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    line-height: 1;
+    font-weight: 400;
+    font-weight: 900;
     content: "\f12a";
-    font-family: "Font Awesome\ 5 Free", sans-serif;
     padding: 0 1em; }
   .notifyjs-shadow2d-base.notifyjs-shadow2d-success {
-    color: #56E438;
-    background-color: #97F084;
+    color: #0bac35;
+    background-color: #52cd73;
     border-radius: 0 ;
     border: none ;
-    border-bottom: 3px solid #44C728 ;
+    border-bottom: 3px solid #047823 ;
     box-shadow: none; }
     .notifyjs-shadow2d-base.notifyjs-shadow2d-success:before {
+      font-weight: 900;
       content: "\f00c"; }
   .notifyjs-shadow2d-base.notifyjs-shadow2d-warning {
-    color: #FFA63F;
-    background-color: #FFCA8D;
+    color: #e78d0f;
+    background-color: #f0b560;
     border-radius: 0 ;
     border: none ;
-    border-bottom: 3px solid #DF8D2D ;
+    border-bottom: 3px solid #a06006 ;
     box-shadow: none; }
   .notifyjs-shadow2d-base.notifyjs-shadow2d-danger {
-    color: #FA3D4F;
-    background-color: #FC8B96;
+    color: #e7280f;
+    background-color: #f07160;
     border-radius: 0 ;
     border: none ;
-    border-bottom: 3px solid #DA2C3D ;
+    border-bottom: 3px solid #a01806 ;
     box-shadow: none; }
   .notifyjs-shadow2d-base.notifyjs-shadow2d-help {
     color: #fdfdfd;
-    background-color: #38444f;
+    background-color: #135895;
     border-radius: 0 ;
     border: none ;
-    border-bottom: 3px solid #222a32 ;
+    border-bottom: 3px solid #083a68 ;
     box-shadow: none;
     padding: 1em;
     display: block;
@@ -6470,7 +6660,7 @@ div.checkbox input, div.radio input {
 
 .help-bubble {
   cursor: pointer;
-  color: #38444f; }
+  color: #135895; }
   .help-bubble i {
     font-size: 1.5em;
     line-height: 0; }

@@ -64,22 +64,6 @@ class DateController extends Controller {
     }
 
     /**
-     * Compare the given date types to the available ones and return the inverse.
-     * If a date type is unknown, it will be dropped.
-     *
-     * @param array $date_types
-     * @return array
-     */
-    public static function invertDateTypes (array $date_types) {
-        $available_types = self::getDateTypes();
-        return array_diff($available_types, array_intersect($available_types, $date_types));
-    }
-
-    public static function invertDateStatuses (array $date_statuses) {
-        return array_diff(self::$date_statuses, array_intersect(self::$date_statuses, $date_statuses));
-    }
-
-    /**
      * Display a listing of the resource.
      *
      * Either renders a list view (default) or a calendar view of the dates. Can be filtered by Input.
@@ -105,6 +89,9 @@ class DateController extends Controller {
             $override_statuses = array_intersect(self::getDateStatuses(), $override_statuses); // Because never trust the client!
         }
 
+        // showAll overrides all hideBy's
+        $override_show_all = Input::has('showAll') && 'true' === Input::get('showAll');
+
         $with_old = 'calendar' === $view_type;
 
         $view = call_user_func_array(
@@ -115,13 +102,14 @@ class DateController extends Controller {
             [
                 'dates' => $this->getDates(self::$date_types, $with_old),
                 'override_types' => $override_types,
-                'override_statuses' => $override_statuses
+                'override_statuses' => $override_statuses,
+                'override_show_all' => $override_show_all,
             ]
         );
 
         return false !== $view ? $view : redirect()->route(
             'index',
-            ['override_types' => $override_types, 'override_statuses' => $override_statuses]
+            ['override_types' => $override_types, 'override_statuses' => $override_statuses, 'override_show_all' => $override_show_all]
         )->withErrors(trans('date.view_type_not_found'));
     }
 
@@ -131,12 +119,13 @@ class DateController extends Controller {
      * @param $dates
      * @param array $override_types
      * @param array $override_statuses
+     * @param bool $override_show_all
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    protected function calendarIndex ($dates, array $override_types = [], array $override_statuses = []) {
+    protected function calendarIndex ($dates, array $override_types = [], array $override_statuses = [], bool $override_show_all) {
         $calendar = Calendar::addEvents($dates);
         $calendar->setId('dates');
-        return view('date.calendar', ['calendar' => $calendar, 'override_types' => $override_types, 'override_statuses' => $override_statuses]);
+        return view('date.calendar', ['calendar' => $calendar, 'override_types' => $override_types, 'override_statuses' => $override_statuses, 'override_show_all' => $override_show_all]);
     }
 
     /**
@@ -145,14 +134,15 @@ class DateController extends Controller {
      * @param \Illuminate\Support\Collection $dates
      * @param array $override_types
      * @param array $override_statuses
+     * @param boolean $override_show_all
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    protected function listIndex (\Illuminate\Support\Collection $dates, array $override_types = [], array $override_statuses = []) {
+    protected function listIndex (\Illuminate\Support\Collection $dates, array $override_types = [], array $override_statuses = [], boolean $override_show_all) {
         $dates = $dates->sortBy(function (Event $date) {
             return Carbon::now()->diffInSeconds($date->getStart(), false);
         });
 
-        return view('date.list', ['dates' => $dates, 'override_types' => $override_types, 'override_statuses' => $override_statuses]);
+        return view('date.list', ['dates' => $dates, 'override_types' => $override_types, 'override_statuses' => $override_statuses, 'override_show_all' => $override_show_all]);
     }
 
     /**

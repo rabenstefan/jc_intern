@@ -79,12 +79,4 @@ class Gig extends \Eloquent implements IdentifiableEvent {
         return $this->hasAnsweredEvent($attendance);
     }
 
-    /**
-     * Get the next gig after now().
-     *
-     * @return \Illuminate\Database\Eloquent\Model|null|static The next Gig
-     */
-    public static function getNextGig() {
-        return Gig::where('start', '>=', Carbon::now())->first();
-    }
 }

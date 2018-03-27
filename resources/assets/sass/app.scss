@@ -2,6 +2,26 @@
 @import url(https://fonts.googleapis.com/css?family=Raleway);
 @import "config";
 
+@import "fa";
+/*
+To use font awesome, simply use
+
+.myclass {
+  @import fa();
+  &:before {
+    @import fa-{my-icon}();
+  }
+}
+
+or
+
+.myclass:before {
+  @import fa();
+  @import fa-{my-icon}();
+}
+ */
+
+
 /* Responsive table fix for Firefox. */
 @-moz-document url-prefix() {
   fieldset { display: table-cell; }
@@ -86,13 +106,13 @@
 }
 
 .modal a.close-modal:before {
-  content: "\f00d";
-  font-family: Font Awesome\ 5 Free, sans-serif;
+  @include fa();
+  @include fa-times();
   display: block;
   color: $font-color-inverse;
   font-size: 1.5em;
-  margin-left: -0.35em;
   margin-top: 0.15em;
+  margin-left: -0.35em;
 }
 
 .modal-spinner {
@@ -617,7 +637,7 @@ i.fa {
     .slider {
       position: absolute;
       cursor: pointer;
-      font-family: Font Awesome\ 5 Free;
+      @include fa();
       top: 0;
       left: 0;
       right: 0;
@@ -630,12 +650,12 @@ i.fa {
 
     .slider:before {
       position: absolute;
-      content: "\f273";
+      @include fa-calendar-times();
       height: 2em;
       width: 2em;
       left: 0.2em;
       bottom: 0.2em;
-      padding: 0.2em 0.5em;
+      padding: 0.35em 0.55em;
       background-color: $error-color;
       @include shadow-2d($error-color-darker);
       -webkit-transition: .4s;
@@ -667,7 +687,7 @@ i.fa {
       transform: translateX(2.4em);
       background-color: $success-color;
       @include shadow-2d($success-color-darker);
-      content: "\f274";
+      @include fa-calendar-check();
     }
   }
 }
@@ -733,18 +753,118 @@ i.fa {
   }
 
   .panel-body {
+    position: relative;
     padding: 10px;
-    background-color: #fafafa;
+    background-color: $grey-lighter;
     @include border-radius(0);
 
+    .panel-heading {
+      text-align: center;
+      z-index: 2;
+      @extend .text-large;
+    }
+
     .panel-element {
-      min-height: 6em;
+      //min-height: 12em;
       padding: 10px;
       margin-bottom: 1em;
-      background-color: $grey-lighter;
-      @include shadow-2d($grey);
+      background-color: $grey;
+      @include shadow-2d($grey-darker);
+
+      &.panel-element-warning {
+        background-color: $warning-color-lighter;
+        @include shadow-2d($warning-color);
+      }
+
+      &.panel-element-error {
+        background-color: $error-color-lighter;
+        .panel-element-body {
+          color: $font-color-inverse;
+          a {
+            font-weight: bold;
+          }
+        }
+        @include shadow-2d($error-color);
+      }
+
+      &.panel-element-success {
+        background-color: $success-color-lighter;
+        @include shadow-2d($success-color);
+      }
+
+      .panel-element-body {
+        z-index: 2;
+        position: relative;
+      }
+
+      .panel-element-body {
+        .panel-element-main {
+          font-weight: bold;
+          padding-bottom: 10px;
+          text-align: center;
+          @extend .text-large;
+
+          &.panel-element-main-number {
+            font-size: 2em;
+          }
+        }
+      }
+
+      &.panel-element-background-icon {
+        &:after {
+          position: absolute;
+          @include fa();
+          z-index: 1;
+          left: 0;
+          top: 20px;
+          font-size: 10em;
+          overflow: hidden;
+          width: 100%;
+          height: 100%;
+          text-align: center;
+          opacity: 0.8;
+        }
+
+        &.panel-element-warning {
+          .panel-element-main-number {
+            color: $grey-lighter;
+          }
+          &:after {
+            @include fa-question();
+            color: $warning-color-darker;
+            font-size: 6em;
+            top: 50px;
+          }
+        }
+
+        &.panel-element-error {
+          &:after {
+            @include fa-times();
+            color: $error-color-darker;
+          }
+        }
+
+        &.panel-element-success {
+          &:after {
+            @include fa-check();
+            color: $success-color-darker;
+            font-size: 7em;
+            top: 40px;
+          }
+        }
+
+        .panel-element-body {
+          .panel-element-main {
+            &.panel-element-main-number {
+              padding-top: 10px;
+              padding-bottom: 30px;
+            }
+          }
+        }
+      }
     }
   }
+
 
   &.panel-2d-grey, & .panel-2d {
     .panel-heading {
@@ -753,10 +873,6 @@ i.fa {
       background-color: $grey;
       @include shadow-2d($grey-darker);
       font-weight: normal;
-    }
-
-    .panel-body {
-      background-color: #fefefe;
     }
   }
 }
@@ -781,13 +897,13 @@ ul.messages-list-2d {
     padding: 0.2em 0;
 
     &:before {
-      content: "\f12a";
-      font-family: Font Awesome\ 5 Free, sans-serif;
+      @include fa();
+      @include fa-exclamation();
       padding: 0 1em;
     }
 
     &.text-success:before {
-      content: "\f00c";
+      @include fa-check();
     }
   }
 }
@@ -803,14 +919,14 @@ div.radio input[type='radio'] + span:before {
   width: 1em;
   height: 1em;
   display: inline-block;
-  font: normal normal normal 14px/1 Font Awesome\ 5 Free;
-  font-size: 20px;
+  @include fa();
+  font-size: 1.5em;
   top: 2px;
   position: relative;
   margin-left: -1em;
   padding-left: 0;
   padding-right: 1.5em;
-  background-color: #fff;
+  //background-color: #fff;
 }
 
 div.radio input[type='radio']:focus + span:before,
@@ -823,23 +939,23 @@ div.checkbox input, div.radio input {
   height: 1px;
 
   &[type='checkbox'] + span:before {
-    content: '\f096';
-    font-family: Font Awesome\ 5 Free, sans-serif;
+    @include fa();
+    @include fa-square();
   }
 
   &[type='checkbox']:checked + span:before {
-    content: '\f046';
-    font-family: Font Awesome\ 5 Free, sans-serif;
+    @include fa();
+    @include fa-check-square();
   }
 
   &[type='radio'] + span:before {
-    content: '\f10c';
-    font-family: Font Awesome\ 5 Free, sans-serif;
+    @include fa();
+    @include fa-circle();
   }
 
   &[type='radio']:checked + span:before {
-    content: '\f192';
-    font-family: Font Awesome\ 5 Free, sans-serif;
+    @include fa();
+    @include fa-dot-circle();
   }
 
   &:focus + span:before,
@@ -871,8 +987,8 @@ div.checkbox input, div.radio input {
   @include shadow-2d($grey-darker);
 
   &:before {
-    content: "\f12a";
-    font-family: Font Awesome\ 5 Free, sans-serif;
+    @include fa();
+    @include fa-exclamation();
     padding: 0 1em;
   }
 
@@ -882,7 +998,7 @@ div.checkbox input, div.radio input {
     @include shadow-2d($success-color-darker);
 
     &:before {
-      content: "\f00c";
+      @include fa-check();
     }
   }
 

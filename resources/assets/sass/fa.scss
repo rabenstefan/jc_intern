@@ -1,0 +1,2521 @@
+/**
+  Collection of shortcuts for Font Awesome (v5.0). Copied from the original fontawesome.css and fa-regular.css
+
+  FA's recommends its own SASS-mixins and -extends. However, these are not working correctly (probably because we use an outdated Gulp)
+ */
+
+@mixin fa() {
+  font-family: 'Font Awesome\ 5 Free';
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  display: inline-block;
+  font-style: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+  font-weight: 400;
+}
+
+/* Font Awesome Solid, when regular is not available.
+ This is sprinkled in throughout the mixins. */
+@mixin fas() {
+  font-weight: 900;
+}
+
+// ... and brands
+@mixin fab() {
+  font-family: 'Font Awesome\ 5 Brands';
+  font-weight: normal;
+}
+
+/* Font Awesome uses the Unicode Private Use Area (PUA) to ensure screen
+readers do not read off random characters that represent icons */
+@mixin fa-500px() { @include fab();
+  content: "\f26e"; }
+
+@mixin fa-accessible-icon() { @include fab();
+  content: "\f368"; }
+
+@mixin fa-accusoft() { @include fab();
+  content: "\f369"; }
+
+@mixin fa-address-book() {
+  content: "\f2b9"; }
+
+@mixin fa-address-card() {
+  content: "\f2bb"; }
+
+@mixin fa-adjust() { @include fas();
+  content: "\f042"; }
+
+@mixin fa-adn() { @include fab();
+  content: "\f170"; }
+
+@mixin fa-adversal() { @include fab();
+  content: "\f36a"; }
+
+@mixin fa-affiliatetheme() { @include fab();
+  content: "\f36b"; }
+
+@mixin fa-algolia() { @include fab();
+  content: "\f36c"; }
+
+@mixin fa-align-center() { @include fas();
+  content: "\f037"; }
+
+@mixin fa-align-justify() { @include fas();
+  content: "\f039"; }
+
+@mixin fa-align-left() { @include fas();
+  content: "\f036"; }
+
+@mixin fa-align-right() { @include fas();
+  content: "\f038"; }
+
+@mixin fa-amazon() { @include fab();
+  content: "\f270"; }
+
+@mixin fa-amazon-pay() { @include fab();
+  content: "\f42c"; }
+
+@mixin fa-ambulance() { @include fas();
+  content: "\f0f9"; }
+
+@mixin fa-american-sign-language-interpreting() { @include fas();
+  content: "\f2a3"; }
+
+@mixin fa-amilia() { @include fab();
+  content: "\f36d"; }
+
+@mixin fa-anchor() { @include fas();
+  content: "\f13d"; }
+
+@mixin fa-android() { @include fab();
+  content: "\f17b"; }
+
+@mixin fa-angellist() { @include fab();
+  content: "\f209"; }
+
+@mixin fa-angle-double-down() { @include fas();
+  content: "\f103"; }
+
+@mixin fa-angle-double-left() { @include fas();
+  content: "\f100"; }
+
+@mixin fa-angle-double-right() { @include fas();
+  content: "\f101"; }
+
+@mixin fa-angle-double-up() { @include fas();
+  content: "\f102"; }
+
+@mixin fa-angle-down() { @include fas();
+  content: "\f107"; }
+
+@mixin fa-angle-left() { @include fas();
+  content: "\f104"; }
+
+@mixin fa-angle-right() { @include fas();
+  content: "\f105"; }
+
+@mixin fa-angle-up() { @include fas();
+  content: "\f106"; }
+
+@mixin fa-angrycreative() { @include fab();
+  content: "\f36e"; }
+
+@mixin fa-angular() { @include fab();
+  content: "\f420"; }
+
+@mixin fa-app-store() { @include fab();
+  content: "\f36f"; }
+
+@mixin fa-app-store-ios() { @include fab();
+  content: "\f370"; }
+
+@mixin fa-apper() { @include fab();
+  content: "\f371"; }
+
+@mixin fa-apple() { @include fab();
+  content: "\f179"; }
+
+@mixin fa-apple-pay() { @include fab();
+  content: "\f415"; }
+
+@mixin fa-archive() { @include fas();
+  content: "\f187"; }
+
+@mixin fa-arrow-alt-circle-down() {
+  content: "\f358"; }
+
+@mixin fa-arrow-alt-circle-left() {
+  content: "\f359"; }
+
+@mixin fa-arrow-alt-circle-right() {
+  content: "\f35a"; }
+
+@mixin fa-arrow-alt-circle-up() {
+  content: "\f35b"; }
+
+@mixin fa-arrow-circle-down() { @include fas();
+  content: "\f0ab"; }
+
+@mixin fa-arrow-circle-left() { @include fas();
+  content: "\f0a8"; }
+
+@mixin fa-arrow-circle-right() { @include fas();
+  content: "\f0a9"; }
+
+@mixin fa-arrow-circle-up() { @include fas();
+  content: "\f0aa"; }
+
+@mixin fa-arrow-down() { @include fas();
+  content: "\f063"; }
+
+@mixin fa-arrow-left() { @include fas();
+  content: "\f060"; }
+
+@mixin fa-arrow-right() { @include fas();
+  content: "\f061"; }
+
+@mixin fa-arrow-up() { @include fas();
+  content: "\f062"; }
+
+@mixin fa-arrows-alt() { @include fas();
+  content: "\f0b2"; }
+
+@mixin fa-arrows-alt-h() { @include fas();
+  content: "\f337"; }
+
+@mixin fa-arrows-alt-v() { @include fas();
+  content: "\f338"; }
+
+@mixin fa-assistive-listening-systems() { @include fas();
+  content: "\f2a2"; }
+
+@mixin fa-asterisk() { @include fas();
+  content: "\f069"; }
+
+@mixin fa-asymmetrik() { @include fab();
+  content: "\f372"; }
+
+@mixin fa-at() { @include fas();
+  content: "\f1fa"; }
+
+@mixin fa-audible() { @include fab();
+  content: "\f373"; }
+
+@mixin fa-audio-description() { @include fas();
+  content: "\f29e"; }
+
+@mixin fa-autoprefixer() { @include fab();
+  content: "\f41c"; }
+
+@mixin fa-avianex() { @include fab();
+  content: "\f374"; }
+
+@mixin fa-aviato() { @include fab();
+  content: "\f421"; }
+
+@mixin fa-aws() { @include fab();
+  content: "\f375"; }
+
+@mixin fa-backward() { @include fas();
+  content: "\f04a"; }
+
+@mixin fa-balance-scale() { @include fas();
+  content: "\f24e"; }
+
+@mixin fa-ban() { @include fas();
+  content: "\f05e"; }
+
+@mixin fa-band-aid() { @include fas();
+  content: "\f462"; }
+
+@mixin fa-bandcamp() { @include fab();
+  content: "\f2d5"; }
+
+@mixin fa-barcode() { @include fas();
+  content: "\f02a"; }
+
+@mixin fa-bars() { @include fas();
+  content: "\f0c9"; }
+
+@mixin fa-baseball-ball() { @include fas();
+  content: "\f433"; }
+
+@mixin fa-basketball-ball() { @include fas();
+  content: "\f434"; }
+
+@mixin fa-bath() { @include fas();
+  content: "\f2cd"; }
+
+@mixin fa-battery-empty() { @include fas();
+  content: "\f244"; }
+
+@mixin fa-battery-full() { @include fas();
+  content: "\f240"; }
+
+@mixin fa-battery-half() { @include fas();
+  content: "\f242"; }
+
+@mixin fa-battery-quarter() { @include fas();
+  content: "\f243"; }
+
+@mixin fa-battery-three-quarters() { @include fas();
+  content: "\f241"; }
+
+@mixin fa-bed() { @include fas();
+  content: "\f236"; }
+
+@mixin fa-beer() { @include fas();
+  content: "\f0fc"; }
+
+@mixin fa-behance() { @include fab();
+  content: "\f1b4"; }
+
+@mixin fa-behance-square() { @include fab();
+  content: "\f1b5"; }
+
+@mixin fa-bell() {
+  content: "\f0f3"; }
+
+@mixin fa-bell-slash() {
+  content: "\f1f6"; }
+
+@mixin fa-bicycle() { @include fas();
+  content: "\f206"; }
+
+@mixin fa-bimobject() { @include fab();
+  content: "\f378"; }
+
+@mixin fa-binoculars() { @include fas();
+  content: "\f1e5"; }
+
+@mixin fa-birthday-cake() { @include fas();
+  content: "\f1fd"; }
+
+@mixin fa-bitbucket() { @include fab();
+  content: "\f171"; }
+
+@mixin fa-bitcoin() { @include fab();
+  content: "\f379"; }
+
+@mixin fa-bity() { @include fab();
+  content: "\f37a"; }
+
+@mixin fa-black-tie() { @include fab();
+  content: "\f27e"; }
+
+@mixin fa-blackberry() { @include fab();
+  content: "\f37b"; }
+
+@mixin fa-blind() { @include fas();
+  content: "\f29d"; }
+
+@mixin fa-blogger() { @include fab();
+  content: "\f37c"; }
+
+@mixin fa-blogger-b() { @include fab();
+  content: "\f37d"; }
+
+@mixin fa-bluetooth() { @include fab();
+  content: "\f293"; }
+
+@mixin fa-bluetooth-b() { @include fab();
+  content: "\f294"; }
+
+@mixin fa-bold() { @include fas();
+  content: "\f032"; }
+
+@mixin fa-bolt() { @include fas();
+  content: "\f0e7"; }
+
+@mixin fa-bomb() { @include fas();
+  content: "\f1e2"; }
+
+@mixin fa-book() { @include fas();
+  content: "\f02d"; }
+
+@mixin fa-bookmark() {
+  content: "\f02e"; }
+
+@mixin fa-bowling-ball() { @include fas();
+  content: "\f436"; }
+
+@mixin fa-box() { @include fas();
+  content: "\f466"; }
+
+@mixin fa-boxes() { @include fas();
+  content: "\f468"; }
+
+@mixin fa-braille() { @include fas();
+  content: "\f2a1"; }
+
+@mixin fa-briefcase() { @include fas();
+  content: "\f0b1"; }
+
+@mixin fa-btc() { @include fab();
+  content: "\f15a"; }
+
+@mixin fa-bug() { @include fas();
+  content: "\f188"; }
+
+@mixin fa-building() {
+  content: "\f1ad"; }
+
+@mixin fa-bullhorn() { @include fas();
+  content: "\f0a1"; }
+
+@mixin fa-bullseye() { @include fas();
+  content: "\f140"; }
+
+@mixin fa-buromobelexperte() { @include fab();
+  content: "\f37f"; }
+
+@mixin fa-bus() { @include fas();
+  content: "\f207"; }
+
+@mixin fa-buysellads() { @include fab();
+  content: "\f20d"; }
+
+@mixin fa-calculator() { @include fas();
+  content: "\f1ec"; }
+
+@mixin fa-calendar() {
+  content: "\f133"; }
+
+@mixin fa-calendar-alt() {
+  content: "\f073"; }
+
+@mixin fa-calendar-check() {
+  content: "\f274"; }
+
+@mixin fa-calendar-minus() {
+  content: "\f272"; }
+
+@mixin fa-calendar-plus() {
+  content: "\f271"; }
+
+@mixin fa-calendar-times() {
+  content: "\f273"; }
+
+@mixin fa-camera() { @include fas();
+  content: "\f030"; }
+
+@mixin fa-camera-retro() { @include fas();
+  content: "\f083"; }
+
+@mixin fa-car() { @include fas();
+  content: "\f1b9"; }
+
+@mixin fa-caret-down() { @include fas();
+  content: "\f0d7"; }
+
+@mixin fa-caret-left() { @include fas();
+  content: "\f0d9"; }
+
+@mixin fa-caret-right() { @include fas();
+  content: "\f0da"; }
+
+@mixin fa-caret-square-down() {
+  content: "\f150"; }
+
+@mixin fa-caret-square-left() {
+  content: "\f191"; }
+
+@mixin fa-caret-square-right() {
+  content: "\f152"; }
+
+@mixin fa-caret-square-up() {
+  content: "\f151"; }
+
+@mixin fa-caret-up() { @include fas();
+  content: "\f0d8"; }
+
+@mixin fa-cart-arrow-down() { @include fas();
+  content: "\f218"; }
+
+@mixin fa-cart-plus() { @include fas();
+  content: "\f217"; }
+
+@mixin fa-cc-amazon-pay() { @include fab();
+  content: "\f42d"; }
+
+@mixin fa-cc-amex() { @include fab();
+  content: "\f1f3"; }
+
+@mixin fa-cc-apple-pay() { @include fab();
+  content: "\f416"; }
+
+@mixin fa-cc-diners-club() { @include fab();
+  content: "\f24c"; }
+
+@mixin fa-cc-discover() { @include fab();
+  content: "\f1f2"; }
+
+@mixin fa-cc-jcb() { @include fab();
+  content: "\f24b"; }
+
+@mixin fa-cc-mastercard() { @include fab();
+  content: "\f1f1"; }
+
+@mixin fa-cc-paypal() { @include fab();
+  content: "\f1f4"; }
+
+@mixin fa-cc-stripe() { @include fab();
+  content: "\f1f5"; }
+
+@mixin fa-cc-visa() { @include fab();
+  content: "\f1f0"; }
+
+@mixin fa-centercode() { @include fab();
+  content: "\f380"; }
+
+@mixin fa-certificate() { @include fas();
+  content: "\f0a3"; }
+
+@mixin fa-chart-area() { @include fas();
+  content: "\f1fe"; }
+
+@mixin fa-chart-bar() {
+  content: "\f080"; }
+
+@mixin fa-chart-line() { @include fas();
+  content: "\f201"; }
+
+@mixin fa-chart-pie() { @include fas();
+  content: "\f200"; }
+
+@mixin fa-check() { @include fas();
+  content: "\f00c"; }
+
+@mixin fa-check-circle() {
+  content: "\f058"; }
+
+@mixin fa-check-square() {
+  content: "\f14a"; }
+
+@mixin fa-chess() { @include fas();
+  content: "\f439"; }
+
+@mixin fa-chess-bishop() { @include fas();
+  content: "\f43a"; }
+
+@mixin fa-chess-board() { @include fas();
+  content: "\f43c"; }
+
+@mixin fa-chess-king() { @include fas();
+  content: "\f43f"; }
+
+@mixin fa-chess-knight() { @include fas();
+  content: "\f441"; }
+
+@mixin fa-chess-pawn() { @include fas();
+  content: "\f443"; }
+
+@mixin fa-chess-queen() { @include fas();
+  content: "\f445"; }
+
+@mixin fa-chess-rook() { @include fas();
+  content: "\f447"; }
+
+@mixin fa-chevron-circle-down() { @include fas();
+  content: "\f13a"; }
+
+@mixin fa-chevron-circle-left() { @include fas();
+  content: "\f137"; }
+
+@mixin fa-chevron-circle-right() { @include fas();
+  content: "\f138"; }
+
+@mixin fa-chevron-circle-up() { @include fas();
+  content: "\f139"; }
+
+@mixin fa-chevron-down() { @include fas();
+  content: "\f078"; }
+
+@mixin fa-chevron-left() { @include fas();
+  content: "\f053"; }
+
+@mixin fa-chevron-right() { @include fas();
+  content: "\f054"; }
+
+@mixin fa-chevron-up() { @include fas();
+  content: "\f077"; }
+
+@mixin fa-child() { @include fas();
+  content: "\f1ae"; }
+
+@mixin fa-chrome() { @include fab();
+  content: "\f268"; }
+
+@mixin fa-circle() {
+  content: "\f111"; }
+
+@mixin fa-circle-notch() { @include fas();
+  content: "\f1ce"; }
+
+@mixin fa-clipboard() {
+  content: "\f328"; }
+
+@mixin fa-clipboard-check() { @include fas();
+  content: "\f46c"; }
+
+@mixin fa-clipboard-list() { @include fas();
+  content: "\f46d"; }
+
+@mixin fa-clock() {
+  content: "\f017"; }
+
+@mixin fa-clone() {
+  content: "\f24d"; }
+
+@mixin fa-closed-captioning() {
+  content: "\f20a"; }
+
+@mixin fa-cloud() { @include fas();
+  content: "\f0c2"; }
+
+@mixin fa-cloud-download-alt() { @include fas();
+  content: "\f381"; }
+
+@mixin fa-cloud-upload-alt() { @include fas();
+  content: "\f382"; }
+
+@mixin fa-cloudscale() { @include fab();
+  content: "\f383"; }
+
+@mixin fa-cloudsmith() { @include fab();
+  content: "\f384"; }
+
+@mixin fa-cloudversify() { @include fab();
+  content: "\f385"; }
+
+@mixin fa-code() { @include fas();
+  content: "\f121"; }
+
+@mixin fa-code-branch() { @include fas();
+  content: "\f126"; }
+
+@mixin fa-codepen() { @include fab();
+  content: "\f1cb"; }
+
+@mixin fa-codiepie() { @include fab();
+  content: "\f284"; }
+
+@mixin fa-coffee() { @include fas();
+  content: "\f0f4"; }
+
+@mixin fa-cog() { @include fas();
+  content: "\f013"; }
+
+@mixin fa-cogs() { @include fas();
+  content: "\f085"; }
+
+@mixin fa-columns() { @include fas();
+  content: "\f0db"; }
+
+@mixin fa-comment() {
+  content: "\f075"; }
+
+@mixin fa-comment-alt() {
+  content: "\f27a"; }
+
+@mixin fa-comments() {
+  content: "\f086"; }
+
+@mixin fa-compass() {
+  content: "\f14e"; }
+
+@mixin fa-compress() { @include fas();
+  content: "\f066"; }
+
+@mixin fa-connectdevelop() { @include fab();
+  content: "\f20e"; }
+
+@mixin fa-contao() { @include fab();
+  content: "\f26d"; }
+
+@mixin fa-copy() {
+  content: "\f0c5"; }
+
+@mixin fa-copyright() {
+  content: "\f1f9"; }
+
+@mixin fa-cpanel() { @include fab();
+  content: "\f388"; }
+
+@mixin fa-creative-commons() { @include fab();
+  content: "\f25e"; }
+
+@mixin fa-credit-card() {
+  content: "\f09d"; }
+
+@mixin fa-crop() { @include fas();
+  content: "\f125"; }
+
+@mixin fa-crosshairs() { @include fas();
+  content: "\f05b"; }
+
+@mixin fa-css3() { @include fab();
+  content: "\f13c"; }
+
+@mixin fa-css3-alt() { @include fab();
+  content: "\f38b"; }
+
+@mixin fa-cube() { @include fas();
+  content: "\f1b2"; }
+
+@mixin fa-cubes() { @include fas();
+  content: "\f1b3"; }
+
+@mixin fa-cut() { @include fas();
+  content: "\f0c4"; }
+
+@mixin fa-cuttlefish() { @include fab();
+  content: "\f38c"; }
+
+@mixin fa-d-and-d() { @include fab();
+  content: "\f38d"; }
+
+@mixin fa-dashcube() { @include fab();
+  content: "\f210"; }
+
+@mixin fa-database() { @include fas();
+  content: "\f1c0"; }
+
+@mixin fa-deaf() { @include fas();
+  content: "\f2a4"; }
+
+@mixin fa-delicious() { @include fab();
+  content: "\f1a5"; }
+
+@mixin fa-deploydog() { @include fab();
+  content: "\f38e"; }
+
+@mixin fa-deskpro() { @include fab();
+  content: "\f38f"; }
+
+@mixin fa-desktop() { @include fas();
+  content: "\f108"; }
+
+@mixin fa-deviantart() { @include fab();
+  content: "\f1bd"; }
+
+@mixin fa-digg() { @include fab();
+  content: "\f1a6"; }
+
+@mixin fa-digital-ocean() { @include fab();
+  content: "\f391"; }
+
+@mixin fa-discord() { @include fab();
+  content: "\f392"; }
+
+@mixin fa-discourse() { @include fab();
+  content: "\f393"; }
+
+@mixin fa-dna() { @include fas();
+  content: "\f471"; }
+
+@mixin fa-dochub() { @include fab();
+  content: "\f394"; }
+
+@mixin fa-docker() { @include fab();
+  content: "\f395"; }
+
+@mixin fa-dollar-sign() { @include fas();
+  content: "\f155"; }
+
+@mixin fa-dolly() { @include fas();
+  content: "\f472"; }
+
+@mixin fa-dolly-flatbed() { @include fas();
+  content: "\f474"; }
+
+@mixin fa-dot-circle() {
+  content: "\f192"; }
+
+@mixin fa-download() { @include fas();
+  content: "\f019"; }
+
+@mixin fa-draft2digital() { @include fab();
+  content: "\f396"; }
+
+@mixin fa-dribbble() { @include fab();
+  content: "\f17d"; }
+
+@mixin fa-dribbble-square() { @include fab();
+  content: "\f397"; }
+
+@mixin fa-dropbox() { @include fab();
+  content: "\f16b"; }
+
+@mixin fa-drupal() { @include fab();
+  content: "\f1a9"; }
+
+@mixin fa-dyalog() { @include fab();
+  content: "\f399"; }
+
+@mixin fa-earlybirds() { @include fab();
+  content: "\f39a"; }
+
+@mixin fa-edge() { @include fab();
+  content: "\f282"; }
+
+@mixin fa-edit() {
+  content: "\f044"; }
+
+@mixin fa-eject() { @include fas();
+  content: "\f052"; }
+
+@mixin fa-elementor() { @include fab();
+  content: "\f430"; }
+
+@mixin fa-ellipsis-h() { @include fas();
+  content: "\f141"; }
+
+@mixin fa-ellipsis-v() { @include fas();
+  content: "\f142"; }
+
+@mixin fa-ember() { @include fab();
+  content: "\f423"; }
+
+@mixin fa-empire() { @include fab();
+  content: "\f1d1"; }
+
+@mixin fa-envelope() {
+  content: "\f0e0"; }
+
+@mixin fa-envelope-open() {
+  content: "\f2b6"; }
+
+@mixin fa-envelope-square() { @include fas();
+  content: "\f199"; }
+
+@mixin fa-envira() { @include fab();
+  content: "\f299"; }
+
+@mixin fa-eraser() { @include fas();
+  content: "\f12d"; }
+
+@mixin fa-erlang() { @include fab();
+  content: "\f39d"; }
+
+@mixin fa-ethereum() { @include fab();
+  content: "\f42e"; }
+
+@mixin fa-etsy() { @include fab();
+  content: "\f2d7"; }
+
+@mixin fa-euro-sign() { @include fas();
+  content: "\f153"; }
+
+@mixin fa-exchange-alt() { @include fas();
+  content: "\f362"; }
+
+@mixin fa-exclamation() { @include fas();
+  content: "\f12a"; }
+
+@mixin fa-exclamation-circle() { @include fas();
+  content: "\f06a"; }
+
+@mixin fa-exclamation-triangle() { @include fas();
+  content: "\f071"; }
+
+@mixin fa-expand() { @include fas();
+  content: "\f065"; }
+
+@mixin fa-expand-arrows-alt() { @include fas();
+  content: "\f31e"; }
+
+@mixin fa-expeditedssl() { @include fab();
+  content: "\f23e"; }
+
+@mixin fa-external-link-alt() { @include fas();
+  content: "\f35d"; }
+
+@mixin fa-external-link-square-alt() { @include fas();
+  content: "\f360"; }
+
+@mixin fa-eye() { @include fas();
+  content: "\f06e"; }
+
+@mixin fa-eye-dropper() { @include fas();
+  content: "\f1fb"; }
+
+@mixin fa-eye-slash() {
+  content: "\f070"; }
+
+@mixin fa-facebook() { @include fab();
+  content: "\f09a"; }
+
+@mixin fa-facebook-f() { @include fab();
+  content: "\f39e"; }
+
+@mixin fa-facebook-messenger() { @include fab();
+  content: "\f39f"; }
+
+@mixin fa-facebook-square() { @include fab();
+  content: "\f082"; }
+
+@mixin fa-fast-backward() { @include fas();
+  content: "\f049"; }
+
+@mixin fa-fast-forward() { @include fas();
+  content: "\f050"; }
+
+@mixin fa-fax() { @include fas();
+  content: "\f1ac"; }
+
+@mixin fa-female() { @include fas();
+  content: "\f182"; }
+
+@mixin fa-fighter-jet() { @include fas();
+  content: "\f0fb"; }
+
+@mixin fa-file() {
+  content: "\f15b"; }
+
+@mixin fa-file-alt() {
+  content: "\f15c"; }
+
+@mixin fa-file-archive() {
+  content: "\f1c6"; }
+
+@mixin fa-file-audio() {
+  content: "\f1c7"; }
+
+@mixin fa-file-code() {
+  content: "\f1c9"; }
+
+@mixin fa-file-excel() {
+  content: "\f1c3"; }
+
+@mixin fa-file-image() {
+  content: "\f1c5"; }
+
+@mixin fa-file-pdf() {
+  content: "\f1c1"; }
+
+@mixin fa-file-powerpoint() {
+  content: "\f1c4"; }
+
+@mixin fa-file-video() {
+  content: "\f1c8"; }
+
+@mixin fa-file-word() {
+  content: "\f1c2"; }
+
+@mixin fa-film() { @include fas();
+  content: "\f008"; }
+
+@mixin fa-filter() { @include fas();
+  content: "\f0b0"; }
+
+@mixin fa-fire() { @include fas();
+  content: "\f06d"; }
+
+@mixin fa-fire-extinguisher() { @include fas();
+  content: "\f134"; }
+
+@mixin fa-firefox() { @include fab();
+  content: "\f269"; }
+
+@mixin fa-first-aid() { @include fas();
+  content: "\f479"; }
+
+@mixin fa-first-order() { @include fab();
+  content: "\f2b0"; }
+
+@mixin fa-firstdraft() { @include fab();
+  content: "\f3a1"; }
+
+@mixin fa-flag() {
+  content: "\f024"; }
+
+@mixin fa-flag-checkered() { @include fas();
+  content: "\f11e"; }
+
+@mixin fa-flask() { @include fas();
+  content: "\f0c3"; }
+
+@mixin fa-flickr() { @include fab();
+  content: "\f16e"; }
+
+@mixin fa-flipboard() { @include fab();
+  content: "\f44d"; }
+
+@mixin fa-fly() { @include fab();
+  content: "\f417"; }
+
+@mixin fa-folder() {
+  content: "\f07b"; }
+
+@mixin fa-folder-open() {
+  content: "\f07c"; }
+
+@mixin fa-font() { @include fas();
+  content: "\f031"; }
+
+@mixin fa-font-awesome() { @include fab();
+  content: "\f2b4"; }
+
+@mixin fa-font-awesome-alt() { @include fab();
+  content: "\f35c"; }
+
+@mixin fa-font-awesome-flag() { @include fab();
+  content: "\f425"; }
+
+@mixin fa-fonticons() { @include fab();
+  content: "\f280"; }
+
+@mixin fa-fonticons-fi() { @include fab();
+  content: "\f3a2"; }
+
+@mixin fa-football-ball() { @include fas();
+  content: "\f44e"; }
+
+@mixin fa-fort-awesome() { @include fab();
+  content: "\f286"; }
+
+@mixin fa-fort-awesome-alt() { @include fab();
+  content: "\f3a3"; }
+
+@mixin fa-forumbee() { @include fab();
+  content: "\f211"; }
+
+@mixin fa-forward() { @include fas();
+  content: "\f04e"; }
+
+@mixin fa-foursquare() { @include fab();
+  content: "\f180"; }
+
+@mixin fa-free-code-camp() { @include fab();
+  content: "\f2c5"; }
+
+@mixin fa-freebsd() { @include fab();
+  content: "\f3a4"; }
+
+@mixin fa-frown() {
+  content: "\f119"; }
+
+@mixin fa-futbol() {
+  content: "\f1e3"; }
+
+@mixin fa-gamepad() { @include fas();
+  content: "\f11b"; }
+
+@mixin fa-gavel() { @include fas();
+  content: "\f0e3"; }
+
+@mixin fa-gem() {
+  content: "\f3a5"; }
+
+@mixin fa-genderless() { @include fas();
+  content: "\f22d"; }
+
+@mixin fa-get-pocket() { @include fab();
+  content: "\f265"; }
+
+@mixin fa-gg() { @include fab();
+  content: "\f260"; }
+
+@mixin fa-gg-circle() { @include fab();
+  content: "\f261"; }
+
+@mixin fa-gift() { @include fas();
+  content: "\f06b"; }
+
+@mixin fa-git() { @include fab();
+  content: "\f1d3"; }
+
+@mixin fa-git-square() { @include fab();
+  content: "\f1d2"; }
+
+@mixin fa-github() { @include fab();
+  content: "\f09b"; }
+
+@mixin fa-github-alt() { @include fab();
+  content: "\f113"; }
+
+@mixin fa-github-square() { @include fab();
+  content: "\f092"; }
+
+@mixin fa-gitkraken() { @include fab();
+  content: "\f3a6"; }
+
+@mixin fa-gitlab() { @include fab();
+  content: "\f296"; }
+
+@mixin fa-gitter() { @include fab();
+  content: "\f426"; }
+
+@mixin fa-glass-martini() { @include fas();
+  content: "\f000"; }
+
+@mixin fa-glide() { @include fab();
+  content: "\f2a5"; }
+
+@mixin fa-glide-g() { @include fab();
+  content: "\f2a6"; }
+
+@mixin fa-globe() { @include fas();
+  content: "\f0ac"; }
+
+@mixin fa-gofore() { @include fab();
+  content: "\f3a7"; }
+
+@mixin fa-golf-ball() { @include fas();
+  content: "\f450"; }
+
+@mixin fa-goodreads() { @include fab();
+  content: "\f3a8"; }
+
+@mixin fa-goodreads-g() { @include fab();
+  content: "\f3a9"; }
+
+@mixin fa-google() { @include fab();
+  content: "\f1a0"; }
+
+@mixin fa-google-drive() { @include fab();
+  content: "\f3aa"; }
+
+@mixin fa-google-play() { @include fab();
+  content: "\f3ab"; }
+
+@mixin fa-google-plus() { @include fab();
+  content: "\f2b3"; }
+
+@mixin fa-google-plus-g() { @include fab();
+  content: "\f0d5"; }
+
+@mixin fa-google-plus-square() { @include fab();
+  content: "\f0d4"; }
+
+@mixin fa-google-wallet() { @include fab();
+  content: "\f1ee"; }
+
+@mixin fa-graduation-cap() { @include fas();
+  content: "\f19d"; }
+
+@mixin fa-gratipay() { @include fab();
+  content: "\f184"; }
+
+@mixin fa-grav() { @include fab();
+  content: "\f2d6"; }
+
+@mixin fa-gripfire() { @include fab();
+  content: "\f3ac"; }
+
+@mixin fa-grunt() { @include fab();
+  content: "\f3ad"; }
+
+@mixin fa-gulp() { @include fab();
+  content: "\f3ae"; }
+
+@mixin fa-h-square() { @include fas();
+  content: "\f0fd"; }
+
+@mixin fa-hacker-news() { @include fab();
+  content: "\f1d4"; }
+
+@mixin fa-hacker-news-square() { @include fab();
+  content: "\f3af"; }
+
+@mixin fa-hand-lizard() {
+  content: "\f258"; }
+
+@mixin fa-hand-paper() {
+  content: "\f256"; }
+
+@mixin fa-hand-peace() {
+  content: "\f25b"; }
+
+@mixin fa-hand-point-down() {
+  content: "\f0a7"; }
+
+@mixin fa-hand-point-left() {
+  content: "\f0a5"; }
+
+@mixin fa-hand-point-right() {
+  content: "\f0a4"; }
+
+@mixin fa-hand-point-up() {
+  content: "\f0a6"; }
+
+@mixin fa-hand-pointer() {
+  content: "\f25a"; }
+
+@mixin fa-hand-rock() {
+  content: "\f255"; }
+
+@mixin fa-hand-scissors() {
+  content: "\f257"; }
+
+@mixin fa-hand-spock() {
+  content: "\f259"; }
+
+@mixin fa-handshake() {
+  content: "\f2b5"; }
+
+@mixin fa-hashtag() { @include fas();
+  content: "\f292"; }
+
+@mixin fa-hdd() {
+  content: "\f0a0"; }
+
+@mixin fa-heading() { @include fas();
+  content: "\f1dc"; }
+
+@mixin fa-headphones() { @include fas();
+  content: "\f025"; }
+
+@mixin fa-heart() {
+  content: "\f004"; }
+
+@mixin fa-heartbeat() { @include fas();
+  content: "\f21e"; }
+
+@mixin fa-hips() { @include fab();
+  content: "\f452"; }
+
+@mixin fa-hire-a-helper() { @include fab();
+  content: "\f3b0"; }
+
+@mixin fa-history() { @include fas();
+  content: "\f1da"; }
+
+@mixin fa-hockey-puck() { @include fas();
+  content: "\f453"; }
+
+@mixin fa-home() { @include fas();
+  content: "\f015"; }
+
+@mixin fa-hooli() { @include fab();
+  content: "\f427"; }
+
+@mixin fa-hospital() {
+  content: "\f0f8"; }
+
+@mixin fa-hospital-symbol() { @include fas();
+  content: "\f47e"; }
+
+@mixin fa-hotjar() { @include fab();
+  content: "\f3b1"; }
+
+@mixin fa-hourglass() {
+  content: "\f254"; }
+
+@mixin fa-hourglass-end() { @include fas();
+  content: "\f253"; }
+
+@mixin fa-hourglass-half() { @include fas();
+  content: "\f252"; }
+
+@mixin fa-hourglass-start() { @include fas();
+  content: "\f251"; }
+
+@mixin fa-houzz() { @include fab();
+  content: "\f27c"; }
+
+@mixin fa-html5() { @include fab();
+  content: "\f13b"; }
+
+@mixin fa-hubspot() { @include fab();
+  content: "\f3b2"; }
+
+@mixin fa-i-cursor() { @include fas();
+  content: "\f246"; }
+
+@mixin fa-id-badge() {
+  content: "\f2c1"; }
+
+@mixin fa-id-card() {
+  content: "\f2c2"; }
+
+@mixin fa-image() {
+  content: "\f03e"; }
+
+@mixin fa-images() {
+  content: "\f302"; }
+
+@mixin fa-imdb() { @include fab();
+  content: "\f2d8"; }
+
+@mixin fa-inbox() { @include fas();
+  content: "\f01c"; }
+
+@mixin fa-indent() { @include fas();
+  content: "\f03c"; }
+
+@mixin fa-industry() { @include fas();
+  content: "\f275"; }
+
+@mixin fa-info() { @include fas();
+  content: "\f129"; }
+
+@mixin fa-info-circle() { @include fas();
+  content: "\f05a"; }
+
+@mixin fa-instagram() { @include fab();
+  content: "\f16d"; }
+
+@mixin fa-internet-explorer() { @include fab();
+  content: "\f26b"; }
+
+@mixin fa-ioxhost() { @include fab();
+  content: "\f208"; }
+
+@mixin fa-italic() { @include fas();
+  content: "\f033"; }
+
+@mixin fa-itunes() { @include fab();
+  content: "\f3b4"; }
+
+@mixin fa-itunes-note() { @include fab();
+  content: "\f3b5"; }
+
+@mixin fa-jenkins() { @include fab();
+  content: "\f3b6"; }
+
+@mixin fa-joget() { @include fab();
+  content: "\f3b7"; }
+
+@mixin fa-joomla() { @include fab();
+  content: "\f1aa"; }
+
+@mixin fa-js() { @include fab();
+  content: "\f3b8"; }
+
+@mixin fa-js-square() { @include fab();
+  content: "\f3b9"; }
+
+@mixin fa-jsfiddle() { @include fab();
+  content: "\f1cc"; }
+
+@mixin fa-key() { @include fas();
+  content: "\f084"; }
+
+@mixin fa-keyboard() {
+  content: "\f11c"; }
+
+@mixin fa-keycdn() { @include fab();
+  content: "\f3ba"; }
+
+@mixin fa-kickstarter() { @include fab();
+  content: "\f3bb"; }
+
+@mixin fa-kickstarter-k() { @include fab();
+  content: "\f3bc"; }
+
+@mixin fa-korvue() { @include fab();
+  content: "\f42f"; }
+
+@mixin fa-language() { @include fas();
+  content: "\f1ab"; }
+
+@mixin fa-laptop() { @include fas();
+  content: "\f109"; }
+
+@mixin fa-laravel() { @include fab();
+  content: "\f3bd"; }
+
+@mixin fa-lastfm() { @include fab();
+  content: "\f202"; }
+
+@mixin fa-lastfm-square() { @include fab();
+  content: "\f203"; }
+
+@mixin fa-leaf() { @include fas();
+  content: "\f06c"; }
+
+@mixin fa-leanpub() { @include fab();
+  content: "\f212"; }
+
+@mixin fa-lemon() {
+  content: "\f094"; }
+
+@mixin fa-less() { @include fab();
+  content: "\f41d"; }
+
+@mixin fa-level-down-alt() { @include fas();
+  content: "\f3be"; }
+
+@mixin fa-level-up-alt() { @include fas();
+  content: "\f3bf"; }
+
+@mixin fa-life-ring() {
+  content: "\f1cd"; }
+
+@mixin fa-lightbulb() {
+  content: "\f0eb"; }
+
+@mixin fa-line() { @include fab();
+  content: "\f3c0"; }
+
+@mixin fa-link() { @include fas();
+  content: "\f0c1"; }
+
+@mixin fa-linkedin() { @include fab();
+  content: "\f08c"; }
+
+@mixin fa-linkedin-in() { @include fab();
+  content: "\f0e1"; }
+
+@mixin fa-linode() { @include fab();
+  content: "\f2b8"; }
+
+@mixin fa-linux() { @include fab();
+  content: "\f17c"; }
+
+@mixin fa-lira-sign() { @include fas();
+  content: "\f195"; }
+
+@mixin fa-list() { @include fas();
+  content: "\f03a"; }
+
+@mixin fa-list-alt() {
+  content: "\f022"; }
+
+@mixin fa-list-ol() { @include fas();
+  content: "\f0cb"; }
+
+@mixin fa-list-ul() { @include fas();
+  content: "\f0ca"; }
+
+@mixin fa-location-arrow() { @include fas();
+  content: "\f124"; }
+
+@mixin fa-lock() { @include fas();
+  content: "\f023"; }
+
+@mixin fa-lock-open() { @include fas();
+  content: "\f3c1"; }
+
+@mixin fa-long-arrow-alt-down() { @include fas();
+  content: "\f309"; }
+
+@mixin fa-long-arrow-alt-left() { @include fas();
+  content: "\f30a"; }
+
+@mixin fa-long-arrow-alt-right() { @include fas();
+  content: "\f30b"; }
+
+@mixin fa-long-arrow-alt-up() { @include fas();
+  content: "\f30c"; }
+
+@mixin fa-low-vision() { @include fas();
+  content: "\f2a8"; }
+
+@mixin fa-lyft() { @include fab();
+  content: "\f3c3"; }
+
+@mixin fa-magento() { @include fab();
+  content: "\f3c4"; }
+
+@mixin fa-magic() { @include fas();
+  content: "\f0d0"; }
+
+@mixin fa-magnet() { @include fas();
+  content: "\f076"; }
+
+@mixin fa-male() { @include fas();
+  content: "\f183"; }
+
+@mixin fa-map() {
+  content: "\f279"; }
+
+@mixin fa-map-marker() { @include fas();
+  content: "\f041"; }
+
+@mixin fa-map-marker-alt() { @include fas();
+  content: "\f3c5"; }
+
+@mixin fa-map-pin() { @include fas();
+  content: "\f276"; }
+
+@mixin fa-map-signs() { @include fas();
+  content: "\f277"; }
+
+@mixin fa-mars() { @include fas();
+  content: "\f222"; }
+
+@mixin fa-mars-double() { @include fas();
+  content: "\f227"; }
+
+@mixin fa-mars-stroke() { @include fas();
+  content: "\f229"; }
+
+@mixin fa-mars-stroke-h() { @include fas();
+  content: "\f22b"; }
+
+@mixin fa-mars-stroke-v() { @include fas();
+  content: "\f22a"; }
+
+@mixin fa-maxcdn() { @include fab();
+  content: "\f136"; }
+
+@mixin fa-medapps() { @include fab();
+  content: "\f3c6"; }
+
+@mixin fa-medium() { @include fab();
+  content: "\f23a"; }
+
+@mixin fa-medium-m() { @include fab();
+  content: "\f3c7"; }
+
+@mixin fa-medkit() { @include fas();
+  content: "\f0fa"; }
+
+@mixin fa-medrt() { @include fab();
+  content: "\f3c8"; }
+
+@mixin fa-meetup() { @include fab();
+  content: "\f2e0"; }
+
+@mixin fa-meh() {
+  content: "\f11a"; }
+
+@mixin fa-mercury() { @include fas();
+  content: "\f223"; }
+
+@mixin fa-microchip() { @include fas();
+  content: "\f2db"; }
+
+@mixin fa-microphone() { @include fas();
+  content: "\f130"; }
+
+@mixin fa-microphone-slash() { @include fas();
+  content: "\f131"; }
+
+@mixin fa-microsoft() { @include fab();
+  content: "\f3ca"; }
+
+@mixin fa-minus() { @include fas();
+  content: "\f068"; }
+
+@mixin fa-minus-circle() { @include fas();
+  content: "\f056"; }
+
+@mixin fa-minus-square() {
+  content: "\f146"; }
+
+@mixin fa-mix() { @include fab();
+  content: "\f3cb"; }
+
+@mixin fa-mixcloud() { @include fab();
+  content: "\f289"; }
+
+@mixin fa-mizuni() { @include fab();
+  content: "\f3cc"; }
+
+@mixin fa-mobile() { @include fas();
+  content: "\f10b"; }
+
+@mixin fa-mobile-alt() { @include fas();
+  content: "\f3cd"; }
+
+@mixin fa-modx() { @include fab();
+  content: "\f285"; }
+
+@mixin fa-monero() { @include fab();
+  content: "\f3d0"; }
+
+@mixin fa-money-bill-alt() {
+  content: "\f3d1"; }
+
+@mixin fa-moon() {
+  content: "\f186"; }
+
+@mixin fa-motorcycle() { @include fas();
+  content: "\f21c"; }
+
+@mixin fa-mouse-pointer() { @include fas();
+  content: "\f245"; }
+
+@mixin fa-music() { @include fas();
+  content: "\f001"; }
+
+@mixin fa-napster() { @include fab();
+  content: "\f3d2"; }
+
+@mixin fa-neuter() { @include fas();
+  content: "\f22c"; }
+
+@mixin fa-newspaper() {
+  content: "\f1ea"; }
+
+@mixin fa-nintendo-switch() { @include fab();
+  content: "\f418"; }
+
+@mixin fa-node() { @include fab();
+  content: "\f419"; }
+
+@mixin fa-node-js() { @include fab();
+  content: "\f3d3"; }
+
+@mixin fa-npm() { @include fab();
+  content: "\f3d4"; }
+
+@mixin fa-ns8() { @include fab();
+  content: "\f3d5"; }
+
+@mixin fa-nutritionix() { @include fab();
+  content: "\f3d6"; }
+
+@mixin fa-object-group() {
+  content: "\f247"; }
+
+@mixin fa-object-ungroup() {
+  content: "\f248"; }
+
+@mixin fa-odnoklassniki() { @include fab();
+  content: "\f263"; }
+
+@mixin fa-odnoklassniki-square() { @include fab();
+  content: "\f264"; }
+
+@mixin fa-opencart() { @include fab();
+  content: "\f23d"; }
+
+@mixin fa-openid() { @include fab();
+  content: "\f19b"; }
+
+@mixin fa-opera() { @include fab();
+  content: "\f26a"; }
+
+@mixin fa-optin-monster() { @include fab();
+  content: "\f23c"; }
+
+@mixin fa-osi() { @include fab();
+  content: "\f41a"; }
+
+@mixin fa-outdent() { @include fas();
+  content: "\f03b"; }
+
+@mixin fa-page4() { @include fab();
+  content: "\f3d7"; }
+
+@mixin fa-pagelines() { @include fab();
+  content: "\f18c"; }
+
+@mixin fa-paint-brush() { @include fas();
+  content: "\f1fc"; }
+
+@mixin fa-palfed() { @include fab();
+  content: "\f3d8"; }
+
+@mixin fa-pallet() { @include fas();
+  content: "\f482"; }
+
+@mixin fa-paper-plane() {
+  content: "\f1d8"; }
+
+@mixin fa-paperclip() { @include fas();
+  content: "\f0c6"; }
+
+@mixin fa-paragraph() { @include fas();
+  content: "\f1dd"; }
+
+@mixin fa-paste() { @include fas();
+  content: "\f0ea"; }
+
+@mixin fa-patreon() { @include fab();
+  content: "\f3d9"; }
+
+@mixin fa-pause() { @include fas();
+  content: "\f04c"; }
+
+@mixin fa-pause-circle() {
+  content: "\f28b"; }
+
+@mixin fa-paw() { @include fas();
+  content: "\f1b0"; }
+
+@mixin fa-paypal() { @include fab();
+  content: "\f1ed"; }
+
+@mixin fa-pen-square() { @include fas();
+  content: "\f14b"; }
+
+@mixin fa-pencil-alt() { @include fas();
+  content: "\f303"; }
+
+@mixin fa-percent() { @include fas();
+  content: "\f295"; }
+
+@mixin fa-periscope() { @include fab();
+  content: "\f3da"; }
+
+@mixin fa-phabricator() { @include fab();
+  content: "\f3db"; }
+
+@mixin fa-phoenix-framework() { @include fab();
+  content: "\f3dc"; }
+
+@mixin fa-phone() { @include fas();
+  content: "\f095"; }
+
+@mixin fa-phone-square() { @include fas();
+  content: "\f098"; }
+
+@mixin fa-phone-volume() { @include fas();
+  content: "\f2a0"; }
+
+@mixin fa-php() { @include fab();
+  content: "\f457"; }
+
+@mixin fa-pied-piper() { @include fab();
+  content: "\f2ae"; }
+
+@mixin fa-pied-piper-alt() { @include fab();
+  content: "\f1a8"; }
+
+@mixin fa-pied-piper-pp() { @include fab();
+  content: "\f1a7"; }
+
+@mixin fa-pills() { @include fas();
+  content: "\f484"; }
+
+@mixin fa-pinterest() { @include fab();
+  content: "\f0d2"; }
+
+@mixin fa-pinterest-p() { @include fab();
+  content: "\f231"; }
+
+@mixin fa-pinterest-square() { @include fab();
+  content: "\f0d3"; }
+
+@mixin fa-plane() { @include fas();
+  content: "\f072"; }
+
+@mixin fa-play() { @include fas();
+  content: "\f04b"; }
+
+@mixin fa-play-circle() {
+  content: "\f144"; }
+
+@mixin fa-playstation() { @include fab();
+  content: "\f3df"; }
+
+@mixin fa-plug() { @include fas();
+  content: "\f1e6"; }
+
+@mixin fa-plus() { @include fas();
+  content: "\f067"; }
+
+@mixin fa-plus-circle() { @include fas();
+  content: "\f055"; }
+
+@mixin fa-plus-square() {
+  content: "\f0fe"; }
+
+@mixin fa-podcast() { @include fas();
+  content: "\f2ce"; }
+
+@mixin fa-pound-sign() { @include fas();
+  content: "\f154"; }
+
+@mixin fa-power-off() { @include fas();
+  content: "\f011"; }
+
+@mixin fa-print() { @include fas();
+  content: "\f02f"; }
+
+@mixin fa-product-hunt() { @include fab();
+  content: "\f288"; }
+
+@mixin fa-pushed() { @include fab();
+  content: "\f3e1"; }
+
+@mixin fa-puzzle-piece() { @include fas();
+  content: "\f12e"; }
+
+@mixin fa-python() { @include fab();
+  content: "\f3e2"; }
+
+@mixin fa-qq() { @include fab();
+  content: "\f1d6"; }
+
+@mixin fa-qrcode() { @include fas();
+  content: "\f029"; }
+
+@mixin fa-question() { @include fas();
+  content: "\f128"; }
+
+@mixin fa-question-circle() {
+  content: "\f059"; }
+
+@mixin fa-quidditch() { @include fas();
+  content: "\f458"; }
+
+@mixin fa-quinscape() { @include fab();
+  content: "\f459"; }
+
+@mixin fa-quora() { @include fab();
+  content: "\f2c4"; }
+
+@mixin fa-quote-left() { @include fas();
+  content: "\f10d"; }
+
+@mixin fa-quote-right() { @include fas();
+  content: "\f10e"; }
+
+@mixin fa-random() { @include fas();
+  content: "\f074"; }
+
+@mixin fa-ravelry() { @include fab();
+  content: "\f2d9"; }
+
+@mixin fa-react() { @include fab();
+  content: "\f41b"; }
+
+@mixin fa-rebel() { @include fab();
+  content: "\f1d0"; }
+
+@mixin fa-recycle() { @include fas();
+  content: "\f1b8"; }
+
+@mixin fa-red-river() { @include fab();
+  content: "\f3e3"; }
+
+@mixin fa-reddit() { @include fab();
+  content: "\f1a1"; }
+
+@mixin fa-reddit-alien() { @include fab();
+  content: "\f281"; }
+
+@mixin fa-reddit-square() { @include fab();
+  content: "\f1a2"; }
+
+@mixin fa-redo() { @include fas();
+  content: "\f01e"; }
+
+@mixin fa-redo-alt() { @include fas();
+  content: "\f2f9"; }
+
+@mixin fa-registered() {
+  content: "\f25d"; }
+
+@mixin fa-rendact() { @include fab();
+  content: "\f3e4"; }
+
+@mixin fa-renren() { @include fab();
+  content: "\f18b"; }
+
+@mixin fa-reply() { @include fas();
+  content: "\f3e5"; }
+
+@mixin fa-reply-all() { @include fas();
+  content: "\f122"; }
+
+@mixin fa-replyd() { @include fab();
+  content: "\f3e6"; }
+
+@mixin fa-resolving() { @include fab();
+  content: "\f3e7"; }
+
+@mixin fa-retweet() { @include fas();
+  content: "\f079"; }
+
+@mixin fa-road() { @include fas();
+  content: "\f018"; }
+
+@mixin fa-rocket() { @include fas();
+  content: "\f135"; }
+
+@mixin fa-rocketchat() { @include fab();
+  content: "\f3e8"; }
+
+@mixin fa-rockrms() { @include fab();
+  content: "\f3e9"; }
+
+@mixin fa-rss() { @include fas();
+  content: "\f09e"; }
+
+@mixin fa-rss-square() { @include fas();
+  content: "\f143"; }
+
+@mixin fa-ruble-sign() { @include fas();
+  content: "\f158"; }
+
+@mixin fa-rupee-sign() { @include fas();
+  content: "\f156"; }
+
+@mixin fa-safari() { @include fab();
+  content: "\f267"; }
+
+@mixin fa-sass() { @include fab();
+  content: "\f41e"; }
+
+@mixin fa-save() {
+  content: "\f0c7"; }
+
+@mixin fa-schlix() { @include fab();
+  content: "\f3ea"; }
+
+@mixin fa-scribd() { @include fab();
+  content: "\f28a"; }
+
+@mixin fa-search() { @include fas();
+  content: "\f002"; }
+
+@mixin fa-search-minus() { @include fas();
+  content: "\f010"; }
+
+@mixin fa-search-plus() { @include fas();
+  content: "\f00e"; }
+
+@mixin fa-searchengin() { @include fab();
+  content: "\f3eb"; }
+
+@mixin fa-sellcast() { @include fab();
+  content: "\f2da"; }
+
+@mixin fa-sellsy() { @include fab();
+  content: "\f213"; }
+
+@mixin fa-server() { @include fas();
+  content: "\f233"; }
+
+@mixin fa-servicestack() { @include fab();
+  content: "\f3ec"; }
+
+@mixin fa-share() { @include fas();
+  content: "\f064"; }
+
+@mixin fa-share-alt() { @include fas();
+  content: "\f1e0"; }
+
+@mixin fa-share-alt-square() { @include fas();
+  content: "\f1e1"; }
+
+@mixin fa-share-square() {
+  content: "\f14d"; }
+
+@mixin fa-shekel-sign() { @include fas();
+  content: "\f20b"; }
+
+@mixin fa-shield-alt() { @include fas();
+  content: "\f3ed"; }
+
+@mixin fa-ship() { @include fas();
+  content: "\f21a"; }
+
+@mixin fa-shipping-fast() { @include fas();
+  content: "\f48b"; }
+
+@mixin fa-shirtsinbulk() { @include fab();
+  content: "\f214"; }
+
+@mixin fa-shopping-bag() { @include fas();
+  content: "\f290"; }
+
+@mixin fa-shopping-basket() { @include fas();
+  content: "\f291"; }
+
+@mixin fa-shopping-cart() { @include fas();
+  content: "\f07a"; }
+
+@mixin fa-shower() { @include fas();
+  content: "\f2cc"; }
+
+@mixin fa-sign-in-alt() { @include fas();
+  content: "\f2f6"; }
+
+@mixin fa-sign-language() { @include fas();
+  content: "\f2a7"; }
+
+@mixin fa-sign-out-alt() { @include fas();
+  content: "\f2f5"; }
+
+@mixin fa-signal() { @include fas();
+  content: "\f012"; }
+
+@mixin fa-simplybuilt() { @include fab();
+  content: "\f215"; }
+
+@mixin fa-sistrix() { @include fab();
+  content: "\f3ee"; }
+
+@mixin fa-sitemap() { @include fas();
+  content: "\f0e8"; }
+
+@mixin fa-skyatlas() { @include fab();
+  content: "\f216"; }
+
+@mixin fa-skype() { @include fab();
+  content: "\f17e"; }
+
+@mixin fa-slack() { @include fab();
+  content: "\f198"; }
+
+@mixin fa-slack-hash() { @include fab();
+  content: "\f3ef"; }
+
+@mixin fa-sliders-h() { @include fas();
+  content: "\f1de"; }
+
+@mixin fa-slideshare() { @include fab();
+  content: "\f1e7"; }
+
+@mixin fa-smile() {
+  content: "\f118"; }
+
+@mixin fa-snapchat() { @include fab();
+  content: "\f2ab"; }
+
+@mixin fa-snapchat-ghost() { @include fab();
+  content: "\f2ac"; }
+
+@mixin fa-snapchat-square() { @include fab();
+  content: "\f2ad"; }
+
+@mixin fa-snowflake() {
+  content: "\f2dc"; }
+
+@mixin fa-sort() { @include fas();
+  content: "\f0dc"; }
+
+@mixin fa-sort-alpha-down() { @include fas();
+  content: "\f15d"; }
+
+@mixin fa-sort-alpha-up() { @include fas();
+  content: "\f15e"; }
+
+@mixin fa-sort-amount-down() { @include fas();
+  content: "\f160"; }
+
+@mixin fa-sort-amount-up() { @include fas();
+  content: "\f161"; }
+
+@mixin fa-sort-down() { @include fas();
+  content: "\f0dd"; }
+
+@mixin fa-sort-numeric-down() { @include fas();
+  content: "\f162"; }
+
+@mixin fa-sort-numeric-up() { @include fas();
+  content: "\f163"; }
+
+@mixin fa-sort-up() { @include fas();
+  content: "\f0de"; }
+
+@mixin fa-soundcloud() { @include fab();
+  content: "\f1be"; }
+
+@mixin fa-space-shuttle() { @include fas();
+  content: "\f197"; }
+
+@mixin fa-speakap() { @include fab();
+  content: "\f3f3"; }
+
+@mixin fa-spinner() { @include fas();
+  content: "\f110"; }
+
+@mixin fa-spotify() { @include fab();
+  content: "\f1bc"; }
+
+@mixin fa-square() {
+  content: "\f0c8"; }
+
+@mixin fa-square-full() { @include fas();
+  content: "\f45c"; }
+
+@mixin fa-stack-exchange() { @include fab();
+  content: "\f18d"; }
+
+@mixin fa-stack-overflow() { @include fab();
+  content: "\f16c"; }
+
+@mixin fa-star() {
+  content: "\f005"; }
+
+@mixin fa-star-half() {
+  content: "\f089"; }
+
+@mixin fa-staylinked() { @include fab();
+  content: "\f3f5"; }
+
+@mixin fa-steam() { @include fab();
+  content: "\f1b6"; }
+
+@mixin fa-steam-square() { @include fab();
+  content: "\f1b7"; }
+
+@mixin fa-steam-symbol() { @include fab();
+  content: "\f3f6"; }
+
+@mixin fa-step-backward() { @include fas();
+  content: "\f048"; }
+
+@mixin fa-step-forward() { @include fas();
+  content: "\f051"; }
+
+@mixin fa-stethoscope() { @include fas();
+  content: "\f0f1"; }
+
+@mixin fa-sticker-mule() { @include fab();
+  content: "\f3f7"; }
+
+@mixin fa-sticky-note() {
+  content: "\f249"; }
+
+@mixin fa-stop() { @include fas();
+  content: "\f04d"; }
+
+@mixin fa-stop-circle() {
+  content: "\f28d"; }
+
+@mixin fa-stopwatch() { @include fas();
+  content: "\f2f2"; }
+
+@mixin fa-strava() { @include fab();
+  content: "\f428"; }
+
+@mixin fa-street-view() { @include fas();
+  content: "\f21d"; }
+
+@mixin fa-strikethrough() { @include fas();
+  content: "\f0cc"; }
+
+@mixin fa-stripe() { @include fab();
+  content: "\f429"; }
+
+@mixin fa-stripe-s() { @include fab();
+  content: "\f42a"; }
+
+@mixin fa-studiovinari() { @include fab();
+  content: "\f3f8"; }
+
+@mixin fa-stumbleupon() { @include fab();
+  content: "\f1a4"; }
+
+@mixin fa-stumbleupon-circle() { @include fab();
+  content: "\f1a3"; }
+
+@mixin fa-subscript() { @include fas();
+  content: "\f12c"; }
+
+@mixin fa-subway() { @include fas();
+  content: "\f239"; }
+
+@mixin fa-suitcase() { @include fas();
+  content: "\f0f2"; }
+
+@mixin fa-sun() {
+  content: "\f185"; }
+
+@mixin fa-superpowers() { @include fab();
+  content: "\f2dd"; }
+
+@mixin fa-superscript() { @include fas();
+  content: "\f12b"; }
+
+@mixin fa-supple() { @include fab();
+  content: "\f3f9"; }
+
+@mixin fa-sync() { @include fas();
+  content: "\f021"; }
+
+@mixin fa-sync-alt() { @include fas();
+  content: "\f2f1"; }
+
+@mixin fa-syringe() { @include fas();
+  content: "\f48e"; }
+
+@mixin fa-table() { @include fas();
+  content: "\f0ce"; }
+
+@mixin fa-table-tennis() { @include fas();
+  content: "\f45d"; }
+
+@mixin fa-tablet() { @include fas();
+  content: "\f10a"; }
+
+@mixin fa-tablet-alt() { @include fas();
+  content: "\f3fa"; }
+
+@mixin fa-tachometer-alt() { @include fas();
+  content: "\f3fd"; }
+
+@mixin fa-tag() { @include fas();
+  content: "\f02b"; }
+
+@mixin fa-tags() { @include fas();
+  content: "\f02c"; }
+
+@mixin fa-tasks() { @include fas();
+  content: "\f0ae"; }
+
+@mixin fa-taxi() { @include fas();
+  content: "\f1ba"; }
+
+@mixin fa-telegram() { @include fab();
+  content: "\f2c6"; }
+
+@mixin fa-telegram-plane() { @include fab();
+  content: "\f3fe"; }
+
+@mixin fa-tencent-weibo() { @include fab();
+  content: "\f1d5"; }
+
+@mixin fa-terminal() { @include fas();
+  content: "\f120"; }
+
+@mixin fa-text-height() { @include fas();
+  content: "\f034"; }
+
+@mixin fa-text-width() { @include fas();
+  content: "\f035"; }
+
+@mixin fa-th() { @include fas();
+  content: "\f00a"; }
+
+@mixin fa-th-large() { @include fas();
+  content: "\f009"; }
+
+@mixin fa-th-list() { @include fas();
+  content: "\f00b"; }
+
+@mixin fa-themeisle() { @include fab();
+  content: "\f2b2"; }
+
+@mixin fa-thermometer() { @include fas();
+  content: "\f491"; }
+
+@mixin fa-thermometer-empty() { @include fas();
+  content: "\f2cb"; }
+
+@mixin fa-thermometer-full() { @include fas();
+  content: "\f2c7"; }
+
+@mixin fa-thermometer-half() { @include fas();
+  content: "\f2c9"; }
+
+@mixin fa-thermometer-quarter() { @include fas();
+  content: "\f2ca"; }
+
+@mixin fa-thermometer-three-quarters() { @include fas();
+  content: "\f2c8"; }
+
+@mixin fa-thumbs-down() {
+  content: "\f165"; }
+
+@mixin fa-thumbs-up() {
+  content: "\f164"; }
+
+@mixin fa-thumbtack() { @include fas();
+  content: "\f08d"; }
+
+@mixin fa-ticket-alt() { @include fas();
+  content: "\f3ff"; }
+
+@mixin fa-times() { @include fas();
+  content: "\f00d"; }
+
+@mixin fa-times-circle() {
+  content: "\f057"; }
+
+@mixin fa-tint() { @include fas();
+  content: "\f043"; }
+
+@mixin fa-toggle-off() { @include fas();
+  content: "\f204"; }
+
+@mixin fa-toggle-on() { @include fas();
+  content: "\f205"; }
+
+@mixin fa-trademark() { @include fas();
+  content: "\f25c"; }
+
+@mixin fa-train() { @include fas();
+  content: "\f238"; }
+
+@mixin fa-transgender() { @include fas();
+  content: "\f224"; }
+
+@mixin fa-transgender-alt() { @include fas();
+  content: "\f225"; }
+
+@mixin fa-trash() { @include fas();
+  content: "\f1f8"; }
+
+@mixin fa-trash-alt() {
+  content: "\f2ed"; }
+
+@mixin fa-tree() { @include fas();
+  content: "\f1bb"; }
+
+@mixin fa-trello() { @include fab();
+  content: "\f181"; }
+
+@mixin fa-tripadvisor() { @include fab();
+  content: "\f262"; }
+
+@mixin fa-trophy() { @include fas();
+  content: "\f091"; }
+
+@mixin fa-truck() { @include fas();
+  content: "\f0d1"; }
+
+@mixin fa-tty() { @include fas();
+  content: "\f1e4"; }
+
+@mixin fa-tumblr() { @include fab();
+  content: "\f173"; }
+
+@mixin fa-tumblr-square() { @include fab();
+  content: "\f174"; }
+
+@mixin fa-tv() { @include fas();
+  content: "\f26c"; }
+
+@mixin fa-twitch() { @include fab();
+  content: "\f1e8"; }
+
+@mixin fa-twitter() { @include fab();
+  content: "\f099"; }
+
+@mixin fa-twitter-square() { @include fab();
+  content: "\f081"; }
+
+@mixin fa-typo3() { @include fab();
+  content: "\f42b"; }
+
+@mixin fa-uber() { @include fab();
+  content: "\f402"; }
+
+@mixin fa-uikit() { @include fab();
+  content: "\f403"; }
+
+@mixin fa-umbrella() { @include fas();
+  content: "\f0e9"; }
+
+@mixin fa-underline() { @include fas();
+  content: "\f0cd"; }
+
+@mixin fa-undo() { @include fas();
+  content: "\f0e2"; }
+
+@mixin fa-undo-alt() { @include fas();
+  content: "\f2ea"; }
+
+@mixin fa-uniregistry() { @include fab();
+  content: "\f404"; }
+
+@mixin fa-universal-access() { @include fas();
+  content: "\f29a"; }
+
+@mixin fa-university() { @include fas();
+  content: "\f19c"; }
+
+@mixin fa-unlink() { @include fas();
+  content: "\f127"; }
+
+@mixin fa-unlock() { @include fas();
+  content: "\f09c"; }
+
+@mixin fa-unlock-alt() { @include fas();
+  content: "\f13e"; }
+
+@mixin fa-untappd() { @include fab();
+  content: "\f405"; }
+
+@mixin fa-upload() { @include fas();
+  content: "\f093"; }
+
+@mixin fa-usb() { @include fab();
+  content: "\f287"; }
+
+@mixin fa-user() {
+  content: "\f007"; }
+
+@mixin fa-user-circle() {
+  content: "\f2bd"; }
+
+@mixin fa-user-md() { @include fas();
+  content: "\f0f0"; }
+
+@mixin fa-user-plus() { @include fas();
+  content: "\f234"; }
+
+@mixin fa-user-secret() { @include fas();
+  content: "\f21b"; }
+
+@mixin fa-user-times() { @include fas();
+  content: "\f235"; }
+
+@mixin fa-users() { @include fas();
+  content: "\f0c0"; }
+
+@mixin fa-ussunnah() { @include fab();
+  content: "\f407"; }
+
+@mixin fa-utensil-spoon() { @include fas();
+  content: "\f2e5"; }
+
+@mixin fa-utensils() { @include fas();
+  content: "\f2e7"; }
+
+@mixin fa-vaadin() { @include fab();
+  content: "\f408"; }
+
+@mixin fa-venus() { @include fas();
+  content: "\f221"; }
+
+@mixin fa-venus-double() { @include fas();
+  content: "\f226"; }
+
+@mixin fa-venus-mars() { @include fas();
+  content: "\f228"; }
+
+@mixin fa-viacoin() { @include fab();
+  content: "\f237"; }
+
+@mixin fa-viadeo() { @include fab();
+  content: "\f2a9"; }
+
+@mixin fa-viadeo-square() { @include fab();
+  content: "\f2aa"; }
+
+@mixin fa-viber() { @include fab();
+  content: "\f409"; }
+
+@mixin fa-video() { @include fas();
+  content: "\f03d"; }
+
+@mixin fa-vimeo() { @include fab();
+  content: "\f40a"; }
+
+@mixin fa-vimeo-square() { @include fab();
+  content: "\f194"; }
+
+@mixin fa-vimeo-v() { @include fab();
+  content: "\f27d"; }
+
+@mixin fa-vine() { @include fab();
+  content: "\f1ca"; }
+
+@mixin fa-vk() { @include fab();
+  content: "\f189"; }
+
+@mixin fa-vnv() { @include fab();
+  content: "\f40b"; }
+
+@mixin fa-volleyball-ball() { @include fas();
+  content: "\f45f"; }
+
+@mixin fa-volume-down() { @include fas();
+  content: "\f027"; }
+
+@mixin fa-volume-off() { @include fas();
+  content: "\f026"; }
+
+@mixin fa-volume-up() { @include fas();
+  content: "\f028"; }
+
+@mixin fa-vuejs() { @include fab();
+  content: "\f41f"; }
+
+@mixin fa-warehouse() { @include fas();
+  content: "\f494"; }
+
+@mixin fa-weibo() { @include fab();
+  content: "\f18a"; }
+
+@mixin fa-weight() { @include fas();
+  content: "\f496"; }
+
+@mixin fa-weixin() { @include fab();
+  content: "\f1d7"; }
+
+@mixin fa-whatsapp() { @include fab();
+  content: "\f232"; }
+
+@mixin fa-whatsapp-square() { @include fab();
+  content: "\f40c"; }
+
+@mixin fa-wheelchair() { @include fas();
+  content: "\f193"; }
+
+@mixin fa-whmcs() { @include fab();
+  content: "\f40d"; }
+
+@mixin fa-wifi() { @include fas();
+  content: "\f1eb"; }
+
+@mixin fa-wikipedia-w() { @include fab();
+  content: "\f266"; }
+
+@mixin fa-window-close() {
+  content: "\f410"; }
+
+@mixin fa-window-maximize() {
+  content: "\f2d0"; }
+
+@mixin fa-window-minimize() {
+  content: "\f2d1"; }
+
+@mixin fa-window-restore() {
+  content: "\f2d2"; }
+
+@mixin fa-windows() { @include fab();
+  content: "\f17a"; }
+
+@mixin fa-won-sign() { @include fas();
+  content: "\f159"; }
+
+@mixin fa-wordpress() { @include fab();
+  content: "\f19a"; }
+
+@mixin fa-wordpress-simple() { @include fab();
+  content: "\f411"; }
+
+@mixin fa-wpbeginner() { @include fab();
+  content: "\f297"; }
+
+@mixin fa-wpexplorer() { @include fab();
+  content: "\f2de"; }
+
+@mixin fa-wpforms() { @include fab();
+  content: "\f298"; }
+
+@mixin fa-wrench() { @include fas();
+  content: "\f0ad"; }
+
+@mixin fa-xbox() { @include fab();
+  content: "\f412"; }
+
+@mixin fa-xing() { @include fab();
+  content: "\f168"; }
+
+@mixin fa-xing-square() { @include fab();
+  content: "\f169"; }
+
+@mixin fa-y-combinator() { @include fab();
+  content: "\f23b"; }
+
+@mixin fa-yahoo() { @include fab();
+  content: "\f19e"; }
+
+@mixin fa-yandex() { @include fab();
+  content: "\f413"; }
+
+@mixin fa-yandex-international() { @include fab();
+  content: "\f414"; }
+
+@mixin fa-yelp() { @include fab();
+  content: "\f1e9"; }
+
+@mixin fa-yen-sign() { @include fas();
+  content: "\f157"; }
+
+@mixin fa-yoast() { @include fab();
+  content: "\f2b1"; }
+
+@mixin fa-youtube() { @include fab();
+  content: "\f167"; }
+
+@mixin fa-youtube-square() { @include fab();
+  content: "\f431"; }

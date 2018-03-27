@@ -2,10 +2,6 @@
 
 @section('title'){{ trans('date.index_title') }}@endsection
 
-@section('additional_js_files')
-    {!! Html::script('js/dateFilters.js') !!}
-@endsection
-
 @section('content')
     <div class="row" id="{{ trans('date.index_title') }}">
         <div class="col-xs-12">
@@ -42,7 +38,7 @@
                                 {!! Form::textInput2d('excuse', null, ['placeholder' => trans('form.optional')]) !!}
                                 {!! Form::submitInput2d([], trans('date.excuse')) !!}
                             </form>
-                            @include('date.settings_bar', ['view_type' => 'list', 'override_types' => $override_types, 'override_statuses' => $override_statuses])
+                            @include('date.settings_bar', ['view_type' => 'list', 'override_types' => $override_types, 'override_statuses' => $override_statuses, 'override_show_all' => $override_show_all])
                             @each('date.list.row', $dates, 'date')
                         </div>
                     </div>
@@ -113,7 +109,7 @@
                 $('#excuse-form').attr('action', url)
                     .data('currentlyAttending', currentlyAttending)
                     .data('sliderElement', sliderElement)
-                    .modal({'closeClass': 'fas'});
+                    .modal();
             } else {
                 url = $(sliderElement).data('attend-url');
                 saveAttendance(url, sliderElement, currentlyAttending, null);
@@ -195,7 +191,7 @@
                     $('#excuse-form').attr('action', $(this).data('url'))
                         .data('sliderElement', this)
                         .data('currentlyAttending', $(this).data('attendance'))
-                        .modal({'closeClass': 'fas'});
+                        .modal();
                 } else {
                     // Save attendance directly, without modal of excuse.
                     saveAttendance($(this).data('url'), null, 'yes', '');
