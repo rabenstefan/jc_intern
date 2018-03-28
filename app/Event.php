@@ -4,21 +4,26 @@ namespace App;
 
 trait Event {
     use Date;
-    private $binary_answer;
 
-    public function hasBinaryAnswer() {
-        return $this->binary_answer;
+    public function currentUserIsAttending() {
+        return $this->isAttendingEvent($this->current_user_attendance);
     }
 
-    public function isAttendingEvent(?Attendance $attendance) {
+    public function currentUserHasAnswered() {
+        return $this->hasAnsweredEvent($this->current_user_attendance);
+    }
+
+    public function isAttendingEvent($attendance = null) {
         if (null === $attendance) return \Config::get('enums.attendances_reversed')[0];
-        return \Config::get('enums.attendances_reversed')[$attendance->attendance];
+        if (class_uses($attendance, false)) {
+            return \Config::get('enums.attendances_reversed')[$attendance->attendance];
+        }
     }
 
-    public function hasAnsweredEvent(?Attendance $attendance) {
+    public function hasAnsweredEvent($attendance = null) {
         if (null === $attendance) {
             return false;
-        } else if ($this->hasBinaryAnswer()) {
+        } else if ($this->binary_answer) {
             return \Config::get('enums.attendances')['maybe'] !== $attendance->attendance;
         } else {
             return true;

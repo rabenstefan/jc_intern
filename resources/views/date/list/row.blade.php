@@ -1,26 +1,12 @@
-@if($date->getShortName() == 'rehearsal' && !$date->isAttending(Auth::user()))
-    <?php $notAttending = true; ?>
-@else
-    <?php $notAttending = false; ?>
-@endif
-
-@if($date->getShortName() == 'gig')
-    <?php $attending = $date->isAttending(Auth::user()); ?>
-@else
-    <?php $attending = false; ?>
-@endif
-
-@if(true === $date->needsAnswer())
-    <?php $unanswered = true !== $date->hasAnswered(Auth::user()); ?>
-@else
-    <?php $unanswered = false; /* event doesnt need answer (like birthday) */ ?>
-@endif
-
 <?php
 $applicable_filters = [$date->getShortName()];
+$attending = '';
+$notAttending = false;
+
 if (true === $date->needsAnswer()) {
-    if (true === $date->hasAnswered(Auth::user())) {
-        switch ($date->isAttending(Auth::user())) {
+    if (true === $date->currentUserHasAnswered()) {
+        $attending = $date->currentUserIsAttending();
+        switch ($attending) {
         case 'yes': case true:
             $applicable_filters[] = 'going';
             break;
@@ -35,6 +21,9 @@ if (true === $date->needsAnswer()) {
         $applicable_filters[] = 'unanswered';
     }
 }
+
+
+
 ?>
 
 <div class="row list-item" data-filters='["{{ implode('", "', $applicable_filters) }}"]'>
@@ -43,7 +32,7 @@ if (true === $date->needsAnswer()) {
             <div class="col-xs-12 col-sm-8 col-md-8 col-lg-10">
                 <h4 class="title">
                     {{ $date->getTitle() }}
-                    <span class="not-going-note" style="display: <?php echo $notAttending ? 'inline' : 'none'; ?>;">{{  ' &ndash; ' . trans('date.not_attending') }}</span>
+                    <span class="not-going-note" style="display: <?php echo 'no' === $attending ? 'inline' : 'none'; ?>;">{{  ' &ndash; ' . trans('date.not_attending') }}</span>
                     @if($date->hasPlace())
                         <br>
                         {{ $date->place }}
@@ -71,11 +60,12 @@ if (true === $date->needsAnswer()) {
                 </span>
             </div>
             <div class="col-xs-12 col-sm-4 col-md-4 col-lg-2 event-controls">
-                @if($date->getShortName() == 'rehearsal')
+                @if(true === $date->needsAnswer())
+                @if(true === $date->binary_answer)
                     <div class="row">
                         <div class="col-xs-12">
                             <span class="slider-2d" data-function="changeAttendance" data-excuse-url="{{ route('attendance.excuseSelf', ['rehearsal_id' => $date->getId()]) }}" data-attend-url="{{ route('attendance.confirmSelf', ['rehearsal_id' => $date->getId()]) }}">
-                                <input type="checkbox"<?php echo $notAttending ? '' : ' checked="checked"'; ?> id="slider-attending-{{ $date->getShortName() }}-{{ $date->getId() }}">
+                                <input type="checkbox"<?php echo 'no' === $attending ? '' : ' checked="checked"'; ?> id="slider-attending-{{ $date->getShortName() }}-{{ $date->getId() }}">
                                 <label for="slider-attending-{{ $date->getShortName() }}-{{ $date->getId() }}">
                                     <span class="slider"></span>
                                     <i class="far fa-calendar-times" title="{{ trans('date.excuse') }}"></i>
@@ -84,7 +74,7 @@ if (true === $date->needsAnswer()) {
                             </span>
                         </div>
                     </div>
-                @elseif($date->getShortName() == 'gig')
+                @else
                     <div class="row">
                         <div class="col-xs-12">
                             <span class="button-set-2d">
@@ -100,6 +90,7 @@ if (true === $date->needsAnswer()) {
                             </span>
                         </div>
                     </div>
+                @endif
                 @endif
                 @if(isset($date->getEventOptions()['url']) && Auth::user()->isAdmin($date->getShortName()))
                     <div class="row">

@@ -39,6 +39,8 @@ class Rehearsal extends \Eloquent implements IdentifiableEvent {
         'voice_id',
     ];
 
+    protected $with = ['current_user_attendance'];
+
     public function semester() {
         return $this->belongsTo('App\Semester');
     }
@@ -49,6 +51,10 @@ class Rehearsal extends \Eloquent implements IdentifiableEvent {
 
     public function rehearsal_attendances() {
         return $this->hasMany('App\RehearsalAttendance');
+    }
+
+    public function current_user_attendance() {
+        return $this->hasOne('App\RehearsalAttendance')->where('user_id', '=', \Auth::user()->id);
     }
 
     public function getShortName() {

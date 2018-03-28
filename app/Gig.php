@@ -35,8 +35,14 @@ class Gig extends \Eloquent implements IdentifiableEvent {
         'binary_answer',
     ];
 
+    protected $with = ['current_user_attendance'];
+
     public function gig_attendances() {
         return $this->hasMany('App\GigAttendance');
+    }
+
+    public function current_user_attendance() {
+        return $this->hasOne('App\GigAttendance')->where('user_id', '=', \Auth::user()->id);
     }
 
     public function semester() {
