@@ -73,15 +73,6 @@ trait Date {
     abstract function getShortName();
     abstract function getShortNamePlural();
 
-    /**
-     * Get the event's ID
-     *
-     * @return int|string|null
-     */
-    public function getId() {
-        return $this->id;
-    }
-
     public function needsAnswer() {
         return false;
     }

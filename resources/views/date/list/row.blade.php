@@ -44,7 +44,7 @@
                                       data-function="changeAttendance"
                                       data-attend-url="{{ route('attendances.changeOwnAttendance', ['events_name' => $date->getShortNamePlural(), 'event_id' => $date->getId(), 'shorthand' => 'attend']) }}"
                                       data-excuse-url="{{ route('attendances.changeOwnAttendance', ['events_name' => $date->getShortNamePlural(), 'event_id' => $date->getId(), 'shorthand' => 'excuse']) }}">
-                                    <input type="checkbox" {{ $date->isAttending(Auth::user()) ? '' : ' checked="checked"' }} id="slider-attending-{{ $date->getShortName() }}-{{ $date->getId() }}">
+                                    <input type="checkbox" {{ $date->isAttending() == 'no' ? '' : ' checked="checked"' }} id="slider-attending-{{ $date->getShortName() }}-{{ $date->getId() }}">
                                     <label for="slider-attending-{{ $date->getShortName() }}-{{ $date->getId() }}">
                                         <span class="slider"></span>
                                         <i class="far fa-calendar-times" title="{{ trans('date.excuse') }}"></i>
@@ -58,20 +58,20 @@
                             <div class="col-xs-12">
                                 <span class="button-set-2d">
                                     <a href="#"
-                                       class="btn btn-2d btn-no {{ $date->isAttending(Auth::user()) == 'no' ? 'btn-pressed' : 'btn-unpressed' }}"
-                                       data-url="{{ route('attendances.changeOwnAttendance', ['events_name' => $date->getShortNamePlural(), 'event_id' => $date->getId()])}}"
+                                       class="btn btn-2d btn-no {{ $date->hasAnswered() && $date->isAttending() == 'no' ? 'btn-pressed' : 'btn-unpressed' }}"
+                                       data-url="{{ route('attendances.changeOwnAttendance', ['events_name' => $date->getShortNamePlural(), 'event_id' => $date->getId(), 'shorthand' => 'excuse'])}}"
                                        data-attendance="no">
                                         <i class="far fa-calendar-times"></i>
                                     </a>
                                     <a href="#"
-                                       class="btn btn-2d btn-maybe {{ $date->isAttending(Auth::user()) == 'maybe' ? 'btn-pressed' : 'btn-unpressed' }}"
-                                       data-url="{{ route('attendances.changeOwnAttendance', ['events_name' => $date->getShortNamePlural(), 'event_id' => $date->getId()])}}"
+                                       class="btn btn-2d btn-maybe {{ $date->hasAnswered() && $date->isAttending() == 'maybe' ? 'btn-pressed' : 'btn-unpressed' }}"
+                                       data-url="{{ route('attendances.changeOwnAttendance', ['events_name' => $date->getShortNamePlural(), 'event_id' => $date->getId(), 'shorthand' => 'maybe'])}}"
                                        data-attendance="maybe">
                                         <i class="far fa-calendar fa-with-overlay">?</i>
                                     </a>
                                     <a href="#"
-                                       class="btn btn-2d btn-yes {{ $date->isAttending(Auth::user()) == 'yes' ? 'btn-pressed' : 'btn-unpressed' }}"
-                                       data-url="{{ route('attendances.changeOwnAttendance', ['events_name' => $date->getShortNamePlural(), 'event_id' => $date->getId()])}}"
+                                       class="btn btn-2d btn-yes {{ $date->hasAnswered() && $date->isAttending() == 'yes' ? 'btn-pressed' : 'btn-unpressed' }}"
+                                       data-url="{{ route('attendances.changeOwnAttendance', ['events_name' => $date->getShortNamePlural(), 'event_id' => $date->getId(), 'shorthand' => 'attend'])}}"
                                        data-attendance="yes">
                                         <i class="far fa-calendar-check"></i>
                                     </a>

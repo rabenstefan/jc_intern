@@ -73,6 +73,10 @@ class Rehearsal extends \Eloquent implements IdentifiableEvent {
         return $this->title;
     }
 
+    public function getId() {
+        return $this->id;
+    }
+
     /**
      * Optional FullCalendar.io settings for this event
      *
@@ -84,13 +88,33 @@ class Rehearsal extends \Eloquent implements IdentifiableEvent {
         return $this->calendar_options;
     }
 
-    public function isAttending(User $user) {
+    /**
+     * Returns answer, if a user (or on null the authenticated user) has answered this Date.
+     *
+     * @param User|null $user
+     * @return bool
+     */
+    public function isAttending(User $user = null) {
+        if (null === $user) {
+            $user = \Auth::user();
+        }
+
         $attendance = RehearsalAttendance::where('user_id', $user->id)->where('rehearsal_id', $this->id)->first();
 
         return $this->isAttendingEvent($attendance);
     }
 
-    public function hasAnswered(User $user) {
+    /**
+     * Returns true, if a user (or on null the authenticated user) has answered this Date.
+     *
+     * @param User|null $user
+     * @return bool
+     */
+    public function hasAnswered(User $user = null) {
+        if (null === $user) {
+            $user = \Auth::user();
+        }
+
         $attendance = RehearsalAttendance::where('user_id', $user->id)->where('rehearsal_id', $this->id)->first();
 
         return $this->hasAnsweredEvent($attendance);

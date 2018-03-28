@@ -17,6 +17,25 @@ abstract class AttendanceController extends Controller {
     }
 
     /**
+     * Retrieve an event by the given ID.
+     *
+     * @param $event_id
+     * @return \Illuminate\Database\Eloquent\Model|null|static
+     */
+    protected abstract function getEventById ($event_id);
+
+    /**
+     * This function can be overridden by children to add more data to attendance.
+     * Usually, this function does only return an empty array.
+     *
+     * @param Request $request
+     * @return array
+     */
+    protected function prepareAdditionalData (Request $request) {
+        return [];
+    }
+
+    /**
      * Shorthand "I will attend $event_id" for routes.
      *
      * @param Request $request
@@ -50,33 +69,15 @@ abstract class AttendanceController extends Controller {
     }
 
     /**
-     * Change the own attendance for given $event_id.
-     *
-     * @param Request $request
-     * @param $event_id
-     * @param null $attending
-     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
-     */
-    public abstract function changeOwnAttendance(Request $request, $event_id, $attending = null);
-
-    /**
      * Function to change if user with $user_id will attend.
      *
      * @param Request $request
      * @param Event $event
      * @param Integer $user_id
-     * @param String $attendance
+     * @param String $attendance  Can also be taken from the request if null.
      * @return \Illuminate\Http\JsonResponse
      */
-    public function changeEventAttendance (Request $request, $event, $user_id, $attendance = null) {
-        if (null === $event) {
-            if ($request->wantsJson()) {
-                return \Response::json(['success' => false, 'message' => trans('date.event_not_found')]);
-            } else {
-                return back()->withErrors(trans('date.event_not_found'));
-            }
-        }
-
+    protected function changeEventAttendance (Request $request, $event, $user_id, $attendance = null) {
         // Try to get the user.
         if (null === $user_id) {
             if ($request->wantsJson()) {
@@ -96,16 +97,6 @@ abstract class AttendanceController extends Controller {
             }
         }
 
-        if (null === $attendance && $request->has('attendance')) {
-            $attendance = $request->get('attendance');
-        } else {
-            if ($request->wantsJson()) {
-                return \Response::json(['success' => false, 'message' => trans('date.attendance_not_given')]);
-            } else {
-                return back()->withErrors(trans('date.attendance_not_given'));
-            }
-        }
-
         return $this->changeUserEventAttendance($request, $event, $user, $attendance);
     }
 
@@ -113,22 +104,26 @@ abstract class AttendanceController extends Controller {
      * Function to change the currently logged in user's attendance for a given rehearsal.
      *
      * @param Request $request
-     * @param Event $event
-     * @param Boolean $attending
+     * @param integer $event_id
+     * @param string $attendance  Can also be taken from the request if null.
      * @return \Illuminate\Http\JsonResponse
      */
-    public function changeOwnEventAttendance (Request $request, $event, $attending) {
+    protected function changeOwnAttendance (Request $request, $event_id, $attendance = null) {
+        // Retrieve event by child methods.
+        $event = $this->getEventById($event_id);
+
+        // Check if there is an event.
         if (null === $event) {
             if ($request->wantsJson()) {
-                return \Response::json(['success' => false, 'message' => trans('date.event_not_found')]);
+                return \Response::json(['success' => false, 'message' => trans('date.gig_not_found')]);
             } else {
-                return back()->withErrors(trans('date.event_not_found'));
+                return back()->withErrors(trans('date.gig_not_found'));
             }
         }
 
-        // Get logged in user and prepare data for saving.
+        // Get logged in user and prepare data for saving. No need for check, can't reach this without the user.
         $user = \Auth::user();
-        return $this->changeUserEventAttendance($request, $event, $user, $attending);
+        return $this->changeUserEventAttendance($request, $event, $user, $attendance);
     }
 
     /**
@@ -137,21 +132,39 @@ abstract class AttendanceController extends Controller {
      * @param Request $request
      * @param $event
      * @param User $user
-     * @param $attendance
+     * @param string $attendance  Can also be taken from the request if null.
      * @return $this|\Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
      */
-    private function changeUserEventAttendance(Request $request, $event, User $user, $attendance) {
-        $data = [
-            'comment' => $request->has('comment') ? $request->get('comment') : '',
-            'internal_comment' => $request->has('internal_comment') ? $request->get('internal_comment') : '',
-            'attendance' => $attendance,
-        ];
+    private function changeUserEventAttendance(Request $request, $event, User $user, $attendance = null) {
+        // Check if we have an attendance state given.
+        if (null === $attendance) {
+            if ($request->has('attendance')) {
+                $attendance = $request->get('attendance');
+            } else {
+                if ($request->wantsJson()) {
+                    return \Response::json(['success' => false, 'message' => trans('date.attendance_not_given')]);
+                } else {
+                    return back()->withErrors(trans('date.attendance_not_given'));
+                }
+            }
+        }
 
-        // Change the attendance respectively.
-        $success = $this->storeAttendance($event, $user, $data);
+        // Prepare new data for database.
+        $data['attendance'] = \Config::get('enums.attendances')[$attendance];
 
-        // Check if changing the attendance worked.
-        if (!$success) {
+        // Only include comments if we have some.
+        if ($request->has('comment')) {
+            $data['comment'] = $request->get('comment');
+        }
+        if ($request->has('internal_comment')) {
+            $data['internal_comment'] = $request->get('internal_comment');
+        }
+
+        $data = array_merge($data, $this->prepareAdditionalData($request));
+
+        // Change the attendance according to the subclass.
+        if (!$this->storeAttendance($event, $user, $data)) {
+            // Attendance was not saved.
             $message = 'yes' == $attendance ? trans('date.attendance_error') : trans('date.excuse_error');
             if ($request->wantsJson()) {
                 return \Response::json(['success' => false, 'message' => $message]);

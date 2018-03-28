@@ -24,6 +24,36 @@ class RehearsalAttendanceController extends AttendanceController {
     }
 
     /**
+     * Retrieve an event by the given ID.
+     *
+     * @param $event_id
+     * @return \Illuminate\Database\Eloquent\Model|null|static
+     */
+    protected function getEventById ($event_id) {
+        // Try to get the rehearsal if it is in the future.
+        return Rehearsal::where(
+            'id', $event_id
+        )->where(
+            'start', '>=', Carbon::now()->toDateTimeString()
+        )->first();
+    }
+
+    /**
+     * Add the "missed" parameter to the attendance data.
+     *
+     * @param Request $request
+     * @return array
+     */
+    protected function prepareAdditionalData(Request $request) {
+        $data = parent::prepareAdditionalData($request);
+
+        // Set "missed" to true if request has field which contains string "true".
+        $data['missed'] = $request->has('missed') ? $request->get('missed') == 'true' : false;
+
+        return $data;
+    }
+
+    /**
      * View shows a list to select which users were actually attending the last rehearsal (optionally: The rehearsal
      * with $rehearsal_id).
      *
@@ -95,95 +125,24 @@ class RehearsalAttendanceController extends AttendanceController {
     }
 
     /**
-     * Function to change the currently logged in user's attendance for a given rehearsal.
-     *
-     * @param Request $request
-     * @param Integer $rehearsalId
-     * @param String $attendance
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function changeOwnAttendance (Request $request, $rehearsalId, $attendance) {
-        // Try to get the rehearsal if it is in the future.
-        $rehearsal = Rehearsal::find($rehearsalId)->where('start', '<=', Carbon::now()->toDateString());
-
-        if (null === $rehearsal) {
-            if ($request->wantsJson()) {
-                return \Response::json(['success' => false, 'message' => trans('date.rehearsal_not_found')]);
-            } else {
-                return back()->withErrors(trans('date.rehearsal_not_found'));
-            }
-        }
-
-        return $this->changeOwnEventAttendance($request, $rehearsal, $attendance);
-    }
-
-    /**
-     * Function to set the currently logged in user to attending for a given rehearsal.
-     *
-     * @param Request $request
-     * @param Integer $rehearsalId
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function confirmSelf(Request $request, $rehearsalId) {
-        return $this->changeOwnAttendance($request, $rehearsalId, \Config::get('enums.attendance')['yes']);
-    }
-
-    /**
-     * Function to excuse the currently logged in user for a given rehearsal.
-     * 
-     * @param Request $request
-     * @param Integer $rehearsalId
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function excuseSelf(Request $request, $rehearsalId) {
-        return $this->changeOwnAttendance($request, $rehearsalId, \Config::get('enums.attendance')['no']);
-    }
-
-    /**
      * Helper to update or create an attendance.
      *
      * @param Rehearsal $rehearsal
      * @param User $user
      * @param array $data
      * @return bool
+     * @throws \Exception
      */
     protected function storeAttendance($rehearsal, User $user, array $data) {
-        // Check if we have an attendance for this user/rehearsal.
-        $attendance = RehearsalAttendance::where(
-            'user_id', $user->id
-        )->where(
-            'rehearsal_id', $rehearsal->id
-        )->first();
-
-        if (null === $attendance) {
-            // Make new attendance.
-            $attendance = new RehearsalAttendance();
-
-            $attendance->user_id = $user->id;
-            $attendance->rehearsal_id = $rehearsal->id;
-
-            $config = \Config::get('enums.attendances');
-            if (!isset($data['attendance']) || !isset($config[$data['attendance']])) {
-                return false;
-            }
-
-            $attendance->attendance = $config[$data['attendance']];
-
+        // Update existing or create a new attendance.
+        if ($attendance = RehearsalAttendance::updateOrCreate(['user_id' => $user->id, 'rehearsal_id' => $rehearsal->id], $data)) {
             // Connect to user and rehearsal via pivot tables.
-            $user->attendances()->save($attendance);
-            $rehearsal->rehearsal_attendances()->save($attendance);
-        }
+            $user->rehearsal_attendances()->syncWithoutDetaching([$attendance->id]);
+            $rehearsal->rehearsal_attendances()->syncWithoutDetaching([$attendance->id]);
 
-        // Set attributes accordingly.
-        if (isset($data['comment'])) {
-            $attendance->comment = $data['comment'];
+            return true;
+        } else {
+            return false;
         }
-        if (isset($data['internal_comment'])) {
-            $attendance->internal_comment = $data['internal_comment'];
-        }
-
-        $attendance->missed = $data['missed'];
-
-        return $attendance->save();
     }
 }

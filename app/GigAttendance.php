@@ -13,6 +13,9 @@ class GigAttendance extends \Eloquent {
     protected $fillable = [
         'gig_id',
         'user_id',
+        'attendance',
+        'comment',
+        'internal_comment',
     ];
 
     public function user() {

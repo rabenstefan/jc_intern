@@ -96,7 +96,7 @@
         }
 
         /**
-         * Handles AJAX-call to change the attendance of a rehearsal.
+         * Handles AJAX-call to change the attendance of an event.
          *
          * This method is called from the main.js via the "data-function" attribute on the switch for attendance.
          *
@@ -110,6 +110,7 @@
             // If the slider's checkbox is "checked" we have to excuse her.
             var currentlyAttending = $(sliderElement).find('input[type="checkbox"]').prop('checked');
             var url = '';
+
             if (currentlyAttending) {
                 url = $(sliderElement).data('excuse-url');
 
@@ -136,8 +137,7 @@
             // Request the url via post, include csrf-token and comment.
             $.post(url, {
                 _token: '{{ csrf_token() }}',
-                comment: excuse,
-                attendance: currentlyAttending
+                comment: excuse
             }, function (data) {
                 // Success?
                 if (data.success) {

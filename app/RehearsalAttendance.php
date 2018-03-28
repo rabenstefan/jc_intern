@@ -13,6 +13,10 @@ class RehearsalAttendance extends \Eloquent {
     protected $fillable = [
         'rehearsal_id',
         'user_id',
+        'attendance',
+        'comment',
+        'internal_comment',
+        'missed',
     ];
 
     protected $casts = [

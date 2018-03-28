@@ -13,9 +13,9 @@ trait Event {
     protected function setApplicableFilters() {
         $this->setDateApplicableFilters();
 
-        if (true === $this->needsAnswer()) {
-            if (true === $this->hasAnswered(\Auth::user())) {
-                switch ($this->isAttending(\Auth::user())) {
+        if ($this->needsAnswer()) {
+            if ($this->hasAnswered()) {
+                switch ($this->isAttending()) {
                     case 'yes':
                         $this->applicable_filters[] = 'going';
                         break;
@@ -46,15 +46,31 @@ trait Event {
     }
 
     /**
+     * Returns answer, if a user (or on null the authenticated user) has answered this Date.
+     *
+     * @param User|null $user
+     * @return bool
+     */
+    public abstract function isAttending(User $user = null);
+
+    /**
      * Gives the attendance string.
      *
      * @param $attendance
      * @return String
      */
-    public function isAttendingEvent($attendance) {
-        if (null === $attendance) return \Config::get('enums.attendances_reversed')[0];
+    protected function isAttendingEvent($attendance) {
+        if (null === $attendance) return '';
         return \Config::get('enums.attendances_reversed')[$attendance->attendance];
     }
+
+    /**
+     * Returns true, if a user (or on null the authenticated user) has answered this Date.
+     *
+     * @param User|null $user
+     * @return bool
+     */
+    public abstract function hasAnswered(User $user = null);
 
     /**
      * True, if a user has answered the event.
@@ -62,7 +78,7 @@ trait Event {
      * @param $attendance
      * @return bool
      */
-    public function hasAnsweredEvent($attendance) {
+    protected function hasAnsweredEvent($attendance) {
         if (null === $attendance) {
             return false;
         } else if ($this->hasBinaryAnswer()) {
