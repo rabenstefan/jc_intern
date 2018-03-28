@@ -79,11 +79,11 @@ class User extends Authenticatable
     }
 
     public function beer_count() {
-        return $this->belongsToMany('App\BeerCount');
+        return $this->hasMany('App\BeerCount');
     }
 
     public function commitments() {
-        return $this->belongsToMany('App\GigAttendance');
+        return $this->hasMany('App\GigAttendance');
     }
 
     public function roles() {
@@ -91,7 +91,7 @@ class User extends Authenticatable
     }
 
     public function semester_fees() {
-        return $this->belongsToMany('App\SemesterFee');
+        return $this->hasMany('App\SemesterFee');
     }
 
     public function sheets() {
@@ -112,7 +112,7 @@ class User extends Authenticatable
 
 
     public function attendances(){
-        return $this->belongsToMany('App\RehearsalAttendance');
+        return $this->hasMany('App\RehearsalAttendance');
     }
 
     /*

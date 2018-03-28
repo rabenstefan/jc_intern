@@ -40,15 +40,15 @@ class Rehearsal extends \Eloquent implements IdentifiableEvent {
     ];
 
     public function semester() {
-        return $this->hasOne('App\Semester');
+        return $this->belongsTo('App\Semester');
     }
 
     public function voice() {
-        return $this->hasOne('App\Voice');
+        return $this->belongsTo('App\Voice');
     }
 
     public function rehearsal_attendances() {
-        return $this->belongsToMany('App\RehearsalAttendance');
+        return $this->hasMany('App\RehearsalAttendance');
     }
 
     public function getShortName() {

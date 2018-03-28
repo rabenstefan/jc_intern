@@ -21,13 +21,11 @@ class Birthday implements Event {
 
     public $description = '';
 
-    private $first_name;
-    private $last_name;
+    private $user;
 
     public function __construct(User $user = null) {
         $this->title = trans('form.birthday') . " " . $user->first_name . ' ' . $user->last_name;
-        $this->first_name = $user->first_name;
-        $this->last_name = $user->last_name;
+        $this->user = $user;
 
         // Date arithmetic: Set to current year, add one year if date is more than one week ago.
         $dateCurrentYear = $user->birthday;
@@ -53,12 +51,8 @@ class Birthday implements Event {
         return $this->title;
     }
 
-    public function getFirstName() {
-        return $this->first_name;
-    }
-
-    public function getLastName() {
-        return $this->last_name;
+    public function getUser() {
+        return $this->user;
     }
 
     /**

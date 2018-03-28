@@ -103,7 +103,7 @@
                                 {{ trans('home.upcoming_birthdays_body', ['count' => $next_birthdays_panel['count']])}}
                                     <ul>
                                     @foreach($next_birthdays_panel['data'] as $birthday)
-                                        <li>{{ trans('home.birthday_name', ['name' => $birthday->getFirstName()]) }}
+                                        <li>{{ trans('home.birthday_name', ['name' => $birthday->getUser()->first_name]) }}
                                             <?php $diff = $today->diffInDays($birthday->getStart(), false) ?>
                                             @if($diff === 0)
                                                 <strong>{{ trans('home.today') }}</strong>

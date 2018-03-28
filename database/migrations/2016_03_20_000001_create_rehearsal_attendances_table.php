@@ -27,30 +27,6 @@ class CreateRehearsalAttendancesTable extends Migration
             $table->boolean('missed')->default(false);
             $table->timestamps();
         });
-
-        Schema::create('rehearsal_attendance_user', function (Blueprint $table) {
-            $table->increments('id');
-
-            $table->integer('user_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-
-            $table->integer('rehearsal_attendance_id')->unsigned()->default(1);
-            $table->foreign('rehearsal_attendance_id')->references('id')->on('rehearsal_attendances')->onDelete('cascade');
-
-            $table->timestamps();
-        });
-
-        Schema::create('rehearsal_attendance_rehearsal', function (Blueprint $table) {
-            $table->increments('id');
-
-            $table->integer('rehearsal_id')->unsigned();
-            $table->foreign('rehearsal_id')->references('id')->on('rehearsals')->onDelete('cascade');
-
-            $table->integer('rehearsal_attendance_id')->unsigned()->default(1);
-            $table->foreign('rehearsal_attendance_id')->references('id')->on('rehearsal_attendances')->onDelete('cascade');
-
-            $table->timestamps();
-        });
     }
 
     /**

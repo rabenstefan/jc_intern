@@ -26,30 +26,6 @@ class CreateGigAttendancesTable extends Migration
             $table->string('internal_comment')->nullable();
             $table->timestamps();
         });
-
-        Schema::create('gig_attendance_user', function (Blueprint $table) {
-            $table->increments('id');
-
-            $table->integer('user_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-
-            $table->integer('gig_attendance_id')->unsigned();
-            $table->foreign('gig_attendance_id')->references('id')->on('gig_attendances')->onDelete('cascade');
-
-            $table->timestamps();
-        });
-
-        Schema::create('gig_attendance_gig', function (Blueprint $table) {
-            $table->increments('id');
-
-            $table->integer('gig_id')->unsigned();
-            $table->foreign('gig_id')->references('id')->on('gigs')->onDelete('cascade');
-
-            $table->integer('gig_attendance_id')->unsigned();
-            $table->foreign('gig_attendance_id')->references('id')->on('gig_attendances')->onDelete('cascade');
-
-            $table->timestamps();
-        });
     }
 
     /**

@@ -36,11 +36,11 @@ class Gig extends \Eloquent implements IdentifiableEvent {
     ];
 
     public function gig_attendances() {
-        return $this->belongsToMany('App\GigAttendance');
+        return $this->hasMany('App\GigAttendance');
     }
 
     public function semester() {
-        return $this->hasOne('App\Semester');
+        return $this->belongsTo('App\Semester');
     }
 
     public function getShortName() {

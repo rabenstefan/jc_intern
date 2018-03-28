@@ -6,15 +6,15 @@ use Carbon\Carbon;
 
 class Semester extends \Eloquent {
     public function gigs() {
-        return $this->belongsToMany('App\Gig');
+        return $this->hasMany('App\Gig');
     }
 
     public function rehearsals() {
-        return $this->belongsToMany('App\Rehearsal');
+        return $this->hasMany('App\Rehearsal');
     }
 
     public function echoed() {
-        return $this->belongsToMany('App\User', 'last_echo');
+        return $this->hasMany('App\User', 'last_echo');
     }
 
     public function semester_fees() {
