@@ -19,7 +19,7 @@ class RehearsalAttendanceController extends AttendanceController {
     public function __construct() {
         parent::__construct();
 
-        $this->middleware('admin:rehearsal', ['except' => ['excuseSelf', 'confirmSelf']]);
+        $this->middleware('admin:rehearsal', ['except' => ['changeOwnRehearsalAttendance', 'changeOwnRehearsalComment']]);
     }
 
     public function listMissing ($id = null) {
@@ -55,10 +55,10 @@ class RehearsalAttendanceController extends AttendanceController {
      * @param Request $request
      * @param Integer $rehearsalId
      * @param Integer $userId
-     * @param String $attendance
+     * @param String $missing
      * @return \Illuminate\Http\JsonResponse
      */
-    public function changeAttendance (Request $request, $rehearsalId, $userId, $attendance = null) {
+    public function changeMissing (Request $request, $rehearsalId, $userId, $missing = null) {
         // Try to get the rehearsal.
         $rehearsal = Rehearsal::find($rehearsalId);
 
@@ -73,49 +73,17 @@ class RehearsalAttendanceController extends AttendanceController {
         return $this->changeEventAttendance($request, $rehearsal, $userId, $attendance);
     }
 
-    /**
-     * Function to change the currently logged in user's attendance for a given rehearsal.
-     *
-     * @param Request $request
-     * @param Integer $rehearsalId
-     * @param String $attendance
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function changeOwnAttendance (Request $request, $rehearsalId, $attendance) {
-        // Try to get the rehearsal.
-        $rehearsal = Rehearsal::find($rehearsalId);
 
-        if (null === $rehearsal) {
-            if ($request->wantsJson()) {
-                return \Response::json(['success' => false, 'message' => trans('date.rehearsal_not_found')]);
-            } else {
-                return back()->withErrors(trans('date.rehearsal_not_found'));
-            }
-        }
+    public function changeOwnRehearsalAttendance(Request $request, $rehearsal_id) {
+        $rehearsal = Rehearsal::find($rehearsal_id);
 
-        return $this->changeOwnEventAttendance($request, $rehearsal, $attendance);
+        return $this->changeOwnEventAttendance($request, $rehearsal);
     }
 
-    /**
-     * Function to set the currently logged in user to attending for a given rehearsal.
-     *
-     * @param Request $request
-     * @param Integer $rehearsalId
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function confirmSelf(Request $request, $rehearsalId) {
-        return $this->changeOwnAttendance($request, $rehearsalId, \Config::get('enums.attendance')['yes']);
-    }
+    public function changeOwnRehearsalComment(Request $request, $rehearsal_id) {
+        $rehearsal = Rehearsal::find($rehearsal_id);
 
-    /**
-     * Function to excuse the currently logged in user for a given rehearsal.
-     * 
-     * @param Request $request
-     * @param Integer $rehearsalId
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function excuseSelf(Request $request, $rehearsalId) {
-        return $this->changeOwnAttendance($request, $rehearsalId, \Config::get('enums.attendance')['no']);
+        return $this->changeOwnEventComment($request, $rehearsal);
     }
 
     /**
@@ -141,9 +109,6 @@ class RehearsalAttendanceController extends AttendanceController {
             $attendance->user_id = $user->id;
             $attendance->rehearsal_id = $rehearsal->id;
 
-            // Connect to user and rehearsal via pivot tables.
-            $user->attendances()->save($attendance);
-            $rehearsal->attendances()->save($attendance);
         }
 
         // Set attributes accordingly.
@@ -157,7 +122,9 @@ class RehearsalAttendanceController extends AttendanceController {
             $attendance->internal_comment = $data['internal_comment'];
         }
 
-        $attendance->missed = $data['missed'];
+        if (isset($data['missed'])) {
+            $attendance->missed = $data['missed'];
+        }
 
         return $attendance->save();
     }

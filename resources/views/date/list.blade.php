@@ -34,9 +34,9 @@
                         </div>
 
                         <div class="panel-body" id="list-dates">
-                            <form id="excuse-form" class="modal" style="display: none;">
-                                {!! Form::textInput2d('excuse', null, ['placeholder' => trans('form.optional')]) !!}
-                                {!! Form::submitInput2d([], trans('date.excuse')) !!}
+                            <form id="comment-form" class="modal" style="display: none;">
+                                {!! Form::textInput2d('comment', null, ['placeholder' => trans('form.empty')]) !!}
+                                {!! Form::submitInput2d([], trans('date.save')) !!}
                             </form>
                             @include('date.settings_bar', ['view_type' => 'list', 'override_types' => $override_types, 'override_statuses' => $override_statuses, 'override_show_all' => $override_show_all])
                             @each('date.list.row', $dates, 'date')
@@ -78,9 +78,11 @@
 
             if (currentState) {
                 $(eventNode).addClass('event-not-going');
+                $(eventNode).removeClass('event-going');
                 $(titleNote).show();
             } else {
                 $(eventNode).removeClass('event-not-going');
+                $(eventNode).addClass('event-going');
                 $(titleNote).hide();
             }
 
@@ -88,13 +90,13 @@
         }
 
         /**
-         * Handles AJAX-call to change the attendance of a rehearsal.
+         * Handles AJAX-call to change the attendance of a slider (binary) answer.
          *
          * This method is called from the main.js via the "data-function" attribute on the switch for attendance.
          *
          * @param sliderElement
          */
-        function changeAttendance (sliderElement) {
+        function changeAttendanceSlider(sliderElement) {
             // Make slider inactive.
             $(sliderElement).addClass('inactive');
 
@@ -116,6 +118,23 @@
             }
         }
 
+        function saveComment(url, excuse) {
+            $.post(url, {
+                    _token: '{{ csrf_token() }}',
+                    comment: excuse
+                }, function (data) {
+                    // Success?
+                    if (data.success) {
+                        // Notify user.
+                        $.notify(data.message, 'success');
+                    } else {
+                        // Warn user.
+                        $.notify(data.message, 'danger');
+                    }
+                },
+                'json');
+        }
+
         /**
          * Function only calls API via POST and handles the returned messages.
          *
@@ -124,79 +143,67 @@
          * @param currentlyAttending
          * @param excuse
          */
-        function saveAttendance(url, sliderElement, currentlyAttending, excuse) {
+        function saveAttendance(url, attendance) {
+            console.log(url);
             // Request the url via post, include csrf-token and comment.
             $.post(url, {
                 _token: '{{ csrf_token() }}',
-                comment: excuse,
-                attendance: currentlyAttending
+                attendance: attendance
             }, function (data) {
+
+                    console.log(data);
                 // Success?
                 if (data.success) {
                     // Notify user.
                     $.notify(data.message, 'success');
-
-                    // Make slider active again.
-                    $(sliderElement).removeClass('inactive');
-
-                    // Get slider's current state and switch it and its event.
-                    sliderSwitch(sliderElement, currentlyAttending);
-                    eventSwitch(sliderElement, currentlyAttending);
                 } else {
                     // Warn user.
                     $.notify(data.message, 'danger');
-
-                    // Make slider active again.
-                    $(sliderElement).removeClass('inactive');
-                    $(this).removeClass('btn-pressed');
-                    $(this).addClass('btn-unpressed');
                 }
-
-                $.modal.close();
             },
-            'json');
+            'json').fail(function(xhr, status,error) {
+                $('.panel-heading').append(xhr.responseText);
+            });
         }
 
         $(document).ready(function () {
             // On submission of the form in the modal.
-            $('#excuse-form').submit(function (event) {
+            $('#comment-form').submit(function (event) {
                 event.preventDefault();
 
-                saveAttendance($(this).attr('action'),
-                    $(this).data('sliderElement'),
-                    $(this).data('currentlyAttending'),
-                    $('#excuse').val()
+                saveComment($(this).attr('action'),
+                    $('#comment').val()
                 );
 
-                $('#excuse').val('');
-            }).on($.modal.CLOSE, function () {
-                // If the modal gets closed without entering the form reset and release switch.
-                // Make all sliders active again.
-                $('.slider-2d').removeClass('inactive');
+                $('#comment').val('');
             });
 
             // On click of a gig attendance button.
             $('.button-set-2d > a.btn').click(function (event) {
                 event.preventDefault();
 
-                //TODO: Restore pressed button if modal was unsuccessful.
+                saveAttendance($(this).data('url'), $(this).data('attendance'));
+                eventSwitch(this, true);
+
                 $(this).siblings().addClass('btn-unpressed');
                 $(this).siblings().removeClass('btn-pressed');
 
                 $(this).addClass('btn-pressed');
                 $(this).removeClass('btn-unpressed');
 
-                if ($(this).data('attendance') !== 'yes') {
+
+
+                if ($(this).data('attendance') === 'maybe') {
                     // Display modal to put in an excuse.
-                    $('#excuse-form').attr('action', $(this).data('url'))
-                        .data('sliderElement', this)
-                        .data('currentlyAttending', $(this).data('attendance'))
-                        .modal();
-                } else {
-                    // Save attendance directly, without modal of excuse.
-                    saveAttendance($(this).data('url'), null, 'yes', '');
-                    eventSwitch(this, true);
+                    $('#comment-form').attr('action', $(this).data('url'))
+                        .modal({'escapeClose': false,
+                            'clickClose': false,
+                            'showClose': false});
                 }
+            });
+
+            $('.btn-comment').click(function (event){
+                $('#comment-form').attr('action', $(this).data('url')).modal();
             });
         });
     </script>

@@ -1,7 +1,6 @@
 <?php
 $applicable_filters = [$date->getShortName()];
 $attending = '';
-$notAttending = false;
 
 if (true === $date->needsAnswer()) {
     if (true === $date->currentUserHasAnswered()) {
@@ -21,8 +20,6 @@ if (true === $date->needsAnswer()) {
         $applicable_filters[] = 'unanswered';
     }
 }
-
-
 
 ?>
 
@@ -61,10 +58,10 @@ if (true === $date->needsAnswer()) {
             </div>
             <div class="col-xs-12 col-sm-4 col-md-4 col-lg-2 event-controls">
                 @if(true === $date->needsAnswer())
-                @if(true === $date->binary_answer)
+                @if(true === $date->binary_answer and true === $date->currentUserHasAnswered())
                     <div class="row">
                         <div class="col-xs-12">
-                            <span class="slider-2d" data-function="changeAttendance" data-excuse-url="{{ route('attendance.excuseSelf', ['rehearsal_id' => $date->getId()]) }}" data-attend-url="{{ route('attendance.confirmSelf', ['rehearsal_id' => $date->getId()]) }}">
+                            <span class="slider-2d" data-function="changeAttendance" data-url="{{ route($date->getShortName() . '.changeOwnAttendance', [$date->getShortName() . '_id' => $date->getId()]) }}">
                                 <input type="checkbox"<?php echo 'no' === $attending ? '' : ' checked="checked"'; ?> id="slider-attending-{{ $date->getShortName() }}-{{ $date->getId() }}">
                                 <label for="slider-attending-{{ $date->getShortName() }}-{{ $date->getId() }}">
                                     <span class="slider"></span>
@@ -78,31 +75,55 @@ if (true === $date->needsAnswer()) {
                     <div class="row">
                         <div class="col-xs-12">
                             <span class="button-set-2d">
-                                <a href="#" class="btn btn-2d btn-no {{ $attending == 'no' ? 'btn-pressed' : 'btn-unpressed' }}" data-url="{{ route('commitment.commitSelf', ['gig_id' => $date->getId()]) }}" data-attendance="no">
+                                <a href="#" class="btn btn-2d btn-no {{ $attending == 'no' ? 'btn-pressed' : 'btn-unpressed' }}" data-url="{{ route($date->getShortName() . '.changeOwnAttendance', [$date->getShortName() . '_id' => $date->getId()]) }}" data-attendance="no">
                                     <i class="far fa-calendar-times"></i>
                                 </a>
-                                <a href="#" class="btn btn-2d btn-maybe {{ $attending == 'maybe' ? 'btn-pressed' : 'btn-unpressed' }}" data-url="{{ route('commitment.commitSelf', ['gig_id' => $date->getId()]) }}" data-attendance="maybe">
+                                @if(false === $date->binary_answer)
+                                <a href="#" class="btn btn-2d btn-maybe {{ $attending == 'maybe' ? 'btn-pressed' : 'btn-unpressed' }}" data-url="{{ route($date->getShortName() . '.changeOwnAttendance', [$date->getShortName() . '_id' => $date->getId()]) }}" data-attendance="maybe">
                                     <i class="fas fa-question"></i>
                                 </a>
-                                <a href="#" class="btn btn-2d btn-yes {{ $attending == 'yes' ? 'btn-pressed' : 'btn-unpressed' }}" data-url="{{ route('commitment.commitSelf', ['gig_id' => $date->getId()]) }}" data-attendance="yes">
+                                @endif
+                                <a href="#" class="btn btn-2d btn-yes {{ $attending == 'yes' ? 'btn-pressed' : 'btn-unpressed' }}" data-url="{{ route($date->getShortName() . '.changeOwnAttendance', [$date->getShortName() . '_id' => $date->getId()]) }}" data-attendance="yes">
                                     <i class="far fa-calendar-check"></i>
                                 </a>
                             </span>
                         </div>
                     </div>
                 @endif
-                @endif
-                @if(isset($date->getEventOptions()['url']) && Auth::user()->isAdmin($date->getShortName()))
-                    <div class="row">
-                        <div class="col-xs-12">
+
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <span class="comment-btn-container">
+                                <a href="#" class="btn btn-2d btn-comment" data-url="{{ route($date->getShortName() . '.changeOwnComment', [$date->getShortName() . '_id' => $date->getId()]) }}">
+                                    <i class="far fa-comment"></i>
+                                </a>
+                                </span>
+                            </div>
+                            @if(isset($date->getEventOptions()['url']) && Auth::user()->isAdmin($date->getShortName()))
+                            <div class="col-xs-3">
                             <span class="edit-btn-container">
                                 <a href="{{ $date->getEventOptions()['url'] }}" class="btn btn-2d" title="{{ trans('form.edit') }}">
                                     <i class="fa fa-pencil-alt"></i>
                                 </a>
                             </span>
+                            </div>
+                            @endif
                         </div>
-                    </div>
-                @endif
+
+                @else
+                    @if(isset($date->getEventOptions()['url']) && Auth::user()->isAdmin($date->getShortName()))
+                        <div class="row">
+                            <div class="col-xs-12">
+                            <span class="edit-btn-container">
+                                <a href="{{ $date->getEventOptions()['url'] }}" class="btn btn-2d" title="{{ trans('form.edit') }}">
+                                    <i class="fa fa-pencil-alt"></i>
+                                </a>
+                            </span>
+                            </div>
+                        </div>
+                    @endif
+                    @endif
+
             </div>
         </div>
     </div>

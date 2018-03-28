@@ -7,7 +7,7 @@ use App\Gig;
 use App\User;
 use Illuminate\Http\Request;
 
-class GigAttendanceController extends Controller {
+class GigAttendanceController extends AttendanceController {
     /**
      * RehearsalAttendanceController constructor.
      *
@@ -16,55 +16,21 @@ class GigAttendanceController extends Controller {
     public function __construct() {
         $this->middleware('auth');
 
-        $this->middleware('admin:rehearsal', ['except' => 'commitSelf']);
+        $this->middleware('admin:rehearsal', ['except' => ['changeOwnGigAttendance', 'changeOwnGigComment']]);
     }
 
-    /**
-     * Function to set a commitment (with appropriate status) for the current user.
-     *
-     * @param Request $request
-     * @param $gig_id
-     * @return $this|\Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
-     */
-    public function commitSelf(Request $request, $gig_id) {
+    public function changeOwnGigAttendance(Request $request, $gig_id) {
         // Try to get the gig.
         $gig = Gig::find($gig_id);
 
-        if (null === $gig) {
-            if ($request->wantsJson()) {
-                return \Response::json(['success' => false, 'message' => trans('date.gig_not_found')]);
-            } else {
-                return back()->withErrors(trans('date.gig_not_found'));
-            }
-        }
+        return $this->changeOwnEventAttendance($request, $gig);
+    }
 
-        // Get logged in user and prepare data for saving.
-        $user = \Auth::user();
-        $data = [
-            'comment' => $request->has('comment') ? $request->get('comment') : '',
-            'attendance' => $request->has('attendance') ? $request->get('attendance') : 'no',
-            'internal_comment' => '',
-        ];
+    public function changeOwnGigComment(Request $request, $gig_id) {
+        // Try to get the gig.
+        $gig = Gig::find($gig_id);
 
-        // Change the commitment respectively.
-        $success = $this->storeAttendance($gig, $user, $data);
-
-        // Check if changing the attendance worked.
-        if (!$success) {
-            if ($request->wantsJson()) {
-                return \Response::json(['success' => false, 'message' => trans('date.commitment_change_error')]);
-            } else {
-                return back()->withErrors(trans('date.commitment_change_error'));
-            }
-        }
-
-        // If we arrive here everything went fine.
-        if ($request->wantsJson()) {
-            return \Response::json(['success' => true, 'message' => trans('date.commitment_change_success')]);
-        } else {
-            $request->session()->flash('message_success', trans('date.commitment_change_success'));
-            return back();
-        }
+        return $this->changeOwnEventComment($request, $gig);
     }
 
     /**
@@ -75,7 +41,7 @@ class GigAttendanceController extends Controller {
      * @param array $data
      * @return bool
      */
-    private function storeAttendance(Gig $gig, User $user, array $data) {
+    protected function storeAttendance($gig, User $user, array $data) {
         // Check if we have a commitment for this user/rehearsal.
         $commitment = GigAttendance::where('user_id', $user->id)->where('gig_id', $gig->id)->first();
 
@@ -85,10 +51,6 @@ class GigAttendanceController extends Controller {
 
             $commitment->user_id = $user->id;
             $commitment->gig_id = $gig->id;
-
-            // Connect to user and rehearsal via pivot tables.
-            $user->attendances()->save($commitment);
-            $gig->commitments()->save($commitment);
         }
 
         // Set attributes accordingly.

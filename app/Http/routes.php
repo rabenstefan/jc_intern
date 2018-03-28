@@ -38,14 +38,15 @@ Route::group(['middleware' => 'web'], function () {
         'except' => ['index']
     ]);
     Route::get('rehearsal/attendance/list/{id?}', 'RehearsalAttendanceController@listMissing')->name('attendance.listMissing');
-    Route::post('rehearsal/attend/{rehearsal_id}', 'RehearsalAttendanceController@confirmSelf')->name('attendance.confirmSelf');
-    Route::post('rehearsal/excuse/{rehearsal_id}', 'RehearsalAttendanceController@excuseSelf')->name('attendance.excuseSelf');
+    Route::post('rehearsal/change_attendance/{rehearsal_id}', 'RehearsalAttendanceController@changeOwnRehearsalAttendance')->name('rehearsal.changeOwnAttendance');
+    Route::post('rehearsal/comment/{rehearsal_id}', 'RehearsalAttendanceController@changeOwnRehearsalComment')->name('rehearsal.changeOwnComment');
     Route::post('rehearsal/attend/{rehearsal_id}/{user_id}', 'RehearsalAttendanceController@changeAttendance')->name('attendance.changeAttendance');
 
     Route::resource('gig', 'GigController', [
         'except' => ['index']
     ]);
-    Route::post('gig/commitment/{gig_id}', 'GigAttendanceController@commitSelf')->name('commitment.commitSelf');
+    Route::post('gig/change_attendance/{gig_id}', 'GigAttendanceController@changeOwnGigAttendance')->name('gig.changeOwnAttendance');
+    Route::post('gig/comment/{gig_id}', 'GigAttendanceController@changeOwnGigComment')->name('gig.changeOwnComment');
 
     Route::resource('sheet', 'SheetController');
     Route::put('sheet/ajaxUpdate/{id}', 'SheetController@ajaxUpdate');
