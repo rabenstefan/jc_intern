@@ -43,7 +43,6 @@ class Gig extends \Eloquent implements IdentifiableEvent {
         return $model;
     }
 
-
     public function gig_attendances() {
         return $this->hasMany('App\GigAttendance');
     }

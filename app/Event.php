@@ -11,7 +11,6 @@ trait Event {
      * Extend the Date's applicable filters by the attendance of the event.
      */
     protected function setApplicableFilters() {
-
         if ($this->needsAnswer()) {
             if ($this->hasAnswered()) {
                 switch ($this->isAttending()) {

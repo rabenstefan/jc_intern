@@ -74,7 +74,7 @@ class RehearsalAttendanceController extends AttendanceController {
             return back()->withErrors(trans('date.no_last_rehearsal'));
         }
 
-        $users = User::with(['attendances' => function ($query) use ($rehearsal) {
+        $users = User::with(['rehearsal_attendances' => function ($query) use ($rehearsal) {
             return $query->where('rehearsal_id', $rehearsal->id)->get();
         }])->get();
 
