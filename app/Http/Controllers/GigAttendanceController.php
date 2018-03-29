@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\GigAttendance;
 use App\Gig;
 use App\User;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class GigAttendanceController extends AttendanceController {
@@ -32,6 +31,21 @@ class GigAttendanceController extends AttendanceController {
         )->where(
             'start', '>=', Carbon::now()->toDateTimeString()
         )->first();
+    }
+
+    //TODO: Is this necessary?
+    public function changeOwnGigAttendance(Request $request, $gig_id) {
+        // Try to get the gig.
+        $gig = Gig::find($gig_id);
+
+        return $this->changeOwnEventAttendance($request, $gig);
+    }
+
+    public function changeOwnGigComment(Request $request, $gig_id) {
+        // Try to get the gig.
+        $gig = Gig::find($gig_id);
+
+        return $this->changeOwnEventComment($request, $gig);
     }
 
     /**

@@ -3,7 +3,6 @@
 namespace App;
 
 use Carbon\Carbon;
-use DateTime;
 use Illuminate\Database\Eloquent\Collection;
 use MaddHatter\LaravelFullcalendar\Event;
 
@@ -12,6 +11,7 @@ class Birthday implements Event {
 
     protected $calendar_options = [
         'className' => 'event-birthday',
+        'shortName' => 'birthday'
     ];
 
     private $title;
@@ -59,6 +59,7 @@ class Birthday implements Event {
     public function getUser() {
         return $this->user;
     }
+
     /**
      * Is it an all day event?
      *

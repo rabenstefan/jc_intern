@@ -12,6 +12,7 @@ class Gig extends \Eloquent implements IdentifiableEvent {
     protected $calendar_options = [
         'className' => 'event-gig',
         'url' => '',
+        'shortName' => 'gig'
     ];
 
     protected $casts = [
@@ -33,8 +34,10 @@ class Gig extends \Eloquent implements IdentifiableEvent {
         'binary_answer',
     ];
 
-    public function newFromBuilder($attributes = [], $connection = null)
-    {
+    protected $with = ['current_user_attendance'];
+
+    // TODO: Check and comment
+    public function newFromBuilder($attributes = [], $connection = null) {
         $model = parent::newFromBuilder($attributes, $connection);
         $model->setApplicableFilters();
         return $model;
@@ -43,6 +46,10 @@ class Gig extends \Eloquent implements IdentifiableEvent {
 
     public function gig_attendances() {
         return $this->hasMany('App\GigAttendance');
+    }
+
+    public function current_user_attendance() {
+        return $this->hasOne('App\GigAttendance')->where('user_id', \Auth::user()->id);
     }
 
     public function semester() {
@@ -117,6 +124,7 @@ class Gig extends \Eloquent implements IdentifiableEvent {
         return $this->hasAnsweredEvent($attendance);
     }
 
+    //TODO: Comment
     public function hasCommented(User $user = null) {
         if (null === $user) {
             $user = \Auth::user();

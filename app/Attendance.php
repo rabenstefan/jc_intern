@@ -8,7 +8,7 @@ trait Attendance {
     }
 
     public function getPossibleAnswers() {
-        if ($this->event()->hasBinaryAnswer()) {
+        if (true === $this->event()->binary_answer) {
             return \Config::get('enums.attendances_binary_reversed');
         }
         return \Config::get('enums.attendances_reversed');

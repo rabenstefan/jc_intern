@@ -36,7 +36,7 @@
                 </span>
                 @if($date->hasCommented())
                 <span class="date_comment">
-{{ trans('date.your_comment') }} {{ $date->getComment() }}
+                    {{ trans('date.your_comment') }} {{ $date->getComment() }}
                 </span>
                     @endif
             </div>
@@ -46,7 +46,7 @@
                         <div class="row">
                             <div class="col-xs-12">
                                 <span class="slider-2d"
-                                      data-function="changeAttendanceSlider"
+                                      data-function="changeAttendance"
                                       data-attend-url="{{ route('attendances.changeOwnAttendance', ['events_name' => $date->getShortNamePlural(), 'event_id' => $date->getId(), 'shorthand' => 'attend']) }}"
                                       data-excuse-url="{{ route('attendances.changeOwnAttendance', ['events_name' => $date->getShortNamePlural(), 'event_id' => $date->getId(), 'shorthand' => 'excuse']) }}">
                                     <input type="checkbox" {{ $date->isAttending() === 'yes' ? ' checked="checked"' : '' }} id="slider-attending-{{ $date->getShortName() }}-{{ $date->getId() }}">

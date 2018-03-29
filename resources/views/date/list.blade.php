@@ -35,8 +35,8 @@
 
                         <div class="panel-body" id="list-dates">
                             <form id="comment-form" class="modal" style="display: none;">
-                                {!! Form::textInput2d('comment', null, []) !!}
-                                {!! Form::submitInput2d([], trans('date.submit')) !!}
+                                {!! Form::textInput2d('comment', null, ['placeholder' => trans('form.empty')]) !!}
+                                {!! Form::submitInput2d([], trans('date.save')) !!}
                             </form>
                             @include('date.settings_bar', [
                                 'view_type'         => 'list',
@@ -58,15 +58,56 @@
 
 @section('js')
     <script type="text/javascript">
+        /**
+         * Switches a slider to the opposite value. Sets the corresponding checkbox.
+         *
+         * @param sliderElement
+         * @param currentState
+         * @return Boolean success
+         */
+        function sliderSwitch (sliderElement, currentState) {
+            if ($(sliderElement).hasClass('inactive')) return false;
+
+            $(sliderElement).find('input[type="checkbox"]').prop('checked', !currentState);
+            return true;
+        }
 
         /**
-         * Handles changes to a slider-element
+         * Switch the whole event-box to "off" (grey out so that the user knows he is not attending).
+         *
+         * @param sliderElement
+         * @param currentState
+         */
+        function eventSwitch (sliderElement, currentState) {
+            if ($(sliderElement).hasClass('inactive')) return false;
+
+            var eventNode = $(sliderElement).parents('.event');
+            var titleNote = $(eventNode).find('.title .not-going-note');
+
+            if (currentState) {
+                $(eventNode).addClass('event-not-going');
+                $(eventNode).removeClass('event-going');
+                $(titleNote).show();
+            } else {
+                $(eventNode).removeClass('event-not-going');
+                $(eventNode).addClass('event-going');
+                $(titleNote).hide();
+            }
+
+            return true;
+        }
+
+        /**
+         * Handles AJAX-call to change the attendance of a slider (binary) answer.
          *
          * This method is called from the main.js via the "data-function" attribute on the switch for attendance.
          *
          * @param sliderElement
          */
-        function changeAttendanceSlider (sliderElement) {
+        function changeAttendance (sliderElement) {
+            // Make slider inactive.
+            $(sliderElement).addClass('inactive');
+
             // Do we need to excuse the user or is she attending?
             // If the slider's checkbox is "checked" we have to excuse her.
             var currentlyAttending = $(sliderElement).find('input[type="checkbox"]').prop('checked');
@@ -83,6 +124,23 @@
             saveAttendance(url, null, function() {
                     changeEventDisplayState(sliderElement, attendance, true);
                 });
+        }
+
+        function saveComment(url, excuse) {
+            $.post(url, {
+                    _token: '{{ csrf_token() }}',
+                    comment: excuse
+                }, function (data) {
+                    // Success?
+                    if (data.success) {
+                        // Notify user.
+                        $.notify(data.message, 'success');
+                    } else {
+                        // Warn user.
+                        $.notify(data.message, 'danger');
+                    }
+                },
+                'json');
         }
 
         /**
@@ -143,7 +201,6 @@
             }
         }
 
-
         $(document).ready(function () {
             // On submission of the form in the modal.
             $('#comment-form').submit(function (event) {
@@ -153,8 +210,13 @@
                     $('#comment').val()
                 );
 
+
                 $('#comment').val('');
                 $.modal.close();
+            }).on($.modal.CLOSE, function () {
+                // If the modal gets closed without entering the form reset and release switch.
+                // Make all sliders active again.
+                $('.slider-2d').removeClass('inactive');
             });
 
             // On click of a gig attendance button.
@@ -177,6 +239,10 @@
                 var button = this;
                 $('#comment-form').attr('action', $(this).data('comment-url')).modal();
 
+            });
+
+            $('.btn-comment').click(function (event){
+                $('#comment-form').attr('action', $(this).data('url')).modal();
             });
         });
     </script>

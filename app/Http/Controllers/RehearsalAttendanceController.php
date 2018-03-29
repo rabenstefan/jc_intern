@@ -7,8 +7,6 @@ use App\Rehearsal;
 use App\Semester;
 use App\User;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 
 class RehearsalAttendanceController extends AttendanceController {
@@ -87,7 +85,16 @@ class RehearsalAttendanceController extends AttendanceController {
         ]);
     }
 
-    public function changePresence(Request $request, $rehearsal_id, $user_id, $missed) {
+    /**
+     * Function for an admin to login if someone attends or is missing.
+     *
+     * @param Request $request
+     * @param Integer $rehearsal_id
+     * @param Integer $user_id
+     * @param String $attendance
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function changePresence (Request $request, $rehearsal_id, $user_id, $attendance = null) {
         // Try to get the rehearsal.
         $rehearsal = Rehearsal::find($rehearsal_id);
 
@@ -98,6 +105,9 @@ class RehearsalAttendanceController extends AttendanceController {
                 return back()->withErrors(trans('date.rehearsal_not_found'));
             }
         }
+
+        //TODO: Change function
+        return $this->changeEventAttendance($request, $rehearsal, $user_id, $attendance);
     }
 
     /**
@@ -131,6 +141,7 @@ class RehearsalAttendanceController extends AttendanceController {
      * @param User $user
      * @param array $data
      * @return bool
+     *
      * @throws \Exception
      */
     protected function storeAttendance($rehearsal, User $user, array $data) {

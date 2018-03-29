@@ -100,8 +100,47 @@ abstract class AttendanceController extends Controller {
         return $this->changeUserEventAttendance($request, $event, $user, $attendance);
     }
 
+    //TODO: Check!
+    public function changeOwnEventComment (Request $request, $event) {
+        if (null === $event) {
+            if ($request->wantsJson()) {
+                return \Response::json(['success' => false, 'message' => trans('date.event_not_found')]);
+            } else {
+                return back()->withErrors(trans('date.event_not_found'));
+            }
+        }
+
+        $success = false;
+        if ($request->has('comment')) {
+            $attendance = $event->current_user_attendance;
+            var_dump($attendance);
+            $attendance->comment = $request->has('comment') ? $request->get('comment') : '';
+            $success = $attendance->save();
+        }
+
+
+        // Check if changing the attendance worked.
+        if (!$success) {
+            $message = trans('date.change_own_attendance_comment_error');
+            if ($request->wantsJson()) {
+                return \Response::json(['success' => false, 'message' => $message]);
+            } else {
+                return back()->withErrors($message);
+            }
+        }
+
+        // If we arrive here everything went fine.
+        $message =trans('date.own_attendance_comment_saved');
+        if ($request->wantsJson()) {
+            return \Response::json(['success' => true, 'message' => $message]);
+        } else {
+            $request->session()->flash('message_success', $message);
+            return back();
+        }
+    }
+
     /**
-     * Function to change the currently logged in user's attendance for a given rehearsal.
+     * Function to change the currently logged in user's attendance for a given event.
      *
      * @param Request $request
      * @param integer $event_id

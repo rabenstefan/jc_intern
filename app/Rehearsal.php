@@ -12,6 +12,7 @@ class Rehearsal extends \Eloquent implements IdentifiableEvent {
     protected $calendar_options = [
         'className' => 'event-rehearsal',
         'url' => '',
+        'shortName' => 'rehearsal'
     ];
 
     protected $casts = [
@@ -37,8 +38,7 @@ class Rehearsal extends \Eloquent implements IdentifiableEvent {
         'voice_id',
     ];
 
-    public function newFromBuilder($attributes = [], $connection = null)
-    {
+    public function newFromBuilder($attributes = [], $connection = null) {
         $model = parent::newFromBuilder($attributes, $connection);
         $model->setApplicableFilters();
         return $model;
@@ -124,6 +124,7 @@ class Rehearsal extends \Eloquent implements IdentifiableEvent {
         return $this->hasAnsweredEvent($attendance);
     }
 
+    //TODO: Comment
     public function hasCommented(User $user = null) {
         if (null === $user) {
             $user = \Auth::user();
