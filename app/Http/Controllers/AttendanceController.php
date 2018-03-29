@@ -164,7 +164,11 @@ abstract class AttendanceController extends Controller {
         // Change the attendance according to the subclass.
         if (!$this->storeAttendance($event, $user, $data)) {
             // Attendance was not saved.
-            $message = 'yes' == $attendance ? trans('date.attendance_error') : trans('date.excuse_error');
+            if (null === $attendance) {
+                $message = trans('date.comment_error');
+            } else {
+                $message = 'yes' == $attendance ? trans('date.attendance_error') : trans('date.excuse_error');
+            }
             if ($request->wantsJson()) {
                 return \Response::json(['success' => false, 'message' => $message]);
             } else {
@@ -173,7 +177,11 @@ abstract class AttendanceController extends Controller {
         }
 
         // If we arrive here everything went fine.
-        $message = 'yes' == $attendance ? trans('date.attendance_saved') : trans('date.excuse_saved');
+        if (null === $attendance) {
+            $message = trans('date.comment_success');
+        } else {
+            $message = 'yes' == $attendance ? trans('date.attendance_saved') : trans('date.excuse_saved');
+        }
         if ($request->wantsJson()) {
             return \Response::json(['success' => true, 'message' => $message]);
         } else {

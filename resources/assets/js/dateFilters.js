@@ -100,6 +100,6 @@
                 dateFilters.prepareShowAll();
                 dateFilters.applyAllFilters();
             });
-        },
+        }
     }
 }(jQuery);

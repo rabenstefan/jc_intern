@@ -36,7 +36,7 @@
                         <div class="panel-body" id="list-dates">
                             <form id="comment-form" class="modal" style="display: none;">
                                 {!! Form::textInput2d('comment', null, []) !!}
-                                {!! Form::submitInput2d([], trans('date.submit')) !!}
+                                {!! Form::submitInput2d([], trans('form.submit')) !!}
                             </form>
                             @include('date.settings_bar', [
                                 'view_type'         => 'list',
@@ -86,7 +86,7 @@
         }
 
         /**
-         * Function calls API via POST calls success_callback on success.
+         * Function calls API via POST. Calls success_callback on success.
          *
          * @param url
          * @param attendance
@@ -114,9 +114,9 @@
                     $.notify(reply.message, 'danger');
                 }
             },
-            'json').fail(function() {
+            'json').fail(function(xhr, status, error) {
                 // Warn user.
-                $.notify('{{ trans('date.ajax_failed') }}', 'danger');
+                $.notify('{{ trans('date.ajax_failed') }}' + status + ' ' + error, 'danger');
             });
         }
 
@@ -139,15 +139,41 @@
             }
 
             var eventNode = $(button).parents('.event');
-            var titleNote = $(button).find('.title .not-going-note');
+            var containerNode = $(eventNode).parent('.list-item');
+            var filters = $(containerNode).data('filters');
+            var titleNote = $(eventNode).find('.title .not-going-note');
 
-            if ('no' === attendance) {
-                $(eventNode).addClass('event-not-going');
-                $(titleNote).show();
-            } else {
-                $(eventNode).removeClass('event-not-going');
-                $(titleNote).hide();
+            switch(attendance) {
+                case 'yes':
+                    filters = $(filters).not(['not-going', 'maybe-going', 'unanswered']);
+                    filters.push('going');
+                    $(eventNode).addClass('event-going');
+                    $(eventNode).removeClass('event-not-going');
+                    $(eventNode).removeClass('event-maybe-going');
+                    $(eventNode).removeClass('event-unanswered');
+                    $(titleNote).hide();
+                    break;
+                case 'maybe':
+                    filters = $(filters).not(['not-going', 'going', 'unanswered']);
+                    filters.push('maybe');
+                    $(eventNode).addClass('event-maybe-going');
+                    $(eventNode).removeClass('event-not-going');
+                    $(eventNode).removeClass('event-going');
+                    $(eventNode).removeClass('event-unanswered');
+                    $(titleNote).hide();
+                    break;
+                case 'no':
+                    filters = $(filters).not(['going', 'maybe-going', 'unanswered']);
+                    filters.push('not-going');
+                    $(eventNode).addClass('event-not-going');
+                    $(eventNode).removeClass('event-going');
+                    $(eventNode).removeClass('event-maybe-going');
+                    $(eventNode).removeClass('event-unanswered');
+                    $(titleNote).show();
+                    break;
             }
+
+            $(containerNode).data('filters', filters.toArray());
         }
 
 
@@ -164,6 +190,12 @@
                 $.modal.close();
             });
 
+            $('#comment-form').on($.modal.OPEN, function () {
+                $('#comment').focus();
+            }).on($.modal.CLOSE, function () {
+                $('#comment').val('');
+            });
+
             // On click of a gig attendance button.
             $('.button-set-2d > a.btn').click(function (event) {
                 event.preventDefault();
@@ -171,7 +203,7 @@
                 saveAttendance($(this).data('url'), null, function() {changeEventDisplayState(button, $(button).data('attendance'), false);});
 
                 if ($(this).data('attendance') === 'maybe') {
-                    // Display modal to put in an excuse.
+                    // Display modal to put in an excuse. Because I like to be an a-hole, this modal cannot be closed without submitting. One can, however submit an empty string, because I'm not 100% a dick.
                     $('#comment-form').attr('action', $(this).data('comment-url'))
                         .modal({'escapeClose': false,
                             'clickClose': false,

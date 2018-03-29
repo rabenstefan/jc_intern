@@ -1065,7 +1065,7 @@ $(document).ready(function () {
                 dateFilters.prepareShowAll();
                 dateFilters.applyAllFilters();
             });
-        },
+        }
     }
 }(jQuery);
 

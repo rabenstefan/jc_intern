@@ -31,13 +31,13 @@
                         @endif
                     @endif
                 </p>
-                <span class="date_descr">
+                <p class="date_descr">
                     {{ $date->description }}
-                </span>
+                </p>
                 @if($date->hasCommented())
-                <span class="date_comment">
-{{ trans('date.your_comment') }} {{ $date->getComment() }}
-                </span>
+                <p class="date_comment">
+                    <em>{{ trans('date.your_comment') }} {{ $date->getComment() }}</em>
+                </p>
                     @endif
             </div>
             <div class="col-xs-12 col-sm-4 col-md-4 col-lg-2 event-controls">
