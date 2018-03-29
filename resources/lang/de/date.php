@@ -33,6 +33,7 @@ return [
     'commitment_change_error' => 'Termin konnte nicht gespeichert werden. Bitte erneut probieren.',
     'not_attending'       => 'Termin abgesagt',
     'excuse'              => 'Termin absagen',
+    'maybe'               => 'Eventuell dabei',
     'attend'              => 'Termin zusagen',
     'excuse_comment'      => 'Entschuldigung (optional)',
     'rehearsal_listMissing_title' => 'Probenteilnahme',
@@ -55,7 +56,7 @@ return [
     'webcal'              => 'Webcal',
     'and'                 => 'und',
     'route_invalid'       => 'Route nicht definiert. Wie bist Du hier hingekommen? >:(',
-    'ajax_failed'         => 'Schlimmer Fehler! ',
+    'ajax_failed'         => 'Schlimmer Fehler! Bitte Programmierer kontaktieren und schreiend im Kreis laufen.',
     'comment_success'     => 'Kommentar gespeichert',
     'your_comment'        => 'Dein Kommentar:',
     'comment_error'       => 'Kommentar konnt nicht gespeichert werden ¯\_(ツ)_/¯'

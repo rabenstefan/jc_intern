@@ -35,10 +35,10 @@
                     {{ $date->description }}
                 </p>
                 @if($date->hasCommented())
-                <p class="date_comment">
-                    <em>{{ trans('date.your_comment') }} {{ $date->getComment() }}</em>
-                </p>
-                    @endif
+                    <p class="date_comment">
+                        <em>{{ trans('date.your_comment') }} {{ $date->getComment() }}</em>
+                    </p>
+                @endif
             </div>
             <div class="col-xs-12 col-sm-4 col-md-4 col-lg-2 event-controls">
                 @if($date->needsAnswer())
@@ -61,26 +61,29 @@
                     @else
                         <div class="row">
                             <div class="col-xs-12">
-                                <span class="button-set-2d">
+                                <span class="button-set-2d button-set-attendances">
                                     <a href="#"
                                        class="btn btn-2d btn-no {{ $date->hasAnswered() && $date->isAttending() == 'no' ? 'btn-pressed' : 'btn-unpressed' }}"
                                        data-url="{{ route('attendances.changeOwnAttendance', ['events_name' => $date->getShortNamePlural(), 'event_id' => $date->getId(), 'shorthand' => 'excuse'])}}"
-                                       data-attendance="no">
+                                       data-attendance="no"
+                                       title="{{ trans('date.excuse') }}">
                                         <i class="far fa-calendar-times"></i>
                                     </a>
                                     @if(!$date->hasBinaryAnswer())
-                                    <a href="#"
-                                       class="btn btn-2d btn-maybe {{ $date->hasAnswered() && $date->isAttending() == 'maybe' ? 'btn-pressed' : 'btn-unpressed' }}"
-                                       data-url="{{ route('attendances.changeOwnAttendance', ['events_name' => $date->getShortNamePlural(), 'event_id' => $date->getId(), 'shorthand' => 'maybe'])}}"
-                                       data-comment-url="{{ route('attendances.changeOwnAttendance', ['events_name' => $date->getShortNamePlural(), 'event_id' => $date->getId(), 'shorthand' => 'change'])}}"
-                                       data-attendance="maybe">
-                                        <i class="fas fa-question"></i>
-                                    </a>
+                                        <a href="#"
+                                           class="btn btn-2d btn-maybe {{ $date->hasAnswered() && $date->isAttending() == 'maybe' ? 'btn-pressed' : 'btn-unpressed' }}"
+                                           data-url="{{ route('attendances.changeOwnAttendance', ['events_name' => $date->getShortNamePlural(), 'event_id' => $date->getId(), 'shorthand' => 'maybe'])}}"
+                                           data-comment-url="{{ route('attendances.changeOwnAttendance', ['events_name' => $date->getShortNamePlural(), 'event_id' => $date->getId(), 'shorthand' => 'change'])}}"
+                                           data-attendance="maybe"
+                                           title="{{ trans('date.maybe') }}">
+                                            <i class="fas fa-question"></i>
+                                        </a>
                                     @endif
                                     <a href="#"
                                        class="btn btn-2d btn-yes {{ $date->hasAnswered() && $date->isAttending() == 'yes' ? 'btn-pressed' : 'btn-unpressed' }}"
                                        data-url="{{ route('attendances.changeOwnAttendance', ['events_name' => $date->getShortNamePlural(), 'event_id' => $date->getId(), 'shorthand' => 'attend'])}}"
-                                       data-attendance="yes">
+                                       data-attendance="yes"
+                                       title="{{ trans('date.attend') }}">
                                         <i class="far fa-calendar-check"></i>
                                     </a>
                                 </span>
@@ -88,23 +91,22 @@
                         </div>
                     @endif
                         <div class="row">
-                            <div class="col-xs-3">
-                                <span class="comment-btn-container">
+                            <div class="col-xs-12">
+                                <span class="comment-btn-container button-set-2d">
                                     <a href="#" data-comment-url="{{ route('attendances.changeOwnAttendance', ['events_name' => $date->getShortNamePlural(), 'event_id' => $date->getId(), 'shorthand' => 'change'])}}"
-                                       class="btn btn-2d" title="{{ trans('form.edit') }}">
+                                       class="btn btn-2d comment-btn"
+                                       title="{{ trans('form.add_comment') }}">
                                         <i class="far fa-comment"></i>
                                     </a>
+                                    @if(isset($date->getEventOptions()['url']) && Auth::user()->isAdmin($date->getShortName()))
+                                        <a href="{{ $date->getEventOptions()['url'] }}"
+                                           class="btn btn-2d"
+                                           title="{{ trans('form.edit') }}">
+                                            <i class="fa fa-pencil-alt"></i>
+                                        </a>
+                                    @endif
                                 </span>
                             </div>
-                            @if(isset($date->getEventOptions()['url']) && Auth::user()->isAdmin($date->getShortName()))
-                                <div class="col-xs-3">
-                                <span class="edit-btn-container">
-                                    <a href="{{ $date->getEventOptions()['url'] }}" class="btn btn-2d" title="{{ trans('form.edit') }}">
-                                        <i class="fa fa-pencil-alt"></i>
-                                    </a>
-                                </span>
-                                </div>
-                            @endif
                         </div>
                 @endif
             </div>

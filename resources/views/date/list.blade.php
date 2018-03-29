@@ -35,7 +35,7 @@
 
                         <div class="panel-body" id="list-dates">
                             <form id="comment-form" class="modal" style="display: none;">
-                                {!! Form::textInput2d('comment', null, []) !!}
+                                {!! Form::textInput2d('comment', null, ['placeholder' => trans('form.comment') ]) !!}
                                 {!! Form::submitInput2d([], trans('form.submit')) !!}
                             </form>
                             @include('date.settings_bar', [
@@ -201,10 +201,17 @@
             });
 
             // On click of a gig attendance button.
-            $('.button-set-2d > a.btn').click(function (event) {
+            $('.button-set-attendances > a.btn').click(function (event) {
                 event.preventDefault();
                 var button = this;
-                saveAttendance($(this).data('url'), null, function() {changeEventDisplayState(button, $(button).data('attendance'), false);});
+
+                saveAttendance(
+                    $(this).data('url'),
+                    null,
+                    function() {
+                        changeEventDisplayState(button, $(button).data('attendance'), false);
+                    }
+                );
 
                 if ($(this).data('attendance') === 'maybe') {
                     // Display modal to put in an excuse. Because I like to be an a-hole, this modal cannot be closed without submitting. One can, however submit an empty string, because I'm not 100% a dick.
@@ -215,7 +222,7 @@
                 }
             });
 
-            $('.comment-btn-container > a.btn').click(function (event) {
+            $('.comment-btn-container > a.comment-btn').click(function (event) {
                 event.preventDefault();
                 var button = this;
                 $('#comment-form').attr('action', $(this).data('comment-url')).modal();
