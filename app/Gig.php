@@ -33,11 +33,13 @@ class Gig extends \Eloquent implements IdentifiableEvent {
         'binary_answer',
     ];
 
-    public function __construct(array $attributes = []) {
-        parent::__construct($attributes);
-
-        $this->setApplicableFilters();
+    public function newFromBuilder($attributes = [], $connection = null)
+    {
+        $model = parent::newFromBuilder($attributes, $connection);
+        $model->setApplicableFilters();
+        return $model;
     }
+
 
     public function gig_attendances() {
         return $this->hasMany('App\GigAttendance');

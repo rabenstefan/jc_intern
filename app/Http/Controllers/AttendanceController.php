@@ -151,8 +151,9 @@ abstract class AttendanceController extends Controller {
 
 
         // Prepare new data for database.
-
-        $data['attendance'] = \Config::get('enums.attendances')[$attendance];
+        if (null !== $attendance) {
+            $data['attendance'] = \Config::get('enums.attendances')[$attendance];
+        }
 
         // Only include comments if we have some.
         if ($request->has('comment')) {

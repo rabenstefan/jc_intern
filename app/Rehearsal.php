@@ -37,10 +37,11 @@ class Rehearsal extends \Eloquent implements IdentifiableEvent {
         'voice_id',
     ];
 
-    public function __construct(array $attributes = []) {
-        parent::__construct($attributes);
-
-        $this->setApplicableFilters();
+    public function newFromBuilder($attributes = [], $connection = null)
+    {
+        $model = parent::newFromBuilder($attributes, $connection);
+        $model->setApplicableFilters();
+        return $model;
     }
 
     public function semester() {
