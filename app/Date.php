@@ -82,6 +82,10 @@ trait Date {
         return false;
     }
 
+    public function hasCommented() {
+        return false;
+    }
+
     /**
      * No need for old events.
      *

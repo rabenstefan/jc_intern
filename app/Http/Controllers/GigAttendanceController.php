@@ -46,14 +46,6 @@ class GigAttendanceController extends AttendanceController {
      */
     protected function storeAttendance($gig, User $user, array $data) {
         // Update existing or create a new attendance.
-        if ($attendance = GigAttendance::updateOrCreate(['user_id' => $user->id, 'gig_id' => $gig->id], $data)) {
-            // Connect to user and rehearsal via pivot tables.
-            $user->gig_attendances()->syncWithoutDetaching([$attendance->id]);
-            $gig->gig_attendances()->syncWithoutDetaching([$attendance->id]);
-
-            return true;
-        } else {
-            return false;
-        }
+        return (null !== GigAttendance::updateOrCreate(['user_id' => $user->id, 'gig_id' => $gig->id], $data));
     }
 }

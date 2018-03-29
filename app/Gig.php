@@ -117,4 +117,32 @@ class Gig extends \Eloquent implements IdentifiableEvent {
         return $this->hasAnsweredEvent($attendance);
     }
 
+    public function hasCommented(User $user = null) {
+        if (null === $user) {
+            $user = \Auth::user();
+        }
+
+        if (null === $user) {
+            return false;
+        }
+
+        $attendance = GigAttendance::where('user_id', $user->id)->where('gig_id', $this->id)->first();
+
+        return $this->hasCommentedEvent($attendance);
+    }
+
+    public function getComment(User $user = null) {
+        if (null === $user) {
+            $user = \Auth::user();
+        }
+
+        if (null === $user) {
+            return false;
+        }
+
+        $attendance = GigAttendance::where('user_id', $user->id)->where('gig_id', $this->id)->first();
+
+        return $this->getCommentEvent($attendance);
+    }
+
 }

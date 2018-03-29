@@ -140,17 +140,13 @@ abstract class AttendanceController extends Controller {
         if (null === $attendance) {
             if ($request->has('attendance')) {
                 $attendance = $request->get('attendance');
-            } else {
-                if ($request->wantsJson()) {
-                    return \Response::json(['success' => false, 'message' => trans('date.attendance_not_given')]);
-                } else {
-                    return back()->withErrors(trans('date.attendance_not_given'));
-                }
             }
+            // No attendance given is possible, for example to add comment.
         }
 
 
         // Prepare new data for database.
+        $data = [];
         if (null !== $attendance) {
             $data['attendance'] = \Config::get('enums.attendances')[$attendance];
         }

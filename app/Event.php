@@ -88,6 +88,31 @@ trait Event {
         }
     }
 
+    public abstract function hasCommented(User $user = null);
+    public abstract function getComment(User $user = null);
+
+    /**
+     * True, if a user has comment on the event.
+     *
+     * @param $attendance
+     * @return bool
+     */
+    protected function hasCommentedEvent($attendance) {
+        if (null === $attendance) {
+            return false;
+        } else {
+            return (null !== $attendance->comment && '' !== $attendance->comment);
+        }
+    }
+
+    protected function getCommentEvent($attendance) {
+        if (null === $attendance) {
+            return '';
+        } else {
+            return $attendance->comment;
+        }
+    }
+
     /**
      * All Events need an answer of the user.
      *

@@ -135,14 +135,6 @@ class RehearsalAttendanceController extends AttendanceController {
      */
     protected function storeAttendance($rehearsal, User $user, array $data) {
         // Update existing or create a new attendance.
-        if ($attendance = RehearsalAttendance::updateOrCreate(['user_id' => $user->id, 'rehearsal_id' => $rehearsal->id], $data)) {
-            // Connect to user and rehearsal via pivot tables.
-            $user->rehearsal_attendances()->syncWithoutDetaching([$attendance->id]);
-            $rehearsal->rehearsal_attendances()->syncWithoutDetaching([$attendance->id]);
-
-            return true;
-        } else {
-            return false;
-        }
+        return (null !== RehearsalAttendance::updateOrCreate(['user_id' => $user->id, 'rehearsal_id' => $rehearsal->id], $data));
     }
 }
