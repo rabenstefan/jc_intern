@@ -2,8 +2,43 @@
 
 namespace App\Models;
 
+use \Illuminate\Database\Eloquent\Builder;
 use MaddHatter\LaravelFullcalendar\IdentifiableEvent;
 
+/**
+ * App\Models\Rehearsal
+ *
+ * @property int $id
+ * @property string $title
+ * @property string|null $description
+ * @property \Carbon\Carbon $start
+ * @property \Carbon\Carbon $end
+ * @property string|null $place
+ * @property int $voice_id
+ * @property int $semester_id
+ * @property bool $binary_answer
+ * @property bool $mandatory
+ * @property float $weight
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\RehearsalAttendance[] $rehearsal_attendances
+ * @property-read \App\Models\Semester $semester
+ * @property-read \App\Models\Voice $voice
+ * @method static Builder|Rehearsal whereBinaryAnswer($value)
+ * @method static Builder|Rehearsal whereCreatedAt($value)
+ * @method static Builder|Rehearsal whereDescription($value)
+ * @method static Builder|Rehearsal whereEnd($value)
+ * @method static Builder|Rehearsal whereId($value)
+ * @method static Builder|Rehearsal whereMandatory($value)
+ * @method static Builder|Rehearsal wherePlace($value)
+ * @method static Builder|Rehearsal whereSemesterId($value)
+ * @method static Builder|Rehearsal whereStart($value)
+ * @method static Builder|Rehearsal whereTitle($value)
+ * @method static Builder|Rehearsal whereUpdatedAt($value)
+ * @method static Builder|Rehearsal whereVoiceId($value)
+ * @method static Builder|Rehearsal whereWeight($value)
+ * @mixin \Eloquent
+ */
 class Rehearsal extends \Eloquent implements IdentifiableEvent {
     use Event;
 

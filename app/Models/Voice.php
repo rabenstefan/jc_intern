@@ -2,8 +2,30 @@
 
 namespace App\Models;
 
+use \Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 
+/**
+ * App\Models\Voice
+ *
+ * @property int $id
+ * @property string $name
+ * @property int|null $super_group
+ * @property bool $child_group
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|Voice[] $children
+ * @property-read Voice|null $parent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Rehearsal[] $rehearsals
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $users
+ * @method static Builder|Voice whereChildGroup($value)
+ * @method static Builder|Voice whereCreatedAt($value)
+ * @method static Builder|Voice whereId($value)
+ * @method static Builder|Voice whereName($value)
+ * @method static Builder|Voice whereSuperGroup($value)
+ * @method static Builder|Voice whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
 class Voice extends \Eloquent {
     protected $casts = [
         'child_group' => 'boolean'
@@ -13,7 +35,7 @@ class Voice extends \Eloquent {
         return $this->hasMany('App\Models\User');
     }
 
-    public function super_group() {
+    public function parent() {
         return $this->belongsTo('App\Models\Voice', 'super_group', 'id');
     }
 

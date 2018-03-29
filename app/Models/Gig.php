@@ -2,8 +2,36 @@
 
 namespace App\Models;
 
+use \Illuminate\Database\Eloquent\Builder;
 use MaddHatter\LaravelFullcalendar\IdentifiableEvent;
 
+/**
+ * App\Models\Gig
+ *
+ * @property int $id
+ * @property string $title
+ * @property string|null $description
+ * @property \Carbon\Carbon $start
+ * @property \Carbon\Carbon $end
+ * @property string $place
+ * @property bool $binary_answer
+ * @property int $semester_id
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\GigAttendance[] $gig_attendances
+ * @property-read \App\Models\Semester $semester
+ * @method static Builder|Gig whereBinaryAnswer($value)
+ * @method static Builder|Gig whereCreatedAt($value)
+ * @method static Builder|Gig whereDescription($value)
+ * @method static Builder|Gig whereEnd($value)
+ * @method static Builder|Gig whereId($value)
+ * @method static Builder|Gig wherePlace($value)
+ * @method static Builder|Gig whereSemesterId($value)
+ * @method static Builder|Gig whereStart($value)
+ * @method static Builder|Gig whereTitle($value)
+ * @method static Builder|Gig whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
 class Gig extends \Eloquent implements IdentifiableEvent {
     use Event;
 
@@ -33,6 +61,13 @@ class Gig extends \Eloquent implements IdentifiableEvent {
         'binary_answer',
     ];
 
+    /**
+     * Instead of a constructor, we do it like dis, bitch.
+     *
+     * @param array $attributes
+     * @param null $connection
+     * @return Gig|\Eloquent
+     */
     // TODO: Check and comment
     public function newFromBuilder($attributes = [], $connection = null) {
         $model = parent::newFromBuilder($attributes, $connection);
@@ -144,5 +179,4 @@ class Gig extends \Eloquent implements IdentifiableEvent {
 
         return $this->getCommentEvent($attendance);
     }
-
 }

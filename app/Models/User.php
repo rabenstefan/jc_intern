@@ -2,9 +2,68 @@
 
 namespace App\Models;
 
+use \Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
+/**
+ * App\Models\User
+ *
+ * @property int $id
+ * @property string $first_name
+ * @property string $last_name
+ * @property string $email
+ * @property string $password
+ * @property \Carbon\Carbon $birthday
+ * @property string|null $phone
+ * @property string|null $address_street
+ * @property int|null $address_zip
+ * @property string|null $address_city
+ * @property int $sheets_deposit_returned
+ * @property int $voice_id
+ * @property int|null $last_echo
+ * @property string|null $remember_token
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property \Carbon\Carbon|null $deleted_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\BeerCount[] $beer_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Sheet[] $borrowed
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Sheet[] $bought
+ * @property-read mixed $name
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\GigAttendance[] $gig_attendances
+ * @property-read \App\Models\Semester|null $last_echoed
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Sheet[] $lost
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\RehearsalAttendance[] $rehearsal_attendances
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Role[] $roles
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\SemesterFee[] $semester_fees
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Sheet[] $sheets
+ * @property-read \App\Models\Voice $voice
+ * @method static Builder|User current()
+ * @method static bool|null forceDelete()
+ * @method static Builder|User ofVoice($voiceId)
+ * @method static \Illuminate\Database\Query\Builder|User onlyTrashed()
+ * @method static bool|null restore()
+ * @method static Builder|User whereAddressCity($value)
+ * @method static Builder|User whereAddressStreet($value)
+ * @method static Builder|User whereAddressZip($value)
+ * @method static Builder|User whereBirthday($value)
+ * @method static Builder|User whereCreatedAt($value)
+ * @method static Builder|User whereDeletedAt($value)
+ * @method static Builder|User whereEmail($value)
+ * @method static Builder|User whereFirstName($value)
+ * @method static Builder|User whereId($value)
+ * @method static Builder|User whereLastEcho($value)
+ * @method static Builder|User whereLastName($value)
+ * @method static Builder|User wherePassword($value)
+ * @method static Builder|User wherePhone($value)
+ * @method static Builder|User whereRememberToken($value)
+ * @method static Builder|User whereSheetsDepositReturned($value)
+ * @method static Builder|User whereUpdatedAt($value)
+ * @method static Builder|User whereVoiceId($value)
+ * @method static \Illuminate\Database\Query\Builder|User withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|User withoutTrashed()
+ * @mixin \Eloquent
+ */
 class User extends Authenticatable
 {
     use SoftDeletes;
@@ -73,7 +132,7 @@ class User extends Authenticatable
         return $this->belongsTo('App\Models\Voice');
     }
 
-    public function last_echo() {
+    public function last_echoed() {
         return $this->belongsTo('App\Models\Semester', 'last_echo');
     }
 
