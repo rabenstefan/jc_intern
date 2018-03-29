@@ -1,12 +1,11 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
-class Sheet extends Model
-{
+class Sheet extends Model {
 
     const STATUS_BORROWED   = 'borrowed';
     const STATUS_LOST       = 'lost';
@@ -26,19 +25,19 @@ class Sheet extends Model
     protected $fillable = ['label', 'amount'];
 
     public function users() {
-        return $this->belongsToMany('App\User')->withPivot('id', 'number', 'status');
+        return $this->belongsToMany('App\Models\User')->withPivot('id', 'number', 'status');
     }
 
     public function borrowed(){
-        return $this->belongsToMany('App\User')->withPivot('number', 'status')->wherePivot('status', '=', Sheet::STATUS_BORROWED);
+        return $this->belongsToMany('App\Models\User')->withPivot('number', 'status')->wherePivot('status', '=', Sheet::STATUS_BORROWED);
     }
 
     public function lost(){
-        return $this->belongsToMany('App\User')->withPivot('number', 'status')->wherePivot('status', '=', Sheet::STATUS_LOST);
+        return $this->belongsToMany('App\Models\User')->withPivot('number', 'status')->wherePivot('status', '=', Sheet::STATUS_LOST);
     }
 
     public function bought(){
-        return $this->belongsToMany('App\User')->withPivot('number', 'status')->wherePivot('status', '=', Sheet::STATUS_BOUGHT);
+        return $this->belongsToMany('App\Models\User')->withPivot('number', 'status')->wherePivot('status', '=', Sheet::STATUS_BOUGHT);
     }
 
     public function getAvailableCountAttribute(){

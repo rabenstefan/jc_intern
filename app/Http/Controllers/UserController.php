@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Semester;
-use App\Voice;
+use App\Models\Semester;
+use App\Models\Voice;
 use Illuminate\Http\Request;
 
-use App\Http\Requests;
-
-use App\User;
+use App\Models\User;
 use Illuminate\Support\Facades\Input;
 
 class UserController extends Controller {

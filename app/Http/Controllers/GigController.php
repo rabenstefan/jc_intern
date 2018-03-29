@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Gig;
-use App\GigAttendance;
-use App\User;
+use App\Models\Gig;
 use Illuminate\Http\Request;
 
 class GigController extends EventController {
@@ -132,14 +130,5 @@ class GigController extends EventController {
         \Session::flash('message_success', trans('date.delete_success'));
 
         return redirect()->route('dates.index');
-    }
-
-    private function add_gig_attendances(Gig $gig) {
-        foreach(User::all() as $user) {
-            $gig->gig_attendances()->create([
-                'gig_id'  => $gig->id,
-                'user_id' => $user->id,
-            ]);
-        }
     }
 }

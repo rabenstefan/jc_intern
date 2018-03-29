@@ -1,9 +1,8 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
 
 class Voice extends \Eloquent {
     protected $casts = [
@@ -11,19 +10,19 @@ class Voice extends \Eloquent {
     ];
 
     public function users() {
-        return $this->hasMany('App\User');
+        return $this->hasMany('App\Models\User');
     }
 
     public function super_group() {
-        return $this->belongsTo('App\Voice', 'super_group', 'id');
+        return $this->belongsTo('App\Models\Voice', 'super_group', 'id');
     }
 
     public function children() {
-        return $this->hasMany('App\Voice', 'super_group', 'id');
+        return $this->hasMany('App\Models\Voice', 'super_group', 'id');
     }
 
     public function rehearsals() {
-        return $this->hasMany('App\Rehearsal');
+        return $this->hasMany('App\Models\Rehearsal');
     }
 
     public static function getChildVoices() {

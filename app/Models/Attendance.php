@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 trait Attendance {
     abstract public function event();

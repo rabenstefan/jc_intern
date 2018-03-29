@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Sheet;
-use App\User;
-use App\Voice;
-use Config;
+use App\Models\Sheet;
+use App\Models\User;
+use App\Models\Voice;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Http\Request;
@@ -50,6 +49,7 @@ class SheetController extends Controller
 
     public function destroy($id){
         $sheet = Sheet::findOrFail($id);
+        //TODO: Nope nope nope.
         DB::delete('delete from sheet_user where sheet_id = :id', ['id' => $sheet->id]);
         $sheet->delete();
         return response()->redirectToAction('SheetController@index');

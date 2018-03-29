@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\RehearsalAttendance;
-use App\Rehearsal;
-use App\Semester;
-use App\User;
+use App\Models\RehearsalAttendance;
+use App\Models\Rehearsal;
+use App\Models\Semester;
+use App\Models\User;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 
 class RehearsalAttendanceController extends AttendanceController {

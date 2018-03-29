@@ -1,20 +1,22 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use MaddHatter\LaravelFullcalendar\IdentifiableEvent;
 
-class Gig extends \Eloquent implements IdentifiableEvent {
+class Rehearsal extends \Eloquent implements IdentifiableEvent {
     use Event;
 
     protected $dates = ['start', 'end'];
 
     protected $calendar_options = [
-        'className' => 'event-gig',
-        'url' => ''
+        'className' => 'event-rehearsal',
+        'url' => '',
+        'shortName' => 'rehearsal'
     ];
 
     protected $casts = [
+        'mandatory' => 'boolean',
         'binary_answer' => 'boolean'
     ];
 
@@ -29,31 +31,37 @@ class Gig extends \Eloquent implements IdentifiableEvent {
         'start',
         'end',
         'place',
-        'semester_id',
         'binary_answer',
+        'mandatory',
+        'weight',
+        'semester_id',
+        'voice_id',
     ];
 
-    // TODO: Check and comment
     public function newFromBuilder($attributes = [], $connection = null) {
         $model = parent::newFromBuilder($attributes, $connection);
         $model->setApplicableFilters();
         return $model;
     }
 
-    public function gig_attendances() {
-        return $this->hasMany('App\GigAttendance');
+    public function semester() {
+        return $this->belongsTo('App\Models\Semester');
     }
 
-    public function semester() {
-        return $this->belongsTo('App\Semester');
+    public function voice() {
+        return $this->belongsTo('App\Models\Voice');
+    }
+
+    public function rehearsal_attendances() {
+        return $this->hasMany('App\Models\RehearsalAttendance');
     }
 
     public function getShortName() {
-        return 'gig';
+        return 'rehearsal';
     }
 
     public function getShortNamePlural() {
-        return 'gigs';
+        return 'rehearsals';
     }
 
     /**
@@ -75,8 +83,8 @@ class Gig extends \Eloquent implements IdentifiableEvent {
      * @return array
      */
     public function getEventOptions() {
-        $this->calendar_options['url'] = route('gigs.show', ['gig' => $this->id]);
-
+        $this->calendar_options['url'] = route('rehearsals.show', ['rehearsal' => $this->id]);
+        
         return $this->calendar_options;
     }
 
@@ -91,7 +99,7 @@ class Gig extends \Eloquent implements IdentifiableEvent {
             $user = \Auth::user();
         }
 
-        $attendance = GigAttendance::where('user_id', $user->id)->where('gig_id', $this->id)->first();
+        $attendance = RehearsalAttendance::where('user_id', $user->id)->where('rehearsal_id', $this->id)->first();
 
         return $this->isAttendingEvent($attendance);
     }
@@ -111,7 +119,7 @@ class Gig extends \Eloquent implements IdentifiableEvent {
             return false;
         }
 
-        $attendance = GigAttendance::where('user_id', $user->id)->where('gig_id', $this->id)->first();
+        $attendance = RehearsalAttendance::where('user_id', $user->id)->where('rehearsal_id', $this->id)->first();
 
         return $this->hasAnsweredEvent($attendance);
     }
@@ -126,7 +134,7 @@ class Gig extends \Eloquent implements IdentifiableEvent {
             return false;
         }
 
-        $attendance = GigAttendance::where('user_id', $user->id)->where('gig_id', $this->id)->first();
+        $attendance = RehearsalAttendance::where('user_id', $user->id)->where('rehearsal_id', $this->id)->first();
 
         return $this->hasCommentedEvent($attendance);
     }
@@ -140,9 +148,8 @@ class Gig extends \Eloquent implements IdentifiableEvent {
             return false;
         }
 
-        $attendance = GigAttendance::where('user_id', $user->id)->where('gig_id', $this->id)->first();
+        $attendance = RehearsalAttendance::where('user_id', $user->id)->where('rehearsal_id', $this->id)->first();
 
         return $this->getCommentEvent($attendance);
     }
-
 }

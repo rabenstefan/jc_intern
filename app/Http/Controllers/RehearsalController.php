@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Rehearsal;
-use App\Voice;
+use App\Models\Rehearsal;
+use App\Models\RehearsalAttendance;
+use App\Models\User;
+use App\Models\Voice;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -57,7 +59,15 @@ class RehearsalController extends EventController {
 
         $data = $this->prepareDates($request->all());
 
-        Rehearsal::create($data);
+        // Create new rehearsal with data.
+        $rehearsal = Rehearsal::create($data);
+
+        // Create attendances for all users, if gig is mandatory.
+        if ($rehearsal->mandatory) {
+            foreach (User::all() as $user) {
+                RehearsalAttendance::updateOrCreate(['user_id' => $user->id, 'rehearsal_id' => $rehearsal->id], $data);
+            }
+        }
 
         if ($data['repeat']) {
             $start = new Carbon($data['start']);

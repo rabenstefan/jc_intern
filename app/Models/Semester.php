@@ -1,24 +1,24 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Carbon\Carbon;
 
 class Semester extends \Eloquent {
     public function gigs() {
-        return $this->hasMany('App\Gig');
+        return $this->hasMany('App\Models\Gig');
     }
 
     public function rehearsals() {
-        return $this->hasMany('App\Rehearsal');
+        return $this->hasMany('App\Models\Rehearsal');
     }
 
     public function echoed() {
-        return $this->hasMany('App\User', 'last_echo');
+        return $this->hasMany('App\Models\User', 'last_echo');
     }
 
     public function semester_fees() {
-        return $this->hasMany('App\SemesterFee');
+        return $this->hasMany('App\Models\SemesterFee');
     }
 
     public static function current() {

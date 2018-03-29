@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Birthday;
-use App\Gig;
-use App\Rehearsal;
+use App\Models\Birthday;
+use App\Models\Gig;
+use App\Models\Rehearsal;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Input;

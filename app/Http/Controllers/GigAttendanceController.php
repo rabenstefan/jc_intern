@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\GigAttendance;
-use App\Gig;
-use App\User;
+use App\Models\GigAttendance;
+use App\Models\Gig;
+use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class GigAttendanceController extends AttendanceController {
     /**
@@ -46,5 +47,16 @@ class GigAttendanceController extends AttendanceController {
     protected function storeAttendance($gig, User $user, array $data) {
         // Update existing or create a new attendance.
         return (null !== GigAttendance::updateOrCreate(['user_id' => $user->id, 'gig_id' => $gig->id], $data));
+    }
+
+    /**
+     * This function can be overridden by children to add more data to attendance.
+     * Usually, this function does only return an empty array.
+     *
+     * @param Request $request
+     * @return array
+     */
+    protected function prepareAdditionalData(Request $request) {
+        return [];
     }
 }

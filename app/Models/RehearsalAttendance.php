@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 class RehearsalAttendance extends \Eloquent {
     use Attendance;
@@ -24,11 +24,11 @@ class RehearsalAttendance extends \Eloquent {
     ];
 
     public function user() {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo('App\Models\User');
     }
 
     public function rehearsal() {
-        return $this->belongsTo('App\Rehearsal');
+        return $this->belongsTo('App\Models\Rehearsal');
     }
 
     public function event() {

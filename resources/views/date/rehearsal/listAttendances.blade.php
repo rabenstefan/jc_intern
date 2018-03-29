@@ -17,7 +17,7 @@
                         <div id="attendance-list">
                             <?php
                             // Get all second level voices.
-                            $voices = App\Voice::getParentVoices(App\Voice::getChildVoices());
+                            $voices = App\Models\Voice::getParentVoices(App\Models\Voice::getChildVoices());
                             ?>
                             @foreach($voices as $voice)
                                 <div class="row" id="{{ trans('nav.users') }}-{{ $voice->name }}">
@@ -38,8 +38,8 @@
 
                                                             <div class="row">
                                                                 <?php
-                                                                /** @var App\Voice $sub_voice */
-                                                                $users = \App\User::getUsersOfVoice($sub_voice->id)
+                                                                /** @var App\Models\Voice $sub_voice */
+                                                                $users = \App\Models\User::getUsersOfVoice($sub_voice->id)
                                                                 ?>
                                                                 @foreach($users as $user)
                                                                         @include('date.rehearsal.listAttendances.user_entry', ['user' => $user, 'currentRehearsal' => $currentRehearsal])
@@ -100,7 +100,7 @@
          *
          * @param url
          * @param sliderElement
-         * @param currentlyAttending
+         * @param currentlyPresent
          */
         function saveAttendance(url, sliderElement, currentlyPresent) {
             // Request the url via post, include csrf-token

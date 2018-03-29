@@ -1,8 +1,7 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -71,47 +70,47 @@ class User extends Authenticatable
      * Model all relationships.
      */
     public function voice() {
-        return $this->belongsTo('App\Voice');
+        return $this->belongsTo('App\Models\Voice');
     }
 
     public function last_echo() {
-        return $this->belongsTo('App\Semester', 'last_echo');
+        return $this->belongsTo('App\Models\Semester', 'last_echo');
     }
 
     public function gig_attendances(){
-        return $this->hasMany('App\GigAttendance');
+        return $this->hasMany('App\Models\GigAttendance');
     }
 
     public function rehearsal_attendances(){
-        return $this->hasMany('App\RehearsalAttendance');
+        return $this->hasMany('App\Models\RehearsalAttendance');
     }
 
     public function beer_count() {
-        return $this->hasMany('App\BeerCount');
+        return $this->hasMany('App\Models\BeerCount');
     }
 
     public function roles() {
-        return $this->belongsToMany('App\Role');
+        return $this->belongsToMany('App\Models\Role');
     }
 
     public function semester_fees() {
-        return $this->hasMany('App\SemesterFee');
+        return $this->hasMany('App\Models\SemesterFee');
     }
 
     public function sheets() {
-        return $this->belongsToMany('App\Sheet');
+        return $this->belongsToMany('App\Models\Sheet');
     }
 
     public function borrowed(){
-        return $this->belongsToMany('App\Sheet')->withPivot('number', 'status')->wherePivot('status', '=', Sheet::STATUS_BORROWED);
+        return $this->belongsToMany('App\Models\Sheet')->withPivot('number', 'status')->wherePivot('status', '=', Sheet::STATUS_BORROWED);
     }
 
     public function lost(){
-        return $this->belongsToMany('App\Sheet')->withPivot('number', 'status')->wherePivot('status', '=', Sheet::STATUS_LOST);
+        return $this->belongsToMany('App\Models\Sheet')->withPivot('number', 'status')->wherePivot('status', '=', Sheet::STATUS_LOST);
     }
 
     public function bought(){
-        return $this->belongsToMany('App\Sheet')->withPivot('number', 'status')->wherePivot('status', '=', Sheet::STATUS_BOUGHT);
+        return $this->belongsToMany('App\Models\Sheet')->withPivot('number', 'status')->wherePivot('status', '=', Sheet::STATUS_BOUGHT);
     }
 
     /*

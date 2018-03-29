@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 class GigAttendance extends \Eloquent {
     use Attendance;
@@ -19,11 +19,11 @@ class GigAttendance extends \Eloquent {
     ];
 
     public function user() {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo('App\Models\User');
     }
 
     public function gig() {
-        return $this->belongsTo('App\Gig');
+        return $this->belongsTo('App\Models\Gig');
     }
 
     public function event() {

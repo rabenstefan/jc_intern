@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Birthday;
-use App\Event;
-use App\Rehearsal;
-use App\Gig;
-use App\Semester;
-use App\User;
+use App\Models\Birthday;
+use App\Models\Rehearsal;
+use App\Models\Gig;
+use App\Models\User;
 use Carbon\Carbon;
 
 class HomeController extends Controller
@@ -36,6 +34,7 @@ class HomeController extends Controller
 
         $upcoming = $event_class::where('end', '>', $reference_date)->orderBy('start')->limit($limit);
 
+        //TODO: Nicer query building.
         $upcoming = $upcoming->leftJoin($singular . '_attendances', function($leftJoin) use ($user, $table_name, $singular) {
             $leftJoin->on($table_name . '.id', '=', $singular . '_attendances.' . $singular . '_id');
             $leftJoin->where($singular . '_attendances.user_id', '=',  (int) $user->id );
@@ -56,6 +55,7 @@ class HomeController extends Controller
     private function eventQueryHideByAttendance($query, String $table_name, int $attendance, bool $hide_if_null = false) {
         $singular = str_singular($table_name);
 
+        //TODO: Nicer query building.
         return $query->where(function ($q) use ($singular, $attendance, $hide_if_null) {
             $q->where($singular . '_attendances.attendance', '!=', $attendance);
             if (false === $hide_if_null) { // Whenever NULL appears in an SQL-comparison, it will result in false. E.g. 'NULL = NULL' is false and 'NULL != 0' is false
@@ -75,6 +75,7 @@ class HomeController extends Controller
     private function eventQueryShowByAttendance($query, String $table_name, array $attendances) {
         $singular = str_singular($table_name);
 
+        //TODO: Nicer query building.
         $query = $query->where (function($q) use ($singular, $attendances) {
             foreach ($attendances as $attendance) {
                 if (null === $attendance) {

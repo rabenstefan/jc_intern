@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Event;
-use App\User;
+use App\Models\Event;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 abstract class AttendanceController extends Controller {
@@ -31,9 +31,7 @@ abstract class AttendanceController extends Controller {
      * @param Request $request
      * @return array
      */
-    protected function prepareAdditionalData (Request $request) {
-        return [];
-    }
+    abstract protected function prepareAdditionalData (Request $request);
 
     /**
      * Shorthand "I will attend $event_id" for routes.

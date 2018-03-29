@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 class Role extends \Eloquent {
     /**
@@ -26,6 +26,6 @@ class Role extends \Eloquent {
     ];
 
     public function users() {
-        return $this->belongsToMany('App\User');
+        return $this->belongsToMany('App\Models\User');
     }
 }

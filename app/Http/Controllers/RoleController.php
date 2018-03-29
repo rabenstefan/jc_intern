@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Role;
+use App\Models\Role;
 use Illuminate\Http\Request;
-
-use App\Http\Requests;
 
 class RoleController extends Controller {
     /**
@@ -62,6 +60,7 @@ class RoleController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    //TODO: Implement properly
     public function show($id) {
         return redirect()->route('roles.index');
     }
@@ -72,6 +71,7 @@ class RoleController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    //TODO: Implement properly
     public function edit($id) {
         return redirect()->route('roles.index');
     }
