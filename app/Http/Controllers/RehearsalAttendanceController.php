@@ -117,7 +117,7 @@ class RehearsalAttendanceController extends AttendanceController {
 
         $missed = null === $missed ? $request->get('missed') : $missed;
 
-        if (!$this->storeAttendance($rehearsal, $user, ['missed' => (bool) $missed])) {
+        if (!$this->storeAttendance($rehearsal, $user, ['missed' => 'true' == $missed])) {
             if ($request->wantsJson()) {
                 return \Response::json(['success' => false, 'message' => trans('date.store_attendance_error')]);
             } else {

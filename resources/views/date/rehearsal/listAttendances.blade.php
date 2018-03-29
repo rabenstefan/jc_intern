@@ -106,7 +106,7 @@
             // Request the url via post, include csrf-token and comment.
             $.post(url, {
                     _token: '{{ csrf_token() }}',
-                    missed: !currentlyPresent
+                    missed: currentlyPresent
                 }, function (data) {
                     // Success?
                     if (data.success) {
