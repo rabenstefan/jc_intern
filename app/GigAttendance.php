@@ -19,11 +19,11 @@ class GigAttendance extends \Eloquent {
     ];
 
     public function user() {
-        return $this->hasOne('App\User');
+        return $this->belongsTo('App\User');
     }
 
     public function gig() {
-        return $this->hasOne('App\Gig');
+        return $this->belongsTo('App\Gig');
     }
 
     public function event() {

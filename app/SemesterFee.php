@@ -11,10 +11,10 @@ class SemesterFee extends Model
     ];
 
     public function semester() {
-        return $this->hasOne('App\Semester');
+        return $this->belongsTo('App\Semester');
     }
 
     public function user() {
-        return $this->hasOne('App\User');
+        return $this->belongsTo('App\User');
     }
 }

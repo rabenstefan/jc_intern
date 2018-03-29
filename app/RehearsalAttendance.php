@@ -24,11 +24,11 @@ class RehearsalAttendance extends \Eloquent {
     ];
 
     public function user() {
-        return $this->hasOne('App\User');
+        return $this->belongsTo('App\User');
     }
 
     public function rehearsal() {
-        return $this->hasOne('App\Rehearsal');
+        return $this->belongsTo('App\Rehearsal');
     }
 
     public function event() {

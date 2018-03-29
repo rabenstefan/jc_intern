@@ -44,7 +44,7 @@ class DatesTableSeeder extends Seeder
             'weight'      => 1.0,
         ]);
 
-        factory(App\Rehearsal::class, 15)->create();
+        factory("App\Rehearsal", 15)->create();
 
         DB::table('gigs')->insert([
             'semester_id' => 1,
@@ -56,6 +56,6 @@ class DatesTableSeeder extends Seeder
             'binary_answer'   => true,
         ]);
 
-        factory(App\Gig::class, 5)->create();
+        factory("App\Gig", 5)->create();
     }
 }

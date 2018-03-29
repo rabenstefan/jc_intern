@@ -7,7 +7,6 @@
 
             <div class="panel panel-2d">
                 <div class="panel-heading">{{ trans('home.welcome_title', ['name' => $user->first_name ]) }}</div>
-
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
@@ -41,7 +40,7 @@
                             <div class="panel-heading  panel-heading-{{ $next_gigs_panel['state'] }}">{{ trans('home.next_gigs_heading') }}</div>
                             <div class="panel-element panel-element-{{ $next_gigs_panel['state'] }}">
                                 <div class="panel-element-body">
-                                    <div class="panel-element-main panel-element-main-content ">{{ $next_gigs_panel['data'][0]->getStart()->diffForHumans() }}</div>
+                                    <div class="panel-element-main panel-element-main-content ">{{ isset($next_gigs_panel['data'][0]) ? $next_gigs_panel['data'][0]->getStart()->diffForHumans() : '' }}</div>
                                     {{ trans('home.next_gigs_body') }}
                                     <ul>
                                         @foreach($next_gigs_panel['data'] as $gig)
@@ -64,7 +63,7 @@
                             <div class="panel-heading  panel-heading-{{ $next_rehearsals_panel['state'] }}">{{ trans('home.next_rehearsals_heading') }}</div>
                             <div class="panel-element panel-element-{{ $next_rehearsals_panel['state'] }}">
                                 <div class="panel-element-body">
-                                    <div class="panel-element-main panel-element-main-content ">{{ $next_rehearsals_panel['data'][0]->getStart()->diffForHumans() }}</div>
+                                    <div class="panel-element-main panel-element-main-content ">{{ isset($next_rehearsals_panel['data'][0]) ? $next_rehearsals_panel['data'][0]->getStart()->diffForHumans() : '' }}</div>
                                     {{ trans('home.next_rehearsals_body') }}
                                     <ul>
                                         @foreach($next_rehearsals_panel['data'] as $rehearsal)
@@ -105,7 +104,7 @@
                                         {{ trans('home.upcoming_birthdays_body', ['count' => $next_birthdays_panel['count']])}}
                                         <ul>
                                         @foreach($next_birthdays_panel['data'] as $birthday)
-                                            <li>{{ trans('home.birthday_name', ['name' => $birthday->getFirstName()]) }}
+                                            <li>{{ trans('home.birthday_name', ['name' => $birthday->getUser()->first_name]) }}
                                                 <?php $diff = $today->diffInDays($birthday->getStart(), false) ?>
                                                 @if($diff === 0)
                                                     <strong>{{ trans('home.today') }}</strong>

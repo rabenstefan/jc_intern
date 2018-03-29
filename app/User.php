@@ -79,15 +79,15 @@ class User extends Authenticatable
     }
 
     public function gig_attendances(){
-        return $this->belongsToMany('App\GigAttendance');
+        return $this->hasMany('App\GigAttendance');
     }
 
     public function rehearsal_attendances(){
-        return $this->belongsToMany('App\RehearsalAttendance');
+        return $this->hasMany('App\RehearsalAttendance');
     }
 
     public function beer_count() {
-        return $this->belongsToMany('App\BeerCount');
+        return $this->hasMany('App\BeerCount');
     }
 
     public function roles() {
@@ -95,7 +95,7 @@ class User extends Authenticatable
     }
 
     public function semester_fees() {
-        return $this->belongsToMany('App\SemesterFee');
+        return $this->hasMany('App\SemesterFee');
     }
 
     public function sheets() {
@@ -153,7 +153,7 @@ class User extends Authenticatable
      */
     public function missedRehearsal($rehearsalId) {
         // Get all currently available attendances and filter by the rehearsal ID. Take the first find.
-        $attendance = $this->attendances->filter(function ($value, $key) use ($rehearsalId) {
+        $attendance = $this->rehearsal_attendances->filter(function ($value, $key) use ($rehearsalId) {
             return $value->rehearsal_id == $rehearsalId;
         })->first();
 
@@ -169,7 +169,7 @@ class User extends Authenticatable
      */
     public function excusedRehearsal($rehearsalId) {
         // Get all currently available attendances and filter by the rehearsal ID. Take the first find.
-        $attendance = $this->attendances->filter(function ($value, $key) use ($rehearsalId) {
+        $attendance = $this->rehearsal_attendances->filter(function ($value, $key) use ($rehearsalId) {
             return $value->rehearsal_id == $rehearsalId;
         })->first();
 
@@ -192,7 +192,7 @@ class User extends Authenticatable
         if (true === $unexcused_only) {
             array_push($conditions, ['attendance', 0]);
         }
-        return $this->attendances()->where($conditions)->whereIn('rehearsal_id', $all_rehearsals)->count();
+        return $this->rehearsal_attendances()->where($conditions)->whereIn('rehearsal_id', $all_rehearsals)->count();
     }
 
     public static function getMusicalLeader() {

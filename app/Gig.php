@@ -41,11 +41,11 @@ class Gig extends \Eloquent implements IdentifiableEvent {
     }
 
     public function gig_attendances() {
-        return $this->belongsToMany('App\GigAttendance');
+        return $this->hasMany('App\GigAttendance');
     }
 
     public function semester() {
-        return $this->hasOne('App\Semester');
+        return $this->belongsTo('App\Semester');
     }
 
     public function getShortName() {
@@ -105,6 +105,10 @@ class Gig extends \Eloquent implements IdentifiableEvent {
     public function hasAnswered(User $user = null) {
         if (null === $user) {
             $user = \Auth::user();
+        }
+
+        if (null === $user) { // Needed for seeding
+            return false;
         }
 
         $attendance = GigAttendance::where('user_id', $user->id)->where('gig_id', $this->id)->first();
