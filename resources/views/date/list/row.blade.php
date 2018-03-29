@@ -85,8 +85,8 @@
                                     </a>
                                 </span>
                             </div>
-
                         </div>
+                    @endif
                         <div class="row">
                             <div class="col-xs-3">
                                 <span class="comment-btn-container">
@@ -106,8 +106,6 @@
                                 </div>
                             @endif
                         </div>
-                    @endif
-
                 @endif
             </div>
         </div>

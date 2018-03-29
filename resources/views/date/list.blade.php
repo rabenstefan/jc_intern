@@ -120,6 +120,13 @@
             });
         }
 
+        /**
+         * Do all the optical changes to the button(s) and the event the button was in
+         *
+         * @param button
+         * @param attendance
+         * @param slider
+         */
         function changeEventDisplayState(button, attendance, slider = false) {
             if (true === slider) {
                 $(button).find('input[type="checkbox"]').prop('checked', 'yes' === attendance);

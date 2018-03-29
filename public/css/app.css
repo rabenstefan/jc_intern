@@ -6174,7 +6174,7 @@ i.fa {
 #list-dates .event-controls {
   font-size: 1.2em;
   margin-top: 1em; }
-  #list-dates .event-controls .edit-btn-container, #list-dates .event-controls .button-set-2d {
+  #list-dates .event-controls .edit-btn-container, #list-dates .event-controls .button-set-2d, #list-dates .event-controls .comment-btn-container {
     padding: 0.2em;
     margin-bottom: 0.2em; }
   #list-dates .event-controls .btn {
