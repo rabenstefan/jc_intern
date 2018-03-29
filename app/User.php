@@ -157,8 +157,12 @@ class User extends Authenticatable
             return $value->rehearsal_id == $rehearsalId;
         })->first();
 
-        // If there is no attendance return "missed".
-        return (null === $attendance) || $attendance->missed;
+        if (null === $attendance) {
+            // If there is no attendance return "attended".
+            return false;
+        } else {
+            return $attendance->missed;
+        }
     }
 
     /**
@@ -173,8 +177,13 @@ class User extends Authenticatable
             return $value->rehearsal_id == $rehearsalId;
         })->first();
 
-        // If there is no attendance return "missed".
-        return (null === $attendance ? false : $attendance->attendance);
+        if (null === $attendance) {
+            // If there is no attendance return "missed".
+            return false;
+        } else {
+            // For No and maybe, return 'excused'
+            return $attendance->attendance !== \Config::get('enums.attendances')['yes'];
+        }
     }
 
     /**

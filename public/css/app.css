@@ -6174,7 +6174,7 @@ i.fa {
 #list-dates .event-controls {
   font-size: 1.2em;
   margin-top: 1em; }
-  #list-dates .event-controls .edit-btn-container, #list-dates .event-controls .button-set-2d {
+  #list-dates .event-controls .edit-btn-container, #list-dates .event-controls .button-set-2d, #list-dates .event-controls .comment-btn-container {
     padding: 0.2em;
     margin-bottom: 0.2em; }
   #list-dates .event-controls .btn {
@@ -6666,7 +6666,8 @@ div.checkbox input, div.radio input {
     line-height: 0; }
 
 .names {
-  padding-top: 1em; }
+  padding-top: 1em;
+  padding-left: 2em; }
 
 .sliders {
   padding-top: 0.2em;

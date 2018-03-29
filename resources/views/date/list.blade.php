@@ -35,8 +35,8 @@
 
                         <div class="panel-body" id="list-dates">
                             <form id="comment-form" class="modal" style="display: none;">
-                                {!! Form::textInput2d('comment', null, ['placeholder' => trans('form.empty')]) !!}
-                                {!! Form::submitInput2d([], trans('date.save')) !!}
+                                {!! Form::textInput2d('comment', null, []) !!}
+                                {!! Form::submitInput2d([], trans('form.submit')) !!}
                             </form>
                             @include('date.settings_bar', [
                                 'view_type'         => 'list',
@@ -58,54 +58,16 @@
 
 @section('js')
     <script type="text/javascript">
-        /**
-         * Switches a slider to the opposite value. Sets the corresponding checkbox.
-         *
-         * @param sliderElement
-         * @param currentState
-         * @return Boolean success
-         */
-        function sliderSwitch (sliderElement, currentState) {
-            if ($(sliderElement).hasClass('inactive')) return false;
-
-            $(sliderElement).find('input[type="checkbox"]').prop('checked', !currentState);
-            return true;
-        }
 
         /**
-         * Switch the whole event-box to "off" (grey out so that the user knows he is not attending).
-         *
-         * @param sliderElement
-         * @param currentState
-         */
-        function eventSwitch (sliderElement, currentState) {
-            if ($(sliderElement).hasClass('inactive')) return false;
-
-            var eventNode = $(sliderElement).parents('.event');
-            var titleNote = $(eventNode).find('.title .not-going-note');
-
-            if (currentState) {
-                $(eventNode).addClass('event-not-going');
-                $(eventNode).removeClass('event-going');
-                $(titleNote).show();
-            } else {
-                $(eventNode).removeClass('event-not-going');
-                $(eventNode).addClass('event-going');
-                $(titleNote).hide();
-            }
-
-            return true;
-        }
-
-        /**
-         * Handles AJAX-call to change the attendance of a slider (binary) answer.
+         * Handles changes to a slider-element
          *
          * This method is called from the main.js via the "data-function" attribute on the switch for attendance.
          *
          * @param sliderElement
          */
-        function changeAttendance (sliderElement) {
-            // Make slider inactive.
+        function changeAttendanceSlider (sliderElement) {
+            if ($(sliderElement).hasClass('inactive')) return false;
             $(sliderElement).addClass('inactive');
 
             // Do we need to excuse the user or is she attending?
@@ -123,28 +85,12 @@
             }
             saveAttendance(url, null, function() {
                     changeEventDisplayState(sliderElement, attendance, true);
+                    $(sliderElement).removeClass('inactive');
                 });
         }
 
-        function saveComment(url, excuse) {
-            $.post(url, {
-                    _token: '{{ csrf_token() }}',
-                    comment: excuse
-                }, function (data) {
-                    // Success?
-                    if (data.success) {
-                        // Notify user.
-                        $.notify(data.message, 'success');
-                    } else {
-                        // Warn user.
-                        $.notify(data.message, 'danger');
-                    }
-                },
-                'json');
-        }
-
         /**
-         * Function calls API via POST calls success_callback on success.
+         * Function calls API via POST. Calls success_callback on success.
          *
          * @param url
          * @param attendance
@@ -172,12 +118,19 @@
                     $.notify(reply.message, 'danger');
                 }
             },
-            'json').fail(function() {
+            'json').fail(function(xhr, status, error) {
                 // Warn user.
-                $.notify('{{ trans('date.ajax_failed') }}', 'danger');
+                $.notify('{{ trans('date.ajax_failed') }}' + status + ' ' + error, 'danger');
             });
         }
 
+        /**
+         * Do all the optical changes to the button(s) and the event the button was in
+         *
+         * @param button
+         * @param attendance
+         * @param slider
+         */
         function changeEventDisplayState(button, attendance, slider = false) {
             if (true === slider) {
                 $(button).find('input[type="checkbox"]').prop('checked', 'yes' === attendance);
@@ -190,16 +143,43 @@
             }
 
             var eventNode = $(button).parents('.event');
-            var titleNote = $(button).find('.title .not-going-note');
+            var containerNode = $(eventNode).parent('.list-item');
+            var filters = $(containerNode).data('filters');
+            var titleNote = $(eventNode).find('.title .not-going-note');
 
-            if ('no' === attendance) {
-                $(eventNode).addClass('event-not-going');
-                $(titleNote).show();
-            } else {
-                $(eventNode).removeClass('event-not-going');
-                $(titleNote).hide();
+            switch(attendance) {
+                case 'yes':
+                    filters = $(filters).not(['not-going', 'maybe-going', 'unanswered']);
+                    filters.push('going');
+                    $(eventNode).addClass('event-going');
+                    $(eventNode).removeClass('event-not-going');
+                    $(eventNode).removeClass('event-maybe-going');
+                    $(eventNode).removeClass('event-unanswered');
+                    $(titleNote).hide();
+                    break;
+                case 'maybe':
+                    filters = $(filters).not(['not-going', 'going', 'unanswered']);
+                    filters.push('maybe');
+                    $(eventNode).addClass('event-maybe-going');
+                    $(eventNode).removeClass('event-not-going');
+                    $(eventNode).removeClass('event-going');
+                    $(eventNode).removeClass('event-unanswered');
+                    $(titleNote).hide();
+                    break;
+                case 'no':
+                    filters = $(filters).not(['going', 'maybe-going', 'unanswered']);
+                    filters.push('not-going');
+                    $(eventNode).addClass('event-not-going');
+                    $(eventNode).removeClass('event-going');
+                    $(eventNode).removeClass('event-maybe-going');
+                    $(eventNode).removeClass('event-unanswered');
+                    $(titleNote).show();
+                    break;
             }
+
+            $(containerNode).data('filters', filters.toArray());
         }
+
 
         $(document).ready(function () {
             // On submission of the form in the modal.
@@ -210,13 +190,14 @@
                     $('#comment').val()
                 );
 
-
                 $('#comment').val('');
                 $.modal.close();
+            });
+
+            $('#comment-form').on($.modal.OPEN, function () {
+                $('#comment').focus();
             }).on($.modal.CLOSE, function () {
-                // If the modal gets closed without entering the form reset and release switch.
-                // Make all sliders active again.
-                $('.slider-2d').removeClass('inactive');
+                $('#comment').val('');
             });
 
             // On click of a gig attendance button.
@@ -226,7 +207,7 @@
                 saveAttendance($(this).data('url'), null, function() {changeEventDisplayState(button, $(button).data('attendance'), false);});
 
                 if ($(this).data('attendance') === 'maybe') {
-                    // Display modal to put in an excuse.
+                    // Display modal to put in an excuse. Because I like to be an a-hole, this modal cannot be closed without submitting. One can, however submit an empty string, because I'm not 100% a dick.
                     $('#comment-form').attr('action', $(this).data('comment-url'))
                         .modal({'escapeClose': false,
                             'clickClose': false,
@@ -239,10 +220,6 @@
                 var button = this;
                 $('#comment-form').attr('action', $(this).data('comment-url')).modal();
 
-            });
-
-            $('.btn-comment').click(function (event){
-                $('#comment-form').attr('action', $(this).data('url')).modal();
             });
         });
     </script>

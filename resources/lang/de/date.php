@@ -55,4 +55,8 @@ return [
     'webcal'              => 'Webcal',
     'and'                 => 'und',
     'route_invalid'       => 'Route nicht definiert. Wie bist Du hier hingekommen? >:(',
+    'ajax_failed'         => 'Schlimmer Fehler! ',
+    'comment_success'     => 'Kommentar gespeichert',
+    'your_comment'        => 'Dein Kommentar:',
+    'comment_error'       => 'Kommentar konnt nicht gespeichert werden ¯\_(ツ)_/¯'
 ];

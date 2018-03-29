@@ -91,10 +91,10 @@ class RehearsalAttendanceController extends AttendanceController {
      * @param Request $request
      * @param Integer $rehearsal_id
      * @param Integer $user_id
-     * @param String $attendance
+     * @param String $missed
      * @return \Illuminate\Http\JsonResponse
      */
-    public function changePresence (Request $request, $rehearsal_id, $user_id, $attendance = null) {
+    public function changePresence (Request $request, $rehearsal_id, $user_id, $missed = null) {
         // Try to get the rehearsal.
         $rehearsal = Rehearsal::find($rehearsal_id);
 
@@ -107,7 +107,7 @@ class RehearsalAttendanceController extends AttendanceController {
         }
 
         //TODO: Change function
-        return $this->changeEventAttendance($request, $rehearsal, $user_id, $attendance);
+        return $this->changeEventAttendance($request, $rehearsal, $user_id, $missed);
     }
 
     /**

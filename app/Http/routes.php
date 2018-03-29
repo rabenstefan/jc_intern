@@ -81,7 +81,7 @@ Route::group(['middleware' => 'web'], function () {
     // Get a list of rehearsal attendances.
     Route::get('rehearsals/attendances/list/{id?}', 'RehearsalAttendanceController@listAttendances')->name('attendances.listAttendances');
     // Change if a user was or is present at a rehearsal.
-    Route::post('rehearsals/{rehearsal_id}/present/{user_id}', 'RehearsalAttendanceController@changeAttendance')->name('attendances.changeAttendance');
+    Route::post('rehearsals/{rehearsal_id}/present/{user_id}', 'RehearsalAttendanceController@changePresence')->name('attendances.changePresence');
 
     // Routes for external calenders.
     Route::get('calendar_sync', 'DateController@calendarSync')->name('dates.calendarSync');

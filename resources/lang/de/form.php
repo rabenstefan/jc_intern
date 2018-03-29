@@ -41,6 +41,8 @@ return [
     'edit'          => 'Bearbeiten',
     'search'        => 'Suchen',
     'excuse'        => 'Entschuldigung',
+    'comment'        => 'Bitte einen Kommentar angeben :-)',
+    'submit'        => 'Speichern',
     'optional'      => '(optional)',
     'error_user_not_found' => 'Es gibt kein Chormitglied namens :name.',
     'error_sheet_not_found' => 'Heftserie nicht :id nicht gefunden.',
