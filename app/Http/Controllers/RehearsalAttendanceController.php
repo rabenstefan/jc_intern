@@ -112,7 +112,7 @@ class RehearsalAttendanceController extends AttendanceController {
 
         //TODO: fix
         $user = User::find($user_id);
-        if (null === $rehearsal) {
+        if (null === $user) {
             if ($request->wantsJson()) {
                 return \Response::json(['success' => false, 'message' => trans('date.user_not_found')]);
             } else {
