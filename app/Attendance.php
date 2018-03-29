@@ -3,12 +3,10 @@
 namespace App;
 
 trait Attendance {
-    public function event() {
-        return null;
-    }
+    abstract public function event();
 
     public function getPossibleAnswers() {
-        if (true === $this->event()->binary_answer) {
+        if ($this->event()->hasBinaryAnswer()) {
             return \Config::get('enums.attendances_binary_reversed');
         }
         return \Config::get('enums.attendances_reversed');

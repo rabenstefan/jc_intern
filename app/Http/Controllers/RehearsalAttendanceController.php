@@ -95,6 +95,8 @@ class RehearsalAttendanceController extends AttendanceController {
      * @param Integer $user_id
      * @param String $missed
      * @return \Illuminate\Http\JsonResponse
+     *
+     * @throws \Exception
      */
     public function changePresence (Request $request, $rehearsal_id, $user_id, $missed = null) {
         // Try to get the rehearsal.

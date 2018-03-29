@@ -58,7 +58,7 @@ trait Event {
      * @param $attendance
      * @return String
      */
-    protected function isAttendingEvent($attendance = null) {
+    protected function isAttendingEvent($attendance) {
         if (null === $attendance) return '';
         return \Config::get('enums.attendances_reversed')[$attendance->attendance];
     }
@@ -77,7 +77,7 @@ trait Event {
      * @param $attendance
      * @return bool
      */
-    protected function hasAnsweredEvent($attendance = null) {
+    protected function hasAnsweredEvent($attendance) {
         if (null === $attendance) {
             return false;
         } else if ($this->hasBinaryAnswer()) {
