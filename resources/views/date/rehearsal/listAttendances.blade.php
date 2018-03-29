@@ -103,7 +103,10 @@
          * @param currentlyAttending
          */
         function saveAttendance(url, sliderElement, currentlyPresent) {
-            // Request the url via post, include csrf-token and comment.
+            // Request the url via post, include csrf-token
+            // 'currentlyPresent' means here: currently, as in before the slider was switched.
+            // Hence: currentlyPresent === !presentAfterUpdatingDB === actuallyMissedThisRehearsal
+            // Maybe we should rename some variables ...
             $.post(url, {
                     _token: '{{ csrf_token() }}',
                     missed: currentlyPresent

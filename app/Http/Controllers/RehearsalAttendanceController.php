@@ -87,6 +87,16 @@ class RehearsalAttendanceController extends AttendanceController {
         ]);
     }
 
+    /**
+     * Stores whether a given user has missed a given rehearsal
+     *
+     * @param Request $request
+     * @param $rehearsal_id
+     * @param $user_id
+     * @param null $missed
+     * @return $this|\Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
+     * @throws \Exception
+     */
     public function changePresence(Request $request, $rehearsal_id, $user_id, $missed = null) {
         // Try to get the rehearsal.
         $rehearsal = Rehearsal::find($rehearsal_id);
