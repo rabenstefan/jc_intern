@@ -6666,7 +6666,8 @@ div.checkbox input, div.radio input {
     line-height: 0; }
 
 .names {
-  padding-top: 1em; }
+  padding-top: 1em;
+  padding-left: 2em; }
 
 .sliders {
   padding-top: 0.2em;

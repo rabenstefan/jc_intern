@@ -71,10 +71,7 @@
          * @return Boolean success
          */
         function sliderSwitch (sliderElement, currentState) {
-            if ($(sliderElement).hasClass('inactive')) return false;
-
             $(sliderElement).find('input[type="checkbox"]').prop('checked', !currentState);
-            return true;
         }
 
         /**
@@ -84,17 +81,18 @@
          *
          * @param sliderElement
          */
-        function changeAttendance (sliderElement) {
+        function changePresence (sliderElement) {
+            if ($(sliderElement).hasClass('inactive')) return false;
             // Make slider inactive.
             $(sliderElement).addClass('inactive');
 
             // Do we need to excuse the user or is she attending?
             // If the slider's checkbox is "checked" we have to excuse her.
-            var currentlyAttending = $(sliderElement).find('input[type="checkbox"]').prop('checked');
+            var currentlyPresent = $(sliderElement).find('input[type="checkbox"]').prop('checked');
 
-            var url = $(sliderElement).data('attendance-url');
+            var url = $(sliderElement).data('change-url');
 
-            saveAttendance(url, sliderElement, currentlyAttending);
+            saveAttendance(url, sliderElement, currentlyPresent);
         }
 
         /**
@@ -104,19 +102,19 @@
          * @param sliderElement
          * @param currentlyAttending
          */
-        function saveAttendance(url, sliderElement, currentlyAttending) {
+        function saveAttendance(url, sliderElement, currentlyPresent) {
             // Request the url via post, include csrf-token and comment.
             $.post(url, {
                     _token: '{{ csrf_token() }}',
-                    attending: !currentlyAttending
+                    missed: !currentlyPresent
                 }, function (data) {
                     // Success?
                     if (data.success) {
+                        // Get slider's current state and switch it and its event.
+                        sliderSwitch(sliderElement, currentlyPresent);
+
                         // Make slider active again.
                         $(sliderElement).removeClass('inactive');
-
-                        // Get slider's current state and switch it and its event.
-                        sliderSwitch(sliderElement, currentlyAttending);
                     } else {
                         // Warn user.
                         $.notify(data.message, 'danger');

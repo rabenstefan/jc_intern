@@ -67,6 +67,9 @@
          * @param sliderElement
          */
         function changeAttendanceSlider (sliderElement) {
+            if ($(sliderElement).hasClass('inactive')) return false;
+            $(sliderElement).addClass('inactive');
+
             // Do we need to excuse the user or is she attending?
             // If the slider's checkbox is "checked" we have to excuse her.
             var currentlyAttending = $(sliderElement).find('input[type="checkbox"]').prop('checked');
@@ -82,6 +85,7 @@
             }
             saveAttendance(url, null, function() {
                     changeEventDisplayState(sliderElement, attendance, true);
+                    $(sliderElement).removeClass('inactive');
                 });
         }
 
