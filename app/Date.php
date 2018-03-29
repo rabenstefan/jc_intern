@@ -12,6 +12,7 @@ trait Date {
     // This is for view stuff (visibility and such).
     protected $applicable_filters = [];
 
+
     /**
      * Get all filters, that are applicable to this date.
      *
@@ -26,6 +27,10 @@ trait Date {
      */
     protected function setApplicableFilters() {
         $this->applicable_filters[] = $this->getShortName();
+        if (property_exists($this, 'calendar_options')) {
+            $this->calendar_options['applicableFilters'] = $this->applicable_filters;
+        }
+
     }
 
     /**

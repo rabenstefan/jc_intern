@@ -12,7 +12,6 @@ class Birthday implements Event {
 
     protected $calendar_options = [
         'className' => 'event-birthday',
-        'shortName' => 'birthday'
     ];
 
     private $title;

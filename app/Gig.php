@@ -12,7 +12,6 @@ class Gig extends \Eloquent implements IdentifiableEvent {
     protected $calendar_options = [
         'className' => 'event-gig',
         'url' => '',
-        'shortName' => 'gig'
     ];
 
     protected $casts = [

@@ -12,13 +12,11 @@
             @endforeach
         </div>
         <div class="row btn-2d-container">
-            @if('list' === $view_type)
                 @foreach($date_statuses as $button)
                     <div id="toggle-{{$button}}" class="btn btn-{{$button}} btn-2d btn-pressed btn-date-status">
                         {{ trans('date.'.$button) }}
                     </div>
                 @endforeach
-            @endif
         </div>
         <div class="row btn-2d-container">
             <div id="toggle-all" class="btn btn-all btn-2d">
