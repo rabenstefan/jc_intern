@@ -88,18 +88,18 @@ class RehearsalAttendanceController extends AttendanceController {
     }
 
     /**
-     * Stores whether a given user has missed a given rehearsal
+     * Function for an admin to login if someone attends or is missing.
      *
      * @param Request $request
-     * @param $rehearsal_id
-     * @param $user_id
-     * @param null $missed
-     * @return $this|\Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
-     * @throws \Exception
+     * @param Integer $rehearsal_id
+     * @param Integer $user_id
+     * @param String $missed
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function changePresence(Request $request, $rehearsal_id, $user_id, $missed = null) {
+    public function changePresence (Request $request, $rehearsal_id, $user_id, $missed = null) {
         // Try to get the rehearsal.
         $rehearsal = Rehearsal::find($rehearsal_id);
+
         if (null === $rehearsal) {
             if ($request->wantsJson()) {
                 return \Response::json(['success' => false, 'message' => trans('date.rehearsal_not_found')]);
@@ -108,6 +108,7 @@ class RehearsalAttendanceController extends AttendanceController {
             }
         }
 
+        //TODO: fix
         $user = User::find($user_id);
         if (null === $rehearsal) {
             if ($request->wantsJson()) {
@@ -174,6 +175,7 @@ class RehearsalAttendanceController extends AttendanceController {
      * @param User $user
      * @param array $data
      * @return bool
+     *
      * @throws \Exception
      */
     protected function storeAttendance($rehearsal, User $user, array $data) {

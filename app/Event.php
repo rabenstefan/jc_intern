@@ -11,7 +11,6 @@ trait Event {
      * Extend the Date's applicable filters by the attendance of the event.
      */
     protected function setApplicableFilters() {
-
         if ($this->needsAnswer()) {
             if ($this->hasAnswered()) {
                 switch ($this->isAttending()) {
@@ -59,7 +58,7 @@ trait Event {
      * @param $attendance
      * @return String
      */
-    protected function isAttendingEvent($attendance) {
+    protected function isAttendingEvent($attendance = null) {
         if (null === $attendance) return '';
         return \Config::get('enums.attendances_reversed')[$attendance->attendance];
     }
@@ -78,7 +77,7 @@ trait Event {
      * @param $attendance
      * @return bool
      */
-    protected function hasAnsweredEvent($attendance) {
+    protected function hasAnsweredEvent($attendance = null) {
         if (null === $attendance) {
             return false;
         } else if ($this->hasBinaryAnswer()) {

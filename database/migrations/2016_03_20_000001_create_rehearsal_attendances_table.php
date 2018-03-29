@@ -25,7 +25,6 @@ class CreateRehearsalAttendancesTable extends Migration {
             $table->boolean('missed')->default(false);
             $table->timestamps();
         });
-
     }
 
     /**
@@ -34,8 +33,6 @@ class CreateRehearsalAttendancesTable extends Migration {
      * @return void
      */
     public function down() {
-        Schema::drop('rehearsal_attendance_user');
-        Schema::drop('rehearsal_rehearsal_attendance');
         Schema::drop('rehearsal_attendances');
     }
 }

@@ -6,7 +6,6 @@ use App\GigAttendance;
 use App\Gig;
 use App\User;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 
 class GigAttendanceController extends AttendanceController {
     /**
