@@ -7,6 +7,8 @@ use App\Rehearsal;
 use App\Semester;
 use App\User;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 
 class RehearsalAttendanceController extends AttendanceController {
@@ -106,8 +108,40 @@ class RehearsalAttendanceController extends AttendanceController {
             }
         }
 
-        //TODO: Change function
-        return $this->changeEventAttendance($request, $rehearsal, $user_id, $missed);
+        //TODO: fix
+        $user = User::find($user_id);
+        if (null === $rehearsal) {
+            if ($request->wantsJson()) {
+                return \Response::json(['success' => false, 'message' => trans('date.user_not_found')]);
+            } else {
+                return back()->withErrors(trans('date.user_not_found'));
+            }
+        }
+
+        if (null === $missed && !$request->has('missed')) {
+            if ($request->wantsJson()) {
+                return \Response::json(['success' => false, 'message' => trans('date.missed_state_not_found')]);
+            } else {
+                return back()->withErrors(trans('date.missed_state_not_found'));
+            }
+        }
+
+        $missed = null === $missed ? $request->get('missed') : $missed;
+
+        if (!$this->storeAttendance($rehearsal, $user, ['missed' => 'true' == $missed])) {
+            if ($request->wantsJson()) {
+                return \Response::json(['success' => false, 'message' => trans('date.store_attendance_error')]);
+            } else {
+                return back()->withErrors(trans('date.store_attendance_error'));
+            }
+        } else {
+            if ($request->wantsJson()) {
+                return \Response::json(['success' => true, 'message' => trans('date.store_presence_success')]);
+            } else {
+                $request->session()->flash('message_success', trans('date.store_presence_success'));
+                return back();
+            }
+        }
     }
 
     /**
