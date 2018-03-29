@@ -217,7 +217,6 @@
 
             $('.comment-btn-container > a.btn').click(function (event) {
                 event.preventDefault();
-                var button = this;
                 $('#comment-form').attr('action', $(this).data('comment-url')).modal();
 
             });
