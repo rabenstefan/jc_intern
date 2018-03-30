@@ -48,15 +48,4 @@ class GigAttendanceController extends AttendanceController {
         // Update existing or create a new attendance.
         return (null !== GigAttendance::updateOrCreate(['user_id' => $user->id, 'gig_id' => $gig->id], $data));
     }
-
-    /**
-     * This function can be overridden by children to add more data to attendance.
-     * Usually, this function does only return an empty array.
-     *
-     * @param Request $request
-     * @return array
-     */
-    protected function prepareAdditionalData(Request $request) {
-        return [];
-    }
 }

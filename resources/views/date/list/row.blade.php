@@ -1,7 +1,7 @@
 <div class="row list-item" data-filters='["{{ implode('", "', $date->getApplicableFilters()) }}"]'>
     <div class="col-xs-12 context-box-2d event event-{{ implode(" event-", $date->getApplicableFilters()) }}">
         <div class="row">
-            <div class="col-xs-12 col-sm-8 col-md-8 col-lg-10">
+            <div class="col-xs-12 col-sm-9 col-lg-10">
                 <h4 class="title">
                     {{ $date->getTitle() }}
                     <span class="not-going-note" style="{{ in_array('not-going', $date->getApplicableFilters())  ? 'display: inline;' : 'display: none;' }};">
@@ -10,11 +10,16 @@
                     @if($date->hasPlace())
                         <br>
                         {{ $date->place }}
+                    @endif
+                </h4>
+
+                @if($date->hasPlace())
+                    <p class="place">
                         <a href="https://www.google.com/maps/search/@urlescape($date->place)/" title="{{ trans('date.address_search') }}" target="_blank" class="pull-right text-large">
                             {{ trans('date.goto_maps') }} <i class="far fa-map"></i>
                         </a>
-                    @endif
-                </h4>
+                    </p>
+                @endif
 
                 <p class="date">
                     @if($date->isAllDay())
@@ -40,7 +45,7 @@
                     </p>
                 @endif
             </div>
-            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-2 event-controls">
+            <div class="col-xs-12 col-sm-3 col-lg-2 event-controls">
                 @if($date->needsAnswer())
                     @if($date->hasBinaryAnswer() && $date->hasAnswered())
                         <div class="row">

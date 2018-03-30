@@ -6046,6 +6046,9 @@ i.fa {
   border: none ;
   border-bottom: 3px solid #083a68 ;
   box-shadow: none; }
+  .btn-2d i, #calendar-dates .btn-2d i {
+    width: 22px;
+    min-width: 22px; }
   .btn-2d:hover, .btn-2d:focus, .btn-2d:active, .btn-2d.btn-pressed, #calendar-dates .btn-2d:hover, #calendar-dates .btn-2d:focus, #calendar-dates .btn-2d:active, #calendar-dates .btn-2d.btn-pressed {
     border-bottom: 0px !important;
     margin-top: 3px !important;
@@ -6180,6 +6183,10 @@ i.fa {
   #list-dates .event-controls .btn {
     font-size: 1em; }
 
+#list-dates .place {
+  font-size: 1.2em;
+  height: 0.8em; }
+
 #list-dates .date {
   font-size: 1.2em; }
 
@@ -6198,42 +6205,53 @@ i.fa {
   #list-dates .event-birthday.context-box-2d:after {
     background-color: #047823; }
 
-.button-set-2d a.btn-2d {
-  margin-left: -4px;
-  margin-bottom: 0.4em; }
-  .button-set-2d a.btn-2d:first-child {
-    margin-left: 0px; }
-
-.button-set-2d i {
-  -webkit-touch-callout: none;
-  /* iOS Safari */
-  -webkit-user-select: none;
-  /* Chrome/Safari/Opera */
-  -khtml-user-select: none;
-  /* Konqueror */
-  -moz-user-select: none;
-  /* Firefox */
-  -ms-user-select: none;
-  /* IE/Edge */
-  user-select: none;
-  /* non-prefixed version, currently
+.button-set-2d {
+  background-color: #afafaf;
+  display: inline-block;
+  padding-bottom: 0; }
+  .button-set-2d a.btn-2d {
+    margin-left: -4px; }
+    .button-set-2d a.btn-2d:first-child {
+      margin-left: 0px; }
+  @media (min-width: 1200px) and (max-width: 1312px) {
+    .button-set-2d a.btn-2d {
+      margin-left: 0px;
+      margin-bottom: 2px;
+      display: block; }
+    .button-set-2d a.btn-2d:hover {
+      margin-top: 5px !important; }
+    .button-set-2d a.btn-2d:first-child:hover {
+      margin-top: 3px !important; } }
+  .button-set-2d i {
+    -webkit-touch-callout: none;
+    /* iOS Safari */
+    -webkit-user-select: none;
+    /* Chrome/Safari/Opera */
+    -khtml-user-select: none;
+    /* Konqueror */
+    -moz-user-select: none;
+    /* Firefox */
+    -ms-user-select: none;
+    /* IE/Edge */
+    user-select: none;
+    /* non-prefixed version, currently
                                   not supported by any browser */
-  cursor: pointer;
-  font-size: 1.2em;
-  top: 0; }
-  .button-set-2d i.fa-with-overlay {
-    margin-right: 9px;
-    font-size: 0.6em; }
-    .button-set-2d i.fa-with-overlay:before {
-      margin-right: -12px;
-      font-size: 2em; }
-  .button-set-2d i.inactive {
-    color: #fdfdfd;
-    background-color: #c3c3c3;
-    border-radius: 0 ;
-    border: none ;
-    border-bottom: 3px solid #afafaf ;
-    box-shadow: none; }
+    cursor: pointer;
+    font-size: 1.2em;
+    top: 0; }
+    .button-set-2d i.fa-with-overlay {
+      margin-right: 9px;
+      font-size: 0.6em; }
+      .button-set-2d i.fa-with-overlay:before {
+        margin-right: -12px;
+        font-size: 2em; }
+    .button-set-2d i.inactive {
+      color: #fdfdfd;
+      background-color: #c3c3c3;
+      border-radius: 0 ;
+      border: none ;
+      border-bottom: 3px solid #afafaf ;
+      box-shadow: none; }
 
 .slider-2d input[type="checkbox"] {
   display: none; }

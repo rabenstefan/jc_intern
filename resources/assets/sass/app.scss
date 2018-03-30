@@ -392,6 +392,11 @@ i.fa {
   margin-top: 0px;
   @include shadow-2d($main-color-darker);
 
+  i {
+    width: 22px;
+    min-width: 22px;
+  }
+
   @mixin active {
     border-bottom: 0px !important;
     margin-top: 3px !important;
@@ -557,6 +562,11 @@ i.fa {
     }
   }
 
+  .place {
+    font-size: 1.2em;
+    height: 0.8em;
+  }
+
   .date {
     font-size: 1.2em;
   }
@@ -584,12 +594,31 @@ i.fa {
 }
 
 .button-set-2d {
+  background-color: $grey-darker;
+  display: inline-block;
+  padding-bottom: 0;
+
   a.btn-2d {
     margin-left: -4px;
-    margin-bottom: 0.4em;
 
     &:first-child {
       margin-left: 0px;
+    }
+  }
+
+  @media (min-width: 1200px) and (max-width: 1312px) {
+    a.btn-2d {
+      margin-left: 0px;
+      margin-bottom: 2px;
+      display:block;
+    }
+
+    a.btn-2d:hover {
+      margin-top: 5px !important;
+    }
+
+    a.btn-2d:first-child:hover {
+      margin-top: 3px !important;
     }
   }
 

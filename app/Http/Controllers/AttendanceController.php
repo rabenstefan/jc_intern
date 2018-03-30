@@ -31,7 +31,9 @@ abstract class AttendanceController extends Controller {
      * @param Request $request
      * @return array
      */
-    abstract protected function prepareAdditionalData (Request $request);
+    protected function prepareAdditionalData (Request $request) {
+        return [];
+    }
 
     /**
      * Shorthand "I will attend $event_id" for routes.
