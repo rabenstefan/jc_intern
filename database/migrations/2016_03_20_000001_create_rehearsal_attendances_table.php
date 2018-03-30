@@ -19,10 +19,10 @@ class CreateRehearsalAttendancesTable extends Migration {
             $table->integer('rehearsal_id')->unsigned();
             $table->foreign('rehearsal_id')->references('id')->on('rehearsals')->onDelete('cascade');
 
-            $table->integer('attendance')->default(2); // 0 = not attending, 1 = maybe, 2 = attending
+            $table->integer('attendance')->nullable(); // 0 = not attending, 1 = maybe, 2 = attending
             $table->string('comment')->nullable();
             $table->string('internal_comment')->nullable();
-            $table->boolean('missed')->default(false);
+            $table->boolean('missed')->default(true);
             $table->timestamps();
         });
     }

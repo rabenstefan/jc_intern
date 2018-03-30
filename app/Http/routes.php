@@ -79,7 +79,7 @@ Route::group(['middleware' => 'web'], function () {
         ]
     )->name('attendances.changeOwnAttendance');
     // Get a list of rehearsal attendances.
-    Route::get('rehearsals/attendances/list/{id?}', 'RehearsalAttendanceController@listAttendances')->name('attendances.listAttendances');
+    Route::get('rehearsals/attendances/list/{id?}', 'RehearsalAttendanceController@listAttendances')->name('rehearsals.listAttendances');
     // Get a list of gig attendances.
     Route::get('gigs/attendances/list/{id?}', 'GigAttendanceController@listAttendances')->name('gigs.listAttendances');
     // Change if a user was or is present at a rehearsal.

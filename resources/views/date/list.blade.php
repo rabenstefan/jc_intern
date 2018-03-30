@@ -186,11 +186,11 @@
             $('#comment-form').submit(function (event) {
                 event.preventDefault();
 
+                // TODO: Save comment to your_comment section and data-current-comment of appropriate button
                 saveAttendance($(this).attr('action'),
                     $('#comment').val()
                 );
 
-                $('#comment').val('');
                 $.modal.close();
             });
 
@@ -224,7 +224,12 @@
 
             $('.comment-btn-container > a.comment-btn').click(function (event) {
                 event.preventDefault();
+                var current_comment = $.trim($(this).data('current-comment'));
+                if (current_comment.length !== 0) {
+                    $('#comment').val(current_comment);
+                }
                 $('#comment-form').attr('action', $(this).data('comment-url')).modal();
+
 
             });
         });

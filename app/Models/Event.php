@@ -61,7 +61,7 @@ trait Event {
 
         $attendance = $this->getAttendance($user);
 
-        if (null === $attendance) return '';
+        if (null === $attendance || null === $attendance->attendance) return '';
         return \Config::get('enums.attendances_reversed')[$attendance->attendance];
     }
 
@@ -82,7 +82,7 @@ trait Event {
 
         $attendance = $this->getAttendance($user);
 
-        if (null === $attendance) {
+        if (null === $attendance || null === $attendance->attendance) {
             return false;
         } else if ($this->hasBinaryAnswer()) {
             return \Config::get('enums.attendances')['maybe'] !== $attendance->attendance;
@@ -144,17 +144,28 @@ trait Event {
         return true;
     }
 
+    /**
+     * Get the number of people who will attend an event (filtered by voice if given)
+     *
+     * @param Voice|null $voice
+     * @return int
+     */
     public function getAttendanceCount(Voice $voice = null) {
-        if (null === $voice) {
-            return $this->getAttendances()->count();
+        // TODO: this function fires too many sql-queries
+
+        $attendances = $this->getAttendances()->filter(function ($key) {
+            return $key->attendance === \Config::get('enums.attendances')['yes'];
+        });
+
+        if (null !== $voice) {
+            // Get sub_voices as well.
+            $voices = [$voice->id];
+            foreach ($voice->children as $sub_voice) {
+                $voices[] = $sub_voice->id;
+            }
+            $attendances = $attendances->load('user')->whereIn('user.voice_id', $voices);
         }
 
-        // Get sub_voices as well.
-        $voices = [$voice->id];
-        foreach ($voice->children as $sub_voice) {
-            $voices[] = $sub_voice->id;
-        }
-
-        return $this->getAttendances()->load('user')->whereIn('user.voice_id', $voices)->count();
+        return $attendances->count();
     }
 }

@@ -54,7 +54,7 @@
                                       data-function="changeAttendanceSlider"
                                       data-attend-url="{{ route('attendances.changeOwnAttendance', ['events_name' => $date->getShortNamePlural(), 'event_id' => $date->getId(), 'shorthand' => 'attend']) }}"
                                       data-excuse-url="{{ route('attendances.changeOwnAttendance', ['events_name' => $date->getShortNamePlural(), 'event_id' => $date->getId(), 'shorthand' => 'excuse']) }}">
-                                    <input type="checkbox" {{ $date->isAttending() === 'yes' ? ' checked="checked"' : '' }} id="slider-attending-{{ $date->getShortName() }}-{{ $date->getId() }}">
+                                    <input type="checkbox" {!! $date->isAttending() === 'yes' ? ' checked="checked"' : '' !!} id="slider-attending-{{ $date->getShortName() }}-{{ $date->getId() }}">
                                     <label for="slider-attending-{{ $date->getShortName() }}-{{ $date->getId() }}">
                                         <span class="slider"></span>
                                         <i class="far fa-calendar-times" title="{{ trans('date.excuse') }}"></i>
@@ -99,16 +99,28 @@
                             <div class="col-xs-12">
                                 <span class="comment-btn-container button-set-2d">
                                     <a href="#" data-comment-url="{{ route('attendances.changeOwnAttendance', ['events_name' => $date->getShortNamePlural(), 'event_id' => $date->getId(), 'shorthand' => 'change'])}}"
+                                       @if($date->hasCommented())
+                                       data-current-comment="{{$date->getComment()}}"
+                                       @endif
                                        class="btn btn-2d comment-btn"
                                        title="{{ trans('form.add_comment') }}">
                                         <i class="far fa-comment"></i>
                                     </a>
-                                    @if(isset($date->getEventOptions()['url']) && Auth::user()->isAdmin($date->getShortName()))
-                                        <a href="{{ $date->getEventOptions()['url'] }}"
-                                           class="btn btn-2d"
-                                           title="{{ trans('form.edit') }}">
+                                    @if(Auth::user()->isAdmin($date->getShortName()))
+                                        @if($date->needsAnswer())
+                                            <a href="{{ route($date->getShortNamePlural() . '.listAttendances', ['id' => $date->id]) }}"
+                                               class="btn btn-2d"
+                                               title="{{ trans('form.edit') }}">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        @endif
+                                        @if(isset($date->getEventOptions()['url']))
+                                            <a href="{{ $date->getEventOptions()['url'] }}"
+                                               class="btn btn-2d"
+                                               title="{{ trans('form.edit') }}">
                                             <i class="fa fa-pencil-alt"></i>
                                         </a>
+                                        @endif
                                     @endif
                                 </span>
                             </div>

@@ -64,14 +64,17 @@ function power_set(array $in, int $minLength = 1) {
 /**
  * Shorten a string if it is longer than $length. If a string has been shortened, $indicator will be appended.
  *
+ * Input and ouput will be trimmed.
+ *
  * @param String $string
  * @param int $length
  * @param String $indicator
  * @return string
  */
 function str_shorten(String $string, int $length, String $indicator = '') {
-    $result = mb_substr($string, 0, $length);
-    if ($result != $string) {
+    $trimmed_input = trim($string);
+    $result = trim(mb_substr($trimmed_input, 0, $length));
+    if ($result != $trimmed_input) {
         $result .= $indicator;
     }
     return $result;
