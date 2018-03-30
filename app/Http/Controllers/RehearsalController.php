@@ -89,7 +89,9 @@ class RehearsalController extends EventController {
                     $data['start'] = $start->toDateTimeString();
                     $data['end'] = $end->toDateTimeString();
 
-                    Rehearsal::create($data);
+                    $rehearsal = Rehearsal::create($data);
+
+                    $this->createAttendances($rehearsal);
                 } else {
                     break;
                 }

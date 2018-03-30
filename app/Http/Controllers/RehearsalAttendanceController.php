@@ -46,7 +46,7 @@ class RehearsalAttendanceController extends AttendanceController {
         $data = parent::prepareAdditionalData($request);
 
         // Set "missed" to true if request has field which contains string "true".
-        $data['missed'] = $request->has('missed') ? $request->get('missed') == 'true' : false;
+        //$data['missed'] = $request->has('missed') ? $request->get('missed') == 'true' : false;
 
         return $data;
     }
