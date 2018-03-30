@@ -5924,6 +5924,10 @@ i.fa {
           margin-bottom: 0; } }
   .navbar-2d .dropdown-menu li, .navbar-2d .dropdown-submenu li {
     border: none; }
+    .navbar-2d .dropdown-menu li.list-separator, .navbar-2d .dropdown-submenu li.list-separator {
+      margin: 0.5em;
+      height: 1px;
+      background-color: #fdfdfd; }
   .navbar-2d .navbar-nav > .open > a, .navbar-2d .navbar-nav > .open > a:hover, .navbar-2d .navbar-nav > .open > a:focus {
     color: #fff;
     background-color: #135895;

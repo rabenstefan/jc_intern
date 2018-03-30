@@ -132,7 +132,7 @@ class User extends Authenticatable
         return $this->belongsTo('App\Models\Voice');
     }
 
-    public function last_echoed() {
+    public function last_echo() {
         return $this->belongsTo('App\Models\Semester', 'last_echo');
     }
 

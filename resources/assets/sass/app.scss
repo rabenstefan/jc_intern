@@ -217,6 +217,12 @@ i.fa {
 
   .dropdown-menu li, .dropdown-submenu li {
     border: none;
+
+    &.list-separator {
+      margin: 0.5em;
+      height: 1px;
+      background-color: $font-color-inverse;
+    }
   }
 
   .navbar-nav > .open > a, .navbar-nav > .open > a:hover, .navbar-nav > .open > a:focus {

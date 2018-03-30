@@ -82,6 +82,7 @@
                                 <li>
                                     <a href="{{ route('users.show', Auth::user()->id) }}">{{ trans('nav.user_show_own') }}</a>
                                 </li>
+                                <li class="list-separator"></li>
                                 @if(Auth::user()->isAdmin())
                                     <li>
                                         <a href="{{ route('users.create') }}">{{ trans('nav.add_user') }}</a>
@@ -101,31 +102,24 @@
                                 <li>
                                     <a href="{{ route('dates.index', ['view' => 'list']) }}">{{ trans('nav.dates_list') }}</a>
                                 </li>
-                                        <li>
-                                            <a href="{{ route('dates.index', ['view' => 'calendar']) }}">{{ trans('nav.dates_calendar') }}</a>
-                                        </li>
-
-                                        <li>
-                                            <a href="{{ route('dates.calendarSync') }}">{{ trans('nav.calendar_sync') }}</a>
-                                        </li>
-
-                                @if (Auth::user()->isAdmin('rehearsal') || Auth::user()->isAdmin('gig'))
-                                    <li class="dropdown-submenu"><a href="#">{{ trans('nav.admin') }}</a>
-                                        <ul class="dropdown-menu hidden-xs">
-                                            @if (Auth::user()->isAdmin('rehearsal'))
-                                                <li>
-                                                    <a href="{{ route('rehearsals.create') }}">{{ trans('nav.rehearsal_create') }}</a>
-                                                </li>
-                                                <li>
-                                                    <a href="{{ route('attendances.listAttendances') }}">{{ trans('nav.attendance_last_rehearsal') }}</a>
-                                                </li>
-                                            @endif
-                                            @if (Auth::user()->isAdmin('gig'))
-                                                <li>
-                                                    <a href="{{ route('gigs.create') }}">{{ trans('nav.gig_create') }}</a>
-                                                </li>
-                                            @endif
-                                        </ul>
+                                <li>
+                                    <a href="{{ route('dates.index', ['view' => 'calendar']) }}">{{ trans('nav.dates_calendar') }}</a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('dates.calendarSync') }}">{{ trans('nav.calendar_sync') }}</a>
+                                </li>
+                                <li class="list-separator"></li>
+                                @if (Auth::user()->isAdmin('rehearsal'))
+                                    <li>
+                                        <a href="{{ route('rehearsals.create') }}">{{ trans('nav.rehearsal_create') }}</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('attendances.listAttendances') }}">{{ trans('nav.attendance_last_rehearsal') }}</a>
+                                    </li>
+                                @endif
+                                @if (Auth::user()->isAdmin('gig'))
+                                    <li>
+                                        <a href="{{ route('gigs.create') }}">{{ trans('nav.gig_create') }}</a>
                                     </li>
                                 @endif
                             </ul>
@@ -135,8 +129,11 @@
                                 {{ trans('nav.sheets') }}&nbsp;<span class="caret"></span>
                             </a>
 
-                            <ul class="dropdown-menu multi-level" role="menu">
-
+                            <ul class="dropdown-menu" role="menu">
+                                <li>
+                                    <a href="#">{{ trans('nav.sheet_list_own') }}</a>
+                                </li>
+                                <li class="list-separator"></li>
                                 @if (Auth::user()->isAdmin('sheet'))
                                     <li>
                                         <a href="{{ route('sheets.index') }}">{{ trans('nav.sheet_list') }}</a>

@@ -16,7 +16,8 @@ return [
     'attendance_last_rehearsal' => 'Letzte Probenteilnahme',
     'gig_create'        => 'Auftritt planen',
     'sheets'            => 'Hefte',
-    'sheet_list'        => 'Liste',
+    'sheet_list'        => 'Liste aller Hefte',
+    'sheet_list_own'    => 'Eigene Hefte',
     'sheet_create'      => 'Serie hinzufügen',
     'calendar_sync'     => 'Automatische Synchronisation',
     'admin'             => 'Administration'

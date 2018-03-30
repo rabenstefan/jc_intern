@@ -35,7 +35,7 @@ class Voice extends \Eloquent {
         return $this->hasMany('App\Models\User');
     }
 
-    public function parent() {
+    public function super_group() {
         return $this->belongsTo('App\Models\Voice', 'super_group', 'id');
     }
 
