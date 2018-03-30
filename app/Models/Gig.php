@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use \Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Collection;
 use MaddHatter\LaravelFullcalendar\IdentifiableEvent;
 
 /**
@@ -78,6 +79,16 @@ class Gig extends \Eloquent implements IdentifiableEvent {
         return $this->hasMany('App\Models\GigAttendance');
     }
 
+    public function users() {
+        $users = new Collection();
+
+        foreach ($this->gig_attendances as $gig_attendance) {
+            $users->put($gig_attendance->user->id, $gig_attendance->user);
+        }
+
+        return $users;
+    }
+
     public function semester() {
         return $this->belongsTo('App\Models\Semester');
     }
@@ -119,7 +130,10 @@ class Gig extends \Eloquent implements IdentifiableEvent {
      * @return Attendance
      */
     public function getAttendance(User $user) {
-        return GigAttendance::where('user_id', $user->id)->where('gig_id', $this->id)->first();
+        // We use the collection here, because it has a huge! impact on loading speed.
+        return $this->gig_attendances->filter(
+                function ($value) use ($user) { return $value->user->id == $user->id; }
+            )->first();
     }
 
     /**

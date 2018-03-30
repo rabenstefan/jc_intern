@@ -11,6 +11,7 @@
                 <div class="col-xs-12">
                     <div class="panel panel-2d">
                         <div class="panel-heading">
+                            &nbsp;
                         </div>
 
                         <div id="attendance-list" class="table-responsive">
@@ -20,7 +21,8 @@
                                         <td></td>
 
                                         @foreach($gigs as $gig)
-                                            <td>{{ $gig->title }}</td>
+                                            <td>{{ $gig->title }}
+                                            <br>{{ $gig->start }}</td>
                                         @endforeach
                                     </tr>
                                 </thead>

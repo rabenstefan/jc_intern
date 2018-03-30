@@ -160,7 +160,7 @@ class DateController extends Controller {
         $data = new Collection();
 
         foreach ($date_types as $set) {
-            $data->add(call_user_func_array([$set, 'all'], [['*'], $with_old]));
+            $data->add(call_user_func_array([$set, 'all'], [['*'], $with_old, true]));
         }
 
         return $data->flatten();

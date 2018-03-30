@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use \Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Collection;
 use MaddHatter\LaravelFullcalendar\IdentifiableEvent;
 
 /**
@@ -91,6 +92,16 @@ class Rehearsal extends \Eloquent implements IdentifiableEvent {
         return $this->hasMany('App\Models\RehearsalAttendance');
     }
 
+    public function users() {
+        $users = new Collection();
+
+        foreach ($this->rehearsal_attendances as $rehearsal_attendance) {
+            $users->put($rehearsal_attendance->user->id, $rehearsal_attendance->user);
+        }
+
+        return $users;
+    }
+
     public function getShortName() {
         return 'rehearsal';
     }
@@ -128,7 +139,10 @@ class Rehearsal extends \Eloquent implements IdentifiableEvent {
      * @return Attendance
      */
     public function getAttendance(User $user) {
-        return RehearsalAttendance::where('user_id', $user->id)->where('rehearsal_id', $this->id)->first();
+        // We use the collection here, because it has a huge! impact on loading speed.
+        return $this->rehearsal_attendances->filter(
+            function ($value) use ($user) { return $value->user->id == $user->id; }
+        )->first();
     }
 
     /**
