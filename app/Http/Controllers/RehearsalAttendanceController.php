@@ -36,6 +36,20 @@ class RehearsalAttendanceController extends AttendanceController {
         )->first();
     }
 
+    /**
+     * Add the "missed" parameter to the attendance data.
+     *
+     * @param Request $request
+     * @return array
+     */
+    protected function prepareAdditionalData(Request $request) {
+        $data = parent::prepareAdditionalData($request);
+
+        // Set "missed" to true if request has field which contains string "true".
+        $data['missed'] = $request->has('missed') ? $request->get('missed') == 'true' : false;
+
+        return $data;
+    }
 
     /**
      * View shows a list to select which users were actually attending the last rehearsal (optionally: The rehearsal
