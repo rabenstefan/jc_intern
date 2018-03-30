@@ -135,7 +135,6 @@ abstract class AttendanceController extends Controller {
      * @param string $attendance  Can also be taken from the request if null.
      * @return $this|\Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
      */
-    //TODO: Maybe simplify?
     private function changeUserEventAttendance(Request $request, $event, User $user, $attendance = null) {
         // Check if we have an attendance state given.
         if (null === $attendance) {

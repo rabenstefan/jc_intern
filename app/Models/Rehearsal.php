@@ -124,67 +124,17 @@ class Rehearsal extends \Eloquent implements IdentifiableEvent {
     }
 
     /**
-     * Returns answer, if a user (or on null the authenticated user) has answered this Date.
-     *
-     * @param User|null $user
-     * @return bool
+     * @param User $user
+     * @return Attendance
      */
-    public function isAttending(User $user = null) {
-        if (null === $user) {
-            $user = \Auth::user();
-        }
-
-        $attendance = RehearsalAttendance::where('user_id', $user->id)->where('rehearsal_id', $this->id)->first();
-
-        return $this->isAttendingEvent($attendance);
+    public function getAttendance(User $user) {
+        return RehearsalAttendance::where('user_id', $user->id)->where('rehearsal_id', $this->id)->first();
     }
 
     /**
-     * Returns true, if a user (or on null the authenticated user) has answered this Date.
-     *
-     * @param User|null $user
-     * @return bool
+     * @return RehearsalAttendance[]|\Illuminate\Database\Eloquent\Collection
      */
-    public function hasAnswered(User $user = null) {
-        if (null === $user) {
-            $user = \Auth::user();
-        }
-
-        if (null === $user) { // Needed for seeding
-            return false;
-        }
-
-        $attendance = RehearsalAttendance::where('user_id', $user->id)->where('rehearsal_id', $this->id)->first();
-
-        return $this->hasAnsweredEvent($attendance);
-    }
-
-    //TODO: Comment
-    public function hasCommented(User $user = null) {
-        if (null === $user) {
-            $user = \Auth::user();
-        }
-
-        if (null === $user) {
-            return false;
-        }
-
-        $attendance = RehearsalAttendance::where('user_id', $user->id)->where('rehearsal_id', $this->id)->first();
-
-        return $this->hasCommentedEvent($attendance);
-    }
-
-    public function getComment(User $user = null) {
-        if (null === $user) {
-            $user = \Auth::user();
-        }
-
-        if (null === $user) {
-            return false;
-        }
-
-        $attendance = RehearsalAttendance::where('user_id', $user->id)->where('rehearsal_id', $this->id)->first();
-
-        return $this->getCommentEvent($attendance);
+    protected function getAttendances() {
+        return $this->rehearsal_attendances;
     }
 }

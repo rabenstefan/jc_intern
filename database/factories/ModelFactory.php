@@ -11,7 +11,7 @@
 |
 */
 
-$factory->define(App\User::class, function (Faker\Generator $faker) {
+$factory->define(App\Models\User::class, function (Faker\Generator $faker) {
     return [
         'first_name' => $faker->firstName,
         'last_name' => $faker->lastName,
@@ -27,7 +27,7 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
     ];
 });
 
-$factory->define(App\Rehearsal::class, function (Faker\Generator $faker) {
+$factory->define(App\Models\Rehearsal::class, function (Faker\Generator $faker) {
     // Make sure end is after start dateTime.
     $start = $faker->dateTimeBetween('20.04.2018', '29.09.2018');
 
@@ -43,7 +43,7 @@ $factory->define(App\Rehearsal::class, function (Faker\Generator $faker) {
     ];
 });
 
-$factory->define(App\Gig::class, function (Faker\Generator $faker) {
+$factory->define(App\Models\Gig::class, function (Faker\Generator $faker) {
     // Make sure end is after start dateTime.
     $start = $faker->dateTimeBetween('30.04.2018', '29.09.2018');
 

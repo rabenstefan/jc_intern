@@ -9,6 +9,7 @@
  *
  * @param array $array
  * @param $value
+ * @param boolean strict
  * @return array
  */
 function array_xor_value(array $array, $value, bool $strict = true) {

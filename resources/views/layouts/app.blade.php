@@ -121,6 +121,9 @@
                                     <li>
                                         <a href="{{ route('gigs.create') }}">{{ trans('nav.gig_create') }}</a>
                                     </li>
+                                    <li>
+                                        <a href="{{ route('gigs.listAttendances') }}">{{ trans('nav.attendance_gigs') }}</a>
+                                    </li>
                                 @endif
                             </ul>
                         </li>

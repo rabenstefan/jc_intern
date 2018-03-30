@@ -33,7 +33,7 @@
                                 <div class="panel panel-2d">
                                     <div class="panel-heading">&nbsp;
                                     </div>
-                                    @include('user.table', ['users' => App\User::getMusicalLeader()])
+                                    @include('user.table', ['users' => App\Models\User::getMusicalLeader()])
                                 </div>
                             </div>
                         </div>
@@ -43,7 +43,7 @@
 
             <?php
                 // Get all second level voices.
-                $voices = App\Voice::getParentVoices(App\Voice::getChildVoices());
+                $voices = App\Models\Voice::getParentVoices(App\Models\Voice::getChildVoices());
             ?>
             @foreach($voices as $voice)
                 <div class="row" id="{{ trans('nav.users') }}-{{ $voice->name }}">
@@ -67,7 +67,7 @@
                                                 @endif
                                             </div>
 
-                                            @include('user.table', ['users' => \App\User::getUsersOfVoice($sub_voice->id)])
+                                            @include('user.table', ['users' => \App\Models\User::getUsersOfVoice($sub_voice->id)])
                                         </div>
                                     </div>
                                 @endforeach
@@ -83,7 +83,7 @@
         <div class="col-xs-12">
             <?php
             // Get all old users that have not echoed in this semester.
-            $users = App\User::orderBy('voice_id')->where('last_echo', '<>', \App\Semester::current()->id)->get();
+            $users = App\Models\User::orderBy('voice_id')->where('last_echo', '<>', \App\Models\Semester::current()->id)->get();
             ?>
             <div class="row" id="{{ str_replace(' ', '-', trans('user.alumni')) }}">
                 <div class="col-xs-12">

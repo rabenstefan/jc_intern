@@ -59,14 +59,13 @@ class RehearsalAttendanceController extends AttendanceController {
      * @return $this|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function listAttendances ($rehearsal_id = null) {
-        $rehearsals = Rehearsal::where(
-            'start', '<=', Carbon::now()
-        )->where(
-            'semester_id', Semester::current()->id
-        )->orderBy('start', 'asc')->get();
-
         if (null === $rehearsal_id || (null === ($rehearsal = Rehearsal::find($rehearsal_id)))) {
-            // Get current or last rehearsal.
+            // Get current or last rehearsal which is in the past and in this semester.
+            $rehearsals = Rehearsal::where(
+                'start', '<=', Carbon::now()
+            )->where(
+                'semester_id', Semester::current()->id
+            )->orderBy('start', 'asc')->get();
             $rehearsal = $rehearsals->last();
         }
 
@@ -108,7 +107,6 @@ class RehearsalAttendanceController extends AttendanceController {
             }
         }
 
-        //TODO: fix
         $user = User::find($user_id);
         if (null === $user) {
             if ($request->wantsJson()) {

@@ -2,6 +2,14 @@
 
 namespace App\Models;
 
+/**
+ * Trait Attendance
+ * @package App\Models
+ *
+ * @property boolean attendance
+ * @property string comment
+ * @property string comment_internal
+ */
 trait Attendance {
     /**
      * @return Event

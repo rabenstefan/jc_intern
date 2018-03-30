@@ -166,7 +166,9 @@ class DateController extends Controller {
         return $data->flatten();
     }
 
-
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function calendarSync() {
         return view('date.calendar_sync', [
             'date_types' => array_keys(self::$date_types)

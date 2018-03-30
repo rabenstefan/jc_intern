@@ -1081,3 +1081,47 @@ div.checkbox input, div.radio input {
   font-size: 1.2em;
 }
 
+/** attendance list for gigs **/
+#attendance-list {
+  tr.voice{
+    background-color: $grey;
+  }
+
+  tr.subvoice {
+    background-color: $grey-lighter;
+  }
+
+  tr.voice, tr.subvoice {
+    .btn-toggle {
+      color: $font-color;
+      background-color: $font-color-inverse;
+      @include shadow-2d($grey-lighter);
+      padding: 0 8px;
+
+      &:hover {
+        color: $font-color !important;
+      }
+
+      i {
+        width: 6px;
+        min-width: 6px;
+      }
+    }
+  }
+
+  tr.user {
+    display: none;
+
+    td.attending {
+      background-color: $success-color;
+    }
+
+    td.maybe-attending {
+      background-color: $warning-color;
+    }
+
+    td.not-attending {
+      background-color: $error-color;
+    }
+  }
+}

@@ -20,5 +20,6 @@ return [
     'sheet_list_own'    => 'Eigene Hefte',
     'sheet_create'      => 'Serie hinzufügen',
     'calendar_sync'     => 'Automatische Synchronisation',
-    'admin'             => 'Administration'
+    'admin'             => 'Administration',
+    'attendance_gigs'     => 'Auftritt-Teilnahmen',
 ];

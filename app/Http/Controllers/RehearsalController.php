@@ -64,9 +64,7 @@ class RehearsalController extends EventController {
 
         // Create attendances for all users, if gig is mandatory.
         if ($rehearsal->mandatory) {
-            foreach (User::all() as $user) {
-                RehearsalAttendance::updateOrCreate(['user_id' => $user->id, 'rehearsal_id' => $rehearsal->id], $data);
-            }
+            $this->createAttendances($rehearsal);
         }
 
         if ($data['repeat']) {
@@ -183,5 +181,11 @@ class RehearsalController extends EventController {
         \Session::flash('message_success', trans('date.delete_success'));
 
         return redirect()->route('dates.index');
+    }
+
+    public static function createAttendances($rehearsal) {
+        foreach (User::all() as $user) {
+            RehearsalAttendance::updateOrCreate(['user_id' => $user->id, 'rehearsal_id' => $rehearsal->id]);
+        }
     }
 }

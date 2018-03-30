@@ -1,7 +1,12 @@
 <?php
 
 namespace App\Models;
+use Illuminate\Support\Collection;
 
+/**
+ * Trait Event
+ * @package App\Models
+ */
 trait Event {
     use Date {
         Date::setApplicableFilters as private setDateApplicableFilters;
@@ -50,15 +55,13 @@ trait Event {
      * @param User|null $user
      * @return bool
      */
-    public abstract function isAttending(User $user = null);
+    public function isAttending(User $user = null) {
+        if (null === $user) {
+            $user = \Auth::user();
+        }
 
-    /**
-     * Gives the attendance string.
-     *
-     * @param $attendance
-     * @return String
-     */
-    protected function isAttendingEvent($attendance) {
+        $attendance = $this->getAttendance($user);
+
         if (null === $attendance) return '';
         return \Config::get('enums.attendances_reversed')[$attendance->attendance];
     }
@@ -69,15 +72,17 @@ trait Event {
      * @param User|null $user
      * @return bool
      */
-    public abstract function hasAnswered(User $user = null);
+    public function hasAnswered(User $user = null) {
+        if (null === $user) {
+            $user = \Auth::user();
+        }
 
-    /**
-     * True, if a user has answered the event.
-     *
-     * @param $attendance
-     * @return bool
-     */
-    protected function hasAnsweredEvent($attendance) {
+        if (null === $user) { // Needed for seeding
+            return false;
+        }
+
+        $attendance = $this->getAttendance($user);
+
         if (null === $attendance) {
             return false;
         } else if ($this->hasBinaryAnswer()) {
@@ -87,29 +92,48 @@ trait Event {
         }
     }
 
-    public abstract function hasCommented(User $user = null);
-    public abstract function getComment(User $user = null);
+    /**
+     * @param User $user
+     * @return Attendance
+     */
+    abstract protected function getAttendance(User $user);
 
     /**
-     * True, if a user has comment on the event.
-     *
-     * @param $attendance
-     * @return bool
+     * @return \Illuminate\Database\Eloquent\Collection
      */
-    protected function hasCommentedEvent($attendance) {
-        if (null === $attendance) {
-            return false;
-        } else {
-            return (null !== $attendance->comment && '' !== $attendance->comment);
+    abstract protected function getAttendances();
+
+    /**
+     * Should return true, if a user has already commented on an attendance.
+     *
+     * @param User|null $user
+     * @return boolean
+     */
+    public function hasCommented(User $user = null) {
+        if (null === $user) {
+            $user = \Auth::user();
         }
+
+        $attendance = $this->getAttendance($user);
+
+        // Make use of lazy evaluation (attendance will be set if second part is evaluated).
+        return null !== $attendance && !empty($attendance->comment);
     }
 
-    protected function getCommentEvent($attendance) {
-        if (null === $attendance) {
-            return '';
-        } else {
-            return $attendance->comment;
+    /**
+     * Returns the comment a user has given on the Event.
+     *
+     * @param User|null $user
+     * @return bool
+     */
+    public function getComment(User $user = null) {
+        if (null === $user) {
+            $user = \Auth::user();
         }
+
+        $attendance = $this->getAttendance($user);
+
+        return null === $attendance ? '' : $attendance->comment;
     }
 
     /**
@@ -119,5 +143,19 @@ trait Event {
      */
     public function needsAnswer() {
         return true;
+    }
+
+    public function getAttendanceCount(Voice $voice = null) {
+        if (null === $voice) {
+            return $this->getAttendances()->count();
+        }
+
+        // Get sub_voices as well.
+        $voices = [$voice->id];
+        foreach ($voice->children as $sub_voice) {
+            $voices[] = $sub_voice->id;
+        }
+
+        return $this->getAttendances()->load('user')->whereIn('user.voice_id', $voices)->count();
     }
 }

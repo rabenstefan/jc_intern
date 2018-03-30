@@ -6695,4 +6695,34 @@ div.checkbox input, div.radio input {
   padding-top: 0.2em;
   font-size: 1.2em; }
 
+/** attendance list for gigs **/
+#attendance-list tr.voice {
+  background-color: #c3c3c3; }
+
+#attendance-list tr.subvoice {
+  background-color: #eaeaea; }
+
+#attendance-list tr.voice .btn-toggle, #attendance-list tr.subvoice .btn-toggle {
+  color: #020202;
+  background-color: #fdfdfd;
+  border-radius: 0 ;
+  border: none ;
+  border-bottom: 3px solid #eaeaea ;
+  box-shadow: none;
+  padding: 0 8px; }
+  #attendance-list tr.voice .btn-toggle:hover, #attendance-list tr.subvoice .btn-toggle:hover {
+    color: #020202 !important; }
+  #attendance-list tr.voice .btn-toggle i, #attendance-list tr.subvoice .btn-toggle i {
+    width: 6px;
+    min-width: 6px; }
+
+#attendance-list tr.user {
+  display: none; }
+  #attendance-list tr.user td.attending {
+    background-color: #0bac35; }
+  #attendance-list tr.user td.maybe-attending {
+    background-color: #e78d0f; }
+  #attendance-list tr.user td.not-attending {
+    background-color: #e7280f; }
+
 /*# sourceMappingURL=app.css.map */

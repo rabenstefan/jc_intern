@@ -32,8 +32,6 @@ class CreateGigAttendancesTable extends Migration {
      * @return void
      */
     public function down() {
-        Schema::drop('gig_attendance_user');
-        Schema::drop('gig_gig_attendance');
         Schema::drop('gig_attendances');
     }
 }

@@ -29,7 +29,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\BeerCount[] $beer_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Sheet[] $borrowed
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Sheet[] $bought
- * @property-read mixed $name
+ * @property-read string $name
+ * @property-read string $abbreviated_name
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\GigAttendance[] $gig_attendances
  * @property-read \App\Models\Semester|null $last_echoed
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Sheet[] $lost
@@ -216,8 +217,8 @@ class User extends Authenticatable
         })->first();
 
         if (null === $attendance) {
-            // If there is no attendance return "attended".
-            return false;
+            // If there is no attendance return "missed".
+            return true;
         } else {
             return $attendance->missed;
         }
@@ -297,5 +298,9 @@ class User extends Authenticatable
 
     public function getNameAttribute(){
         return $this->first_name . ' ' . $this->last_name;
+    }
+
+    public function getAbbreviatedNameAttribute(){
+        return $this->first_name . ' ' . str_shorten($this->last_name, 1) . '.';
     }
 }

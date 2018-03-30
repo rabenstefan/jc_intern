@@ -59,5 +59,6 @@ return [
     'ajax_failed'         => 'Schlimmer Fehler! Bitte Programmierer kontaktieren und schreiend im Kreis laufen.',
     'comment_success'     => 'Kommentar gespeichert',
     'your_comment'        => 'Dein Kommentar:',
-    'comment_error'       => 'Kommentar konnt nicht gespeichert werden ¯\_(ツ)_/¯'
+    'comment_error'       => 'Kommentar konnt nicht gespeichert werden ¯\_(ツ)_/¯',
+    'gig_listAttendances_title' => 'Auftritt-Teilnahmen',
 ];
