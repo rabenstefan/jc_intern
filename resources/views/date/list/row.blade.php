@@ -106,12 +106,21 @@
                                        title="{{ trans('form.add_comment') }}">
                                         <i class="far fa-comment"></i>
                                     </a>
-                                    @if(isset($date->getEventOptions()['url']) && Auth::user()->isAdmin($date->getShortName()))
-                                        <a href="{{ $date->getEventOptions()['url'] }}"
-                                           class="btn btn-2d"
-                                           title="{{ trans('form.edit') }}">
+                                    @if(Auth::user()->isAdmin($date->getShortName()))
+                                        @if($date->needsAnswer())
+                                            <a href="{{ route($date->getShortNamePlural() . '.listAttendances', ['id' => $date->id]) }}"
+                                               class="btn btn-2d"
+                                               title="{{ trans('form.edit') }}">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        @endif
+                                        @if(isset($date->getEventOptions()['url']))
+                                            <a href="{{ $date->getEventOptions()['url'] }}"
+                                               class="btn btn-2d"
+                                               title="{{ trans('form.edit') }}">
                                             <i class="fa fa-pencil-alt"></i>
                                         </a>
+                                        @endif
                                     @endif
                                 </span>
                             </div>

@@ -22,7 +22,7 @@ class CreateRehearsalAttendancesTable extends Migration {
             $table->integer('attendance')->nullable(); // 0 = not attending, 1 = maybe, 2 = attending
             $table->string('comment')->nullable();
             $table->string('internal_comment')->nullable();
-            $table->boolean('missed')->default(false);
+            $table->boolean('missed')->default(true);
             $table->timestamps();
         });
     }

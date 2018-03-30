@@ -114,7 +114,7 @@
                                         <a href="{{ route('rehearsals.create') }}">{{ trans('nav.rehearsal_create') }}</a>
                                     </li>
                                     <li>
-                                        <a href="{{ route('attendances.listAttendances') }}">{{ trans('nav.attendance_last_rehearsal') }}</a>
+                                        <a href="{{ route('rehearsals.listAttendances') }}">{{ trans('nav.attendance_last_rehearsal') }}</a>
                                     </li>
                                 @endif
                                 @if (Auth::user()->isAdmin('gig'))

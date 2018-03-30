@@ -216,7 +216,7 @@ class User extends Authenticatable
             return $value->rehearsal_id == $rehearsalId;
         })->first();
 
-        if (null === $attendance) {
+        if (null === $attendance || null === $attendance->missed) {
             // If there is no attendance return "missed".
             return true;
         } else {
