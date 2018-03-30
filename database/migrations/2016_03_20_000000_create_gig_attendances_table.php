@@ -19,7 +19,7 @@ class CreateGigAttendancesTable extends Migration {
             $table->integer('gig_id')->unsigned();
             $table->foreign('gig_id')->references('id')->on('gigs')->onDelete('cascade');
 
-            $table->integer('attendance')->default(0); // 0 = not attending, 1 = maybe, 2 = attending
+            $table->integer('attendance')->nullable(); // 0 = not attending, 1 = maybe, 2 = attending
             $table->string('comment')->nullable();
             $table->string('internal_comment')->nullable();
             $table->timestamps();

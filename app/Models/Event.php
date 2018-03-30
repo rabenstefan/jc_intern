@@ -62,7 +62,7 @@ trait Event {
 
         $attendance = $this->getAttendance($user);
 
-        if (null === $attendance) return '';
+        if (null === $attendance || null === $attendance->attendance) return '';
         return \Config::get('enums.attendances_reversed')[$attendance->attendance];
     }
 
@@ -83,7 +83,7 @@ trait Event {
 
         $attendance = $this->getAttendance($user);
 
-        if (null === $attendance) {
+        if (null === $attendance || null === $attendance->attendance) {
             return false;
         } else if ($this->hasBinaryAnswer()) {
             return \Config::get('enums.attendances')['maybe'] !== $attendance->attendance;

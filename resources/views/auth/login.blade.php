@@ -51,9 +51,9 @@
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
                                 <button type="submit" class="btn btn-2d">
-                                    <i class="fa fa-btn fa-sign-in"></i>&nbsp;Login
+                                    <i class="fas fa-btn fa-sign-in-alt"></i>&nbsp;Login
                                 </button>
-
+                                <br>
                                 <a class="btn btn-link" href="{{ url('/password/reset') }}">{{ trans('auth.forgot_password') }}</a>
                             </div>
                         </div>
