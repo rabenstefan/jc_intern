@@ -147,23 +147,22 @@ trait Event {
     /**
      * Get the number of people who will attend an event (filtered by voice if given)
      *
-     * @param Voice|null $voice
+     * @param User[]|null $users
      * @return int
      */
-    public function getAttendanceCount(Voice $voice = null) {
+    public function getAttendanceCount($users = []) {
         // TODO: this function fires too many sql-queries
 
-        $attendances = $this->getAttendances()->filter(function ($key) {
-            return $key->attendance === \Config::get('enums.attendances')['yes'];
+        $attendances = $this->getAttendances()->filter(function ($value) {
+            return $value->attendance === \Config::get('enums.attendances')['yes'];
         });
 
-        if (null !== $voice) {
-            // Get sub_voices as well.
-            $voices = [$voice->id];
-            foreach ($voice->children as $sub_voice) {
-                $voices[] = $sub_voice->id;
+        if (null !== $users) {
+            if ($users->count() < 1) {
+                return 0;
             }
-            $attendances = $attendances->load('user')->whereIn('user.voice_id', $voices);
+
+            $attendances = $attendances->whereIn('user.id', $users->keyBy('id')->keys()->all());
         }
 
         return $attendances->count();

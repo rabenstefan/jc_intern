@@ -62,6 +62,9 @@ class Gig extends \Eloquent implements IdentifiableEvent {
         'binary_answer',
     ];
 
+    private $eager_attendances = null;
+    private $user_attendances = [];
+
     /**
      * Instead of a constructor, we do it like dis, bitch.
      *
@@ -130,16 +133,24 @@ class Gig extends \Eloquent implements IdentifiableEvent {
      * @return Attendance
      */
     public function getAttendance(User $user) {
-        // We use the collection here, because it has a huge! impact on loading speed.
-        return $this->gig_attendances->filter(
+        // Try saving the user's attendance in array for quicker access and no extra DB query.
+        if (!array_has($this->user_attendances, $user->id)) {
+            // We use the collection here, because it has a huge! impact on loading speed.
+            $this->user_attendances[$user->id] = $this->getAttendances()->filter(
                 function ($value) use ($user) { return $value->user->id == $user->id; }
             )->first();
+        }
+
+        return $this->user_attendances[$user->id];
     }
 
     /**
      * @return GigAttendance[]|\Illuminate\Database\Eloquent\Collection
      */
     protected function getAttendances() {
-        return $this->gig_attendances;
+        if (null == $this->eager_attendances) {
+            $this->eager_attendances = $this->gig_attendances->load('user');
+        }
+        return $this->eager_attendances;
     }
 }

@@ -33,18 +33,13 @@
                                 <div class="panel panel-2d">
                                     <div class="panel-heading">&nbsp;
                                     </div>
-                                    @include('user.table', ['users' => App\Models\User::getMusicalLeader()])
+                                    @include('user.table', ['users' => $musical_leader])
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <?php
-                // Get all second level voices.
-                $voices = App\Models\Voice::getParentVoices(App\Models\Voice::getChildVoices());
-            ?>
             @foreach($voices as $voice)
                 <div class="row" id="{{ trans('nav.users') }}-{{ $voice->name }}">
                     <div class="col-xs-12">
@@ -81,16 +76,12 @@
     @if(Auth::user()->isAdmin())
     <div class="row">
         <div class="col-xs-12">
-            <?php
-            // Get all old users that have not echoed in this semester.
-            $users = App\Models\User::orderBy('voice_id')->where('last_echo', '<>', \App\Models\Semester::current()->id)->get();
-            ?>
             <div class="row" id="{{ str_replace(' ', '-', trans('user.alumni')) }}">
                 <div class="col-xs-12">
                     <div class="panel panel-2d panel-2d-grey">
                         <div class="panel-heading">{{ trans('user.alumni') }}</div>
                         <div class="panel-body">
-                            @foreach($users->groupBy('voice_id') as $users_in_voice)
+                            @foreach($old_users->groupBy('voice_id') as $users_in_voice)
                                 <div class="col-xs-12">
                                     <div class="panel panel-2d">
                                         <div class="panel-heading">

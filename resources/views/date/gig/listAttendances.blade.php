@@ -28,19 +28,6 @@
                                 </thead>
                                 <tbody>
                                     @foreach($voices as $voice)
-                                        <tr class="voice">
-                                            <td>
-                                                {{$voice->name}}
-                                                <span class="pull-right">
-                                                    <div class="btn btn-2d btn-toggle" data-voice="{{ $voice->name }}" data-status="hidden">
-                                                        <i class="fa fa-caret-right"></i>
-                                                    </div>
-                                                </span>
-                                            </td>
-                                            @foreach($gigs as $gig)
-                                                <td>{{ $gig->getAttendanceCount($voice) }}</td>
-                                            @endforeach
-                                        </tr>
                                         @foreach($voice->children as $sub_voice)
                                             <tr class="subvoice">
                                                 <td>
@@ -52,7 +39,7 @@
                                                     </span>
                                                 </td>
                                                 @foreach($gigs as $gig)
-                                                    <td>{{ $gig->getAttendanceCount($sub_voice) }}</td>
+                                                    <td>{{ $gig->getAttendanceCount($sub_voice->users) }}</td>
                                                 @endforeach
                                             </tr>
                                             @foreach($sub_voice->users as $user)
@@ -71,7 +58,7 @@
                                                             <td class="not-attending">
                                                                 <i class="fa fa-times"></i>
                                                             </td>
-                                                            @else
+                                                        @else
                                                             <td class="unanswered">
                                                                 <i class="fa fa-minus"></i>
                                                             </td>

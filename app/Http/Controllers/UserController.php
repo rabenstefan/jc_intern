@@ -34,7 +34,11 @@ class UserController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        return view('user.index');
+        return view('user.index', [
+            'musical_leader' => User::getMusicalLeader(),
+            'voices' => Voice::getParentVoices(Voice::getChildVoices()),
+            'old_users' => User::orderBy('voice_id')->where('last_echo', '<>', Semester::current()->id)->get(),
+        ]);
     }
 
     /**

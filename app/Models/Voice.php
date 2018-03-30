@@ -31,11 +31,15 @@ class Voice extends \Eloquent {
         'child_group' => 'boolean'
     ];
 
+    // For eager loading and memorizing the result.
+    private static $child_voices = null;
+    private static $parent_voices = [];
+
     public function users() {
         return $this->hasMany('App\Models\User');
     }
 
-    public function super_group() {
+    public function parent() {
         return $this->belongsTo('App\Models\Voice', 'super_group', 'id');
     }
 
@@ -47,28 +51,41 @@ class Voice extends \Eloquent {
         return $this->hasMany('App\Models\Rehearsal');
     }
 
-    public static function getChildVoices() {
-        return Voice::all()->where('child_group', true);
-    }
-
+    /**
+     * Get the root voice.
+     *
+     * @return \Illuminate\Database\Eloquent\Model|null|static
+     */
     public static function getRoot(){
         return Voice::whereNull('super_group' )->first();
     }
 
     /**
+     * Get all voices, that are not the root voice.
+     *
+     * @return Voice[]
+     */
+    public static function getChildVoices() {
+        if (null === self::$child_voices) {
+            self::$child_voices = Voice::all()->where('child_group', true)->load('parent');
+        }
+        return self::$child_voices;
+    }
+
+    /**
      * Get the distinct parent voices of the given set of voices.
      *
-     * @param Voice $voices
+     * @param Voice[] $voices
      * @return Collection
      */
     public static function getParentVoices($voices) {
         $parents = new Collection();
 
-        $voices->load('super_group');
-
         foreach ($voices as $voice) {
-            $super_group = $voice->super_group()->first(); // Should only be one, but to be on the safe site we use first().
-            $parents->put($super_group->id, $super_group); // Put in collection of parents.
+            if (!array_has(self::$parent_voices, $voice->id)) {
+                self::$parent_voices[$voice->id] = $voice->parent;
+            }
+            $parents->put(self::$parent_voices[$voice->id]->id, self::$parent_voices[$voice->id]); // Put in collection of parents.
         }
 
         return $parents;

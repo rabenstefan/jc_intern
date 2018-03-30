@@ -28,13 +28,13 @@ class GigAttendanceController extends AttendanceController {
             'start', '>=', Carbon::now()
         )->where(
             'semester_id', Semester::current()->id
-        )->orderBy('start', 'asc')->get(['title', 'start']);
+        )->orderBy('start', 'asc')->get(['title', 'start', 'id']);
 
         if (null === $gigs) {
             return back()->withErrors(trans('date.no_gigs_in_future'));
         }
 
-        $voices = Voice::getParentVoices(Voice::getChildVoices()->load('users'));
+        $voices = Voice::getParentVoices(Voice::getChildVoices())->load('users');
 
         return view('date.gig.listAttendances', [
             'gigs'  => $gigs,

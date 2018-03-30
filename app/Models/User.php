@@ -65,8 +65,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @method static \Illuminate\Database\Query\Builder|User withoutTrashed()
  * @mixin \Eloquent
  */
-class User extends Authenticatable
-{
+class User extends Authenticatable {
     use SoftDeletes;
 
     /**
@@ -119,12 +118,21 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected  $adminAreas = [
+    protected  $admin_areas = [
         'rehearsal' => 'can_plan_rehearsal',
         'gig'       => 'can_plan_gig',
         'sheet'     => 'can_organise_sheets',
         'configure' => 'can_configure_system',
     ];
+
+    private $is_admin = [
+        'rehearsal' => null,
+        'gig'       => null,
+        'sheet'     => null,
+        'configure' => null,
+    ];
+
+    private static $all_current_users = null;
 
     /*
      * Model all relationships.
@@ -185,22 +193,27 @@ class User extends Authenticatable
     }
 
     public function isAdmin($area = 'configure') {
-        if (null === $area || !array_key_exists($area, $this->adminAreas)) {
+        if (null === $area || !array_key_exists($area, $this->admin_areas)) {
             return false;
         }
 
-        // Get roles matching the areas flag, sort them descending so a "mightier" role has precedence.
-        $matching_role = $this->roles()->orderBy($this->adminAreas[$area], 'desc')->first();
-        return (null !== $matching_role) && ($matching_role->getAttributeValue($this->adminAreas[$area]));
+        // Look up in table for saving queries.
+        if (null === $this->is_admin[$area]) {
+            // Get roles matching the areas flag, sort them descending so a "mightier" role has precedence.
+            $matching_role = $this->roles()->orderBy($this->admin_areas[$area], 'desc')->first();
+            $this->is_admin[$area] = (null !== $matching_role) && ($matching_role->getAttributeValue($this->admin_areas[$area]));
+        }
+
+        return $this->is_admin[$area];
     }
 
     public function adminOnlyOwnVoice($area) {
-        if (null === $area || !array_key_exists($area, $this->adminAreas)) {
+        if (null === $area || !array_key_exists($area, $this->admin_areas)) {
             return false;
         }
 
         // Get roles matching area flag, sort ascending for only_own_voice so a "mightier" role has precedence.
-        $matching_role = $this->roles()->where($this->adminAreas[$area], true)->orderBy('only_own_voice', 'asc')->first();
+        $matching_role = $this->roles()->where($this->admin_areas[$area], true)->orderBy('only_own_voice', 'asc')->first();
         return (null !== $matching_role) && ($matching_role->getAttributeValue('only_own_voice'));
     }
 
@@ -255,11 +268,14 @@ class User extends Authenticatable
     public function missedRehearsalsCount($unexcused_only = false, $with_old=false) {
         //TODO: Need ability to show missed rehearsals of the current semester so far.
         //TODO: Count according to "weight" of rehearsal
+        //TODO: Optimize!
         $all_rehearsals = Rehearsal::all(['id'], $with_old);
+
         $conditions = [['missed', 1]];
         if (true === $unexcused_only) {
             array_push($conditions, ['attendance', 0]);
         }
+
         return $this->rehearsal_attendances()->where($conditions)->whereIn('rehearsal_id', $all_rehearsals)->count();
     }
 
@@ -269,8 +285,12 @@ class User extends Authenticatable
         })->get();
     }
 
-    public static function getUsersOfVoice($voiceId) {
-        return User::where(['voice_id' => $voiceId, 'last_echo' => Semester::current()->id])->get();
+    public static function getUsersOfVoice($voice_id) {
+        if (null === self::$all_current_users) {
+            self::$all_current_users = self::all();
+        }
+
+        return self::$all_current_users->where('voice_id', $voice_id);
     }
 
     public function scopeCurrent($query){
@@ -292,7 +312,10 @@ class User extends Authenticatable
         if ($with_old) {
             return parent::all($columns);
         } else {
-            return parent::where('last_echo', Semester::current()->id)->get($columns);
+            if (null === self::$all_current_users) {
+                self::$all_current_users = parent::where('last_echo', Semester::current()->id)->get($columns);
+            }
+            return self::$all_current_users;
         }
     }
 

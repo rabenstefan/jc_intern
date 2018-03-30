@@ -27,6 +27,8 @@ use Carbon\Carbon;
  * @mixin \Eloquent
  */
 class Semester extends \Eloquent {
+    private static $current_semester = null;
+
     public function gigs() {
         return $this->hasMany('App\Models\Gig');
     }
@@ -44,8 +46,12 @@ class Semester extends \Eloquent {
     }
 
     public static function current() {
-        $today = Carbon::today();
-        return Semester::where('start', '<=', $today)->where('end', '>=', $today)->firstOrFail();
+        // Memorize current semester to save queries.
+        if (self::$current_semester === null) {
+            $today = Carbon::today();
+            self::$current_semester = Semester::where('start', '<=', $today)->where('end', '>=', $today)->firstOrFail();
+        }
+        return self::$current_semester;
     }
 
     public static function last() {
