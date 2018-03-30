@@ -50,7 +50,7 @@
                                                     </span>
                                                 </td>
                                                 @foreach($gigs as $gig)
-                                                    <td>{{ $gig->getAttendanceCount($voice) }}</td>
+                                                    <td>{{ $gig->getAttendanceCount($sub_voice) }}</td>
                                                 @endforeach
                                             </tr>
                                             @foreach($sub_voice->users as $user)
@@ -65,9 +65,13 @@
                                                             <td class="maybe-attending">
                                                                 <i class="fa fa-question"></i>
                                                             </td>
-                                                        @else
+                                                        @elseif($gig->isAttending($user) == 'no')
                                                             <td class="not-attending">
                                                                 <i class="fa fa-times"></i>
+                                                            </td>
+                                                            @else
+                                                            <td class="unanswered">
+                                                                <i class="fa fa-minus"></i>
                                                             </td>
                                                         @endif
                                                     @endforeach
