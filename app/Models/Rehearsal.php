@@ -47,8 +47,7 @@ class Rehearsal extends \Eloquent implements IdentifiableEvent {
 
     protected $calendar_options = [
         'className' => 'event-rehearsal',
-        'url' => '',
-        'shortName' => 'rehearsal'
+        'url' => ''
     ];
 
     protected $casts = [
@@ -105,11 +104,11 @@ class Rehearsal extends \Eloquent implements IdentifiableEvent {
         return $users;
     }
 
-    public function getShortName() {
+    public static function getShortName() {
         return 'rehearsal';
     }
 
-    public function getShortNamePlural() {
+    public static function getShortNamePlural() {
         return 'rehearsals';
     }
 

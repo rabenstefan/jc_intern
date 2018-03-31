@@ -96,7 +96,7 @@ class User extends Authenticatable {
         'password', 'remember_token',
     ];
 
-    protected $dateFormat = 'Y-m-d';
+    //protected $dateFormat = 'Y-m-d'; // This line breaks construction of all Carbon objects if the date has a time attached to it.
 
     /**
      * Allow soft deletes.
@@ -295,7 +295,6 @@ class User extends Authenticatable {
         if (true === $unexcused_only) {
             array_push($conditions, ['attendance', 0]);
         }
-
         return $this->rehearsal_attendances()->where($conditions)->whereIn('rehearsal_id', $all_rehearsals)->count();
     }
 

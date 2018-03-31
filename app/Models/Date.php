@@ -75,8 +75,8 @@ trait Date {
      *
      * @return string
      */
-    abstract function getShortName();
-    abstract function getShortNamePlural();
+    abstract static function getShortName();
+    abstract static function getShortNamePlural();
 
     public function needsAnswer() {
         return false;
