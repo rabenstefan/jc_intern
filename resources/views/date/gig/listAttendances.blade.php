@@ -18,11 +18,13 @@
                             <table class="table table-condensed table-hover">
                                 <thead>
                                     <tr>
-                                        <td></td>
+                                        <th style="width: 10em; min-width: 10em;"></th>
 
                                         @foreach($gigs as $gig)
-                                            <td>{{ $gig->title }}
-                                            <br>{{ $gig->start }}</td>
+                                            <th style="width: 8em; min-width: 8em;">
+                                                {{ $gig->title }}
+                                                <br>{{ $gig->start }}
+                                            </th>
                                         @endforeach
                                     </tr>
                                 </thead>
@@ -46,21 +48,23 @@
                                                 <tr class="user voice-{{ $voice->name }} voice-{{ str_replace(' ', '-', $sub_voice->name) }}">
                                                     <td>{{ $user->abbreviated_name }}</td>
                                                     @foreach($gigs as $gig)
+                                                        <?php $comment = $gig->hasCommented($user) ? $gig->getComment($user) : ''; ?>
+                                                        <?php $mark = $gig->hasCommented($user) ? '&nbsp;<i class="far fa-comment"></i>' : ''; ?>
                                                         @if($gig->isAttending($user) == 'yes')
-                                                            <td class="attending">
-                                                                <i class="fa fa-check"></i>
+                                                            <td class="attending" title="{{ $comment }}">
+                                                                <i class="fa fa-check"></i>{!! $mark !!}
                                                             </td>
                                                         @elseif($gig->isAttending($user) == 'maybe')
-                                                            <td class="maybe-attending">
-                                                                <i class="fa fa-question"></i>
+                                                            <td class="maybe-attending" title="{{ $comment }}">
+                                                                <i class="fa fa-question"></i>{!! $mark !!}
                                                             </td>
                                                         @elseif($gig->isAttending($user) == 'no')
-                                                            <td class="not-attending">
-                                                                <i class="fa fa-times"></i>
+                                                            <td class="not-attending" title="{{ $comment }}">
+                                                                <i class="fa fa-times"></i>{!! $mark !!}
                                                             </td>
                                                         @else
-                                                            <td class="unanswered">
-                                                                <i class="fa fa-minus"></i>
+                                                            <td class="unanswered" title="{{ $comment }}">
+                                                                <i class="fa fa-minus"></i>{!! $mark !!}
                                                             </td>
                                                         @endif
                                                     @endforeach

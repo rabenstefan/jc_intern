@@ -67,7 +67,9 @@ class Voice extends \Eloquent {
      */
     public static function getChildVoices() {
         if (null === self::$child_voices) {
-            self::$child_voices = Voice::all()->where('child_group', true)->load('parent');
+            self::$child_voices = Voice::with('parent')->where('child_group', true)->get(
+                ['id', 'name', 'super_group', 'child_group']
+            );
         }
         return self::$child_voices;
     }

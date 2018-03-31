@@ -9,9 +9,8 @@ class DatesTableSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
-    {
-        DB::table('rehearsals')->insert([
+    public function run() {
+        /* DB::table('rehearsals')->insert([
             'semester_id' => 1,
             'title'       => 'Erste Probe',
             'start'       => '2018-04-01 19:30:00',
@@ -42,17 +41,17 @@ class DatesTableSeeder extends Seeder
             'binary_answer'   => true,
             'mandatory'   => true,
             'weight'      => 1.0,
-        ]);
+        ]);*/
 
-        factory(App\Models\Rehearsal::class, 15)->create();
+        //factory(App\Models\Rehearsal::class, 15)->create();
 
-        foreach (\App\Models\Rehearsal::all() as $rehearsal) {
+        /*foreach (\App\Models\Rehearsal::all() as $rehearsal) {
             if ($rehearsal->mandatory) {
                 \App\Http\Controllers\RehearsalController::createAttendances($rehearsal);
             }
-        }
+        }*/
 
-        DB::table('gigs')->insert([
+        /* DB::table('gigs')->insert([
             'semester_id' => 1,
             'title'       => 'Frühkonzert',
             'description' => 'Echt verdammt früh!',
@@ -60,8 +59,8 @@ class DatesTableSeeder extends Seeder
             'end'         => '2018-04-21 21:00:00',
             'place'       => 'Franziskuskirche',
             'binary_answer'   => true,
-        ]);
+        ]); */
 
-        factory(App\Models\Gig::class, 5)->create();
+        //factory(App\Models\Gig::class, 5)->create();
     }
 }

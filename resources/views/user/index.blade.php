@@ -58,7 +58,7 @@
                                             <div class="panel-heading">
                                                 {{ $sub_voice->name }}
                                                 @if(Auth::user()->isAdmin())
-                                                    {!! Html::addButton(trans('users.add_user'), route('users.create', ['voice' => $sub_voice->id])) !!}
+                                                    {!! Html::addButton(trans('user.add_user'), route('users.create', ['voice' => $sub_voice->id])) !!}
                                                 @endif
                                             </div>
 

@@ -26,7 +26,7 @@ class Birthday implements Event {
         $this->user = $user;
 
         // Date arithmetic: Set to current year, add one year if date is more than one week ago.
-        $dateCurrentYear = $user->birthday;
+        $dateCurrentYear = new Carbon($user->birthday);
         $dateCurrentYear->year = date('Y');
         if ($dateCurrentYear->lt(Carbon::now()->subWeek(1))) {
             $dateCurrentYear->addYear();
@@ -96,7 +96,7 @@ class Birthday implements Event {
         $users = User::all();
 
         foreach ($users as $user) {
-            if (isset($user->birthday) && $user->birthday instanceof Carbon) {
+            if (isset($user->birthday)) {
                 $collection->add(new Birthday($user));
             }
         }

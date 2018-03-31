@@ -21,4 +21,6 @@ return [
     'not_found'     => 'Nutzer existiert nicht.',
     'password_note' => 'Als Passwort wird, wenn hier nicht angegeben, der Nachname des Benutzers gesetzt.',
     'add_user'      => 'Mitglied hinzufügen',
+    'voice_leader'  => 'Stimmführer',
+    'admin'         => 'Vorstand',
 ];

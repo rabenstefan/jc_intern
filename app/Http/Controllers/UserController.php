@@ -10,22 +10,29 @@ use App\Models\User;
 use Illuminate\Support\Facades\Input;
 
 class UserController extends Controller {
-    //TODO: Make password not required for edit.
     protected $validation = [
         'first_name'=> 'required|alpha|max:255',
         'last_name' => 'required|alpha|max:255',
         'email'     => 'required|email',
-        'password'  => 'required|size:8',
         'voice_id'  => 'required|integer|min:0',
         'birthday'  => 'date|after:1900-01-01',
         'address_zip'   => 'integer',
         'sheets_deposit_returned' => 'boolean'
     ];
 
+    protected $password_validation = [
+        'password'  => 'required|size:8|regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\d\X])(?=.*[!$#%]).*$/',
+    ];
+
     public function __construct() {
         $this->middleware('auth');
 
-        $this->middleware('adminOrOwn', ['except' => ['index']]);
+        $this->middleware(
+            'adminOrOwn', [
+                'except' => ['index', 'create', 'store'
+                ]
+            ]
+        );
     }
 
     /**
@@ -69,7 +76,10 @@ class UserController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request) {
-        $this->validate($request, $this->validation);
+        $this->validate(
+            $request,
+            array_merge($this->validation, $this->password_validation)
+        );
 
         $data = array_merge($request->all(),
             [
@@ -132,7 +142,10 @@ class UserController extends Controller {
 
         $this->validate($request, $this->validation);
 
-        $user->update($request->all());
+        // Get rid of empty fields (they should not update).
+        $data = array_filter($request->all());
+
+        $user->update($data);
         $user->save();
 
         $request->session()->flash('message_success', trans('user.success'));

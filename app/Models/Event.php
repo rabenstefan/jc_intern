@@ -116,7 +116,11 @@ trait Event {
         $attendance = $this->getAttendance($user);
 
         // Make use of lazy evaluation (attendance will be set if second part is evaluated).
-        return null !== $attendance && !empty($attendance->comment);
+        if (null !== $attendance && !empty($attendance->comment)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -132,7 +136,11 @@ trait Event {
 
         $attendance = $this->getAttendance($user);
 
-        return null === $attendance ? '' : $attendance->comment;
+        if (null === $attendance) {
+            return '';
+        } else {
+            return $attendance->comment;
+        }
     }
 
     /**

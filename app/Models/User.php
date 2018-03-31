@@ -96,6 +96,8 @@ class User extends Authenticatable {
         'password', 'remember_token',
     ];
 
+    protected $dateFormat = 'Y-m-d';
+
     /**
      * Allow soft deletes.
      *
@@ -192,6 +194,16 @@ class User extends Authenticatable {
         return ucfirst($value);
     }
 
+    public function getBirthdayAttribute($value) {
+        return $value;
+    }
+
+    /**
+     * Return if a user is an admin in the specified area.
+     *
+     * @param string $area
+     * @return bool
+     */
     public function isAdmin($area = 'configure') {
         if (null === $area || !array_key_exists($area, $this->admin_areas)) {
             return false;
@@ -199,12 +211,20 @@ class User extends Authenticatable {
 
         // Look up in table for saving queries.
         if (null === $this->is_admin[$area]) {
-            // Get roles matching the areas flag, sort them descending so a "mightier" role has precedence.
-            $matching_role = $this->roles()->orderBy($this->admin_areas[$area], 'desc')->first();
-            $this->is_admin[$area] = (null !== $matching_role) && ($matching_role->getAttributeValue($this->admin_areas[$area]));
+            // Get roles matching the areas flag, return just the first
+            $matching_role = $this->roles->filter(function ($value, $key) use ($area) {
+                return $key == $this->admin_areas[$area] && $value == true;
+            })->first();
+            $this->is_admin[$area] = (null !== $matching_role);
         }
 
         return $this->is_admin[$area];
+    }
+
+    public function isVoiceLeader() {
+        return null !== $this->roles->filter(function ($value, $key) {
+            return $value->id == 2;
+        })->first();
     }
 
     public function adminOnlyOwnVoice($area) {
@@ -313,7 +333,7 @@ class User extends Authenticatable {
             return parent::all($columns);
         } else {
             if (null === self::$all_current_users) {
-                self::$all_current_users = parent::where('last_echo', Semester::current()->id)->get($columns);
+                self::$all_current_users = parent::where('last_echo', Semester::current()->id)->with('roles')->get($columns);
             }
             return self::$all_current_users;
         }

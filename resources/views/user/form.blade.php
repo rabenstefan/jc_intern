@@ -27,10 +27,10 @@
                 </span>
             </div>
             <div class="col-xs-12 col-md-6">
-                {!! Form::selectInput2d('voice_id', App\Voice::getChildVoices()->pluck('name', 'id')->toArray(), isset($voice) ? $voice : null) !!}
+                {!! Form::selectInput2d('voice_id', App\Models\Voice::getChildVoices()->pluck('name', 'id')->toArray(), isset($voice) ? $voice : null) !!}
                 {!! Form::checkboxInput2d('sheets_deposit_returned') !!}
                 @if(isset($user))
-                <p>{!! trans('user.last_echo', ['semester' => App\Semester::find($user->last_echo)->label]) !!}</p>
+                <p>{!! trans('user.last_echo', ['semester' => App\Models\Semester::find($user->last_echo)->label]) !!}</p>
                 @endif
             </div>
             <div class="hidden-lg hidden-md col-xs-12 col-md-6">

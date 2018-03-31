@@ -13,15 +13,15 @@ class UsersTableSeeder extends Seeder
     {
         DB::table('users')->insert([
             'id' => 1,
-            'first_name' => 'Felix',
-            'last_name' => 'Rossmann',
+            'first_name' => 'Admin',
+            'last_name' => 'Account',
             'email' => 'test@gmail.com',
             'password' => bcrypt('secret'),
-            'voice_id' => 10,
+            'voice_id' => 1,
             'last_echo' => 1,
         ]);
 
-        DB::table('users')->insert([
+        /*DB::table('users')->insert([
             'id' => 2,
             'first_name' => 'Stimm',
             'last_name' => 'Führer',
@@ -33,14 +33,14 @@ class UsersTableSeeder extends Seeder
 
         DB::table('users')->insert([
             'id' => 3,
-            'first_name' => 'Chor',
-            'last_name' => 'Leiter',
+            'first_name' => 'Jan Hendrik',
+            'last_name' => 'Hermann',
             'email' => 'test2@gmail.com',
             'password' => bcrypt('secret'),
             'voice_id' => 1,
             'last_echo' => 1,
-        ]);
+        ]);*/
 
-        factory(App\Models\User::class, 20)->create();
+        //factory(App\Models\User::class, 20)->create();
     }
 }

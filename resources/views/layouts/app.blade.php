@@ -82,8 +82,8 @@
                                 <li>
                                     <a href="{{ route('users.show', Auth::user()->id) }}">{{ trans('nav.user_show_own') }}</a>
                                 </li>
-                                <li class="list-separator"></li>
                                 @if(Auth::user()->isAdmin())
+                                    <li class="list-separator"></li>
                                     <li>
                                         <a href="{{ route('users.create') }}">{{ trans('nav.add_user') }}</a>
                                     </li>
@@ -108,8 +108,8 @@
                                 <li>
                                     <a href="{{ route('dates.calendarSync') }}">{{ trans('nav.calendar_sync') }}</a>
                                 </li>
-                                <li class="list-separator"></li>
                                 @if (Auth::user()->isAdmin('rehearsal'))
+                                    <li class="list-separator"></li>
                                     <li>
                                         <a href="{{ route('rehearsals.create') }}">{{ trans('nav.rehearsal_create') }}</a>
                                     </li>
@@ -118,6 +118,7 @@
                                     </li>
                                 @endif
                                 @if (Auth::user()->isAdmin('gig'))
+                                    <li class="list-separator"></li>
                                     <li>
                                         <a href="{{ route('gigs.create') }}">{{ trans('nav.gig_create') }}</a>
                                     </li>
@@ -136,8 +137,8 @@
                                 <li>
                                     <a href="#">{{ trans('nav.sheet_list_own') }}</a>
                                 </li>
-                                <li class="list-separator"></li>
                                 @if (Auth::user()->isAdmin('sheet'))
+                                    <li class="list-separator"></li>
                                     <li>
                                         <a href="{{ route('sheets.index') }}">{{ trans('nav.sheet_list') }}</a>
                                     </li>

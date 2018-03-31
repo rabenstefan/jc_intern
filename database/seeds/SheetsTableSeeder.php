@@ -9,9 +9,8 @@ class SheetsTableSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
-    {
-        DB::table('sheets')->insert([
+    public function run() {
+        /*DB::table('sheets')->insert([
             'id' => 1,
             'label' => 'Modern Talking - Greatest Hits',
             'amount' => 60,
@@ -123,7 +122,6 @@ class SheetsTableSeeder extends Seeder
             'sheet_id' => 4,
             'number' => '4',
             'status' => 'bought'
-        ]);
-
+        ]);*/
     }
 }
