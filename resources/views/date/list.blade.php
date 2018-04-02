@@ -186,7 +186,7 @@
             $('#comment-form').submit(function (event) {
                 event.preventDefault();
 
-                // TODO: Save comment to your_comment section and data-current-comment of appropriate button
+                // TODO: Save comment to your_comment section and data-current-comment of appropriate buttons
                 saveAttendance($(this).attr('action'),
                     $('#comment').val()
                 );
@@ -214,6 +214,11 @@
                 );
 
                 if ($(this).data('attendance') === 'maybe') {
+                    var current_comment = $.trim($(this).data('current-comment'));
+                    if (current_comment.length !== 0) {
+                        $('#comment').val(current_comment);
+                    }
+
                     // Display modal to put in an excuse. Because I like to be an a-hole, this modal cannot be closed without submitting. One can, however submit an empty string, because I'm not 100% a dick.
                     $('#comment-form').attr('action', $(this).data('comment-url'))
                         .modal({'escapeClose': false,
