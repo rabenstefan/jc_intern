@@ -51,7 +51,7 @@ return [
     'not-going'           => 'Abgesagt',
     'maybe-going'         => 'Vielleicht',
     'unanswered'          => 'keine Rückmeldung',
-    'calendar_sync_explanation' => 'Hier können die verschiedenen Kalendar zur Synchronisierung abgerufen werden. Je nach Gerät funktioniert das über Webcal oder HTTP besser.',
+    'calendar_sync_explanation' => 'Hier können die verschiedenen Kalendar zur Synchronisierung im iCal-Format (manchmal auch ics genannt) abgerufen werden. Je nach Gerät funktioniert das über Webcal oder HTTP besser. Es werden alle Events des gewählten Typs synchronisiert, unabhängig von Zu- oder Absagen. Die Synchronisation funktioniert zB. mit iPhones und Google Calendar. Bei den meisten Geräten klappt es, wenn man einfach auf "Webcal" tippt/klickt. Wenn es trotz Googlen (Stichwörter: "iPhone iCal-Synchronisation" oder "Google Calendar iCal-Synchronisation" oder so) nicht klappt, kann man uns auch um Hilfe bitten &#128521;.',
     'http'                => 'HTTP',
     'webcal'              => 'Webcal',
     'and'                 => 'und',

@@ -80,6 +80,9 @@
                                            data-url="{{ route('attendances.changeOwnAttendance', ['events_name' => $date->getShortNamePlural(), 'event_id' => $date->getId(), 'shorthand' => 'maybe'])}}"
                                            data-comment-url="{{ route('attendances.changeOwnAttendance', ['events_name' => $date->getShortNamePlural(), 'event_id' => $date->getId(), 'shorthand' => 'change'])}}"
                                            data-attendance="maybe"
+                                           @if($date->hasCommented())
+                                           data-current-comment="{{$date->getComment()}}"
+                                           @endif
                                            title="{{ trans('date.maybe') }}">
                                             <i class="fas fa-question"></i>
                                         </a>

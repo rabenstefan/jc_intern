@@ -1,6 +1,9 @@
 @if(isset($user))
     <?php Form::setModel($user); ?>
-@endif
+    <?php $newUser = false; ?>
+@else
+    <?php $newUser = true; ?>
+    @endif
 {!! Form::open($options) !!}
 <div class="panel panel-2d">
     <div class="panel-heading">

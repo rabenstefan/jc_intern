@@ -698,6 +698,10 @@ i.fa {
       z-index: 99;
     }
 
+    .slider-attendance:before {
+      @include fa-times();
+    }
+
     i {
       position: absolute;
       top: 0;
@@ -723,6 +727,10 @@ i.fa {
       background-color: $success-color;
       @include shadow-2d($success-color-darker);
       @include fa-calendar-check();
+    }
+
+    .slider-attendance:before {
+      @include fa-check();
     }
   }
 }

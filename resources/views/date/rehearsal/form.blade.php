@@ -20,8 +20,9 @@
     <div class="row">
         <div class="col-xs-12 col-md-6">
             {!! Form::selectInput2d('voice_id', $voices) !!}
-            {!! Form::checkboxInput2d('mandatory', true) !!}
-            {!! Form::numberInput2d('weight', 1.00, ['min' => '0.00', 'max' => '1.00', 'step' => '0.01']) !!}
+            {!! Form::checkboxInput2d('mandatory', $newRehearsal ? true : null) !!}
+            {!! Form::checkboxInput2d('binary_answer', $newRehearsal ? true : null) !!}
+            {!! Form::numberInput2d('weight', $newRehearsal ? 1.00 : null, ['min' => '0.00', 'max' => '1.00', 'step' => '0.01']) !!}
         </div>
         <div class="col-xs-12 col-md-6">
             {!! Form::submitInput2d() !!}

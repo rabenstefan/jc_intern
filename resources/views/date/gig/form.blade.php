@@ -1,5 +1,8 @@
 @if(isset($gig))
     <?php Form::setModel($gig); ?>
+    <?php $newGig = false; ?>
+@else
+    <?php $newGig = true; ?>
 @endif
 <div class="panel-body">
     {!! Form::open($options) !!}
@@ -12,6 +15,7 @@
             {!! Form::datetimeInput2d('start') !!}
             {!! Form::datetimeInput2d('end') !!}
             {!! Form::textInput2d('place') !!}
+            {!! Form::checkboxInput2d('binary_answer') !!}
         </div>
     </div>
     <div class="row">

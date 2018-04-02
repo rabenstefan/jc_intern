@@ -38,11 +38,11 @@ class Birthday implements Event {
         $this->setApplicableFilters();
     }
 
-    public function getShortName() {
+    public static function getShortName() {
         return 'birthday';
     }
 
-    public function getShortNamePlural() {
+    public static function getShortNamePlural() {
         return 'birthdays';
     }
 

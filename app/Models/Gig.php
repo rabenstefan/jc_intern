@@ -83,11 +83,11 @@ class Gig extends \Eloquent implements IdentifiableEvent {
         return $this->belongsTo('App\Models\Semester');
     }
 
-    public function getShortName() {
+    public static function getShortName() {
         return 'gig';
     }
 
-    public function getShortNamePlural() {
+    public static function getShortNamePlural() {
         return 'gigs';
     }
 
