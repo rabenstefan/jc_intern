@@ -86,6 +86,10 @@ trait Date {
         return false;
     }
 
+    public static function isMissable() {
+        return false;
+    }
+
     /**
      * No need for old events.
      *

@@ -6317,6 +6317,9 @@ i.fa {
     box-shadow: none;
     transition: .4s;
     z-index: 99; }
+  .slider-2d label .slider-attendance:before {
+    font-weight: 900;
+    content: "\f00d"; }
   .slider-2d label i {
     position: absolute;
     top: 0;
@@ -6337,6 +6340,10 @@ i.fa {
   border-bottom: 3px solid #047823 ;
   box-shadow: none;
   content: "\f274"; }
+
+.slider-2d input[type="checkbox"]:checked + label .slider-attendance:before {
+  font-weight: 900;
+  content: "\f00c"; }
 
 .context-box-2d {
   border-left: 9px solid #135895; }

@@ -112,6 +112,10 @@ class Rehearsal extends \Eloquent implements IdentifiableEvent {
         return 'rehearsals';
     }
 
+    public static function isMissable() {
+        return true;
+    }
+
     /**
      * Get the event's title
      *
