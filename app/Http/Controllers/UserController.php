@@ -43,7 +43,7 @@ class UserController extends Controller {
     public function index() {
         return view('user.index', [
             'musical_leader' => User::getMusicalLeader(),
-            'voices' => Voice::getParentVoices(Voice::getChildVoices()),
+            'voices' => Voice::getParentVoices(),
             'old_users' => User::orderBy('voice_id')->where('last_echo', '<>', Semester::current()->id)->get(),
         ]);
     }

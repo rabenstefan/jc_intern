@@ -98,11 +98,6 @@ trait Event {
     abstract protected function getAttendance(User $user);
 
     /**
-     * @return \Illuminate\Database\Eloquent\Collection
-     */
-    abstract protected function getAttendances();
-
-    /**
      * Should return true, if a user has already commented on an attendance.
      *
      * @param User|null $user
@@ -152,13 +147,15 @@ trait Event {
         return true;
     }
 
+    abstract protected function getAttendances();
+
     /**
      * Get the number of people who will attend an event (filtered by voice if given)
      *
      * @param User[]|null $users
      * @return int
      */
-    public function getAttendanceCount($users = []) {
+    public function getAttendanceCount($users = null) {
         // TODO: this function fires too many sql-queries
 
         $attendances = $this->getAttendances()->filter(function ($value) {

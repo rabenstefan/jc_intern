@@ -10,8 +10,7 @@ trait Date {
     protected $dates = ['start', 'end'];
 
     // This is for view stuff (visibility and such).
-    protected $applicable_filters = [];
-
+    protected $applicable_filters = null;
 
     /**
      * Get all filters, that are applicable to this date.
@@ -19,6 +18,9 @@ trait Date {
      * @return array
      */
     public function getApplicableFilters() {
+        if (null === $this->applicable_filters) {
+            $this->setApplicableFilters();
+        }
         return $this->applicable_filters;
     }
 
@@ -91,9 +93,10 @@ trait Date {
      *
      * @param array $columns
      * @param bool $with_old
+     * @param bool $with_attendances
      * @return \Eloquent[]|\Illuminate\Database\Eloquent\Collection
      */
-    public static function all($columns = ['*'], $with_old = false) {
+    public static function all($columns = ['*'], $with_old = false, $with_attendances = false) {
         if ($with_old) {
             return parent::all($columns);
         } else {

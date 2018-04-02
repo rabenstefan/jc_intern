@@ -305,9 +305,9 @@ class User extends Authenticatable {
         })->get();
     }
 
-    public static function getUsersOfVoice($voice_id) {
+    public static function getUsersOfVoice($voice_id, $with_attendances = false) {
         if (null === self::$all_current_users) {
-            self::$all_current_users = self::all();
+            self::$all_current_users = self::all(['*'], false, $with_attendances);
         }
 
         return self::$all_current_users->where('voice_id', $voice_id);
@@ -326,14 +326,24 @@ class User extends Authenticatable {
      *
      * @param array $columns
      * @param bool $with_old
+     * @param bool $with_attendances
      * @return User|\Eloquent[]|\Illuminate\Database\Eloquent\Collection
      */
-    public static function all($columns = ['*'], $with_old = false) {
+    public static function all($columns = ['*'], $with_old = false, $with_attendances = false) {
+        $eager_load_relations = ['roles'];
+
+        // Should we preload more relations?
+        if ($with_attendances) {
+            $eager_load_relations[] = 'gig_attendances.user';
+            $eager_load_relations[] = 'rehearsal_attendances.user';
+        }
+
         if ($with_old) {
-            return parent::all($columns);
+            return parent::with($eager_load_relations)->get($columns);
         } else {
+            // Cache all without old.
             if (null === self::$all_current_users) {
-                self::$all_current_users = parent::where('last_echo', Semester::current()->id)->with('roles')->get($columns);
+                self::$all_current_users = parent::with($eager_load_relations)->where('last_echo', Semester::current()->id)->get($columns);
             }
             return self::$all_current_users;
         }

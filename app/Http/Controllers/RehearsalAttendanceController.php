@@ -61,12 +61,11 @@ class RehearsalAttendanceController extends AttendanceController {
     public function listAttendances ($rehearsal_id = null) {
         if (null === $rehearsal_id || (null === ($rehearsal = Rehearsal::find($rehearsal_id)))) {
             // Get current or last rehearsal which is in the past and in this semester.
-            $rehearsals = Rehearsal::where(
+            $rehearsal = Rehearsal::where(
                 'start', '<=', Carbon::now()
             )->where(
                 'semester_id', Semester::current()->id
-            )->orderBy('start', 'asc')->get();
-            $rehearsal = $rehearsals->last();
+            )->orderBy('start', 'desc')->first();
         }
 
         if (null === $rehearsal) {

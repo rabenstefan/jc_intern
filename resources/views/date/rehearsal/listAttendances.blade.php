@@ -17,7 +17,7 @@
                         <div id="attendance-list">
                             <?php
                             // Get all second level voices.
-                            $voices = App\Models\Voice::getParentVoices(App\Models\Voice::getChildVoices());
+                            $voices = App\Models\Voice::getParentVoices();
                             ?>
                             @foreach($voices as $voice)
                                 <div class="row" id="{{ trans('nav.users') }}-{{ $voice->name }}">
@@ -39,7 +39,7 @@
                                                             <div class="row">
                                                                 <?php
                                                                 /** @var App\Models\Voice $sub_voice */
-                                                                $users = \App\Models\User::getUsersOfVoice($sub_voice->id)
+                                                                $users = \App\Models\User::getUsersOfVoice($sub_voice->id, true)
                                                                 ?>
                                                                 @foreach($users as $user)
                                                                         @include('date.rehearsal.listAttendances.user_entry', ['user' => $user, 'currentRehearsal' => $currentRehearsal])

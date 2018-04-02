@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use \Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use MaddHatter\LaravelFullcalendar\IdentifiableEvent;
@@ -74,14 +75,7 @@ class Rehearsal extends \Eloquent implements IdentifiableEvent {
         'voice_id',
     ];
 
-    private $eager_attendances = null;
     private $user_attendances = [];
-
-    public function newFromBuilder($attributes = [], $connection = null) {
-        $model = parent::newFromBuilder($attributes, $connection);
-        $model->setApplicableFilters();
-        return $model;
-    }
 
     public function semester() {
         return $this->belongsTo('App\Models\Semester');
@@ -145,20 +139,36 @@ class Rehearsal extends \Eloquent implements IdentifiableEvent {
         // Try saving the user's attendance in array for quicker access and no extra DB query.
         if (!array_has($this->user_attendances, $user->id)) {
             // We use the collection here, because it has a huge! impact on loading speed.
-            $this->user_attendances[$user->id] = $this->getAttendances()->filter(
+            $this->user_attendances[$user->id] = $this->rehearsal_attendances->filter(
                 function ($value) use ($user) { return $value->user->id == $user->id; }
             )->first();
         }
         return $this->user_attendances[$user->id];
     }
 
-    /**
-     * @return RehearsalAttendance[]|\Illuminate\Database\Eloquent\Collection
-     */
     protected function getAttendances() {
-        if (null == $this->eager_attendances) {
-            $this->eager_attendances = $this->rehearsal_attendances->load('user');
+        return $this->rehearsal_attendances;
+    }
+
+    /**
+     * No need for old events.
+     *
+     * @param array $columns
+     * @param bool $with_old
+     * @param bool $with_attendances
+     * @return \Eloquent[]|\Illuminate\Database\Eloquent\Collection
+     */
+    public static function all($columns = ['*'], $with_old = false, $with_attendances = false) {
+        if ($with_old) {
+            if ($with_attendances) {
+                return parent::with('rehearsal_attendances.user')->orderBy('start')->get($columns);
+            }
+            return parent::orderBy('start')->all($columns);
+        } else {
+            if ($with_attendances) {
+                return parent::with('rehearsal_attendances.user')->where('end', '>=', Carbon::today())->orderBy('start')->get($columns);
+            }
+            return parent::where('end', '>=', Carbon::today())->orderBy('start')->get($columns);
         }
-        return $this->eager_attendances;
     }
 }

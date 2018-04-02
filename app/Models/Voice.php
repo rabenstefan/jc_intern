@@ -77,19 +77,9 @@ class Voice extends \Eloquent {
     /**
      * Get the distinct parent voices of the given set of voices.
      *
-     * @param Voice[] $voices
      * @return Collection
      */
-    public static function getParentVoices($voices) {
-        $parents = new Collection();
-
-        foreach ($voices as $voice) {
-            if (!array_has(self::$parent_voices, $voice->id)) {
-                self::$parent_voices[$voice->id] = $voice->parent;
-            }
-            $parents->put(self::$parent_voices[$voice->id]->id, self::$parent_voices[$voice->id]); // Put in collection of parents.
-        }
-
-        return $parents;
+    public static function getParentVoices() {
+        return self::whereNotNull('super_group')->where('child_group', false)->with(['users', 'children.users'])->get();
     }
 }

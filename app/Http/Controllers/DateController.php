@@ -109,7 +109,7 @@ class DateController extends Controller {
                 self::$view_types[$view_type]
             ],
             [
-                'dates'          => $this->getDates(self::$date_types, 'calendar' === $view_type),
+                'dates'          => $this->getDates(self::$date_types, 'calendar' === $view_type, true),
                 'view_variables' => $view_variables
             ]
         );
@@ -154,16 +154,17 @@ class DateController extends Controller {
     /**
      * @param array $date_types
      * @param bool $with_old
+     * @param bool $with_attendances
      * @return \Illuminate\Support\Collection
      */
-    private function getDates (array $date_types, bool $with_old = false) {
-        $data = new Collection();
+    private function getDates (array $date_types, bool $with_old = false, bool $with_attendances = true) {
+        $dates = new Collection();
 
         foreach ($date_types as $set) {
-            $data->add(call_user_func_array([$set, 'all'], [['*'], $with_old, true]));
+            $dates->add(call_user_func_array([$set, 'all'], [['*'], $with_old, $with_attendances]));
         }
 
-        return $data->flatten();
+        return $dates->flatten();
     }
 
     /**

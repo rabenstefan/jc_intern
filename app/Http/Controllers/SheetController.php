@@ -57,7 +57,7 @@ class SheetController extends Controller
 
     public function distribute($id){
         $sheet = Sheet::findOrFail($id);
-        $parentVoices = Voice::getParentVoices(Voice::getChildVoices());
+        $parentVoices = Voice::getParentVoices();
         $users = User::all();
         return view('sheet.distribute', ['sheet' => $sheet, 'parentVoices' => $parentVoices, 'users' => $users]);
     }

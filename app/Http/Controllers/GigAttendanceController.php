@@ -24,17 +24,13 @@ class GigAttendanceController extends AttendanceController {
     //TODO: Make filter gigs possible (via $request?) -> with_old, only XYZ etc.
     public function listAttendances(Request $request) {
         // Get all future gigs of this semester.
-        $gigs = Gig::with('gig_attendances')->where(
-            'start', '>=', Carbon::now()
-        )->where(
-            'semester_id', Semester::current()->id
-        )->orderBy('start', 'asc')->get(['title', 'start', 'id']);
+        $gigs = Gig::all(['title', 'start', 'id'], false, true);
 
-        if (null === $gigs) {
+        if (null === $gigs || sizeof($gigs) < 1) {
             return back()->withErrors(trans('date.no_gigs_in_future'));
         }
 
-        $voices = Voice::getParentVoices(Voice::getChildVoices())->load('users');
+        $voices = Voice::getParentVoices();
 
         return view('date.gig.listAttendances', [
             'gigs'  => $gigs,
