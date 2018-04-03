@@ -113,7 +113,7 @@
                                         @if($date->needsAnswer())
                                             <a href="{{ route($date->getShortNamePlural() . '.listAttendances', ['id' => $date->id]) }}"
                                                class="btn btn-2d"
-                                               title="{{ trans('form.edit') }}">
+                                               title="{{ trans('date.view_attendances') }}">
                                             <i class="fas fa-eye"></i>
                                         </a>
                                         @endif

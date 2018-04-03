@@ -167,6 +167,7 @@ i.fa {
   color: $font-color-inverse;
   background-color: $main-color;
   @include shadow-2d($main-color-darker);
+  margin-bottom: 0;
 
   a, .navbar-brand {
     color: $font-color-inverse;

@@ -62,4 +62,5 @@ return [
     'comment_error'       => 'Kommentar konnt nicht gespeichert werden ¯\_(ツ)_/¯',
     'gig_listAttendances_title' => 'Auftritt-Teilnahmen',
     'no_gigs_in_future'   => 'Keine zukünftigen Auftritte gefunden',
+    'view_attendances'    => 'Anwesenheiten zeigen',
 ];

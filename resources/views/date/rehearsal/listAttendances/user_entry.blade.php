@@ -1,6 +1,6 @@
 <?php $comment = $currentRehearsal->hasCommented($user) ? $currentRehearsal->getComment($user) : ''; ?>
 <?php $mark = $currentRehearsal->hasCommented($user) ? '<i class="far fa-comment"></i>' : ''; ?>
-<div class="col-xs-6 col-sm-3 col-lg-1 names" title="{{ $comment }}">
+<div class="col-xs-6 col-sm-3 col-lg-2 names" title="{{ $comment }}">
     {{ $user->first_name . ' ' . $user->last_name }}
     <span class="pull-right">
     @if($user->excusedRehearsal($currentRehearsal->id))

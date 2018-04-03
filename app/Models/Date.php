@@ -69,7 +69,8 @@ trait Date {
      * @return Boolean
      */
     public function hasPlace() {
-        return isset($this->place);
+        // Second part is to make sure we don't have empty strings. PHP sucks.
+        return isset($this->place) && !empty($this->place);
     }
 
     /**

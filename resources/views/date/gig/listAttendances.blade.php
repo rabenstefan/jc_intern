@@ -75,6 +75,9 @@
                                 </tbody>
                             </table>
                         </div>
+                        @if(!is_array($gigs))
+                            {{ $gigs->links() }}
+                        @endif
                     </div>
                 </div>
             </div>

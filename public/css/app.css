@@ -5892,7 +5892,8 @@ i.fa {
   border-radius: 0 ;
   border: none ;
   border-bottom: 3px solid #083a68 ;
-  box-shadow: none; }
+  box-shadow: none;
+  margin-bottom: 0; }
   .navbar-2d a, .navbar-2d .navbar-brand {
     color: #fdfdfd; }
     .navbar-2d a:hover, .navbar-2d a:focus, .navbar-2d a:active, .navbar-2d .navbar-brand:hover, .navbar-2d .navbar-brand:focus, .navbar-2d .navbar-brand:active {
