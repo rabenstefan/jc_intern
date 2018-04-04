@@ -186,7 +186,8 @@ class UserController extends Controller {
             }
         }
 
-        $user->last_echo++;
+        $user->last_echo = Semester::current()->id;
+
         if(!$user->save()) {
             if ($request->wantsJson()) {
                 return \Response::json(['success' => false, 'message' => trans('user.update_failed')]);

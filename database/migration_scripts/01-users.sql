@@ -28,4 +28,4 @@ SELECT
 FROM
     `old_intern`.`users`
 WHERE
-	`last_logged_in` >= "2017-10-01 00:00:00"
+	`last_logged_in` >= "2017-04-01 00:00:00"

@@ -16,7 +16,7 @@
                                     <div class="panel-element-body">
                                         <p>{{ trans('home.echo_needed_body') }}</p>
                                         <br>
-                                        <p>{{ trans('home.echo_semester', ['semester' => \App\Models\Semester::nextSemester()->label]) }}</p>
+                                        <p>{{ trans('home.echo_semester', ['semester' => $next_semester->label]) }}</p>
                                         <a href="#"
                                            class="btn btn-2d btn-post"
                                            data-url="{{ route('users.updateSemester', $user->id) }}"

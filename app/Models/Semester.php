@@ -56,8 +56,8 @@ class Semester extends \Eloquent {
     }
 
     public static function nextSemester() {
-        $today_in_six_months = Carbon::today()->addMonths(6);
-        return (new SemesterController())->getSemester($today_in_six_months);
+        $today_in_one_month = Carbon::today()->addMonths(1);
+        return (new SemesterController())->getSemester($today_in_one_month);
     }
 
     public static function last() {

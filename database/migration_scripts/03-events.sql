@@ -5,7 +5,7 @@ SELECT
 	IF(`dateTimeEnd` = "0000-00-00 00:00:00", `dateTimeBegin`, `dateTimeEnd`),
 	`name`,
 	`description`,
-	2
+	3
 FROM
 	`old_intern`.events
 WHERE
@@ -20,7 +20,7 @@ SELECT
 	IF(`dateTimeEnd` = "0000-00-00 00:00:00", `dateTimeBegin`, `dateTimeEnd`),
 	`name`,
 	`description`,
-	2
+	3
 FROM
 	`old_intern`.events
 WHERE
