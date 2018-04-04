@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
+
 /**
  * Trait Event
  * @package App\Models
@@ -171,5 +173,37 @@ trait Event {
         }
 
         return $attendances->count();
+    }
+
+    /**
+     * Load events from database according to given options
+     *
+     * @param array $columns
+     * @param bool $with_old include prior to today
+     * @param bool $with_attendances
+     * @param bool $with_new include after now
+     * @param bool $current_only restrict to current semester
+     * @return \Eloquent[]|\Illuminate\Database\Eloquent\Collection
+     */
+    public static function all($columns = ['*'], $with_old = false, $with_attendances = false, $with_new = true, $current_only = false) {
+        $query = parent::orderBy('start');
+
+        if ($with_attendances) {
+            $query = $query->with(self::getShortName() . '_attendances.user');
+        }
+
+        if (!$with_old) {
+            $query->where('end', '>=', Carbon::today());
+        }
+
+        if (!$with_new) {
+            $query->where('end', '<=', Carbon::now());
+        }
+
+        if ($current_only) {
+            $query->where('semester_id', '=', Semester::current()->id);
+        }
+
+        return $query->get($columns);
     }
 }

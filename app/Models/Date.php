@@ -100,7 +100,7 @@ trait Date {
      * @param bool $with_attendances
      * @return \Eloquent[]|\Illuminate\Database\Eloquent\Collection
      */
-    public static function all($columns = ['*'], $with_old = false, $with_attendances = false) {
+    public static function all($columns = ['*'], $with_old = false, $with_attendances = false, $with_new = true, $current_only = false) {
         if ($with_old) {
             return parent::all($columns);
         } else {

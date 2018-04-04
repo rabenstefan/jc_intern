@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
 use \Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use MaddHatter\LaravelFullcalendar\IdentifiableEvent;
@@ -153,35 +152,4 @@ class Rehearsal extends \Eloquent implements IdentifiableEvent {
         return $this->rehearsal_attendances;
     }
 
-    /**
-     * No need for old events.
-     *
-     * @param array $columns
-     * @param bool $with_old include prior to today
-     * @param bool $with_attendances
-     * @param bool $with_new include after now
-     * @param bool $current_only restrict to current semester
-     * @return \Eloquent[]|\Illuminate\Database\Eloquent\Collection
-     */
-    public static function all($columns = ['*'], $with_old = false, $with_attendances = false, $with_new = true, $current_only = false) {
-        $query = parent::orderBy('start');
-
-        if ($with_attendances) {
-            $query = $query->with('rehearsal_attendances.user');
-        }
-
-        if (!$with_old) {
-            $query->where('end', '>=', Carbon::today());
-        }
-
-        if (!$with_new) {
-            $query->where('end', '<=', Carbon::now());
-        }
-
-        if ($current_only) {
-            $query->where('semester_id', '=', Semester::current()->id);
-        }
-
-        return $query->get($columns);
-    }
 }
