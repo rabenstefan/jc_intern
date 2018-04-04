@@ -46,11 +46,12 @@
                                         @foreach($next_gigs_panel['data'] as $gig)
                                             <li><strong>{{ $gig->getStart()->formatLocalized('%a., %d. %b.') }}</strong>
                                                 @if(false === $gig->isAllDay())
-                                                    {{ trans('home.at_time') }} {{ $gig->getStart()->formatLocalized('%H:%M') }}
+                                                    {{ trans('home.at_time') }} {{ $gig->getStart()->formatLocalized('%H:%M') }}:
                                                 @endif
+                                                {{ str_shorten($gig->title, 7, '...')}}
                                                 @if(true === $gig->hasPlace())
                                                     <br>
-                                                    <a href="https://www.google.com/maps/search/@urlescape($gig->place)/" style="padding:0;" title="{{ trans('date.address_search') }}" target="_blank">({{ str_shorten($gig->place, 10, '...') }}  <i class="far fa-map"></i>)</a>
+                                                    <a href="https://www.google.com/maps/search/@urlescape($gig->place)/" style="padding:0;" title="{{ trans('date.address_search') }}" target="_blank">({{ str_shorten($gig->place, 7, '...') }}  <i class="far fa-map"></i>)</a>
                                                 @endif
                                             </li>
                                         @endforeach
@@ -69,8 +70,9 @@
                                         @foreach($next_rehearsals_panel['data'] as $rehearsal)
                                             <li><strong>{{ $rehearsal->getStart()->formatLocalized('%a., %d. %b.') }}</strong>
                                                 @if(false === $rehearsal->isAllDay())
-                                                    {{ trans('home.at_time') }} {{ $rehearsal->getStart()->formatLocalized('%H:%M') }}
+                                                    {{ trans('home.at_time') }} {{ $rehearsal->getStart()->formatLocalized('%H:%M') }}:
                                                 @endif
+                                                {{ str_shorten($rehearsal->title, 7, '...') }}
                                                 @if(true === $rehearsal->hasPlace())
                                                     <br>
                                                     <a href="https://www.google.com/maps/search/@urlescape($rehearsal->place)/" style="padding:0;" title="{{ trans('date.address_search') }}" target="_blank">({{ str_shorten($rehearsal->place, 10, '...') }}  <i class="far fa-map"></i>)</a>

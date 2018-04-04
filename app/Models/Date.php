@@ -41,8 +41,7 @@ trait Date {
      * @return bool
      */
     public function isAllDay() {
-        return $this->getStart() == $this->getEnd()
-            || $this->getStart()->addDay() == $this->getEnd();
+        return $this->getStart()->startOfDay() == $this->getStart() && $this->getEnd()->startOfDay() == $this->getEnd();
     }
 
     /**
@@ -69,7 +68,7 @@ trait Date {
      * @return Boolean
      */
     public function hasPlace() {
-        return isset($this->place);
+        return isset($this->place) && $this->place != '';
     }
 
     /**
