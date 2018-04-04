@@ -26,4 +26,5 @@ return [
     'no_voice'      => 'Keine Stimme',
     'update_failed' => 'Konnte Nutzerdaten nicht speichern',
     'semester_update_success' => 'Erfolgreich zurückgemeldet!',
+    'edit'          => 'Nutzerdaten ändern'
 ];

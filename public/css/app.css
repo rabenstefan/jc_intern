@@ -6423,7 +6423,13 @@ i.fa {
       box-shadow: none; }
       @media (min-width: 767px) {
         .panel-2d .panel-body .panel-element {
-          min-height: 14em; } }
+          min-height: 18em; } }
+      @media (min-width: 1060px) {
+        .panel-2d .panel-body .panel-element {
+          min-height: 16em; } }
+      @media (min-width: 1200px) and (max-width: 1280px) {
+        .panel-2d .panel-body .panel-element {
+          min-height: 20em; } }
       .panel-2d .panel-body .panel-element.panel-element-warning {
         background-color: #f0b560;
         border-radius: 0 ;

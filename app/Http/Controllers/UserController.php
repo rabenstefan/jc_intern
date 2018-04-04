@@ -30,8 +30,7 @@ class UserController extends Controller {
 
         $this->middleware(
             'adminOrOwn', [
-                'except' => ['index', 'create', 'store'
-                ]
+                'except' => ['index']
             ]
         );
     }
@@ -227,5 +226,25 @@ class UserController extends Controller {
         \Session::flash('message_success', trans('user.delete_success'));
 
         return redirect()->route('users.index');
+    }
+
+    /**
+     * Helper function to quickly reset all passwords to the last names of the users.
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function resetPasswords() {
+        $users = User::all(['id', 'last_name', 'password'], true);
+
+        foreach ($users as $user) {
+            if ($user->id == 1) {
+                continue;
+            }
+
+            $user->password = bcrypt($user->last_name);
+            $user->save();
+        }
+
+        return redirect()->route('index');
     }
 }

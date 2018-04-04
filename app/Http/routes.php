@@ -45,6 +45,7 @@ Route::group(['middleware' => 'web'], function () {
         // And for user groups.
         Route::group(['middleware' => 'admin'], function() {
             Route::resource('roles', 'RoleController');
+            Route::get('resetPasswords', 'UserController@resetPasswords')->name('users.resetPasswords');
         });
 
         /**
@@ -110,5 +111,5 @@ Route::group(['middleware' => 'web'], function () {
     });
 
     // Of course the update itself must be accessible.
-    Route::post('users/{id}/updateSemester', 'UserController@updateSemester')->name('users.updateSemester');
+    Route::post('users/{users}/updateSemester', 'UserController@updateSemester')->name('users.updateSemester');
 });

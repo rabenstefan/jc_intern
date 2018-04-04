@@ -213,12 +213,14 @@ class User extends Authenticatable {
         if (null === $this->is_admin[$area]) {
             // Get roles matching the areas flag, return just the first
             $matching_role = $this->roles->filter(function ($value, $key) use ($area) {
-                return $key == $this->admin_areas[$area] && $value == true;
+                return $value->attributes[$this->admin_areas[$area]] == true;
             })->first();
+
             $this->is_admin[$area] = (null !== $matching_role);
         }
 
-        return $this->is_admin[$area];
+        // Otherwise, null will be accepted.
+        return true === $this->is_admin[$area];
     }
 
     public function isVoiceLeader() {
