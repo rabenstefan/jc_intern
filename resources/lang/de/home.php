@@ -41,5 +41,6 @@ return [
     'echo_needed'       => 'Semester-Rückmeldung',
     'echo_needed_body'  => 'Bitte teile mit, ob Du am nächsten Semester teilnimmst!',
     'echo_semester'     => 'Ich nehme am :semester teil!',
-    'echo_semester_button' => 'Bestätigen'
+    'echo_semester_button' => 'Bestätigen',
+    'over_limit'        => 'Du musst leider vorsingen, wenn du bei den Semesterabschlusskonzerten mitsingen möchtest. &#x1f61e;',
 ];

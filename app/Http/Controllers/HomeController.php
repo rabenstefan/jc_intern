@@ -131,11 +131,17 @@ class HomeController extends Controller
         $count['excused'] = $count['total'] - $count['unexcused'];
 
         $state = 'info';
+        $data = ['over_limit' => false];
+
+        // TODO: Don't make this hardcoded
         if (0 === $count['total']) {
             $state = 'success';
+        } else if ($count['total'] > 5 or $count['unexcused'] > 2) {
+            $state = 'warning';
+            $data['over_limit'] = true;
         }
-        //TODO: warn if too many missed rehearsals
-        return ['state' => $state, 'count' => $count, 'data' => []];
+
+        return ['state' => $state, 'count' => $count, 'data' => $data];
     }
 
     /**

@@ -282,20 +282,32 @@ class User extends Authenticatable {
      * Count how many rehearsals have been missed (possibly including the future)
      *
      * @param bool $unexcused_only Only count if not excused
-     * @param bool $with_old include rehearsals prior to this semester
+     * @param bool $with_old include rehearsals prior to today
+     * @param bool $with_new include rehearsals in the future
+     * @param bool $current_only restrict to current semester
      * @return int Number of missed rehearsals
      */
-    public function missedRehearsalsCount($unexcused_only = false, $with_old=false) {
-        //TODO: Need ability to show missed rehearsals of the current semester so far.
+    public function missedRehearsalsCount($unexcused_only = false, $with_old=true, $with_new=false, $current_only = true, $mandatory_only = true) {
         //TODO: Count according to "weight" of rehearsal
+        // TODO: 'weight' and 'mandatory' have overlapping uses. (weight=0 == mandatory=false)
         //TODO: Optimize!
-        $all_rehearsals = Rehearsal::all(['id'], $with_old);
+        $rehearsals = Rehearsal::all(['id', 'mandatory'], $with_old, false, $with_new, $current_only);
 
-        $conditions = [['missed', 1]];
-        if (true === $unexcused_only) {
-            array_push($conditions, ['attendance', 0]);
+        if ($mandatory_only) {
+            $rehearsals = $rehearsals->where('mandatory', true);
         }
-        return $this->rehearsal_attendances()->where($conditions)->whereIn('rehearsal_id', $all_rehearsals)->count();
+
+        $rehearsals = $rehearsals->filter(function($rehearsal) {
+            return $this->missedRehearsal($rehearsal->id);
+        });
+
+        if ($unexcused_only) {
+            $rehearsals = $rehearsals->filter(function($rehearsal) {
+                return !$this->excusedRehearsal($rehearsal->id);
+            });
+        }
+
+        return $rehearsals->count();
     }
 
     public static function getMusicalLeader() {

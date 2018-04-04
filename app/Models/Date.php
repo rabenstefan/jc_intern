@@ -41,8 +41,7 @@ trait Date {
      * @return bool
      */
     public function isAllDay() {
-        return $this->getStart() == $this->getEnd()
-            || $this->getStart()->addDay() == $this->getEnd();
+        return $this->getStart()->startOfDay() == $this->getStart() && $this->getEnd()->startOfDay() == $this->getEnd();
     }
 
     /**
@@ -99,9 +98,11 @@ trait Date {
      * @param array $columns
      * @param bool $with_old
      * @param bool $with_attendances
+     * @param bool $with_new
+     * @param bool $current_only
      * @return \Eloquent[]|\Illuminate\Database\Eloquent\Collection
      */
-    public static function all($columns = ['*'], $with_old = false, $with_attendances = false) {
+    public static function all($columns = ['*'], $with_old = false, $with_attendances = false, $with_new = true, $current_only = false) {
         if ($with_old) {
             return parent::all($columns);
         } else {

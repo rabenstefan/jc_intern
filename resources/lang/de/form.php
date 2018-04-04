@@ -53,4 +53,5 @@ return [
     'error_username' => 'Benutzername :username falsch formatiert',
     'error_status'  => 'Status :status ist ungültig',
     'error_double_number' => 'Heft mit Seriennummer :number existiert bereits',
+    'binary_answer' => 'JA/NEIN-Abfrage (ohne "Vielleicht")'
 ];
