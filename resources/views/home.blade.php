@@ -9,6 +9,24 @@
                 <div class="panel-heading">{{ trans('home.welcome_title', ['name' => $user->first_name ]) }}</div>
                 <div class="panel-body">
                     <div class="row">
+                        @if($echo_needed)
+                            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" id="echo-needed-panel">
+                                <div class="panel-heading  panel-heading-error">{{ trans('home.echo_needed') }}</div>
+                                <div class="panel-element">
+                                    <div class="panel-element-body">
+                                        <p>{{ trans('home.echo_needed_body') }}</p>
+                                        <br>
+                                        <p>{{ trans('home.echo_semester', ['semester' => \App\Models\Semester::nextSemester()->label]) }}</p>
+                                        <a href="#"
+                                           class="btn btn-2d btn-post"
+                                           data-url="{{ route('users.updateSemester', $user->id) }}"
+                                           data-callback-success="hideEchoNeededPanel">
+                                            {{ trans('home.echo_semester_button') }}
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
                         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
                             <div class="panel-heading  panel-heading-{{ $unanswered_panel['state'] }}">{{ trans('home.unanswered_heading') }}</div>
                             <div class="panel-element panel-element-background-icon panel-element-{{ $unanswered_panel['state'] }}">
@@ -58,7 +76,7 @@
                                     <a href="{{ route('dates.index', ['view_type' => 'list', 'hideByType' => invert_date_types(['gig'])]) }}">{{ trans('home.to_gigs') }}</a>
                                 </div>
                             </div>
-                        </div><div class="clearfix visible-sm-block"></div>
+                        </div>
                         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
                             <div class="panel-heading  panel-heading-{{ $next_rehearsals_panel['state'] }}">{{ trans('home.next_rehearsals_heading') }}</div>
                             <div class="panel-element panel-element-{{ $next_rehearsals_panel['state'] }}">
@@ -81,7 +99,7 @@
                                 <a href="{{ route('dates.index', ['view_type' => 'list', 'hideByType' => invert_date_types(['rehearsal'])]) }}">{{ trans('home.to_rehearsals') }}</a>
                                 </div>
                             </div>
-                        </div><div class="clearfix visible-md-block"></div>
+                        </div>
                         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
                             <div class="panel-heading  panel-heading-{{ $missed_rehearsals_panel['state'] }}">{{ trans('home.missed_rehearsals_heading') }}</div>
                             <div class="panel-element panel-element-{{ $missed_rehearsals_panel['state'] }}">
@@ -95,7 +113,7 @@
                                     <a href="{{ route('dates.index', ['view_type' => 'list', 'hideByType' => invert_date_types(['rehearsal'])]) }}">{{ trans('home.to_future_rehearsals') }}</a>
                                 </div>
                             </div>
-                        </div><div class="clearfix visible-lg-block"></div><div class="clearfix visible-sm-block"></div>
+                        </div>
                         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
                             <div class="panel-heading  panel-heading-{{ $next_birthdays_panel['state'] }}">{{ trans('home.next_birthdays_heading') }}</div>
                             <div class="panel-element panel-element-{{ $next_birthdays_panel['state'] }}">
@@ -133,25 +151,50 @@
 
 @section('js')
     <script type="text/javascript">
+        function hideEchoNeededPanel() {
+            $("#echo-needed-panel").hide(500, function() {
+                $(this).remove()
+            });
+        }
+
         $(document).ready(function () {
             // Override link functions for POST-links.
-            $('a.btn-post').click(function (event) {
+            $("a.btn-post").click(function (event) {
                 event.preventDefault();
 
+                // Get the callback which can be set if the POST returns successfully.
+                var callback_success = null;
+
+                if(undefined !== $(this).data("callback-success")) {
+                    callback_success = $(this).data("callback-success");
+
+                    if (typeof window[callback_success] === "function") {
+                        callback_success = window[callback_success];
+                    }
+
+                    if (typeof callback_success !== "function") {
+                        callback_success = null;
+                    }
+                }
+
                 // Request the url via post, include csrf-token and comment.
-                $.post($(this).data('url'), {
-                    _token: '{{ csrf_token() }}'
+                $.post($(this).data("url"), {
+                    _token: "{{ csrf_token() }}"
                 }, function (data) {
                     // Success?
                     if (data.success) {
                         // Notify user.
-                        $.notify(data.message, 'success');
+                        $.notify(data.message, "success");
+
+                        if (null !== callback_success) {
+                            callback_success();
+                        }
                     } else {
                         // Warn user.
-                        $.notify(data.message, 'danger');
+                        $.notify(data.message, "danger");
                     }
                 },
-                'json');
+                "json");
             });
         });
     </script>

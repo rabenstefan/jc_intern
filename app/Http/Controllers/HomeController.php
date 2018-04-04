@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Birthday;
 use App\Models\Rehearsal;
 use App\Models\Gig;
+use App\Models\Semester;
 use App\Models\User;
 use Carbon\Carbon;
 
@@ -180,6 +181,12 @@ class HomeController extends Controller
         return ['state' => 'info', 'count' => $upcoming_birthdays->count(), 'data' => $upcoming_birthdays];
     }
 
+    private function nextEchoNeeded(User $user, Carbon $today) {
+        $last_echo = Semester::find($user->last_echo);
+        if (null === $last_echo) return false;
+        return ((new Carbon($last_echo->end))->subMonths(2)->lt($today));
+    }
+
     /**
      * Show the application dashboard.
      *
@@ -200,6 +207,7 @@ class HomeController extends Controller
             'next_rehearsals_panel' => $this->prepareNextEventsPanel(Rehearsal::class, 'rehearsals', $now, $user, false),
             'next_gigs_panel' => $this->prepareNextEventsPanel(Gig::class, 'gigs', $now, $user, true),
             'next_birthdays_panel' => $this->prepareNextBirthdaysPanel($today),
+            'echo_needed' => $this->nextEchoNeeded($user, $today),
             'today' => $today,
             'now'   => $now,
             'user' => $user

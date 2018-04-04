@@ -23,4 +23,7 @@ return [
     'add_user'      => 'Mitglied hinzufügen',
     'voice_leader'  => 'Stimmführer',
     'admin'         => 'Vorstand',
+    'no_voice'      => 'Keine Stimme',
+    'update_failed' => 'Konnte Nutzerdaten nicht speichern',
+    'semester_update_success' => 'Erfolgreich zurückgemeldet!',
 ];

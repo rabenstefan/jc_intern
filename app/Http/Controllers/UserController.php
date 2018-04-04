@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Semester;
 use App\Models\Voice;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 
 use App\Models\User;
@@ -66,7 +67,13 @@ class UserController extends Controller {
             }
         }
 
-        return view('user.create')->with('voice', $voice);
+        $voice_choice = Voice::getChildVoices()->pluck('name', 'id')->toArray();
+        $voice_choice[1] = trans('user.no_voice');
+
+        return view('user.create', [
+            'voice' => $voice,
+            'voice_choice' => $voice_choice,
+        ]);
     }
 
     /**
@@ -120,7 +127,13 @@ class UserController extends Controller {
         $user = User::find($id);
 
         if (null !== $user) {
-            return view('user.profile', ['user' => $user]);
+            $voice_choice = Voice::getChildVoices()->pluck('name', 'id')->toArray();
+            $voice_choice[1] = trans('user.no_voice');
+
+            return view('user.profile', [
+                'user' => $user,
+                'voice_choice' => $voice_choice
+            ]);
         } else {
             return redirect()->route('users.index')->withErrors([trans('user.not_found')]);
         }
@@ -134,9 +147,9 @@ class UserController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id) {
-        $user = User::find($id);
-
-        if (null === $user) {
+        try {
+            $user = User::findOrFail($id);
+        } catch (ModelNotFoundException $e) {
             return redirect()->route('users.index')->withErrors([trans('user.not_found')]);
         }
 
@@ -146,11 +159,48 @@ class UserController extends Controller {
         $data = array_filter($request->all());
 
         $user->update($data);
-        $user->save();
+        if(!$user->save()) {
+            return redirect()->route('users.index')->withErrors([trans('user.update_failed')]);
+        }
 
         $request->session()->flash('message_success', trans('user.success'));
 
         return redirect()->route('users.show', ['id' => $id]);
+    }
+
+    /**
+     * Function to increment the User's last_echo semester id.
+     *
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function updateSemester(Request $request, $id) {
+        try {
+            $user = User::findOrFail($id);
+        } catch (ModelNotFoundException $e) {
+            if ($request->wantsJson()) {
+                return \Response::json(['success' => false, 'message' => trans('user.not_found')]);
+            } else {
+                return back()->withErrors(trans('user.not_found'));
+            }
+        }
+
+        $user->last_echo++;
+        if(!$user->save()) {
+            if ($request->wantsJson()) {
+                return \Response::json(['success' => false, 'message' => trans('user.update_failed')]);
+            } else {
+                return back()->withErrors(trans('user.update_failed'));
+            }
+        }
+
+        if ($request->wantsJson()) {
+            return \Response::json(['success' => true, 'message' => trans('user.semester_update_success')]);
+        } else {
+            $request->session()->flash('message_success', trans('user.semester_update_success'));
+            return back();
+        }
     }
 
     /**
@@ -161,7 +211,11 @@ class UserController extends Controller {
      * @throws \Exception
      */
     public function destroy($id) {
-        $user = User::find($id);
+        try {
+            $user = User::findOrFail($id);
+        } catch (ModelNotFoundException $e) {
+            return redirect()->route('users.index')->withErrors([trans('user.not_found')]);
+        }
 
         if (null === $user) {
             return redirect()->route('users.index')->withErrors([trans('user.not_found')]);

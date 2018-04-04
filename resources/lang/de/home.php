@@ -38,4 +38,8 @@ return [
     'unanswered_body_unanswered' => 'Bei :unanswered Terminen fehlen noch Rückmeldungen.',
     'show'              => 'Anzeigen',
     'next_gigs_addendum'        => 'Auftritte, die du abgesagt hast, werden in dieser Liste augeblendet.',
+    'echo_needed'       => 'Semester-Rückmeldung',
+    'echo_needed_body'  => 'Bitte teile mit, ob Du am nächsten Semester teilnimmst!',
+    'echo_semester'     => 'Ich nehme am :semester teil!',
+    'echo_semester_button' => 'Bestätigen'
 ];

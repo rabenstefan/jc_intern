@@ -5892,8 +5892,7 @@ i.fa {
   border-radius: 0 ;
   border: none ;
   border-bottom: 3px solid #083a68 ;
-  box-shadow: none;
-  margin-bottom: 0; }
+  box-shadow: none; }
   .navbar-2d a, .navbar-2d .navbar-brand {
     color: #fdfdfd; }
     .navbar-2d a:hover, .navbar-2d a:focus, .navbar-2d a:active, .navbar-2d .navbar-brand:hover, .navbar-2d .navbar-brand:focus, .navbar-2d .navbar-brand:active {
@@ -6422,6 +6421,9 @@ i.fa {
       border: none ;
       border-bottom: 3px solid #afafaf ;
       box-shadow: none; }
+      @media (min-width: 767px) {
+        .panel-2d .panel-body .panel-element {
+          min-height: 14em; } }
       .panel-2d .panel-body .panel-element.panel-element-warning {
         background-color: #f0b560;
         border-radius: 0 ;

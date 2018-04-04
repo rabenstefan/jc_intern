@@ -167,7 +167,6 @@ i.fa {
   color: $font-color-inverse;
   background-color: $main-color;
   @include shadow-2d($main-color-darker);
-  margin-bottom: 0;
 
   a, .navbar-brand {
     color: $font-color-inverse;
@@ -809,7 +808,9 @@ i.fa {
     }
 
     .panel-element {
-      //min-height: 12em;
+      @media (min-width: 767px) {
+        min-height: 14em;
+      }
       padding: 10px;
       margin-bottom: 1em;
       background-color: $grey;

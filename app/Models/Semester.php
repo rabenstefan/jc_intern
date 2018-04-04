@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Controllers\SemesterController;
 use \Illuminate\Database\Eloquent\Builder;
 use Carbon\Carbon;
 
@@ -52,6 +53,11 @@ class Semester extends \Eloquent {
             self::$current_semester = Semester::where('start', '<=', $today)->where('end', '>=', $today)->firstOrFail();
         }
         return self::$current_semester;
+    }
+
+    public static function nextSemester() {
+        $today_in_six_months = Carbon::today()->addMonths(6);
+        return (new SemesterController())->getSemester($today_in_six_months);
     }
 
     public static function last() {

@@ -35,7 +35,7 @@
                                             </tr>
                                             </thead>
                                             <tbody>
-                                                @each('role.form', \App\Role::all(), 'role')
+                                                @each('role.form', $roles, 'role')
                                                 @include('role.form', ['role' => null])
                                             </tbody>
                                         </table>

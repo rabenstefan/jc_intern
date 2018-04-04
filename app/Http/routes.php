@@ -40,6 +40,7 @@ Route::group(['middleware' => 'web'], function () {
      * Routes for user management.
      */
     Route::resource('users', 'UserController');
+    Route::post('users/{id}/updateSemester', 'UserController@updateSemester')->name('users.updateSemester');
     // And for user groups.
     Route::group(['middleware' => 'admin'], function() {
         Route::resource('roles', 'RoleController');

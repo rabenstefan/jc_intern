@@ -19,7 +19,9 @@ class RoleController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        return view('role.index');
+        return view('role.index', [
+            'roles' => Role::all()
+        ]);
     }
 
     /**
@@ -28,7 +30,9 @@ class RoleController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function create() {
-        return redirect()->route('roles.index');
+        return redirect()->route('roles.index', [
+            'roles' => Role::all()
+        ]);
     }
 
     /**
@@ -51,7 +55,9 @@ class RoleController extends Controller {
 
         $request->session()->flash('message_success', trans('role.success', ['label' => $role->label]));
 
-        return redirect()->route('roles.index');
+        return redirect()->route('roles.index', [
+            'roles' => Role::all()
+        ]);
     }
 
     /**
@@ -62,7 +68,9 @@ class RoleController extends Controller {
      */
     //TODO: Implement properly
     public function show($id) {
-        return redirect()->route('roles.index');
+        return redirect()->route('roles.index', [
+            'roles' => Role::all()
+        ]);
     }
 
     /**
@@ -73,7 +81,9 @@ class RoleController extends Controller {
      */
     //TODO: Implement properly
     public function edit($id) {
-        return redirect()->route('roles.index');
+        return redirect()->route('roles.index', [
+            'roles' => Role::all()
+        ]);
     }
 
     /**
@@ -87,7 +97,9 @@ class RoleController extends Controller {
         $role = Role::find($id);
 
         if (null === $role) {
-            return redirect()->route('roles.index')->withErrors([trans('role.not_found')]);
+            return redirect()->route('roles.index', [
+                'roles' => Role::all()
+            ])->withErrors([trans('role.not_found')]);
         }
 
         $this->validate($request, [
@@ -104,7 +116,9 @@ class RoleController extends Controller {
 
         $request->session()->flash('message_success', trans('role.success', ['label' => $role->label]));
 
-        return redirect()->route('roles.index');
+        return redirect()->route('roles.index', [
+            'roles' => Role::all()
+        ]);
     }
 
     /**
@@ -118,13 +132,17 @@ class RoleController extends Controller {
         $role = Role::find($id);
 
         if (null === $role) {
-            return redirect()->route('roles.index')->withErrors([trans('role.not_found')]);
+            return redirect()->route('roles.index', [
+                'roles' => Role::all()
+            ])->withErrors([trans('role.not_found')]);
         }
 
         $role->delete();
 
         \Session::flash('message_success', trans('role.delete_success'));
 
-        return redirect()->route('roles.index');
+        return redirect()->route('roles.index', [
+            'roles' => Role::all()
+        ]);
     }
 }
