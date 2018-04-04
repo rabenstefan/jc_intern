@@ -38,4 +38,5 @@ return [
     'unanswered_body_unanswered' => 'Bei :unanswered Terminen fehlen noch Rückmeldungen.',
     'show'              => 'Anzeigen',
     'next_gigs_addendum'        => 'Auftritte, die du abgesagt hast, werden in dieser Liste augeblendet.',
+    'over_limit'    => 'Du musst leider vorsingen, wenn du bei den Semesterabschlusskonzerten mitsingen möchtest. &#x1f61e;'
 ];

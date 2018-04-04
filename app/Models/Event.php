@@ -158,8 +158,6 @@ trait Event {
      * @return int
      */
     public function getAttendanceCount($users = null) {
-        // TODO: this function fires too many sql-queries
-
         $attendances = $this->getAttendances()->filter(function ($value) {
             return $value->attendance === \Config::get('enums.attendances')['yes'];
         });

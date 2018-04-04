@@ -287,10 +287,15 @@ class User extends Authenticatable {
      * @param bool $current_only restrict to current semester
      * @return int Number of missed rehearsals
      */
-    public function missedRehearsalsCount($unexcused_only = false, $with_old=true, $with_new=false, $current_only = true) {
+    public function missedRehearsalsCount($unexcused_only = false, $with_old=true, $with_new=false, $current_only = true, $mandatory_only = true) {
         //TODO: Count according to "weight" of rehearsal
+        // TODO: 'weight' and 'mandatory' have overlapping uses. (weight=0 == mandatory=false)
         //TODO: Optimize!
-        $rehearsals = Rehearsal::all(['id'], $with_old, false, $with_new, $current_only);
+        $rehearsals = Rehearsal::all(['id', 'mandatory'], $with_old, false, $with_new, $current_only);
+
+        if ($mandatory_only) {
+            $rehearsals = $rehearsals->where('mandatory', true);
+        }
 
         $rehearsals = $rehearsals->filter(function($rehearsal) {
             return $this->missedRehearsal($rehearsal->id);

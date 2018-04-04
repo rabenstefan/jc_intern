@@ -91,6 +91,9 @@
                                         <p>{{ trans('home.missed_rehearsals_body_success') }}</p>
                                     @else
                                         <p>{{ trans('home.missed_rehearsals_body', $missed_rehearsals_panel['count']) }}</p>
+                                        @if($missed_rehearsals_panel['data']['over_limit'])
+                                            <p>{{ trans('home.over_limit') }}</p>
+                                        @endif
                                     @endif
                                     <a href="{{ route('dates.index', ['view_type' => 'list', 'hideByType' => invert_date_types(['rehearsal'])]) }}">{{ trans('home.to_future_rehearsals') }}</a>
                                 </div>
