@@ -128,7 +128,7 @@
                                 @endif
                             </ul>
                         </li>
-                        <li>
+                        <!--<li>
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 {{ trans('nav.sheets') }}&nbsp;<span class="caret"></span>
                             </a>
@@ -147,7 +147,7 @@
                                     </li>
                                 @endif
                             </ul>
-                        </li>
+                        </li>-->
                     @endif
                 </ul>
 
