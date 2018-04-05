@@ -66,10 +66,10 @@
                                                 @if(false === $gig->isAllDay())
                                                     {{ trans('home.at_time') }} {{ $gig->getStart()->formatLocalized('%H:%M') }}:
                                                 @endif
-                                                {{ str_shorten($gig->title, 7, '...')}}
+                                                {{ str_shorten($gig->title, 10, '...')}}
                                                 @if(true === $gig->hasPlace())
                                                     <br>
-                                                    <a href="https://www.google.com/maps/search/@urlescape($gig->place)/" style="padding:0;" title="{{ trans('date.address_search') }}" target="_blank">({{ str_shorten($gig->place, 7, '...') }}  <i class="far fa-map"></i>)</a>
+                                                    <a href="https://www.google.com/maps/search/@urlescape($gig->place)/" style="padding:0;" title="{{ trans('date.address_search') }}" target="_blank">({{ str_shorten($gig->place, 10, '...') }}  <i class="far fa-map"></i>)</a>
                                                 @endif
                                             </li>
                                         @endforeach
@@ -77,7 +77,7 @@
                                     <a href="{{ route('dates.index', ['view_type' => 'list', 'hideByType' => invert_date_types(['gig'])]) }}">{{ trans('home.to_gigs') }}</a>
                                 </div>
                             </div>
-                        </div>
+                        </div>@if(!$echo_needed)<div class="clearfix visible-sm-block"></div>@endif
                         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
                             <div class="panel-heading  panel-heading-{{ $next_rehearsals_panel['state'] }}">{{ trans('home.next_rehearsals_heading') }}</div>
                             <div class="panel-element panel-element-{{ $next_rehearsals_panel['state'] }}">
@@ -90,7 +90,7 @@
                                                 @if(false === $rehearsal->isAllDay())
                                                     {{ trans('home.at_time') }} {{ $rehearsal->getStart()->formatLocalized('%H:%M') }}:
                                                 @endif
-                                                {{ str_shorten($rehearsal->title, 7, '...') }}
+                                                {{ str_shorten($rehearsal->title, 10, '...') }}
                                                 @if(true === $rehearsal->hasPlace())
                                                     <br>
                                                     <a href="https://www.google.com/maps/search/@urlescape($rehearsal->place)/" style="padding:0;" title="{{ trans('date.address_search') }}" target="_blank">({{ str_shorten($rehearsal->place, 10, '...') }}  <i class="far fa-map"></i>)</a>
@@ -101,7 +101,7 @@
                                 <a href="{{ route('dates.index', ['view_type' => 'list', 'hideByType' => invert_date_types(['rehearsal'])]) }}">{{ trans('home.to_rehearsals') }}</a>
                                 </div>
                             </div>
-                        </div>
+                        </div>@if(!$echo_needed)<div class="clearfix visible-md-block"></div>@endif
                         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
                             <div class="panel-heading  panel-heading-{{ $missed_rehearsals_panel['state'] }}">{{ trans('home.missed_rehearsals_heading') }}</div>
                             <div class="panel-element panel-element-{{ $missed_rehearsals_panel['state'] }}">
@@ -118,7 +118,7 @@
                                     <a href="{{ route('dates.index', ['view_type' => 'list', 'hideByType' => invert_date_types(['rehearsal'])]) }}">{{ trans('home.to_future_rehearsals') }}</a>
                                 </div>
                             </div>
-                        </div>
+                        </div>@if(!$echo_needed)<div class="clearfix visible-lg-block"></div><div class="clearfix visible-sm-block"></div>@endif
                         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
                             <div class="panel-heading  panel-heading-{{ $next_birthdays_panel['state'] }}">{{ trans('home.next_birthdays_heading') }}</div>
                             <div class="panel-element panel-element-{{ $next_birthdays_panel['state'] }}">
