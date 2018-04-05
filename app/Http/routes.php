@@ -45,7 +45,6 @@ Route::group(['middleware' => 'web'], function () {
         // And for user groups.
         Route::group(['middleware' => 'admin'], function() {
             Route::resource('roles', 'RoleController');
-            Route::get('resetPasswords', 'UserController@resetPasswords')->name('users.resetPasswords');
         });
 
         /**

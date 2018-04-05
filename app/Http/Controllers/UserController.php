@@ -22,7 +22,7 @@ class UserController extends Controller {
     ];
 
     protected $password_validation = [
-        'password'  => 'required|size:8|regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\d\X])(?=.*[!$#%]).*$/',
+        'password'  => 'required|size:8|regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\d\X]).*$/',
     ];
 
     public function __construct() {
@@ -147,7 +147,10 @@ class UserController extends Controller {
             return redirect()->route('users.index')->withErrors([trans('user.not_found')]);
         }
 
-        $this->validate($request, $this->validation);
+        $this->validate(
+            $request,
+            array_merge($this->validation, $this->password_validation)
+        );
 
         // Get rid of empty fields (they should not update).
         $data = array_filter($request->all());
@@ -221,25 +224,5 @@ class UserController extends Controller {
         \Session::flash('message_success', trans('user.delete_success'));
 
         return redirect()->route('users.index');
-    }
-
-    /**
-     * Helper function to quickly reset all passwords to the last names of the users.
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function resetPasswords() {
-        $users = User::all(['id', 'last_name', 'password'], true);
-
-        foreach ($users as $user) {
-            if ($user->id == 1) {
-                continue;
-            }
-
-            $user->password = bcrypt($user->last_name);
-            $user->save();
-        }
-
-        return redirect()->route('index');
     }
 }
