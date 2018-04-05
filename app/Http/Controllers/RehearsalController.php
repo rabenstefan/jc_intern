@@ -64,7 +64,7 @@ class RehearsalController extends EventController {
 
         // Create attendances for all users, if gig is mandatory.
         if ($rehearsal->mandatory) {
-            $this->createAttendances($rehearsal);
+            $this->createAttendances($rehearsal, \Config::get('enums.attendances')['yes']);
         }
 
         if ($data['repeat']) {
@@ -91,7 +91,9 @@ class RehearsalController extends EventController {
 
                     $rehearsal = Rehearsal::create($data);
 
-                    $this->createAttendances($rehearsal);
+                    if ($rehearsal->mandatory) {
+                        $this->createAttendances($rehearsal, \Config::get('enums.attendances')['yes']);
+                    }
                 } else {
                     break;
                 }
@@ -185,9 +187,15 @@ class RehearsalController extends EventController {
         return redirect()->route('dates.index');
     }
 
-    public static function createAttendances($rehearsal) {
+    /**
+     * Create all attendances in the database for an event. Set to the given attendance status
+     *
+     * @param $rehearsal
+     * @param null $attendance
+     */
+    public static function createAttendances($rehearsal, $attendance = null) {
         foreach (User::all() as $user) {
-            RehearsalAttendance::updateOrCreate(['user_id' => $user->id, 'rehearsal_id' => $rehearsal->id]);
+            RehearsalAttendance::updateOrCreate(['user_id' => $user->id, 'rehearsal_id' => $rehearsal->id, 'attendance' => $attendance]);
         }
     }
 }
