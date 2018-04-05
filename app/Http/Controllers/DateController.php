@@ -130,6 +130,11 @@ class DateController extends Controller {
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     protected function calendarIndex ($dates, array $view_variables) {
+        foreach ($dates as $date) {
+            // Prepare the applicable filters for javascript
+            $date->getApplicableFilters();
+        }
+
         $view_variables['calendar'] = Calendar::addEvents($dates);
         $view_variables['calendar']->setId('dates');
 
