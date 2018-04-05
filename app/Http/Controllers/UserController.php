@@ -93,11 +93,6 @@ class UserController extends Controller {
             ]
         );
 
-        // If we do not have a password we just set the last name.
-        if (!$request->has('password') || strlen($request->input('password')) < 6) {
-            $data['password'] = bcrypt($request->input('last_name'));
-        }
-
         $user = User::create($data);
 
         $request->session()->flash('message_success', trans('user.success'));
