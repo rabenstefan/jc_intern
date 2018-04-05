@@ -22,7 +22,7 @@ class UserController extends Controller {
     ];
 
     protected $password_validation = [
-        'password'  => 'required|size:8|regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\d\X]).*$/',
+        'password'  => 'required|size:8', // TODO: maybe add a regex here?
     ];
 
     public function __construct() {
@@ -93,6 +93,8 @@ class UserController extends Controller {
             ]
         );
 
+        $data['password'] = bcrypt($data['password']);
+
         $user = User::create($data);
 
         $request->session()->flash('message_success', trans('user.success'));
@@ -154,6 +156,9 @@ class UserController extends Controller {
 
         // Get rid of empty fields (they should not update).
         $data = array_filter($request->all());
+        if (isset($data['password'])) {
+            $data['password'] = bcrypt($data['password']);
+        }
 
         $user->update($data);
         if(!$user->save()) {

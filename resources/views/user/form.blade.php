@@ -23,12 +23,6 @@
                 {!! Form::textInput2d('address_zip') !!}
                 {!! Form::textInput2d('address_city') !!}
             </div>
-            <div class="hidden-xs hidden-sm col-xs-12 col-md-6">
-                {!! Form::passwordInput2d('password') !!}
-                <span class="center-block">
-                    {!! Form::submit(trans('form.save'), ['class' => 'btn btn-lg btn-2d']) !!}
-                </span>
-            </div>
             <div class="col-xs-12 col-md-6">
                 {!! Form::selectInput2d('voice_id', $voice_choice, isset($voice) ? $voice : null) !!}
                 @if(isset($user))
@@ -36,7 +30,7 @@
                 <p>{!! trans('user.last_echo', ['semester' => App\Models\Semester::find($user->last_echo)->label]) !!}</p>
                 @endif
             </div>
-            <div class="hidden-lg hidden-md col-xs-12 col-md-6">
+            <div class="col-xs-12 col-md-6">
                 {!! Form::passwordInput2d('password') !!}
                 @if(empty($user))
                     <p>{{ trans('user.password_note') }}</p>
