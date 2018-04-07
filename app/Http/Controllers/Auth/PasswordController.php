@@ -23,6 +23,8 @@ class PasswordController extends Controller
         ResetsPasswords::getResetValidationRules as private __parent__getResetValidationRules;
     }
 
+    protected $redirectPath = '/';
+
     protected $reset_send_link_validation = [
             'email' => 'required|email|max:191', // InnoDB (MySQL's engine) can handle VARCHARs only up to 191 when UNIQUE is selected.
             'g-recaptcha-response' => 'required|recaptcha'
