@@ -21,6 +21,20 @@ class PasswordController extends Controller
     use ResetsPasswords;
 
     /**
+     * Get a validator for an incoming reset request.
+     *
+     * @param  array  $data
+     * @return \Illuminate\Contracts\Validation\Validator
+     */
+    protected function validator(array $data)
+    {
+        return Validator::make($data, [
+            'email' => 'required|email|max:191', // InnoDB (MySQL's engine) can handle VARCHARs only up to 191 when UNIQUE is selected.
+            'g-recaptcha-response' => 'required|recaptcha'
+        ]);
+    }
+
+    /**
      * Create a new password controller instance.
      *
      * @return void
