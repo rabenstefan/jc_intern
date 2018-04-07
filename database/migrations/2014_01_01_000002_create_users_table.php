@@ -16,7 +16,7 @@ class CreateUsersTable extends Migration
             $table->increments('id');
             $table->string('first_name');
             $table->string('last_name');
-            $table->string('email', 100)->unique();
+            $table->string('email', 191)->unique();  // InnoDB (MySQL's engine) can handle VARCHARs only up to 191 when UNIQUE is selected.
             $table->string('password');
             $table->date('birthday')->nullable();
             $table->string('phone')->nullable();
