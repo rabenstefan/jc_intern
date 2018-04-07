@@ -26,7 +26,7 @@ class UserController extends Controller {
     ];
 
     protected $new_user_validation = [
-        'email'     => 'required|email|max:191|unique',
+        'email'     => 'required|email|max:191|unique:users',
     ];
 
     public function __construct() {
