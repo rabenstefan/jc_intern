@@ -20,6 +20,7 @@ return [
     'alumni'        => 'Ehemalige Mitglieder',
     'not_found'     => 'Nutzer existiert nicht.',
     'password_note' => 'Bitte ein zufällig generiertes Passwort wählen. Der Nutzer kann es später ändern.',
+    'generated_password' => 'Beispiel für ein zufälliges Passwort: :password',
     'add_user'      => 'Mitglied hinzufügen',
     'voice_leader'  => 'Stimmführer',
     'admin'         => 'Vorstand',

@@ -31,9 +31,16 @@
                 @endif
             </div>
             <div class="col-xs-12 col-md-6">
-                {!! Form::passwordInput2d('password') !!}
+                @if(isset($random_password))
+                    {!! Form::textInput2d('password', $random_password) !!}
+                @else
+                    {!! Form::passwordInput2d('password') !!}
+                @endif
                 @if(empty($user))
                     <p>{{ trans('user.password_note') }}</p>
+                @endif
+                @if(isset($random_password))
+                    <p>{{ trans('user.generated_password', ['password' => $random_password]) }}</p>
                 @endif
                 <span class="center-block">
                     {!! Form::submitInput2d() !!}

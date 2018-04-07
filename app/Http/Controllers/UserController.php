@@ -22,7 +22,7 @@ class UserController extends Controller {
     ];
 
     protected $password_validation = [
-        'password'  => 'required|size:8|custom_complexity:3',
+        'password'  => 'required|min:8|custom_complexity:3',
     ];
 
     public function __construct() {
@@ -69,9 +69,22 @@ class UserController extends Controller {
         $voice_choice = Voice::getChildVoices()->pluck('name', 'id')->toArray();
         $voice_choice[1] = trans('user.no_voice');
 
+        // Generate a random password until one satisfies our conditions
+        $random_password = str_random(10);
+        $v = \Validator::make(['password' => $random_password], $this->password_validation);
+        for ($i = 0; $i < 30; $i++) { // 30 times just in case
+            if (!$v->passes()) {
+                $random_password = str_random(10);
+                $v = \Validator::make(['password' => $random_password], $this->password_validation);
+            } else {
+                break;
+            }
+        }
+
         return view('user.create', [
             'voice' => $voice,
             'voice_choice' => $voice_choice,
+            'random_password' => $random_password
         ]);
     }
 
