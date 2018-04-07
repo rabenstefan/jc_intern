@@ -72,7 +72,7 @@ class UserController extends Controller {
         // Generate a random password until one satisfies our conditions
         $random_password = str_random(10);
         $v = \Validator::make(['password' => $random_password], $this->password_validation);
-        for ($i = 0; $i < 30; $i++) { // 30 times just in case
+        for ($i = 0; $i < 30; $i++) { // max 30 times just in case
             if (!$v->passes()) {
                 $random_password = str_random(10);
                 $v = \Validator::make(['password' => $random_password], $this->password_validation);
@@ -245,4 +245,30 @@ class UserController extends Controller {
 
         return redirect()->route('users.index');
     }
+
+    /**
+     * Reset All passwords to random strings. Generate a CSV-Style output
+     */
+    /*public function resetAllPasswords() {
+        $users = User::all(['*'], true);
+        foreach ($users as $user) {
+            $random_password = str_random(10);
+            $v = \Validator::make(['password' => $random_password], $this->password_validation);
+            for ($i = 0; $i < 30; $i++) { // max 30 times just in case
+                if (!$v->passes()) {
+                    $random_password = str_random(10);
+                    $v = \Validator::make(['password' => $random_password], $this->password_validation);
+                } else {
+                    break;
+                }
+            }
+            if ($i == 30) {
+                var_dump('fail'); die();
+            }
+            echo('"' . $user->email . '", ' . '"' . $random_password . '"' . "\n");
+            $user->password = bcrypt($random_password);
+            $user->save();
+        }
+        die();
+    }*/
 }
