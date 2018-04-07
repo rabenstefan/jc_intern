@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Request;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 
 class PasswordController extends Controller
@@ -20,18 +21,13 @@ class PasswordController extends Controller
 
     use ResetsPasswords;
 
-    /**
-     * Get a validator for an incoming reset request.
-     *
-     * @param  array  $data
-     * @return \Illuminate\Contracts\Validation\Validator
-     */
-    protected function validator(array $data)
-    {
-        return Validator::make($data, [
+    protected $override_validation = [
             'email' => 'required|email|max:191', // InnoDB (MySQL's engine) can handle VARCHARs only up to 191 when UNIQUE is selected.
             'g-recaptcha-response' => 'required|recaptcha'
-        ]);
+        ];
+
+    public function validate(\Illuminate\Http\Request $request, array $rules, array $messages = [], array $customAttributes = []) {
+        return parent::validate($request, array_merge($rules, $this->override_validation), $messages, $customAttributes);
     }
 
     /**
