@@ -36,7 +36,7 @@ return [
     'maybe'               => 'Eventuell dabei',
     'attend'              => 'Termin zusagen',
     'excuse_comment'      => 'Entschuldigung (optional)',
-    'rehearsal_listMissing_title' => 'Probenteilnahme',
+    'rehearsal_listMissing_title' => 'Anwesenheitskontrolle',
     'missed'              => 'verpasst',
     'attended'            => 'teilgenommen',
     'excused'             => 'entschuldigt',
