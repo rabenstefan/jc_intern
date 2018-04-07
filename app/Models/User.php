@@ -85,6 +85,7 @@ class User extends Authenticatable {
         'address_city',
         'sheets_deposit_returned',
         'voice_id',
+        'last_echo',
     ];
 
     /**
