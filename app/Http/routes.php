@@ -89,7 +89,6 @@ Route::group(['middleware' => 'web'], function () {
 
         // Routes for external calenders.
         Route::get('calendar_sync', 'DateController@calendarSync')->name('dates.calendarSync');
-        Route::get('render_ical', 'DateController@renderIcal')->name('dates.renderIcal');
 
         /**
          * Music sheet management routes.
@@ -111,4 +110,6 @@ Route::group(['middleware' => 'web'], function () {
 
     // Of course the update itself must be accessible.
     Route::post('users/{users}/updateSemester', 'UserController@updateSemester')->name('users.updateSemester');
+    Route::get('render_ical', 'DateController@renderIcal')->name('dates.renderIcal');
+
 });
