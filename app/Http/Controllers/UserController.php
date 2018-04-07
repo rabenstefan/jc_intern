@@ -14,7 +14,7 @@ class UserController extends Controller {
     protected $validation = [
         'first_name'=> 'required|alpha|max:255',
         'last_name' => 'required|alpha|max:255',
-        'email'     => 'required|email|max:191|unique:users', // InnoDB (MySQL's engine) can handle VARCHARs only up to 191 when UNIQUE is selected.
+        'email'     => 'required|email|max:191', // InnoDB (MySQL's engine) can handle VARCHARs only up to 191 when UNIQUE is selected.
         'voice_id'  => 'required|integer|min:0',
         'birthday'  => 'date|after:1900-01-01',
         'address_zip'   => 'integer',
@@ -23,6 +23,10 @@ class UserController extends Controller {
 
     protected $password_validation = [
         'password'  => 'required|min:8|custom_complexity:3',
+    ];
+
+    protected $new_user_validation = [
+        'email'     => 'required|email|max:191|unique',
     ];
 
     public function __construct() {
@@ -97,7 +101,7 @@ class UserController extends Controller {
     public function store(Request $request) {
         $this->validate(
             $request,
-            array_merge($this->validation, $this->password_validation)
+            array_merge($this->validation, $this->password_validation, $this->new_user_validation)
         );
 
         $data = array_merge($request->all(),
