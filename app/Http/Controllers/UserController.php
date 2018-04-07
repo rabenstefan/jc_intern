@@ -149,14 +149,16 @@ class UserController extends Controller {
             return redirect()->route('users.index')->withErrors([trans('user.not_found')]);
         }
 
-        $this->validate(
-            $request,
-            array_merge($this->validation, $this->password_validation)
-        );
+        if ($request->get('password') == '') {
+            $this->validate($request, $this->validation);
+            $data = array_filter($request->except('password'));
+        } else {
+            $this->validate(
+                $request,
+                array_merge($this->validation, $this->password_validation)
+            );
 
-        // Get rid of empty fields (they should not update).
-        $data = array_filter($request->all());
-        if (isset($data['password'])) {
+            $data = array_filter($request->all());
             $data['password'] = bcrypt($data['password']);
         }
 
