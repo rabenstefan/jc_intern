@@ -19,7 +19,7 @@ return [
     'delete_success'=> 'Nutzer erfolgreich gelöscht.',
     'alumni'        => 'Ehemalige Mitglieder',
     'not_found'     => 'Nutzer existiert nicht.',
-    'password_note' => 'Als Passwort wird, wenn hier nicht angegeben, der Nachname des Benutzers gesetzt.',
+    'password_note' => 'Bitte ein zufällig generiertes Passwort wählen. Der Nutzer kann es später ändern.',
     'add_user'      => 'Mitglied hinzufügen',
     'voice_leader'  => 'Stimmführer',
     'admin'         => 'Vorstand',

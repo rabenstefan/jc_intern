@@ -22,7 +22,7 @@ class UserController extends Controller {
     ];
 
     protected $password_validation = [
-        'password'  => 'required|size:8', // TODO: maybe add a regex here?
+        'password'  => 'required|size:8|custom_complexity:3',
     ];
 
     public function __construct() {

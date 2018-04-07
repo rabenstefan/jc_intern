@@ -9,7 +9,7 @@ return [
     'email'         => 'E-Mail-Adresse',
     'birthday'      => 'Geburtstag',
     'birthdays'     => 'Geburtstage',
-    'password'      => 'Password',
+    'password'      => 'Passwort',
     'phone'         => 'Telefonnummer',
     'address'       => 'Adresse',
     'address_street'=> 'Straße',

@@ -95,6 +95,10 @@ return [
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
+
+        'password' => [
+            'custom_complexity' => 'Das Passwort muss komplizierter (Zahlen, Grossbuchstaben, etc.) oder laenger sein!' // TODO: check why umlauts fail to display correctly
+        ],
     ],
 
     /*

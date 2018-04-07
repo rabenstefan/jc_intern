@@ -34,6 +34,49 @@ class AppServiceProvider extends ServiceProvider
         \Blade::directive('urlescape', function ($expression) {
             return '<?php echo urlencode(' . $expression . '); ?>';
         });
+
+
+        \Validator::extend('custom_complexity', function($attribute, $value, $parameters, $validator) {
+            /**
+             * Function to check if a password satisfies a required 'complexity level'. Two things affect the complexity level: length and types of characters used
+             *
+             * $value is being checked against 4 categories: lowercase, uppercase, digits and none of the above.
+             * Each category used means one complexity level up.
+             *
+             * After 8 charachters, adding 2 characters will gain one complexity level.
+             */
+
+            $required_complexity = (int) $parameters[0];
+            $complexity = 0;
+            $categories = [
+                '\d',            // digits
+                '\p{Ll}\p{Lo}',  // lowercase and other
+                '\p{Lu}\p{Lt}',  // uppercase and titlecase
+            ];
+
+            if (mb_strlen($value) > 8) {
+                // We encourage long passwords
+                $complexity += (int) ((mb_strlen($value) - 8) / 2);
+            }
+
+            foreach($categories as $category) {
+                $pattern = '[' . $category . ']';
+                if (true === mb_ereg_match($pattern, $value)) {
+                    $complexity += 1;
+                    if ($complexity >= $required_complexity) {
+                        break;
+                    }
+                    $value = mb_ereg_replace($pattern, '', $value);
+                };
+            }
+
+            if (mb_strlen($value) > 0) {
+                // At least one character which didnt fall in any other category. (OR: the loop ended before all categories were checked, which is also fine since the success-condition was already met)
+                $complexity += 1;
+            }
+
+            return $complexity >= $required_complexity;
+        });
     }
 
     /**
