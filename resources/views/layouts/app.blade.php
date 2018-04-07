@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>@yield('title', 'Interner Bereich') - Jazzchor der Uni Bonn</title>
+    <title>@yield('title', 'Interner Bereich') - {{ trans('nav.title') }}</title>
 
     <!-- Fonts -->
     <link href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" rel="stylesheet">
@@ -62,7 +62,7 @@
 
                 <!-- Branding Image -->
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    Jazzchor Bonn intern
+                    {{ trans('nav.title') }}
                 </a>
             </div>
 

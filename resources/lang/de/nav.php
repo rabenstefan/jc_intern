@@ -22,4 +22,5 @@ return [
     'calendar_sync'     => 'Automatische Synchronisation',
     'admin'             => 'Administration',
     'attendance_gigs'     => 'Auftritt-Teilnahmen',
+    'title'         => 'Jazzchor der Uni Bonn',
 ];
