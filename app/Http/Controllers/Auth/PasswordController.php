@@ -21,14 +21,26 @@ class PasswordController extends Controller
 
     use ResetsPasswords;
 
-    protected $override_validation = [
+    protected $reset_send_link_validation = [
             'email' => 'required|email|max:191', // InnoDB (MySQL's engine) can handle VARCHARs only up to 191 when UNIQUE is selected.
             'g-recaptcha-response' => 'required|recaptcha'
         ];
 
-    public function validate(\Illuminate\Http\Request $request, array $rules, array $messages = [], array $customAttributes = []) {
-        return parent::validate($request, array_merge($rules, $this->override_validation), $messages, $customAttributes);
+    protected $reset_password_validation = [
+        'email' => 'required|email|max:191', // InnoDB (MySQL's engine) can handle VARCHARs only up to 191 when UNIQUE is selected.
+        //'g-recaptcha-response' => 'required|recaptcha',
+        'password' => 'required|confirmed|min:8|custom_complexity:3'
+    ];
+
+
+    protected function validateSendResetLinkEmail(\Illuminate\Http\Request $request) {
+        $this->validate($request, $this->reset_send_link_validation);
     }
+
+    protected function getResetValidationRules() {
+        return array_merge(parent::getResetValidationRules(), $this->reset_password_validation);
+    }
+
 
     /**
      * Create a new password controller instance.
