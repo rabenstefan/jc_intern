@@ -53,10 +53,8 @@
                                 <button type="submit" class="btn btn-2d">
                                     <i class="fas fa-btn fa-sign-in-alt"></i>&nbsp;Login
                                 </button>
-                                {{-- Currently not supported --}}
-                                {{-- <br>
+                                <br>
                                 <a class="btn btn-link" href="{{ url('/password/reset') }}">{{ trans('auth.forgot_password') }}</a>
-                                --}}
                             </div>
                         </div>
                     </form>

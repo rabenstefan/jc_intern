@@ -167,6 +167,7 @@ return [
         Collective\Html\HtmlServiceProvider::class,
         MaddHatter\LaravelFullcalendar\ServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,  // also loaded in production :-(
+        Greggilbert\Recaptcha\RecaptchaServiceProvider::class
     ],
 
     /*
@@ -220,6 +221,7 @@ return [
         'Html' => Collective\Html\HtmlFacade::class,
         'Calendar' => MaddHatter\LaravelFullcalendar\Facades\Calendar::class,
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
+        'Recaptcha' => Greggilbert\Recaptcha\Facades\Recaptcha::class,
     ],
 
 ];

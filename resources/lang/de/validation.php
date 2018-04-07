@@ -2,6 +2,7 @@
 
 return [
 
+    'recaptcha' => 'Wir konnten nicht erkennen, ob Sie Mensch oder Maschine sind',
     /*
     |--------------------------------------------------------------------------
     | Validation Language Lines

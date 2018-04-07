@@ -53,6 +53,7 @@ class AuthController extends Controller
             'last_name' => 'required|max:255',
             'email' => 'required|email|max:191|unique:users', // InnoDB (MySQL's engine) can handle VARCHARs only up to 191 when UNIQUE is selected.
             'password' => 'required|min:8|confirmed|custom_complexity:3',
+            'g-recaptcha-response' => 'required|recaptcha'
         ]);
     }
 
