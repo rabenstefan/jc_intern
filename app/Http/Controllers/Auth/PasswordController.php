@@ -19,7 +19,9 @@ class PasswordController extends Controller
     |
     */
 
-    use ResetsPasswords;
+    use ResetsPasswords {
+        ResetsPasswords::getResetValidationRules as private __parent__getResetValidationRules;
+    }
 
     protected $reset_send_link_validation = [
             'email' => 'required|email|max:191', // InnoDB (MySQL's engine) can handle VARCHARs only up to 191 when UNIQUE is selected.
@@ -38,7 +40,7 @@ class PasswordController extends Controller
     }
 
     protected function getResetValidationRules() {
-        return array_merge(parent::getResetValidationRules(), $this->reset_password_validation);
+        return array_merge($this->__parent__getResetValidationRules(), $this->reset_password_validation);
     }
 
 
