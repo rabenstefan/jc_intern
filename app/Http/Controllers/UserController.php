@@ -14,7 +14,7 @@ class UserController extends Controller {
     protected $validation = [
         'first_name'=> 'required|alpha|max:255',
         'last_name' => 'required|alpha|max:255',
-        'email'     => 'required|email',
+        'email'     => 'required|email|max:255|unique:users',
         'voice_id'  => 'required|integer|min:0',
         'birthday'  => 'date|after:1900-01-01',
         'address_zip'   => 'integer',
