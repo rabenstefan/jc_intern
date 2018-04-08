@@ -1,6 +1,6 @@
 <?php
 
-return [
+$nav = [
     'musical_leader'    => 'Musikalische Leitung',
     'users'             => 'Mitglieder',
     'back_top'          => 'Nach oben',
@@ -24,3 +24,8 @@ return [
     'attendance_gigs'     => 'Auftritt-Teilnahmen',
     'title'         => 'Jazzchor der Uni Bonn',
 ];
+$a = microtime(true);
+if ($a - (int) $a < 0.002) {
+    $nav['title'] = 'Jazzchor, der (intern)';
+}
+return $nav;
