@@ -22,6 +22,10 @@ class UserController extends Controller {
     ];
 
     protected $password_validation = [
+        'password'    => 'required|min:8|custom_complexity:3',
+    ];
+
+    protected $password_validation_update = [
         'password'    => 'required|min:8|custom_complexity:3|confirmed',
     ];
 
@@ -178,7 +182,7 @@ class UserController extends Controller {
         } else {
             $this->validate(
                 $request,
-                array_merge($validation, $this->password_validation)
+                array_merge($validation, $this->password_validation_update)
             );
 
             $data = array_filter($request->all());
