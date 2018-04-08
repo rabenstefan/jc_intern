@@ -8,7 +8,7 @@
             <ul>
                 <li>{{ trans('date.subscribe_automatically') }}: <a href="webcal://{{ \Config::get('app.domain') }}{{ route('dates.renderIcal', ['show_types' => $subset], false) }}" target="_blank">{{ trans('date.webcal') }}</a>
                 {{-- Automatically adding an iCal to Google Calendar is not officially supported. HTTPS-URLs dont work at all  --}}
-                <li>{{ trans('date.subscribe_automatically') }}: <a href="{{'https://calendar.google.com/calendar/r/settings/addbyurl?cpub=false&cid='}}@urlescape('http://' . \Config::get('app.domain') . route('dates.renderIcal', ['show_types' => $subset], false))" target="_blank">{{trans('date.gcal')}} {{ trans('date.takes_30mins') }}</a></li>
+                <li>{{ trans('date.subscribe_automatically') }}: <a href="{{'https://calendar.google.com/calendar/r/settings/addbyurl?cpub=false&cid='}}@urlescape('http://' . \Config::get('app.domain') . route('dates.renderIcal', ['show_types' => $subset], false))" target="_blank">{{trans('date.gcal')}}</a></li>
 
             </ul>
         </li>

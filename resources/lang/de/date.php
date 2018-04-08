@@ -53,7 +53,7 @@ return [
     'unanswered'          => 'keine Rückmeldung',
     'calendar_sync_explanation' => 'Hier können die verschiedenen Kalendar zur Synchronisierung im iCal-Format (manchmal auch ics genannt) abgerufen werden. Je nach Gerät funktioniert das über Webcal oder HTTP besser. Es werden alle Events des gewählten Typs synchronisiert, unabhängig von Zu- oder Absagen. Die Synchronisation funktioniert zB. mit iPhones und Google Calendar. Bei den meisten Geräten klappt es, wenn man einfach auf "Webcal" tippt/klickt. Wenn es trotz Googlen (Stichwörter: "iPhone iCal-Synchronisation" oder "Google Calendar iCal-Synchronisation" oder so) nicht klappt, kann man uns auch um Hilfe bitten &#128521;.',
     'http'                => 'HTTP',
-    'webcal'              => 'Webcal',
+    'webcal'              => 'Webcal (zB. für iPhones)',
     'and'                 => 'und',
     'route_invalid'       => 'Route nicht definiert. Wie bist Du hier hingekommen? >:(',
     'ajax_failed'         => 'Schlimmer Fehler! Bitte Programmierer kontaktieren und schreiend im Kreis laufen.',
@@ -64,8 +64,7 @@ return [
     'no_gigs_in_future'   => 'Keine zukünftigen Auftritte gefunden',
     'view_attendances'    => 'Anwesenheiten zeigen',
     'calendar'  => 'Kalendar',
-    'takes_30mins' => '(dauert bis zu 30min)',
     'subscribe_automatically' => 'Automatische Einrichtung',
     'subscribe_manually'    => 'URLs für manuelle Einrichtung',
-    'gcal'      => 'Google Calendar'
+    'gcal'      => 'Google Calendar (dauert bis zu 30min)',
 ];
