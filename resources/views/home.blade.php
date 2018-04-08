@@ -69,7 +69,7 @@
                                                 {{ str_shorten($gig->title, 10, '...')}}
                                                 @if(true === $gig->hasPlace())
                                                     <br>
-                                                    <a href="https://www.google.com/maps/search/@urlescape($gig->place)/" style="padding:0;" title="{{ trans('date.address_search') }}" target="_blank">({{ str_shorten($gig->place, 10, '...') }}  <i class="far fa-map"></i>)</a>
+                                                    <a href="{{'https://www.google.com/maps/search/'}}@urlescape($gig->place)/" style="padding:0;" title="{{ trans('date.address_search') }}" target="_blank">({{ str_shorten($gig->place, 10, '...') }}  <i class="far fa-map"></i>)</a>
                                                 @endif
                                             </li>
                                         @endforeach
@@ -93,7 +93,7 @@
                                                 {{ str_shorten($rehearsal->title, 10, '...') }}
                                                 @if(true === $rehearsal->hasPlace())
                                                     <br>
-                                                    <a href="https://www.google.com/maps/search/@urlescape($rehearsal->place)/" style="padding:0;" title="{{ trans('date.address_search') }}" target="_blank">({{ str_shorten($rehearsal->place, 10, '...') }}  <i class="far fa-map"></i>)</a>
+                                                    <a href="{{'https://www.google.com/maps/search/'}}@urlescape($rehearsal->place)/" style="padding:0;" title="{{ trans('date.address_search') }}" target="_blank">({{ str_shorten($rehearsal->place, 10, '...') }}  <i class="far fa-map"></i>)</a>
                                                 @endif
                                             </li>
                                         @endforeach

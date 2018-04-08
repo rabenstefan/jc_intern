@@ -64,4 +64,8 @@ return [
     'no_gigs_in_future'   => 'Keine zukünftigen Auftritte gefunden',
     'view_attendances'    => 'Anwesenheiten zeigen',
     'calendar'  => 'Kalendar',
+    'takes_30mins' => '(dauert bis zu 30min)',
+    'subscribe_automatically' => 'Automatische Einrichtung',
+    'subscribe_manually'    => 'URLs für manuelle Einrichtung',
+    'gcal'      => 'Google Calendar'
 ];
