@@ -59,16 +59,24 @@ class AppServiceProvider extends ServiceProvider
                 $complexity += (int) ((mb_strlen($value) - 8) / 2);
             }
 
+            if ($complexity >= $required_complexity) {
+                return true;
+            }
+
+            $before = $after = $value;
             foreach($categories as $category) {
                 $pattern = '[' . $category . ']';
-                if (true === mb_ereg_match($pattern, $value)) {
+                $after = mb_ereg_replace($pattern, '', $before);
+
+                if (mb_strlen($before) !== mb_strlen($after)) {
                     $complexity += 1;
                     if ($complexity >= $required_complexity) {
-                        break;
+                        return true;
                     }
-                    $value = mb_ereg_replace($pattern, '', $value);
+                    $before = $after;
                 };
             }
+            $value = $after;
 
             if (mb_strlen($value) > 0) {
                 // At least one character which didnt fall in any other category. (OR: the loop ended before all categories were checked, which is also fine since the success-condition was already met)
