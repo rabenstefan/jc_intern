@@ -211,7 +211,7 @@ class DateController extends Controller {
         if (null === $ical) {
             $dates = $this->getDates($date_types);
 
-            $shortDescription = trans('nav.title') . ': ' . implode(trans('date.and') , array_map(function($value) { return trans('date.' . $value); }, array_keys($date_types)));
+            $shortDescription = trans('nav.title') . ': ' . implode(' ' . trans('date.and') . ' ' , array_map(function($value) { return trans('date.' . $value); }, array_keys($date_types)));
 
             $vCalendar = new \Eluceo\iCal\Component\Calendar('jazzchor_'.$calendar_id);
             $vCalendar->setName($shortDescription);
