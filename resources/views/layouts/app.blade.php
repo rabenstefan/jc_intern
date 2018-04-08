@@ -192,13 +192,13 @@
         @if (count($errors) > 0)
             @foreach ($errors->all() as $error)
                 {{-- Display all global errors as danger-bubbles, hide them after 5 seconds to make sure the user sees them. --}}
-                $.notify("{{ $error }}", {className: "danger", autoHideDelay: 5000});
+                $.notify("{!! $error !!}", {className: "danger", autoHideDelay: 5000});
             @endforeach
         @endif
         @foreach (['danger', 'warning', 'success', 'info'] as $message_code)
             {{-- Display all global messages as bubbles. --}}
             @if (Session::has('message_'.$message_code))
-                $.notify("{{ Session::get('message_'.$message_code) }}", "{{ $message_code }}");
+                $.notify("{!! Session::get('message_'.$message_code) !!}", {className: "{{ $message_code }}", autoHideDelay: 5000});
             @endif
         @endforeach
     </script>
