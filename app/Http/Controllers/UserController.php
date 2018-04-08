@@ -14,19 +14,19 @@ class UserController extends Controller {
     protected $validation = [
         'first_name'=> 'required|alpha|max:255',
         'last_name' => 'required|alpha|max:255',
-        'email'     => 'required|email|max:191', // InnoDB (MySQL's engine) can handle VARCHARs only up to 191 when UNIQUE is selected.
-        'voice_id'  => 'required|integer|min:0',
+        'email'     => 'required|email|max:191|unique:users,email', // InnoDB (MySQL's engine) can handle VARCHARs only up to 191 when UNIQUE is selected.
+        'voice_id'  => 'required|integer|min:0|exists:voices,id',
         'birthday'  => 'date|after:1900-01-01',
         'address_zip'   => 'integer',
         'sheets_deposit_returned' => 'boolean'
     ];
 
     protected $password_validation = [
-        'password'  => 'required|min:8|custom_complexity:3',
+        'password'    => 'required|min:8|custom_complexity:3',
     ];
 
-    protected $new_user_validation = [
-        'email'     => 'required|email|max:191|unique:users',
+    protected $password_validation_update = [
+        'password'    => 'required|min:8|custom_complexity:3|confirmed',
     ];
 
     public function __construct() {
@@ -101,7 +101,7 @@ class UserController extends Controller {
     public function store(Request $request) {
         $this->validate(
             $request,
-            array_merge($this->validation, $this->password_validation, $this->new_user_validation)
+            array_merge($this->validation, $this->password_validation)
         );
 
         $data = array_merge($request->all(),
@@ -140,8 +140,14 @@ class UserController extends Controller {
         $user = User::find($id);
 
         if (null !== $user) {
-            $voice_choice = Voice::getChildVoices()->pluck('name', 'id')->toArray();
-            $voice_choice[1] = trans('user.no_voice');
+            if(\Auth::user()->isAdmin()) {
+                $voice_choice = Voice::getChildVoices()->pluck('name', 'id')->toArray();
+                $voice_choice[1] = trans('user.no_voice');
+            } else {
+                $voice_choice = [
+                    $user->voice->id => $user->voice->name,
+                ];
+            }
 
             return view('user.profile', [
                 'user' => $user,
@@ -166,13 +172,17 @@ class UserController extends Controller {
             return redirect()->route('users.index')->withErrors([trans('user.not_found')]);
         }
 
+        // Ignore the current user for the unique mail check.
+        $validation = $this->validation;
+        $validation['email'] .= ',' . $user->id;
+
         if ($request->get('password') == '') {
-            $this->validate($request, $this->validation);
+            $this->validate($request, $validation);
             $data = array_filter($request->except('password'));
         } else {
             $this->validate(
                 $request,
-                array_merge($this->validation, $this->password_validation)
+                array_merge($validation, $this->password_validation_update)
             );
 
             $data = array_filter($request->all());

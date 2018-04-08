@@ -26,7 +26,9 @@
             <div class="col-xs-12 col-md-6">
                 {!! Form::selectInput2d('voice_id', $voice_choice, isset($voice) ? $voice : null) !!}
                 @if(isset($user))
-                {!! Form::checkboxInput2d('sheets_deposit_returned') !!}
+                    @if(Auth::user()->isAdmin())
+                        {!! Form::checkboxInput2d('sheets_deposit_returned') !!}
+                    @endif
                 <p>{!! trans('user.last_echo', ['semester' => App\Models\Semester::find($user->last_echo)->label]) !!}</p>
                 @endif
             </div>
@@ -35,6 +37,9 @@
                     {!! Form::textInput2d('password', $random_password) !!}
                 @else
                     {!! Form::passwordInput2d('password') !!}
+                    @if(isset($user))
+                        {!! Form::passwordInput2d('password_confirmation') !!}
+                    @endif
                 @endif
                 @if(empty($user))
                     <p>{{ trans('user.password_note') }}</p>
