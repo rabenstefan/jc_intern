@@ -29,7 +29,7 @@
 
         $.notify.defaults({
             autoHide: true,
-            autoHideDelay: 1500,
+            autoHideDelay: 5000,
             style: 'shadow2d',
             showAnimation: 'show',
             showDuration: 0,

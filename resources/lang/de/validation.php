@@ -20,6 +20,7 @@ return [
     'alpha'                => 'Das Feld \':attribute\' darf nur Buchstaben enthalten.',
     'alpha_dash'           => 'Das Feld \':attribute\' darf nur Buchstaben, Zahlen und Bindestriche enthalten.',
     'alpha_num'            => 'Das Feld \':attribute\' darf nur Buchstaben und Zahlen enthalten.',
+    'alpha_dash_space'      => 'Das Feld \':attribute\' darf nur Buchstaben, Leerzeichen und Bindestriche enthalten.',
     'array'                => 'Das Feld \':attribute\' muss ein Array sein.',
     'before'               => 'Das Feld \':attribute\' muss ein Datum vor :date sein.',
     'between'              => [
@@ -140,6 +141,7 @@ return [
         'start_repeat'  => 'ab dem',
         'end_repeat'    => 'bis zum',
         'password'      => 'Neues Passwort',
+        'comment'       => 'Kommentar',
     ],
 
 ];

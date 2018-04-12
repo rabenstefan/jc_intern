@@ -119,8 +119,33 @@
                 }
             },
             'json').fail(function(xhr, status, error) {
-                // Warn user.
-                $.notify('{{ trans('date.ajax_failed') }}' + status + ' ' + error, 'danger');
+                if (null === comment) {
+                    $.notify('{{ trans('date.attendance_not_saved') }}', 'danger');
+                } else {
+                    $.notify('{{ trans('date.comment_not_saved') }}', 'danger');
+                }
+
+                // TODO: maybe status codes are better here? However status messages should be consistent among browsers and they are passed by jquery
+                if (error === 'Unauthorized') {
+                    // Session expired or user logged out in another tab (401)
+                    location.reload(true);
+                } else if (error === 'Unprocessable Entity') {
+                    // Validation failed (422)
+                    try {
+                        $.each(xhr.responseJSON, function (key, value) {
+                            $.each(value, function (index, message) {
+                                $.notify(message, 'danger');
+                            });
+                        });
+                    } catch(err) {
+                        // Unknwon error
+                        $.notify('{{ trans('date.ajax_failed') }}' + status + ' ' + error, 'danger');
+                        $.notify(err.name + ': ' + err.message, 'danger');
+                    }
+                } else {
+                    // Unknwon error
+                    $.notify('{{ trans('date.ajax_failed') }}' + status + ' ' + error, 'danger');
+                }
             });
         }
 

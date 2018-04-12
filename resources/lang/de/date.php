@@ -67,4 +67,6 @@ return [
     'subscribe_automatically' => 'Automatische Einrichtung',
     'subscribe_manually'    => 'URLs für manuelle Einrichtung',
     'gcal'      => 'Google Calendar (dauert bis zu 30min)',
+    'attendance_not_saved'  => 'Deine Zu- oder Absage konnte nicht gespeichert werden.',
+    'comment_not_saved' => 'Dein Kommentar konnte nicht gespeichert werden.'
 ];
