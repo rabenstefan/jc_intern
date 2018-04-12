@@ -7,6 +7,11 @@ use App\Models\User;
 use Illuminate\Http\Request;
 
 abstract class AttendanceController extends Controller {
+    protected $validation = [
+        'comment' => 'string|max:255',
+        'internal_comment' => 'string|max:255',
+    ];
+
     /**
      * RehearsalAttendanceController constructor.
      *
@@ -159,6 +164,7 @@ abstract class AttendanceController extends Controller {
         }
 
         $data = array_merge($data, $this->prepareAdditionalData($request));
+        $this->validate($request, $this->validation);
 
         // Change the attendance according to the subclass.
         if (!$this->storeAttendance($event, $user, $data)) {
