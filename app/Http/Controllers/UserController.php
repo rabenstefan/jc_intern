@@ -12,8 +12,8 @@ use Illuminate\Support\Facades\Input;
 
 class UserController extends Controller {
     protected $validation = [
-        'first_name'=> 'required|alpha|max:255',
-        'last_name' => 'required|alpha|max:255',
+        'first_name'=> 'required|alpha_dash_space|max:255',
+        'last_name' => 'required|alpha_dash_space|max:255',
         'email'     => 'required|email|max:191|unique:users,email', // InnoDB (MySQL's engine) can handle VARCHARs only up to 191 when UNIQUE is selected.
         'voice_id'  => 'required|integer|min:0|exists:voices,id',
         'birthday'  => 'date|after:1900-01-01',

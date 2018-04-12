@@ -85,6 +85,10 @@ class AppServiceProvider extends ServiceProvider
 
             return $complexity >= $required_complexity;
         });
+
+        \Validator::extend('alpha_dash_space', function($attribute, $value, $parameters, $validator) {
+            return mb_ereg_match('^[\p{L}\s\-]+$', $value);
+        });
     }
 
     /**
