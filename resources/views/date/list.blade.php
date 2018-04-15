@@ -56,7 +56,7 @@
     </div>
 @endsection
 
-@section('js')
+@section('js') {{-- TODO: Refactor these functions to one or more dedicated js-file(s), reducing very similar code in listAttendances and home --}}
     <script type="text/javascript">
 
         /**
