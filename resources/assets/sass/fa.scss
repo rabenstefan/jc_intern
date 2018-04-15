@@ -1,8 +1,6 @@
-/**
-  Collection of shortcuts for Font Awesome (v5.0). Copied from the original fontawesome.css and fa-regular.css
-
-  FA's recommends its own SASS-mixins and -extends. However, these are not working correctly (probably because we use an outdated Gulp)
- */
+//  Collection of shortcuts for Font Awesome (v5.0). Copied from the original fontawesome.css and fa-regular.css
+//
+//  FA's recommends its own SASS-mixins and -extends. However, these are not working correctly (probably because we use an outdated Gulp)
 
 @mixin fa() {
   font-family: 'Font Awesome\ 5 Free';
@@ -16,8 +14,8 @@
   font-weight: 400;
 }
 
-/* Font Awesome Solid, when regular is not available.
- This is sprinkled in throughout the mixins. */
+// Font Awesome Solid, when regular is not available.
+// This is sprinkled in throughout the mixins.
 @mixin fas() {
   font-weight: 900;
 }

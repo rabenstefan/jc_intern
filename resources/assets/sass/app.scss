@@ -3,23 +3,22 @@
 @import "config";
 
 @import "fa";
-/*
-To use font awesome, simply use
 
-.myclass {
-  @import fa();
-  &:before {
-    @import fa-{my-icon}();
-  }
-}
-
-or
-
-.myclass:before {
-  @import fa();
-  @import fa-{my-icon}();
-}
- */
+// To use font awesome, simply use
+//
+//.myclass {
+//  @import fa();
+//  &:before {
+//    @import fa-{my-icon}();
+//  }
+//}
+//
+//or
+//
+//.myclass:before {
+//  @import fa();
+//  @import fa-{my-icon}();
+//}
 
 
 /* Responsive table fix for Firefox. */

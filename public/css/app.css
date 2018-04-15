@@ -5731,32 +5731,8 @@ button.close {
   .hidden-print {
     display: none !important; } }
 
-/**
-  Collection of shortcuts for Font Awesome (v5.0). Copied from the original fontawesome.css and fa-regular.css
-
-  FA's recommends its own SASS-mixins and -extends. However, these are not working correctly (probably because we use an outdated Gulp)
- */
-/* Font Awesome Solid, when regular is not available.
- This is sprinkled in throughout the mixins. */
 /* Font Awesome uses the Unicode Private Use Area (PUA) to ensure screen
 readers do not read off random characters that represent icons */
-/*
-To use font awesome, simply use
-
-.myclass {
-  @import fa();
-  &:before {
-    @import fa-{my-icon}();
-  }
-}
-
-or
-
-.myclass:before {
-  @import fa();
-  @import fa-{my-icon}();
-}
- */
 /* Responsive table fix for Firefox. */
 @-moz-document url-prefix() {
   fieldset {

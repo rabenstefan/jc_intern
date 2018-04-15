@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 class RehearsalController extends EventController {
     protected $validation = [
         'title'     => 'required|string|max:100',
-        'description' => 'string|max:500',
+        'description' => 'string|max:255',
         'start'     => 'required|date',
         'end'       => 'required|date|after:start',
         'place'     => 'required|string',
