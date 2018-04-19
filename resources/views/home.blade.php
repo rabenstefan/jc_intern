@@ -4,29 +4,10 @@
     <div class="row">
         <div class="col-md-12">
             <h1>{{ trans('home.dashboard') }}</h1>
-
             <div class="panel panel-2d">
                 <div class="panel-heading">{{ trans('home.welcome_title', ['name' => $user->first_name ]) }}</div>
                 <div class="panel-body">
                     <div class="row">
-                        @if($echo_needed)
-                            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" id="echo-needed-panel">
-                                <div class="panel-heading  panel-heading-error">{{ trans('home.echo_needed') }}</div>
-                                <div class="panel-element">
-                                    <div class="panel-element-body">
-                                        <p>{{ trans('home.echo_needed_body') }}</p>
-                                        <br>
-                                        <p>{{ trans('home.echo_semester', ['semester' => $next_semester->label]) }}</p>
-                                        <a href="#"
-                                           class="btn btn-2d btn-post"
-                                           data-url="{{ route('users.updateSemester', $user->id) }}"
-                                           data-callback-success="hideEchoNeededPanel">
-                                            {{ trans('home.echo_semester_button') }}
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        @endif
                         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
                             <div class="panel-heading  panel-heading-{{ $unanswered_panel['state'] }}">{{ trans('home.unanswered_heading') }}</div>
                             <div class="panel-element panel-element-background-icon panel-element-{{ $unanswered_panel['state'] }}">
@@ -77,11 +58,11 @@
                                     <a href="{{ route('dates.index', ['view_type' => 'list', 'hideByType' => invert_date_types(['gig'])]) }}">{{ trans('home.to_gigs') }}</a>
                                 </div>
                             </div>
-                        </div>@if(!$echo_needed)<div class="clearfix visible-sm-block"></div>@endif
+                        </div><div class="clearfix visible-sm-block"></div>
                         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
                             <div class="panel-heading  panel-heading-{{ $next_rehearsals_panel['state'] }}">{{ trans('home.next_rehearsals_heading') }}</div>
                             <div class="panel-element panel-element-{{ $next_rehearsals_panel['state'] }}">
-                                <div class="panel-element-body">
+                                <div class="panel-element-body">{{-- TODO: change something if next rehearsal is all_day --}}
                                     <div class="panel-element-main panel-element-main-content ">{{ isset($next_rehearsals_panel['data'][0]) ? $next_rehearsals_panel['data'][0]->getStart()->diffForHumans() : '' }}</div>
                                     {{ trans('home.next_rehearsals_body') }}
                                     <ul>
@@ -101,7 +82,7 @@
                                 <a href="{{ route('dates.index', ['view_type' => 'list', 'hideByType' => invert_date_types(['rehearsal'])]) }}">{{ trans('home.to_rehearsals') }}</a>
                                 </div>
                             </div>
-                        </div>@if(!$echo_needed)<div class="clearfix visible-md-block"></div>@endif
+                        </div><div class="clearfix visible-md-block"></div>
                         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
                             <div class="panel-heading  panel-heading-{{ $missed_rehearsals_panel['state'] }}">{{ trans('home.missed_rehearsals_heading') }}</div>
                             <div class="panel-element panel-element-{{ $missed_rehearsals_panel['state'] }}">
@@ -118,7 +99,7 @@
                                     <a href="{{ route('dates.index', ['view_type' => 'list', 'hideByType' => invert_date_types(['rehearsal'])]) }}">{{ trans('home.to_future_rehearsals') }}</a>
                                 </div>
                             </div>
-                        </div>@if(!$echo_needed)<div class="clearfix visible-lg-block"></div><div class="clearfix visible-sm-block"></div>@endif
+                        </div><div class="clearfix visible-lg-block"></div><div class="clearfix visible-sm-block"></div>
                         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
                             <div class="panel-heading  panel-heading-{{ $next_birthdays_panel['state'] }}">{{ trans('home.next_birthdays_heading') }}</div>
                             <div class="panel-element panel-element-{{ $next_birthdays_panel['state'] }}">
@@ -147,6 +128,24 @@
                                 </div>
                             </div>
                         </div>
+                        @if($echo_needed)
+                            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" id="echo-needed-panel">
+                                <div class="panel-heading  panel-heading-error">{{ trans('home.echo_needed') }}</div>
+                                <div class="panel-element">
+                                    <div class="panel-element-body">
+                                        <p>{{ trans('home.echo_needed_body') }}</p>
+                                        <br>
+                                        <p>{{ trans('home.echo_semester', ['semester' => $next_semester->label]) }}</p>
+                                        <a href="#"
+                                           class="btn btn-2d btn-post"
+                                           data-url="{{ route('users.updateSemester', $user->id) }}"
+                                           data-callback-success="hideEchoNeededPanel">
+                                            {{ trans('home.echo_semester_button') }}
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
