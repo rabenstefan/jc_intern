@@ -40,8 +40,8 @@ return [
     'next_gigs_addendum' => 'Auftritte, die du abgesagt hast, werden in dieser Liste augeblendet.',
     'echo_needed'       => 'Semester-Rückmeldung',
     'echo_needed_body'  => 'Bitte teile mit, ob Du am nächsten Semester teilnimmst!',
-    'echo_semester'     => 'Ich nehme am :semester teil!',
-    'echo_semester_button' => 'Bestätigen',
+    'echo_semester'     => 'Durch einen Klick hier teilst du uns mit, dass du am nächsten Semester teilnimmst.',
+    'echo_semester_button' => 'Ich nehme am :semester teil!',
     'over_limit'        => 'Du musst leider vorsingen, wenn du bei den Semesterabschlusskonzerten mitsingen möchtest. &#x1f61e;',
     'invalid_semester'  => 'Bitte trag Dich zum aktuellen Semester ein, um diese Funktionen zu nutzen!',
 ];

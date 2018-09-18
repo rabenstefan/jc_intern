@@ -135,12 +135,12 @@
                                     <div class="panel-element-body">
                                         <p>{{ trans('home.echo_needed_body') }}</p>
                                         <br>
-                                        <p>{{ trans('home.echo_semester', ['semester' => $next_semester->label]) }}</p>
+                                        <p>{{ trans('home.echo_semester') }}</p>
                                         <a href="#"
                                            class="btn btn-2d btn-post"
                                            data-url="{{ route('users.updateSemester', $user->id) }}"
                                            data-callback-success="hideEchoNeededPanel">
-                                            {{ trans('home.echo_semester_button') }}
+                                            {{ trans('home.echo_semester_button', ['semester' => $next_semester->label])}}
                                         </a>
                                     </div>
                                 </div>

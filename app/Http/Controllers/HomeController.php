@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Auth\AuthController;
 use App\Models\Birthday;
 use App\Models\Rehearsal;
 use App\Models\Gig;
 use App\Models\Semester;
 use App\Models\User;
 use Carbon\Carbon;
+use PhpParser\Node\Expr\Array_;
 
 class HomeController extends Controller
 {
@@ -127,21 +129,21 @@ class HomeController extends Controller
      * @return array
      */
     private function prepareMissedRehearsalsPanel(User $user) {
-        $count = ['total' => $user->missedRehearsalsCount(), 'unexcused' => $user->missedRehearsalsCount(true)];
-        $count['excused'] = $count['total'] - $count['unexcused'];
+        $count = $user->missedRehearsalsCountArray();
+        $over_limit = User::checkRehearsalsLimit($count);
 
-        $state = 'info';
-        $data = ['over_limit' => false];
-
-        // TODO: Don't make this hardcoded
         if (0 === $count['total']) {
+            // Attended all rehearsals
             $state = 'success';
-        } else if ($count['total'] > 5 or $count['unexcused'] > 2) {
+        } else if ($over_limit) {
+            // Has missed too many rehearsals
             $state = 'warning';
-            $data['over_limit'] = true;
+        } else {
+            // Missed some rehearsals, but still fine
+            $state = 'info';
         }
 
-        return ['state' => $state, 'count' => $count, 'data' => $data];
+        return ['state' => $state, 'count' => $count, 'data' => ['over_limit' => $over_limit]];
     }
 
     /**
@@ -193,6 +195,20 @@ class HomeController extends Controller
         return ((new Carbon($last_echo->end))->subMonths(2)->lt($today));
     }
 
+    private function prepareAdminMissedRehearsalsPanel() {
+        $panel = ['state' => 'info', 'count' => 0, 'data' => collect()];
+
+        if (\Auth::user()->isAdmin() === true) {
+            $data = User::all()->filter(function($user){
+                return $user->isOverMissingRehearsalsLimit();
+            });
+            $panel['count'] += $data->count();
+            $panel['data'] = $data;
+        }
+
+        return $panel;
+    }
+
     /**
      * Show the application dashboard.
      *
@@ -207,7 +223,7 @@ class HomeController extends Controller
          * Each {name}_panel consists of an array with the keys ['state', 'count', 'data'].
          */
 
-        return view('home', [
+        $view_data = [
             'unanswered_panel' => $this->prepareUnansweredPanel([['class' => Gig::class, 'table_name' => 'gigs'], ['class' => Rehearsal::class, 'table_name' => 'rehearsals']], $today, $user),
             'missed_rehearsals_panel' => $this->prepareMissedRehearsalsPanel($user),
             'next_rehearsals_panel' => $this->prepareNextEventsPanel(Rehearsal::class, 'rehearsals', $now, $user, false),
@@ -218,6 +234,12 @@ class HomeController extends Controller
             'today' => $today,
             'now'   => $now,
             'user' => $user
-        ]);
+        ];
+
+        if (\Auth::user()->isAdmin()) {
+            $view_data['admin_missed_rehearsals_panel'] = $this->prepareAdminMissedRehearsalsPanel();
+        }
+
+        return view('home', $view_data);
     }
 }

@@ -288,17 +288,18 @@ class User extends Authenticatable {
      * @param bool $with_old include rehearsals prior to today
      * @param bool $with_new include rehearsals in the future
      * @param bool $current_only restrict to current semester
-     * @return int Number of missed rehearsals
+     * @return float Number of missed rehearsals
      */
-    public function missedRehearsalsCount($unexcused_only = false, $with_old=true, $with_new=false, $current_only = true, $mandatory_only = true) {
+    public function missedRehearsalsCount($unexcused_only = false, $with_old=true, $with_new=false, $current_only = true, $mandatory_only = true, $consider_weight = true) {
         //TODO: Count according to "weight" of rehearsal
         // TODO: 'weight' and 'mandatory' have overlapping uses. (weight=0 == mandatory=false)
         //TODO: Optimize!
-        $rehearsals = Rehearsal::all(['id', 'mandatory'], $with_old, false, $with_new, $current_only);
+        $rehearsals = Rehearsal::all(['id', 'mandatory', 'weight'], $with_old, false, $with_new, $current_only);
 
         if ($mandatory_only) {
             $rehearsals = $rehearsals->where('mandatory', true);
         }
+
 
         $rehearsals = $rehearsals->filter(function($rehearsal) {
             return $this->missedRehearsal($rehearsal->id);
@@ -310,7 +311,68 @@ class User extends Authenticatable {
             });
         }
 
-        return $rehearsals->count();
+        $count = 0.0;
+        if ($consider_weight) {
+            $count += $rehearsals->where('weight', 1.0)->count();
+            $rehearsals->filter(function($rehearsal) use (&$count) {
+                if ($rehearsal->weight != 1.0) { //TODO: add some more checks to ensure there is no weird stuff in $rehearsal->weight
+                    $count += $rehearsal->weight;
+                }
+            });
+        } else {
+            $count = $rehearsals->count();
+        }
+        return $count;
+    }
+
+    /**
+     * Discloses how often a user has been missing from rehearsals
+     *
+     * @param bool $with_old
+     * @param bool $with_new
+     * @param bool $current_only
+     * @param bool $mandatory_only
+     * @param bool $consider_weight
+     * @return array whose keys are ['total', 'unexcused', 'excused']
+     */
+    public function missedRehearsalsCountArray($with_old=true, $with_new=false, $current_only = true, $mandatory_only = true, $consider_weight = true) {
+        $count = [
+            'total' => $this->missedRehearsalsCount(false, $with_old, $with_new, $current_only, $mandatory_only, $consider_weight),
+            'unexcused' => $this->missedRehearsalsCount(true, $with_old, $with_new, $current_only, $mandatory_only, $consider_weight)
+        ];
+        $count['excused'] = $count['total'] - $count['unexcused'];
+
+        return $count;
+    }
+
+    /**
+     * Check if user is over missed rehearsal limit for current semester.
+     *
+     * Default limits are configured in enums.allowed_missed_rehearsals
+     *
+     * @param array $custom_limits whose keys are a subset of ['total', 'excused', 'unexcused']
+     * @return bool
+     */
+    public function isOverMissingRehearsalsLimit($custom_limits = Array(), $with_old=true, $with_new=false, $current_only = true, $mandatory_only = true, $consider_weight = true) {
+        $count = $this->missedRehearsalsCountArray($with_old, $with_new, $current_only, $mandatory_only, $consider_weight);
+
+        return self::checkRehearsalsLimit($count, $custom_limits);
+    }
+
+    public static function checkRehearsalsLimit($missed_rehearsal_count_array, $custom_limits = Array()) {
+        $over_limit = false;
+        $limits = $custom_limits;
+        if (empty($limits)) {
+            $limits = \Config::get('enums.allowed_missed_rehearsals');
+        }
+
+        foreach(array_keys($limits) as $key) {
+            if ($missed_rehearsal_count_array[$key] > $limits[$key]) {
+                $over_limit = true;
+            }
+        }
+
+        return $over_limit;
     }
 
     public static function getMusicalLeader() {
@@ -327,6 +389,7 @@ class User extends Authenticatable {
         return self::$all_current_users->where('voice_id', $voice_id);
     }
 
+    //TODO: is this function used at all?
     public function scopeCurrent($query){
         return $query->where('last_echo', Semester::current()->id);
     }
@@ -357,6 +420,8 @@ class User extends Authenticatable {
         } else {
             // Cache all without old.
             if (null === self::$all_current_users) {
+                //TODO: handle the case when we are in between semesters
+                //self::$all_current_users = parent::with($eager_load_relations)->where('last_echo', Semester::nextSemester()->id)->get($columns);
                 self::$all_current_users = parent::with($eager_load_relations)->where('last_echo', Semester::current()->id)->get($columns);
             }
             return self::$all_current_users;
