@@ -196,6 +196,8 @@ class HomeController extends Controller
     }
 
     private function prepareAdminMissedRehearsalsPanel() {
+        //TODO: optimize
+        //TODO: add some view to show who missed what rehearsal and more details
         $panel = ['state' => 'info', 'count' => 0, 'data' => collect()];
 
         if (\Auth::user()->isAdmin() === true) {

@@ -146,6 +146,22 @@
                                 </div>
                             </div>
                         @endif
+                        @if(Auth::user()->isAdmin())
+                            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                                <div class="panel-heading  panel-heading-{{ $admin_missed_rehearsals_panel['state'] }}">{{ trans('home.admin_missed_rehearsals_heading') }}</div>
+                                <div class="panel-element panel-element-{{ $admin_missed_rehearsals_panel['state'] }}">
+                                    <div class="panel-element-body">
+                                        <div class="panel-element-main panel-element-main-number ">{{ $admin_missed_rehearsals_panel['count'] }}</div>
+                                        {{ trans('home.admin_missed_rehearsals_body', ['count' => $admin_missed_rehearsals_panel['count']])}}
+                                        <ul>
+                                            @foreach($admin_missed_rehearsals_panel['data'] as $user)
+                                                <li>{{ $user->first_name }} {{ $user->last_name }}</li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
