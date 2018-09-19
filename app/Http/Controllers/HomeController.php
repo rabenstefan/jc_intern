@@ -177,16 +177,19 @@ class HomeController extends Controller
     private function prepareNextBirthdaysPanel(Carbon $reference_date) {
         $upcoming_birthdays = Birthday::all();
 
-        // Consider Birthdays 3 days in the past and 10 days in the future
-        $lower_bound = $reference_date->copy()->subDays(3);
-        $upper_bound = $reference_date->copy()->addDays(10);
+        $start_date = $reference_date->copy()->subDays(\Config::get('enums.birthday_consideration_days')['past']);
+        $end_date = $reference_date->copy()->addDays(\Config::get('enums.birthday_consideration_days')['future']);
 
-        $upcoming_birthdays = $upcoming_birthdays->filter(function($value) use ($reference_date, $lower_bound, $upper_bound) {
-            return $value->getStart()->between($lower_bound, $upper_bound);});
+        $upcoming_birthdays = $upcoming_birthdays->filter(function($value) use ($reference_date, $start_date, $end_date) {
+            return $value->getStart()->between($start_date, $end_date);});
 
         $upcoming_birthdays = $upcoming_birthdays->sortBy(function($item) {return $item->getStart();});
 
-        return ['state' => 'info', 'count' => $upcoming_birthdays->count(), 'data' => $upcoming_birthdays];
+        $data = [
+            'consideration_dates' => ['start_date' => $start_date, 'end_date' => $end_date],
+            'upcoming_birthdays' => $upcoming_birthdays
+        ];
+        return ['state' => 'info', 'count' => $upcoming_birthdays->count(), 'data' => $data];
     }
 
     private function nextEchoNeeded(User $user, Carbon $today) {
@@ -205,7 +208,7 @@ class HomeController extends Controller
                 return $user->isOverMissingRehearsalsLimit();
             });
             $panel['count'] += $data->count();
-            $panel['data'] = $data;
+            $panel['data'] = $data->sortBy('last_name')->sortBy('first_name');
         }
 
         return $panel;

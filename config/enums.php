@@ -23,5 +23,9 @@ return [
         'total' => 5,
         'excused' => 5,
         'unexcused' => 2
+    ],
+    'birthday_consideration_days' => [
+        'past' => 3,
+        'future' => 10
     ]
 ];

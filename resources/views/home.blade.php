@@ -104,10 +104,13 @@
                             <div class="panel-heading  panel-heading-{{ $next_birthdays_panel['state'] }}">{{ trans('home.next_birthdays_heading') }}</div>
                             <div class="panel-element panel-element-{{ $next_birthdays_panel['state'] }}">
                                 <div class="panel-element-body">
-                                    <div class="panel-element-main panel-element-main-number ">{{ $next_birthdays_panel['count'] }}</div>
-                                        {{ trans('home.upcoming_birthdays_body', ['count' => $next_birthdays_panel['count']])}}
+                                    <!--<div class="panel-element-main panel-element-main-number ">{{ $next_birthdays_panel['count'] }}</div> -->
+                                        {{ trans('home.upcoming_birthdays_body', [
+                                            'count' => $next_birthdays_panel['count'],
+                                            'startdate' => $next_birthdays_panel['data']['consideration_dates']['start_date']->formatLocalized('%d.%m.'),
+                                            'enddate' => $next_birthdays_panel['data']['consideration_dates']['end_date']->formatLocalized('%d.%m.')]) }}
                                         <ul>
-                                        @foreach($next_birthdays_panel['data'] as $birthday)
+                                        @foreach($next_birthdays_panel['data']['upcoming_birthdays'] as $birthday)
                                             <li>{{ trans('home.birthday_name', ['name' => $birthday->getUser()->first_name]) }}
                                                 <?php $diff = $today->diffInDays($birthday->getStart(), false) ?>
                                                 @if($diff === 0)
