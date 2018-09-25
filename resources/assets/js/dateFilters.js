@@ -41,15 +41,20 @@
          *
          * @param set_cookie Save the active filters to a cookie
          */
-        'applyAllFilters': function(set_cookie = true) {
+        'applyAllFilters': function(set_cookie) {
+            if (undefined === set_cookie) {
+                set_cookie = true;
+            }
             // Show/Hide Toggle Buttons
             $.each(dateFilters.activeFilters, function (name, filter) {
+                var my_button = $('#toggle-' + filter.plural);
+
                 if (filter.visible === true) {
-                    $('#toggle-' + filter.plural).addClass('btn-pressed');
-                    $('#toggle-' + filter.plural).removeClass('btn-unpressed');
+                    my_button.addClass('btn-pressed');
+                    my_button.removeClass('btn-unpressed');
                 } else {
-                    $('#toggle-' + filter.plural).addClass('btn-unpressed');
-                    $('#toggle-' + filter.plural).removeClass('btn-pressed');
+                    my_button.addClass('btn-unpressed');
+                    my_button.removeClass('btn-pressed');
                 }
             });
 

@@ -97,10 +97,10 @@
          * @param comment
          * @param success_callback
          */
-        function saveAttendance(url, comment = null, success_callback = null) {
+        function saveAttendance(url, comment, success_callback) {
             var data = {_token: '{{ csrf_token() }}'};
 
-            if (null !== comment) {
+            if (undefined !== comment && null !== comment) {
                 data['comment'] = comment;
             }
 
@@ -110,7 +110,7 @@
                 if (reply.success) {
                     // Notify user.
                     $.notify(reply.message, 'success');
-                    if (null !== success_callback) {
+                    if (typeof success_callback === "function") {
                         success_callback();
                     }
                 } else {
@@ -119,7 +119,7 @@
                 }
             },
             'json').fail(function(xhr, status, error) {
-                if (null === comment) {
+                if (undefined !== comment && null !== comment) {
                     $.notify('{{ trans('date.attendance_not_saved') }}', 'danger');
                 } else {
                     $.notify('{{ trans('date.comment_not_saved') }}', 'danger');
@@ -156,7 +156,7 @@
          * @param attendance
          * @param slider
          */
-        function changeEventDisplayState(button, attendance, slider = false) {
+        function changeEventDisplayState(button, attendance, slider) {
             if (true === slider) {
                 $(button).find('input[type="checkbox"]').prop('checked', 'yes' === attendance);
             } else {
@@ -207,8 +207,10 @@
 
 
         $(document).ready(function () {
+            var comment_form = $('#comment-form');
+
             // On submission of the form in the modal.
-            $('#comment-form').submit(function (event) {
+            comment_form.submit(function (event) {
                 event.preventDefault();
 
                 // TODO: Save comment to your_comment section and data-current-comment of appropriate buttons
@@ -219,7 +221,7 @@
                 $.modal.close();
             });
 
-            $('#comment-form').on($.modal.OPEN, function () {
+            comment_form.on($.modal.OPEN, function () {
                 $('#comment').focus();
             }).on($.modal.CLOSE, function () {
                 $('#comment').val('');
@@ -245,7 +247,7 @@
                     }
 
                     // Display modal to put in an excuse. Because I like to be an a-hole, this modal cannot be closed without submitting. One can, however submit an empty string, because I'm not 100% a dick.
-                    $('#comment-form').attr('action', $(this).data('comment-url'))
+                    comment_form.attr('action', $(this).data('comment-url'))
                         .modal({'escapeClose': false,
                             'clickClose': false,
                             'showClose': false});
@@ -258,7 +260,7 @@
                 if (current_comment.length !== 0) {
                     $('#comment').val(current_comment);
                 }
-                $('#comment-form').attr('action', $(this).data('comment-url')).modal();
+                comment_form.attr('action', $(this).data('comment-url')).modal();
 
 
             });
