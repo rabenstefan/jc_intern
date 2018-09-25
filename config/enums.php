@@ -18,5 +18,14 @@ return [
     'attendances_binary_reversed' => [
         0 => 'no',
         2 => 'yes'
+    ],
+    'allowed_missed_rehearsals' => [
+        'total' => 5,
+        'excused' => 5,
+        'unexcused' => 2
+    ],
+    'birthday_consideration_days' => [
+        'past' => 3,
+        'future' => 10
     ]
 ];

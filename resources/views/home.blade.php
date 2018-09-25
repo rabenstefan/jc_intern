@@ -4,29 +4,10 @@
     <div class="row">
         <div class="col-md-12">
             <h1>{{ trans('home.dashboard') }}</h1>
-
             <div class="panel panel-2d">
                 <div class="panel-heading">{{ trans('home.welcome_title', ['name' => $user->first_name ]) }}</div>
                 <div class="panel-body">
                     <div class="row">
-                        @if($echo_needed)
-                            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" id="echo-needed-panel">
-                                <div class="panel-heading  panel-heading-error">{{ trans('home.echo_needed') }}</div>
-                                <div class="panel-element">
-                                    <div class="panel-element-body">
-                                        <p>{{ trans('home.echo_needed_body') }}</p>
-                                        <br>
-                                        <p>{{ trans('home.echo_semester', ['semester' => $next_semester->label]) }}</p>
-                                        <a href="#"
-                                           class="btn btn-2d btn-post"
-                                           data-url="{{ route('users.updateSemester', $user->id) }}"
-                                           data-callback-success="hideEchoNeededPanel">
-                                            {{ trans('home.echo_semester_button') }}
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        @endif
                         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
                             <div class="panel-heading  panel-heading-{{ $unanswered_panel['state'] }}">{{ trans('home.unanswered_heading') }}</div>
                             <div class="panel-element panel-element-background-icon panel-element-{{ $unanswered_panel['state'] }}">
@@ -77,11 +58,11 @@
                                     <a href="{{ route('dates.index', ['view_type' => 'list', 'hideByType' => invert_date_types(['gig'])]) }}">{{ trans('home.to_gigs') }}</a>
                                 </div>
                             </div>
-                        </div>@if(!$echo_needed)<div class="clearfix visible-sm-block"></div>@endif
+                        </div><div class="clearfix visible-sm-block"></div>
                         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
                             <div class="panel-heading  panel-heading-{{ $next_rehearsals_panel['state'] }}">{{ trans('home.next_rehearsals_heading') }}</div>
                             <div class="panel-element panel-element-{{ $next_rehearsals_panel['state'] }}">
-                                <div class="panel-element-body">
+                                <div class="panel-element-body">{{-- TODO: change something if next rehearsal is all_day --}}
                                     <div class="panel-element-main panel-element-main-content ">{{ isset($next_rehearsals_panel['data'][0]) ? $next_rehearsals_panel['data'][0]->getStart()->diffForHumans() : '' }}</div>
                                     {{ trans('home.next_rehearsals_body') }}
                                     <ul>
@@ -101,7 +82,7 @@
                                 <a href="{{ route('dates.index', ['view_type' => 'list', 'hideByType' => invert_date_types(['rehearsal'])]) }}">{{ trans('home.to_rehearsals') }}</a>
                                 </div>
                             </div>
-                        </div>@if(!$echo_needed)<div class="clearfix visible-md-block"></div>@endif
+                        </div><div class="clearfix visible-md-block"></div>
                         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
                             <div class="panel-heading  panel-heading-{{ $missed_rehearsals_panel['state'] }}">{{ trans('home.missed_rehearsals_heading') }}</div>
                             <div class="panel-element panel-element-{{ $missed_rehearsals_panel['state'] }}">
@@ -118,15 +99,18 @@
                                     <a href="{{ route('dates.index', ['view_type' => 'list', 'hideByType' => invert_date_types(['rehearsal'])]) }}">{{ trans('home.to_future_rehearsals') }}</a>
                                 </div>
                             </div>
-                        </div>@if(!$echo_needed)<div class="clearfix visible-lg-block"></div><div class="clearfix visible-sm-block"></div>@endif
+                        </div><div class="clearfix visible-lg-block"></div><div class="clearfix visible-sm-block"></div>
                         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
                             <div class="panel-heading  panel-heading-{{ $next_birthdays_panel['state'] }}">{{ trans('home.next_birthdays_heading') }}</div>
                             <div class="panel-element panel-element-{{ $next_birthdays_panel['state'] }}">
                                 <div class="panel-element-body">
-                                    <div class="panel-element-main panel-element-main-number ">{{ $next_birthdays_panel['count'] }}</div>
-                                        {{ trans('home.upcoming_birthdays_body', ['count' => $next_birthdays_panel['count']])}}
+                                    <!--<div class="panel-element-main panel-element-main-number ">{{ $next_birthdays_panel['count'] }}</div> -->
+                                        {{ trans('home.upcoming_birthdays_body', [
+                                            'count' => $next_birthdays_panel['count'],
+                                            'startdate' => $next_birthdays_panel['data']['consideration_dates']['start_date']->formatLocalized('%d.%m.'),
+                                            'enddate' => $next_birthdays_panel['data']['consideration_dates']['end_date']->formatLocalized('%d.%m.')]) }}
                                         <ul>
-                                        @foreach($next_birthdays_panel['data'] as $birthday)
+                                        @foreach($next_birthdays_panel['data']['upcoming_birthdays'] as $birthday)
                                             <li>{{ trans('home.birthday_name', ['name' => $birthday->getUser()->first_name]) }}
                                                 <?php $diff = $today->diffInDays($birthday->getStart(), false) ?>
                                                 @if($diff === 0)
@@ -147,6 +131,40 @@
                                 </div>
                             </div>
                         </div>
+                        @if($echo_needed)
+                            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" id="echo-needed-panel">
+                                <div class="panel-heading  panel-heading-error">{{ trans('home.echo_needed') }}</div>
+                                <div class="panel-element">
+                                    <div class="panel-element-body">
+                                        <p>{{ trans('home.echo_needed_body') }}</p>
+                                        <br>
+                                        <p>{{ trans('home.echo_semester') }}</p>
+                                        <a href="#"
+                                           class="btn btn-2d btn-post"
+                                           data-url="{{ route('users.updateSemester', $user->id) }}"
+                                           data-callback-success="hideEchoNeededPanel">
+                                            {{ trans('home.echo_semester_button', ['semester' => $next_semester->label])}}
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+                        @if(Auth::user()->isAdmin())
+                            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                                <div class="panel-heading  panel-heading-{{ $admin_missed_rehearsals_panel['state'] }}">{{ trans('home.admin_missed_rehearsals_heading') }}</div>
+                                <div class="panel-element panel-element-{{ $admin_missed_rehearsals_panel['state'] }}">
+                                    <div class="panel-element-body">
+                                        <div class="panel-element-main panel-element-main-number ">{{ $admin_missed_rehearsals_panel['count'] }}</div>
+                                        {{ trans('home.admin_missed_rehearsals_body', ['count' => $admin_missed_rehearsals_panel['count']])}}
+                                        <ul>
+                                            @foreach($admin_missed_rehearsals_panel['data'] as $user)
+                                                <li>{{ $user->first_name }} {{ $user->last_name }}</li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -154,7 +172,7 @@
     </div>
 @endsection
 
-@section('js')
+@section('js') {{-- TODO: Refactor these functions to one or more dedicated js-file(s), reducing very similar code in listAttendances and list --}}
     <script type="text/javascript">
         function hideEchoNeededPanel() {
             $("#echo-needed-panel").hide(500, function() {
@@ -199,7 +217,31 @@
                         $.notify(data.message, "danger");
                     }
                 },
-                "json");
+                "json").fail(function(xhr, status, error) {
+                    $.notify('{{ trans('date.attendance_not_saved') }}', 'danger');
+
+                    // TODO: maybe status codes are better here? However status messages should be consistent among browsers and they are passed by jquery
+                    if (error === 'Unauthorized') {
+                        // Session expired or user logged out in another tab (401)
+                        location.reload(true);
+                    } else if (error === 'Unprocessable Entity') {
+                        // Validation failed (422)
+                        try {
+                            $.each(xhr.responseJSON, function (key, value) {
+                                $.each(value, function (index, message) {
+                                    $.notify(message, 'danger');
+                                });
+                            });
+                        } catch (err) {
+                            // Unknwon error
+                            $.notify('{{ trans('date.ajax_failed') }}' + status + ' ' + error, 'danger');
+                            $.notify(err.name + ': ' + err.message, 'danger');
+                        }
+                    } else {
+                        // Unknwon error
+                        $.notify('{{ trans('date.ajax_failed') }}' + status + ' ' + error, 'danger');
+                    }
+                });
             });
         });
     </script>

@@ -48,6 +48,7 @@ class UserController extends Controller {
         return view('user.index', [
             'musical_leader' => User::getMusicalLeader(),
             'voices' => Voice::getParentVoices(),
+            //TODO: rework to make sense in between semesters
             'old_users' => User::orderBy('voice_id')->where('last_echo', '<>', Semester::current()->id)->get(),
         ]);
     }
@@ -217,6 +218,8 @@ class UserController extends Controller {
             }
         }
 
+        //TODO: this is almost always used when the new semester has not yet started. Rework so that it works in both cases!
+        //$user->last_echo = Semester::nextSemester()->id;
         $user->last_echo = Semester::current()->id;
 
         if(!$user->save()) {

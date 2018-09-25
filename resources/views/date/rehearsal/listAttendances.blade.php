@@ -61,7 +61,7 @@
     </div>
 @endsection
 
-@section('js')
+@section('js'){{-- TODO: Refactor these functions to one or more dedicated js-file(s), reducing very similar code in list and home --}}
     <script type="text/javascript">
         /**
          * Switches a slider to the opposite value. Sets the corresponding checkbox.
@@ -126,7 +126,31 @@
                         $(sliderElement).removeClass('inactive');
                     }
                 },
-                'json');
+                'json').fail(function(xhr, status, error) {
+                $.notify('{{ trans('date.attendance_not_saved') }}', 'danger');
+
+                // TODO: maybe status codes are better here? However status messages should be consistent among browsers and they are passed by jquery
+                if (error === 'Unauthorized') {
+                    // Session expired or user logged out in another tab (401)
+                    location.reload(true);
+                } else if (error === 'Unprocessable Entity') {
+                    // Validation failed (422)
+                    try {
+                        $.each(xhr.responseJSON, function (key, value) {
+                            $.each(value, function (index, message) {
+                                $.notify(message, 'danger');
+                            });
+                        });
+                    } catch (err) {
+                        // Unknwon error
+                        $.notify('{{ trans('date.ajax_failed') }}' + status + ' ' + error, 'danger');
+                        $.notify(err.name + ': ' + err.message, 'danger');
+                    }
+                } else {
+                    // Unknwon error
+                    $.notify('{{ trans('date.ajax_failed') }}' + status + ' ' + error, 'danger');
+                }
+            });
         }
     </script>
 @endsection
