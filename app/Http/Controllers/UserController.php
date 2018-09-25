@@ -49,6 +49,7 @@ class UserController extends Controller {
             'musical_leader' => User::getMusicalLeader(),
             'voices' => Voice::getParentVoices(),
             //TODO: rework to make sense in between semesters
+            //TODO: should also return users who echoed for a future semester. Or rework with many-to-many between users and voices
             'old_users' => User::orderBy('voice_id')->where('last_echo', '<>', Semester::current()->id)->get(),
         ]);
     }

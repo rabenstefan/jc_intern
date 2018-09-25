@@ -391,8 +391,8 @@ class User extends Authenticatable {
         return self::$all_current_users->where('voice_id', $voice_id);
     }
 
-    //TODO: is this function used at all?
     public function scopeCurrent($query){
+        //TODO: should also return users who echoed for a future semester. Or rework with many-to-many between users and voices
         return $query->where('last_echo', Semester::current()->id);
     }
 
