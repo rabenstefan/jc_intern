@@ -163,7 +163,7 @@
                             </a>
 
                             <ul class="dropdown-menu" role="menu">
-                                <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>&nbsp;Logout</a></li>
+                                <li><form action="{{ url('/logout') }}" method="post"><a href="#" onclick="this.parentNode.submit()"><i class="fa fa-btn fa-sign-out"></i>&nbsp;Logout</a></form></li>
                             </ul>
                         </li>
                     @endif
