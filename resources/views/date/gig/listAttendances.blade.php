@@ -41,7 +41,7 @@
                                                     </span>
                                                 </td>
                                                 @foreach($gigs as $gig)
-                                                    <td>{{ $gig->getAttendanceCount($sub_voice->users) }}</td>
+                                                    <td>{{ 5 }}</td>
                                                 @endforeach
                                             </tr>
                                             @foreach($sub_voice->users as $user)
