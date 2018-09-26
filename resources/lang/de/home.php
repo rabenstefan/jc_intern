@@ -45,5 +45,11 @@ return [
     'over_limit'        => 'Du musst leider vorsingen, wenn du bei den Semesterabschlusskonzerten mitsingen möchtest. &#x1f61e;',
     'invalid_semester'  => 'Bitte trag Dich zum aktuellen Semester ein, um diese Funktionen zu nutzen!',
     'admin_missed_rehearsals_heading'   => 'Vorsinger',
-    'admin_missed_rehearsals_body'      => 'Die folgenden :count Sänger haben zu oft gefehlt und müssen vorsingen.'
+    'admin_missed_rehearsals_body'      => 'Die folgenden :count Sänger haben zu oft gefehlt und müssen vorsingen.',
+    'cloudshare_heading'    => 'Cloud',
+    'cloudshare_body'   => 'Nur in der Sänger-Cloud könnt ihr Dateien ändern oder hochladen.',
+    'cloudshare_button1' => 'Übe-Dateien',
+    'cloudshare_button2' => 'Dokumente',
+    'cloudshare_button3' => 'Sänger-Cloud',
+    'cloudshare_adminbutton' => 'Vorstands-Cloud'
 ];

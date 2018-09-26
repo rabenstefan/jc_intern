@@ -397,6 +397,10 @@ i.fa {
   margin-top: 0px;
   @include shadow-2d($main-color-darker);
 
+  &.btn-clear-below {
+    margin-bottom: 5px;
+  }
+
   i {
     width: 22px;
     min-width: 22px;
@@ -457,6 +461,7 @@ i.fa {
     }
   }
 }
+
 
 /** Style calendar. **/
 // Set width for all device widths.

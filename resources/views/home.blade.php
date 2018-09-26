@@ -131,6 +131,23 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                            <div class="panel-heading  panel-heading-info">{{ trans('home.cloudshare_heading') }}</div>
+                            <div class="panel-element panel-element-info">
+                                <div class="panel-element-body">
+                                    <p>{{ trans('home.cloudshare_body') }}</p>
+                                    <a href="{{ route('fileAccess.accessFiles', ['type' => 'users', 'id' => 1]) }}" target="_blank" class="btn btn-2d btn-clear-below">{{ trans('home.cloudshare_button1') }}</a>
+                                    <br>
+                                    <a href="{{ route('fileAccess.accessFiles', ['type' => 'users', 'id' => 2]) }}" target="_blank" class="btn btn-2d btn-clear-below">{{ trans('home.cloudshare_button2') }}</a>
+                                    <br>
+                                    @if(Auth::user()->isAdmin())
+                                        <a href="{{ route('fileAccess.accessFiles', ['type' => 'admins', 'id' => 1]) }}" target="_blank" class="btn btn-2d btn-error">{{ trans('home.cloudshare_adminbutton') }}</a>
+                                    @else
+                                        <a href="{{ route('fileAccess.accessFiles', ['type' => 'users', 'id' => 3]) }}" target="_blank" class="btn btn-2d btn-success">{{ trans('home.cloudshare_button3') }}</a>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
                         @if($echo_needed)
                             <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" id="echo-needed-panel">
                                 <div class="panel-heading  panel-heading-error">{{ trans('home.echo_needed') }}</div>

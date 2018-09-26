@@ -9,7 +9,6 @@ use App\Models\Gig;
 use App\Models\Semester;
 use App\Models\User;
 use Carbon\Carbon;
-use PhpParser\Node\Expr\Array_;
 
 class HomeController extends Controller
 {

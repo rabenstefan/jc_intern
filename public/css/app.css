@@ -6026,6 +6026,8 @@ i.fa {
   border: none ;
   border-bottom: 3px solid #083a68 ;
   box-shadow: none; }
+  .btn-2d.btn-clear-below, #calendar-dates .btn-2d.btn-clear-below {
+    margin-bottom: 5px; }
   .btn-2d i, #calendar-dates .btn-2d i {
     width: 22px;
     min-width: 22px; }

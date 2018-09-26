@@ -98,6 +98,9 @@ Route::group(['middleware' => 'web'], function () {
         // Routes for external calenders.
         Route::get('calendar_sync', 'DateController@calendarSync')->name('dates.calendarSync');
 
+        // Cloud-Stuff
+        Route::get('access_files/{type}/{id}', 'FileAccessController@accessFiles')->name('fileAccess.accessFiles');
+
         /**
          * Music sheet management routes.
          */
