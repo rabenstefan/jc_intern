@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'uri' => env('CLOUDSHARE_OCS_URI', 'localhost/'), // trailing slash required
+    'uri' => env('CLOUDSHARE_OCS_URI', 'localhost/'), // IMPORTANT: only use SSL/TLS-connections!
     'shares' => [
         'users' => [
             'requires_admin' => false,

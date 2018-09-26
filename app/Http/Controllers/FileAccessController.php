@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Auth\AuthController;
 use Carbon\Carbon;
 use GuzzleHttp;
+use Psr\Http\Message;
 
 class FileAccessController extends Controller
 {
@@ -20,15 +21,30 @@ class FileAccessController extends Controller
     protected $connection = null;
 
     protected function connectCloud($uri, $username, $password) {
+        if (parse_url($uri, PHP_URL_SCHEME) !== 'https') {
+            abort(500, 'Only HTTPS-connections allowed for Cloud-Connection');
+        }
+
         if (substr($uri, -1) !== '/') {
             $uri .= '/';
         }
+
+        $redirect_verification = function(Message\RequestInterface $request, Message\ResponseInterface $response, Message\UriInterface $new_uri) use ($uri) {
+            $original_host = parse_url($uri, PHP_URL_HOST); // Host before any redirect
+            $old_host = parse_url($request->getUri(), PHP_URL_HOST); // Host before this redirect
+            $new_host = parse_url($new_uri, PHP_URL_HOST); // Host after this redirect
+
+            if ($old_host !== $new_host || $new_host !== $original_host) {
+                abort(500, 'Cloud-Connection redirects are only allowed to the same host.');
+            }
+        };
 
         $this->connection = new GuzzleHttp\Client(
             [
                 'base_uri' => $uri . 'v2.php/apps/files_sharing/api/v1/',
                 'auth' => [$username, $password],
                 'headers' => ['OCS-APIRequest' => 'true', 'Accept' => 'application/json'],
+                'allow_redirects' => ['protocols' => ['https'], 'on_redirect' => $redirect_verification]
             ]
         );
     }
