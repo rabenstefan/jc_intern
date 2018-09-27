@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Auth\AuthController;
 use Carbon\Carbon;
 use GuzzleHttp;
-use Psr\Http\Message;
+/*use Psr\Http\Message;*/
 
 class FileAccessController extends Controller
 {
@@ -29,7 +29,8 @@ class FileAccessController extends Controller
             $uri .= '/';
         }
 
-        $redirect_verification = function(Message\RequestInterface $request, Message\ResponseInterface $response, Message\UriInterface $new_uri) use ($uri) {
+
+        /*$redirect_verification = function(Message\RequestInterface $request, Message\ResponseInterface $response, Message\UriInterface $new_uri) use ($uri) {
             $original_host = parse_url($uri, PHP_URL_HOST); // Host before any redirect
             $old_host = parse_url($request->getUri(), PHP_URL_HOST); // Host before this redirect
             $new_host = parse_url($new_uri, PHP_URL_HOST); // Host after this redirect
@@ -37,14 +38,20 @@ class FileAccessController extends Controller
             if ($old_host !== $new_host || $new_host !== $original_host) {
                 abort(500, 'Cloud-Connection redirects are only allowed to the same host.');
             }
-        };
+        };*/
 
         $this->connection = new GuzzleHttp\Client(
             [
                 'base_uri' => $uri . 'v2.php/apps/files_sharing/api/v1/',
                 'auth' => [$username, $password],
                 'headers' => ['OCS-APIRequest' => 'true', 'Accept' => 'application/json'],
-                'allow_redirects' => ['protocols' => ['https'], 'on_redirect' => $redirect_verification]
+                'allow_redirects' => false
+                /*
+                 * Just don't allow redirects ever. This causes $this->parseResponse to throw unrelated exceptions in case of redirects, which is not ideal.
+                 * Alternatively, we could use 'allow_redirects' => ['protocols' => ['https'], 'on_redirect' => $redirect_verification, 'strict' => true]
+                 * However, that could be just as bad. Generally, we don't want any redirects because of conversion of different methods (POST becomes GET) and other inconsistencies.
+                 * If the cloud server address changes, it should be changed in .env
+                 */
             ]
         );
     }
