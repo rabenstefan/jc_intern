@@ -54,4 +54,6 @@ return [
     'cloudshare_adminbutton' => 'Vorstands-Cloud',
     'imprint'   => 'Impressum',
     'privacy_policy'    => 'Datenschutzerklärung',
+    'noscript_body' => 'Diese Seite benötigt Javascript um richtig zu funktionieren.',
+    'noscript_link' => 'Hier erfahren wie man Javavscript aktivieren kann',
 ];

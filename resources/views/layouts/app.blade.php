@@ -46,6 +46,8 @@
             arrowSize: 5
         };
     </script>
+
+    <noscript><style type="text/css">.hide-from-noscript{display: none;}</style></noscript>
 </head>
 <body id="app-layout" data-spy="scroll" data-target="#scroll-spy-nav">
     <nav class="navbar navbar-default navbar-2d navbar-static-top">
