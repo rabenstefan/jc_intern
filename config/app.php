@@ -56,6 +56,8 @@ return [
 
     'domain' => env('APP_DOMAIN', 'intern.jazzchor-bonn.de'),
     'url' => env('APP_URL', 'https://intern.jazzchor-bonn.de'),
+    'imprint' => env('APP_IMPRINT', 'https://jazzchor-bonn.de/impressum'),
+    'privacy_policy' => env('APP_PRIVACY_POLICY', 'https://jazzchor-bonn.de/datenschutzerklaerung'),
 
     /*
     |--------------------------------------------------------------------------

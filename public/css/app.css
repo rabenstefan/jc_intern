@@ -6689,6 +6689,11 @@ div.checkbox input, div.radio input {
   padding-top: 0.2em;
   font-size: 1.2em; }
 
+#footer {
+  text-align: center;
+  margin-top: 150px;
+  padding-bottom: 35px; }
+
 /** attendance list for gigs **/
 #attendance-list tr.voice {
   background-color: #c3c3c3; }

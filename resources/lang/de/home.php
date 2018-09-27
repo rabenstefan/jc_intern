@@ -51,5 +51,7 @@ return [
     'cloudshare_button1' => 'Übe-Dateien',
     'cloudshare_button2' => 'Dokumente',
     'cloudshare_button3' => 'Sänger-Cloud',
-    'cloudshare_adminbutton' => 'Vorstands-Cloud'
+    'cloudshare_adminbutton' => 'Vorstands-Cloud',
+    'imprint'   => 'Impressum',
+    'privacy_policy'    => 'Datenschutzerklärung',
 ];

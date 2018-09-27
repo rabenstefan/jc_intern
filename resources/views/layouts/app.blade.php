@@ -207,5 +207,7 @@
     </script>
 
     @yield('js')
+
+    <p id="footer"><a href="{{ Config::get('app.imprint') }}">{{ trans('home.imprint') }}</a> &bull; <a href="{{ Config::get('app.privacy_policy') }}">{{ trans('home.privacy_policy') }}</a></p>
 </body>
 </html>
