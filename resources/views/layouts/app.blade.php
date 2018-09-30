@@ -12,6 +12,18 @@
     <link href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Exo+2" rel="stylesheet">
 
+    <!-- Icons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=jw7jp5nB2l">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=jw7jp5nB2l">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=jw7jp5nB2l">
+    <link rel="manifest" href="/site.webmanifest?v=jw7jp5nB2l">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg?v=jw7jp5nB2l" color="#135895">
+    <link rel="shortcut icon" href="/favicon.ico?v=jw7jp5nB2l">
+    <meta name="apple-mobile-web-app-title" content="Jazzchor der Uni Bonn">
+    <meta name="application-name" content="Jazzchor der Uni Bonn">
+    <meta name="msapplication-TileColor" content="#2b5797">
+    <meta name="theme-color" content="#eaeaea">
+
     <!-- Styles -->
     @yield('additional_css_files')
     {!! Html::style('css/app.css') !!}
