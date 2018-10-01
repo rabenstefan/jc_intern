@@ -131,7 +131,7 @@ class HomeController extends Controller
         $count = $user->missedRehearsalsCountArray();
         $over_limit = User::checkRehearsalsLimit($count);
 
-        if (0 === $count['total']) {
+        if (0 == $count['total']) {
             // Attended all rehearsals
             $state = 'success';
         } else if ($over_limit) {

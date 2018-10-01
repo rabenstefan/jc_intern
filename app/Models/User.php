@@ -315,13 +315,16 @@ class User extends Authenticatable {
 
         $count = 0.0;
         if ($consider_weight) {
+            // Count regular weighted rehearsals first to improve performance
             $count += $rehearsals->where('weight', 1.0)->count();
+
             $rehearsals->filter(function($rehearsal) use (&$count) {
                 if ($rehearsal->weight != 1.0) { //TODO: add some more checks to ensure there is no weird stuff in $rehearsal->weight
                     $count += $rehearsal->weight;
                 }
             });
         } else {
+            // This will count rehearsals that carry weight zero
             $count = $rehearsals->count();
         }
         return $count;
@@ -369,6 +372,7 @@ class User extends Authenticatable {
         }
 
         foreach(array_keys($limits) as $key) {
+            // Comparing a float/double and an int. What could go wrong?
             if ($missed_rehearsal_count_array[$key] > $limits[$key]) {
                 $over_limit = true;
                 break;
