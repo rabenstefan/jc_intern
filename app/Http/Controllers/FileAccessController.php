@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Auth\AuthController;
+use Illuminate\Http\Request;
 use Carbon\Carbon;
 use GuzzleHttp;
 /*use Psr\Http\Message;*/
@@ -74,27 +75,13 @@ class FileAccessController extends Controller
         return $this->parseResponse($this->connection->request('PUT', 'shares/' . $id, ['json' => $params]));
     }
 
-    public function accessFiles($type = null, $id = null) {
-        if ($type === null || $id === null) {
-            abort(404);
-        }
-
-        $config = \Config::get('cloud');
-        if (!array_key_exists($type, $config['shares'])) {
-            abort(404);
-        }
-        if ($config['shares'][$type]['requires_admin'] !== false && !\Auth::user()->isAdmin()) {
-            abort(403);
-        }
-
-        if (!array_key_exists($id, $config['shares'][$type]['folders'])) {
-            abort(404);
-        }
-
+    private function generateCloudUrl($type = null, $id = null) {
         $cache_key = 'cloudshare_url_' . $type . '_' . $id;
         $cachetime = 710; //minutes
         $cloudshare_url = \Cache::get($cache_key);
         if (null === $cloudshare_url) {
+            $config = \Config::get('cloud');
+
             $folder_config = $config['shares'][$type]['folders'][$id];
 
             $this->connectCloud($config['uri'],  $config['shares'][$type]['username'], $config['shares'][$type]['password']);
@@ -112,6 +99,54 @@ class FileAccessController extends Controller
             \Cache::put($cache_key, $cloudshare_url, $cachetime);
         }
 
-        return redirect($cloudshare_url);
+        return $cloudshare_url;
+    }
+
+    public function accessFiles($type = null, $id = null, $accepted_warning = false) {
+        if ($type === null || $id === null) {
+            abort(404);
+        }
+
+        $config = \Config::get('cloud');
+        if (!array_key_exists($type, $config['shares'])) {
+            abort(404);
+        }
+        if ($config['shares'][$type]['requires_admin'] !== false && !\Auth::user()->isAdmin()) {
+            abort(403);
+        }
+
+        if (!array_key_exists($id, $config['shares'][$type]['folders'])) {
+            abort(404);
+        }
+
+        if ($config['shares'][$type]['folders'][$id]['requires_warning']) {
+            return view('file_access.warning', ['hide_navbar' => true]);
+        } else {
+            return redirect($this->generateCloudUrl($type, $id));
+        }
+    }
+
+    public function accessFilesAccept(Request $request, $type = null, $id = null) {
+        if ($type === null || $id === null) {
+            abort(404);
+        }
+
+        $config = \Config::get('cloud');
+        if (!array_key_exists($type, $config['shares'])) {
+            abort(404);
+        }
+        if ($config['shares'][$type]['requires_admin'] !== false && !\Auth::user()->isAdmin()) {
+            abort(403);
+        }
+
+        if (!array_key_exists($id, $config['shares'][$type]['folders'])) {
+            abort(404);
+        }
+
+        if (filter_var($request->get('accepted_warning', false), FILTER_VALIDATE_BOOLEAN) === true) {
+            return redirect($this->generateCloudUrl($type, $id));
+        } else {
+            return view('file_access.warning', ['hide_navbar' => true]);
+        }
     }
 }

@@ -62,6 +62,9 @@
     <noscript><style type="text/css">.hide-from-noscript{display: none;}</style></noscript>
 </head>
 <body id="app-layout" data-spy="scroll" data-target="#scroll-spy-nav">
+    <?php if (!isset($hide_navbar)) {$hide_navbar = false;} ?>
+
+    @if($hide_navbar === false)
     <nav class="navbar navbar-default navbar-2d navbar-static-top">
         <div class="container">
             <div class="navbar-header">
@@ -188,6 +191,7 @@
             </div>
         </div>
     </nav>
+    @endif
 
     <div class="container">
         <div class="hidden-xs hidden-sm col-md-1">
@@ -200,6 +204,7 @@
                 </a>--}}
             </div>
         </div>
+
         <div class="col-xs-12 col-md-10">
             @yield('content')
         </div>

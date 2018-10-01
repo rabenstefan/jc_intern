@@ -12,16 +12,19 @@ return [
                     'path' => '/Übe-Dateien',
                     'public_upload' => 'false',
                     'permissions'   => '1', // read only
+                    'requires_warning' => false,
                     ],
                 2 => [
                     'path' => '/Für Mitglieder',
                     'public_upload' => 'false',
                     'permissions'   => '1', // read only
+                    'requires_warning' => false,
                     ],
                 3 => [
                     'path' => '/Sänger-Cloud',
                     'public_upload' => 'true',
                     'permissions'   => '15', // grant all permissions except sharing
+                    'requires_warning' => true,
                 ]
             ],
         ],
@@ -33,7 +36,8 @@ return [
                 1 => [
                     'path' => '/Für Vorstände',
                     'public_upload' => 'true',
-                    'permissions'   => '15' // grant all permissions except sharing
+                    'permissions'   => '15', // grant all permissions except sharing
+                    'requires_warning' => false, // We hope that admins are already aware.
                 ]
             ],
         ]
