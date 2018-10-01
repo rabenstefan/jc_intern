@@ -36,7 +36,7 @@
                         <div class="panel-body" id="list-dates">
                             <form id="comment-form" class="modal" style="display: none;">
                                 {!! Form::textInput2d('comment', null, ['placeholder' => trans('form.comment') ]) !!}
-                                {!! Form::submitInput2d([], trans('form.submit')) !!}
+                                {!! Form::submitInput2d(trans('form.submit')) !!}
                             </form>
                             @include('date.settings_bar', [
                                 'view_type'         => 'list',
