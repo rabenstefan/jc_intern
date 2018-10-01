@@ -234,7 +234,7 @@ class HomeController extends Controller
             'next_gigs_panel' => $this->prepareNextEventsPanel(Gig::class, 'gigs', $now, $user, true),
             'next_birthdays_panel' => $this->prepareNextBirthdaysPanel($today),
             'echo_needed' => $this->nextEchoNeeded($user, $today),
-            'next_semester' => Semester::nextSemester(),
+            'current_semester' => Semester::current(),
             'today' => $today,
             'now'   => $now,
             'user' => $user

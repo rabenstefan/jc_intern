@@ -160,7 +160,7 @@
                                            class="btn btn-2d btn-post"
                                            data-url="{{ route('users.updateSemester', $user->id) }}"
                                            data-callback-success="hideEchoNeededPanel">
-                                            {{ trans('home.echo_semester_button', ['semester' => $next_semester->label])}}
+                                            {{ trans('home.echo_semester_button', ['semester' => $current_semester->label])}}
                                         </a>
                                     </div>
                                 </div>
