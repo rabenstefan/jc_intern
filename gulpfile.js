@@ -25,4 +25,17 @@ elixir(function(mix) {
         'js.cookie.js',
         'dateFilters.js'
     ]);
+
+    // Enable cache busting. Make sure to also use Html::styleV and Html::scriptV instead of their non-versioned counterparts
+    mix.version([
+        'css/app.css',
+        'js/all.js',
+        'js/jquery.min.js',
+        'js/jquery.modal.min.js',
+        'js/jquery-ui.custom.min.js',
+        'js/moment.min.js',
+        'js/fullcalendar.min.js',
+        'js/lang/de.js',
+        'js/lang/en.js'
+    ]);
 });

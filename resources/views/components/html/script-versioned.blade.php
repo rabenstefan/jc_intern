@@ -1,0 +1,1 @@
+{!! Html::script(elixir($filename)) !!}
