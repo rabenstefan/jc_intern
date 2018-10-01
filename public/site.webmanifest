@@ -1,0 +1,20 @@
+{
+    "name": "Jazzchor der Uni Bonn",
+    "short_name": "Jazzchor der Uni Bonn",
+    "icons": [
+        {
+            "src": "/android-chrome-192x192.png?v=jw7jp5nB2l",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/android-chrome-512x512.png?v=jw7jp5nB2l",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ],
+    "theme_color": "#135895",
+    "background_color": "#eaeaea",
+    "start_url": "https://intern.jazzchor-bonn.de",
+    "display": "standalone"
+}

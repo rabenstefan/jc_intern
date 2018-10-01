@@ -397,6 +397,10 @@ i.fa {
   margin-top: 0px;
   @include shadow-2d($main-color-darker);
 
+  &.btn-clear-below {
+    margin-bottom: 5px;
+  }
+
   i {
     width: 22px;
     min-width: 22px;
@@ -457,6 +461,7 @@ i.fa {
     }
   }
 }
+
 
 /** Style calendar. **/
 // Set width for all device widths.
@@ -1094,6 +1099,16 @@ div.checkbox input, div.radio input {
 .sliders {
   padding-top: 0.2em;
   font-size: 1.2em;
+}
+
+#footer {
+  text-align: center;
+  margin-top: 150px;
+  padding-bottom: 35px;
+}
+
+a.inline-link {
+  padding: 0;
 }
 
 /** attendance list for gigs **/

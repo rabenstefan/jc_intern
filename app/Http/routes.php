@@ -29,12 +29,13 @@ Route::get('/', function () {
 Route::group(['middleware' => 'web'], function () {
     // Include authentication routes automatically.
     //Route::auth(); // This will expose 'register' and possibly other unwanted forms
-    Route::get('login', 'Auth\AuthController@showLoginForm');
-    Route::get('logout', 'Auth\AuthController@logout');
-    Route::get('password/reset/{token?}', 'Auth\PasswordController@showResetForm');
-    Route::post('login', 'Auth\AuthController@login');
-    Route::post('password/reset', 'Auth\PasswordController@reset');
-    Route::post('password/email', 'Auth\PasswordController@sendResetLinkEmail');
+    Route::get('login', 'Auth\LoginController@ShowLoginForm');
+    Route::post('login', 'Auth\LoginController@login');
+    Route::post('logout', 'Auth\LoginController@logout');
+
+    Route::get('password/reset/{token?}', 'Auth\ResetPasswordController@showResetForm');
+    Route::post('password/reset', 'Auth\ResetPasswordController@reset');
+    Route::post('password/email', 'Auth\ResetPasswordController@sendResetLinkEmail');
 
 
     /**
@@ -96,6 +97,10 @@ Route::group(['middleware' => 'web'], function () {
 
         // Routes for external calenders.
         Route::get('calendar_sync', 'DateController@calendarSync')->name('dates.calendarSync');
+
+        // Cloud-Stuff
+        Route::get('access_files/{type}/{id}', 'FileAccessController@accessFiles')->name('fileAccess.accessFiles');
+        Route::post('access_files/{type}/{id}', 'FileAccessController@accessFilesAccept');
 
         /**
          * Music sheet management routes.

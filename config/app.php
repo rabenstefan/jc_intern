@@ -7,6 +7,18 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Application Name
+    |--------------------------------------------------------------------------
+    |
+    | This value is the name of your application. This value is used when the
+    | framework needs to place the application's name in a notification or
+    | any other location as required by the application or its packages.
+    |
+    */
+    'name' => env('APP_NAME', 'Jazzchor Uni Bonn intern'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Application Environment
     |--------------------------------------------------------------------------
     |
@@ -44,6 +56,8 @@ return [
 
     'domain' => env('APP_DOMAIN', 'intern.jazzchor-bonn.de'),
     'url' => env('APP_URL', 'https://intern.jazzchor-bonn.de'),
+    'imprint' => env('APP_IMPRINT', 'https://jazzchor-bonn.de/impressum'),
+    'privacy_policy' => env('APP_PRIVACY_POLICY', 'https://jazzchor-bonn.de/datenschutzerklaerung'),
 
     /*
     |--------------------------------------------------------------------------

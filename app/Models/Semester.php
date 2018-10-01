@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Http\Controllers\SemesterController;
 use \Illuminate\Database\Eloquent\Builder;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 /**
  * App\Models\Semester
@@ -50,7 +51,14 @@ class Semester extends \Eloquent {
         // Memorize current semester to save queries.
         if (self::$current_semester === null) {
             $today = Carbon::today();
-            self::$current_semester = Semester::where('start', '<=', $today)->where('end', '>=', $today)->firstOrFail();
+            try {
+                self::$current_semester = Semester::where('start', '<=', $today)->where('end', '>=', $today)->firstOrFail();
+            } catch (ModelNotFoundException $error) {
+                // No fitting semester found: Add one and try again. This should never happen in production.
+                if ((new SemesterController())->generateNewSemester()) {
+                    self::$current_semester = Semester::where('start', '<=', $today)->where('end', '>=', $today)->firstOrFail();
+                }
+            }
         }
         return self::$current_semester;
     }

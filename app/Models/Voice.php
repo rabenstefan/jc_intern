@@ -33,7 +33,7 @@ class Voice extends \Eloquent {
 
     // For eager loading and memorizing the result.
     private static $child_voices = null;
-    private static $parent_voices = [];
+    private static $parent_voices = null;
 
     public function users() {
         return $this->hasMany('App\Models\User');
@@ -63,7 +63,7 @@ class Voice extends \Eloquent {
     /**
      * Get all voices, that are not the root voice.
      *
-     * @return Voice[]
+     * @return Collection
      */
     public static function getChildVoices() {
         if (null === self::$child_voices) {

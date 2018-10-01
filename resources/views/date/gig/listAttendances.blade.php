@@ -41,10 +41,10 @@
                                                     </span>
                                                 </td>
                                                 @foreach($gigs as $gig)
-                                                    <td>{{ $gig->getAttendanceCount($sub_voice->users) }}</td>
+                                                    <td>{{ $gig->getAttendanceCount($sub_voice->users()->current()->get()) }}</td>
                                                 @endforeach
                                             </tr>
-                                            @foreach($sub_voice->users as $user)
+                                            @foreach($sub_voice->users()->current()->get() as $user)
                                                 <tr class="user voice-{{ $voice->name }} voice-{{ str_replace(' ', '-', $sub_voice->name) }}">
                                                     <td>{{ $user->abbreviated_name }}</td>
                                                     @foreach($gigs as $gig)
