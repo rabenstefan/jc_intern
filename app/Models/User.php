@@ -371,6 +371,7 @@ class User extends Authenticatable {
         foreach(array_keys($limits) as $key) {
             if ($missed_rehearsal_count_array[$key] > $limits[$key]) {
                 $over_limit = true;
+                break;
             }
         }
 
