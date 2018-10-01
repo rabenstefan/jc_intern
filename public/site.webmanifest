@@ -13,7 +13,7 @@
             "type": "image/png"
         }
     ],
-    "theme_color": "#eaeaea",
+    "theme_color": "#135895",
     "background_color": "#eaeaea",
     "start_url": "https://intern.jazzchor-bonn.de",
     "display": "standalone"

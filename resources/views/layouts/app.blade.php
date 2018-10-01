@@ -22,7 +22,7 @@
     <meta name="apple-mobile-web-app-title" content="Jazzchor der Uni Bonn">
     <meta name="application-name" content="Jazzchor der Uni Bonn">
     <meta name="msapplication-TileColor" content="#2b5797">
-    <meta name="theme-color" content="#eaeaea">
+    <meta name="theme-color" content="#135895">
 
     <!-- Styles -->
     @yield('additional_css_files')
