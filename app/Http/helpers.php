@@ -126,7 +126,7 @@ const ATOMIC_LOCK_STRING = "___ATOMIC_LOCK___";
  *      // Generate your $uncached_result. Upon generating it, you find it will be valid until $my_valid_time
  *      $cache_expiry_time = $my_valid_time; // Can be a DateTime object or a number (float/int) of minutes.
  *      return $uncached_result;
- * }
+ * });
  *
  * @param $cache_key key, under which our value is stored
  * @param callable $generate_new_result function to generate a new value
