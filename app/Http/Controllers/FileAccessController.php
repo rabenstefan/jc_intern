@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Auth\AuthController;
+use Carbon\CarbonInterval;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use GuzzleHttp;
@@ -75,13 +76,22 @@ class FileAccessController extends Controller
         return $this->parseResponse($this->connection->request('PUT', 'shares/' . $id, ['json' => $params]));
     }
 
-    private function generateCloudUrl($type = null, $id = null) {
+    private function generateCloudUrl($type, $id) {
         $cache_key = 'cloudshare_url_' . $type . '_' . $id;
-        $cachetime = 710; //minutes
+
         $cloudshare_url = \Cache::get($cache_key);
         if (null === $cloudshare_url) {
-            $config = \Config::get('cloud');
+            // Presumed duration of a typical user's access to the cloud. During this time, the share is guaranteed to stay active.
+            // After the share expires, the user will have to re-access it through this interface.
+            $access_duration = CarbonInterval::minutes(15);
 
+            // Shares always expire at midnight
+            $share_expire_time = Carbon::now()->add($access_duration)->addDay()->startOfDay();
+
+            // The cache should expire before the share expires. This way, we don't run into trouble if someone accesses the share just before midnight
+            $cache_expire_time = $share_expire_time->copy()->sub($access_duration);
+
+            $config = \Config::get('cloud');
             $folder_config = $config['shares'][$type]['folders'][$id];
 
             $this->connectCloud($config['uri'],  $config['shares'][$type]['username'], $config['shares'][$type]['password']);
@@ -91,12 +101,11 @@ class FileAccessController extends Controller
                 'shareType' => 3,
                 'publicUpload' => $folder_config['public_upload'],
                 'permissions' => $folder_config['permissions'],
-                // Shares always expire at midnight. Hence, to make sure that there are no caching problems, we need to keep the share active until midnight after cachetime ends
-                'expireDate' => Carbon::now()->addMinutes($cachetime + 10)->addDay()->toDateString()
+                'expireDate' => $share_expire_time->toDateString()
             ]);
 
             $cloudshare_url = $cloudshare_result->url;
-            \Cache::put($cache_key, $cloudshare_url, $cachetime);
+            \Cache::put($cache_key, $cloudshare_url, $cache_expire_time);
         }
 
         return $cloudshare_url;
