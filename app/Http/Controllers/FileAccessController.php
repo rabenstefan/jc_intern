@@ -79,34 +79,33 @@ class FileAccessController extends Controller
     private function generateCloudUrl($type, $id) {
         $cache_key = 'cloudshare_url_' . $type . '_' . $id;
 
-        $cloudshare_url = \Cache::get($cache_key);
-        if (null === $cloudshare_url) {
+        $cloudshare_url = cache_atomic_lock_provider($cache_key, function ($key, &$cache_expiry_time, $lock_time) use ($type, $id) {
             // Presumed duration of a typical user's access to the cloud. During this time, the share is guaranteed to stay active.
             // After the share expires, the user will have to re-access it through this interface.
             $access_duration = CarbonInterval::minutes(15);
 
             // Shares always expire at midnight
-            $share_expire_time = Carbon::now()->add($access_duration)->addDay()->startOfDay();
+            $share_expiry_time = Carbon::now()->add($access_duration)->addDay()->startOfDay();
 
-            // The cache should expire before the share expires. This way, we don't run into trouble if someone accesses the share just before midnight
-            $cache_expire_time = $share_expire_time->copy()->sub($access_duration);
+            // The cache should expire before the share expires. Additionally, we don't want to run into trouble if someone accesses the share just before midnight
+            $cache_expiry_time = $share_expiry_time->copy()->sub($access_duration);
 
             $config = \Config::get('cloud');
             $folder_config = $config['shares'][$type]['folders'][$id];
 
-            $this->connectCloud($config['uri'],  $config['shares'][$type]['username'], $config['shares'][$type]['password']);
+            $this->connectCloud($config['uri'], $config['shares'][$type]['username'], $config['shares'][$type]['password']);
 
             $cloudshare_result = $this->createShare([
                 'path' => $folder_config['path'],
                 'shareType' => 3,
                 'publicUpload' => $folder_config['public_upload'],
                 'permissions' => $folder_config['permissions'],
-                'expireDate' => $share_expire_time->toDateString()
+                'expireDate' => $share_expiry_time->toDateString()
             ]);
 
-            $cloudshare_url = $cloudshare_result->url;
-            \Cache::put($cache_key, $cloudshare_url, $cache_expire_time);
-        }
+            return $cloudshare_result->url;
+        });
+
 
         return $cloudshare_url;
     }
