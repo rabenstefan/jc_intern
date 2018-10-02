@@ -140,7 +140,7 @@
                                     <br>
                                     <a href="{{ route('fileAccess.accessFiles', ['type' => 'users', 'id' => 2]) }}" target="_blank" class="btn btn-2d btn-clear-below">{{ trans('home.cloudshare_button2') }}</a>
                                     <br>
-                                    <a href="{{ route('fileAccess.accessFiles', ['type' => 'users', 'id' => 3]) }}" target="_blank" class="btn btn-2d btn-success">{{ trans('home.cloudshare_button3') }}</a>
+                                    <a href="{{ route('fileAccess.accessFiles', ['type' => 'users', 'id' => 3]) }}" target="_blank" class="btn btn-2d btn-success btn-clear-below">{{ trans('home.cloudshare_button3') }}</a>
 
                                     @if(Auth::user()->isAdmin())
                                         <br>
