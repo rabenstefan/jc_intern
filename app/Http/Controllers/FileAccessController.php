@@ -80,24 +80,25 @@ class FileAccessController extends Controller
         $cache_key = 'cloudshare_url_' . $type . '_' . $id;
 
         $cloudshare_url = cache_atomic_lock_provider($cache_key, function ($key, &$cache_expiry_time, $lock_time) use ($type, $id) {
-            // Presumed duration of a typical user's access to the cloud. During this time, the share is guaranteed to stay active.
-            // After the share expires, the user will have to re-access it through this interface.
-            $access_duration = CarbonInterval::minutes(15);
-
-            // Shares always expire at midnight
-            $share_expiry_time = Carbon::now()->add($access_duration)->addDay()->startOfDay();
-
-            // The cache should expire before the share expires. Additionally, we don't want to run into trouble if someone accesses the share just before midnight
-            $cache_expiry_time = $share_expiry_time->copy()->sub($access_duration);
-
             $config = \Config::get('cloud');
             $folder_config = $config['shares'][$type]['folders'][$id];
+
+            // Presumed duration of a typical user's access to the cloud. During this time, the share is guaranteed to stay active.
+            // After the share expires, the user will have to re-access it through this interface.
+            $access_duration = CarbonInterval::minutes(30);
+
+            // Shares always expire at midnight, but the server might have a different timezone (usually UTC)
+            $share_expiry_time = Carbon::now($config['timezone'])->add($access_duration)->addDay()->startOfDay();
+
+            // The cache should expire before the share expires. Additionally, we don't want to run into trouble if someone accesses the share just before midnight
+            // There is no need to convert back to our timezone, Cache and Carbon should take care of that
+            $cache_expiry_time = $share_expiry_time->copy()->sub($access_duration);
 
             $this->connectCloud($config['uri'], $config['shares'][$type]['username'], $config['shares'][$type]['password']);
 
             $cloudshare_result = $this->createShare([
                 'path' => $folder_config['path'],
-                'shareType' => 3,
+                'shareType' => 3, // 0 = user; 1 = group; 3 = public link; 6 = federated cloud share
                 'publicUpload' => $folder_config['public_upload'],
                 'permissions' => $folder_config['permissions'],
                 'expireDate' => $share_expiry_time->toDateString()
