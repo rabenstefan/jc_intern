@@ -30,8 +30,7 @@ class AppServiceProvider extends ServiceProvider
         \Html::component('addButton', 'components.button.btn-add', ['title', 'href', 'classes' => [], 'attributes' => []]);
         \Form::component('submitInput2d', 'components.button.submit', ['title' => trans('form.save'), 'attributes' => []]);
 
-        // Versioned form of Html::style and Html::script for cache busting
-        // To enable cache busting, also add the files in question to mix.version in gulpfile.js
+        // Versioned form of Html::style and Html::script for cache busting, which use timestamp of lastmodified as GET-Parameter
         \Html::component('styleV', 'components.html.style-versioned', ['filename']);
         \Html::component('scriptV', 'components.html.script-versioned', ['filename']);
 

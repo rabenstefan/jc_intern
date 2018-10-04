@@ -1,1 +1,1 @@
-{!! Html::style(elixir($filename)) !!}
+{!! Html::style($filename . '?m=' . File::lastModified($filename)) !!}

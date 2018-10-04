@@ -12,7 +12,7 @@
     <link href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Exo+2" rel="stylesheet">
 
-    <!-- Icons -->{{-- where are not using Html::favicon because we need it richer. Instead we use https://realfavicongenerator.net/ --}}
+    <!-- Icons -->{{-- We are not using Html::favicon because we need it richer. Instead we use https://realfavicongenerator.net/ --}}
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=jw7jp5nB2l">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=jw7jp5nB2l">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=jw7jp5nB2l">
