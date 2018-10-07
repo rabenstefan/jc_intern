@@ -6,6 +6,7 @@ use App\Models\Birthday;
 use App\Models\Gig;
 use App\Models\Rehearsal;
 use App\Models\User;
+use App\Models\Semester;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Input;
@@ -202,13 +203,20 @@ class DateController extends Controller {
         }
 
         try {
-            $user = User::where('pseudo_id', '=', $input_user_id)->firstOrFail(['id', 'pseudo_id', 'pseudo_password', 'first_name']);
+            $user = User::where('pseudo_id', '=', $input_user_id)->firstOrFail(['id', 'pseudo_id', 'pseudo_password', 'last_echo', 'first_name']);
         } catch (ModelNotFoundException $e) {
             abort(403);
         }
 
         $generated_key = generate_pseudo_password_hash($user, $input_req_key);
         if ($input_key !== $generated_key) {
+            abort(403);
+        }
+
+        //TODO: make this the default method to check if a user if is active/current
+        $user_echo = new Carbon($user->last_echo()->first()->end);
+        if ($user_echo->isPast()) {
+            // User no longer active
             abort(403);
         }
 
