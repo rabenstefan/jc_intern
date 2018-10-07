@@ -33,6 +33,8 @@ class CreateUsersTable extends Migration
             $table->integer('last_echo')->unsigned()->nullable()->default(null);
             $table->foreign('last_echo')->references('id')->on('semesters')->onDelete('set null');
 
+            $table->sring('pseudo_password');
+
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

@@ -96,10 +96,8 @@ class User extends Authenticatable {
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token', 'pseudo_password'
     ];
-
-    //protected $dateFormat = 'Y-m-d'; // This line breaks construction of all Carbon objects if the date has a time attached to it.
 
     /**
      * Allow soft deletes.

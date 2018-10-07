@@ -5,12 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Birthday;
 use App\Models\Gig;
 use App\Models\Rehearsal;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Input;
 use MaddHatter\LaravelFullcalendar\Event;
 use MaddHatter\LaravelFullcalendar\Facades\Calendar;
-use Cache;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class DateController extends Controller {
     // There are multiple ways to display the dates.
@@ -182,11 +183,27 @@ class DateController extends Controller {
     }
 
     /**
-     * Method to render and ICAL calender.
+     * Method to render an ICAL calender.
      *
      * @return mixed
      */
     public function renderIcal() {
+        if (!Input::has('user_id') || !Input::has('key')) {
+            abort(403);
+        }
+
+        $input_user_id = Input::get('user_id');
+        try {
+            $user = User::findOrFail($input_user_id, ['id', 'pseudo_password', 'first_name']);
+        } catch (ModelNotFoundException $e) {
+            abort(403);
+        }
+
+        $input_pseudo_password = Input::get('key');
+        if ($user->pseudo_password !== $input_pseudo_password) {
+            abort(403);
+        }
+
         $date_types = [];
         if (Input::has('show_types') && is_array(Input::get('show_types')) && (count(Input::get('show_types')) > 0 )) {
             $show_types = Input::get('show_types');
@@ -203,15 +220,22 @@ class DateController extends Controller {
             $date_types = self::$date_types;
         }
 
-        $calendar_id = implode('-', array_keys($date_types));
+        $calendar_id = $user->id . '_' . implode('-', array_keys($date_types));
 
         $cache_key = 'render_ical_' . $calendar_id;
-        $ical = cache_atomic_lock_provider($cache_key, function () use ($date_types, $calendar_id) {
+        $ical = cache_atomic_lock_provider($cache_key, function () use ($date_types, $calendar_id, $user) {
+            $convert_attendance = [
+                'yes' => \Eluceo\iCal\Component\Event::STATUS_CONFIRMED,
+                'no' => \Eluceo\iCal\Component\Event::STATUS_CANCELLED,
+                'maybe' => \Eluceo\iCal\Component\Event::STATUS_TENTATIVE
+                ];
+
             $dates = $this->getDates($date_types);
 
-            $shortDescription = trans('nav.title') . ': ' . implode(' ' . trans('date.and') . ' ', array_map(function ($value) {
-                    return trans('date.' . $value);
-                }, array_keys($date_types)));
+            $calendars_title_merge = implode(' ' . trans('date.and') . ' ', array_map(function ($value) {
+                return trans('date.' . $value);
+            }, array_keys($date_types)));
+            $shortDescription = trans('date.ical_title', ['name' => $user->first_name, 'calendars' => $calendars_title_merge]);
 
             $vCalendar = new \Eluceo\iCal\Component\Calendar('jazzchor_' . $calendar_id);
             $vCalendar->setName($shortDescription);
@@ -224,6 +248,15 @@ class DateController extends Controller {
                     ->setNoTime($date->isAllDay())
                     ->setSummary($date->getTitle())
                     ->setDescription($date->description);
+
+                if (method_exists($date, 'isAttending') && !empty($date->isAttending($user))) {
+                    $vEvent->setStatus($convert_attendance[$date->isAttending($user)]);
+                    if ($date->isAttending($user) === 'no') {
+                        $vEvent->setSummary($date->getTitle() . ' – ' . trans('date.not-going'));
+                        $vEvent->setDescription(trans('date.not_attending') . "\n" . $date->description);
+                    }
+                }
+
                 if (true === $date->hasPlace()) {
                     $vEvent->setLocation($date->place);
                 }

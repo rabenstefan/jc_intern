@@ -9,6 +9,10 @@ return [
     'email'         => 'E-Mail-Adresse',
     'birthday'      => 'Geburtstag',
     'birthdays'     => 'Geburtstage',
+    'gig'           => 'Auftritt',
+    'gigs'          => 'Auftritte',
+    'rehearsal'     => 'Probe',
+    'rehearsals'    => 'Proben',
     'password'      => 'Neues Passwort', // 'password' means 'new_password' to be backwards compatible
     'new_password'  => 'Neues Passwort',
     'old_password'  => 'Passwort',

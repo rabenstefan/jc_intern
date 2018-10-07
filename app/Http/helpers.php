@@ -156,3 +156,42 @@ function cache_atomic_lock_provider($cache_key, callable $generate_new_result, $
     return $result;
 }
 
+/**
+ * Generate an iCal-URL based on the given options.
+ *
+ * This function will provide render_ical with all necessary options, including user_id, pseudo_password and date_types (if given).
+ *
+ * If the prefix is null, we will automatically determine it. The result will look like
+ * "http[s]://[DOMAIN]/render_ical?[...]"
+ *
+ * For a given prefix, the result will become
+ * "[PREFIX][DOMAIN]/render_ical?[...]
+ *
+ * @param $user for whom these links are valid
+ * @param null|String $prefix for the url
+ * @param null|array $date_types
+ * @return string
+ */
+function generate_calendar_url($user, $prefix = null, $date_types = null) {
+    $result = '';
+    $absolute = false;
+
+    if (null === $prefix) {
+        $absolute = true;
+    } else {
+        $result .= $prefix . \Config::get('app.domain');
+    }
+
+    $parameters = [
+        'user_id' => $user->id,
+        'key' => $user->pseudo_password,
+        'req_key' => str_random(3), // This is useful for cache-busting Google Calendars, which will not work properly otherwise
+    ];
+    if (null !== $date_types) {
+        $parameters['show_types'] = $date_types;
+    }
+
+    $result .= route('dates.renderIcal', $parameters, $absolute);
+
+    return $result;
+}

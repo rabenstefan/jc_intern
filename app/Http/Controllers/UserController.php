@@ -113,6 +113,7 @@ class UserController extends Controller {
         );
 
         $data['password'] = bcrypt($data['password']);
+        $data['pseudo_password'] = str_random(20);
 
         $user = User::create($data);
 
@@ -190,6 +191,7 @@ class UserController extends Controller {
             $data = array_filter($request->all());
             $data['password'] = bcrypt($data['password']);
         }
+
 
         $user->update($data);
         if(!$user->save()) {

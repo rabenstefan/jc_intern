@@ -64,9 +64,19 @@ return [
     'no_gigs_in_future'   => 'Keine zukünftigen Auftritte gefunden',
     'view_attendances'    => 'Anwesenheiten zeigen',
     'calendar'  => 'Kalendar',
-    'subscribe_automatically' => 'Automatische Einrichtung',
-    'subscribe_manually'    => 'URLs für manuelle Einrichtung',
     'gcal'      => 'Google Calendar (dauert bis zu 30min)',
     'attendance_not_saved'  => 'Deine Zu- oder Absage konnte nicht gespeichert werden.',
-    'comment_not_saved' => 'Dein Kommentar konnte nicht gespeichert werden.'
+    'comment_not_saved' => 'Dein Kommentar konnte nicht gespeichert werden.',
+    'ical_title'    => 'Jazzchor Uni Bonn Kalendar für :name: :calendars',
+    'calendar_sync_header'   => 'Automatische Kalendar-Synchronisation',
+    'calendar_sync_preamble' => 'Welche Termine sollen synchronisiert werden?',
+    'calendar_sync_intermezzo' => 'Wie möchtest du die Synchronisation einrichten?',
+    'calendar_sync_manual'  => 'Manuell (empfohlen)',
+    'calendar_sync_google'  => 'Automatisch über Google Calendar (experimentell)',
+    'calendar_sync_webcal'  => 'Automatisch über Webcal (experimentell)',
+    'calendar_sync_submit'  => 'Link erstellen',
+    'subscribe_manually'    => 'Zur manuellen Einrichtung bitte diesen Link kopieren und anschließend bei der Software deiner Wahl als Kalendar- oder iCal-Link einfügen.',
+    'subscribe_google'      => 'Einfach auf diesen Link klicken und dann ein wenig warten. Es kann eine ganze Weile dauern bis die Synchronisation auf allen Geräten vollzogen ist.',
+    'subscribe_webcal'      => 'Mit manchen Geräten und Software funktioniert eine automatische Einrichtung über Webcal. Getestet mit einem alten iPhone.',
+    'calendar_sync_conclusion' => 'Du kannst so viele Kalendar auf so vielen Geräten abonnieren wie du möchtest. Sie bleiben so lange gültig wie du aktives Mitglied im Chor bist.'
 ];
