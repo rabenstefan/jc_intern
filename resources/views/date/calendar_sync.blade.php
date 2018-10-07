@@ -22,7 +22,7 @@
 
     <div id="calendar_sync_end">
         <p id="calendar_sync_text">{{ trans('date.subscribe_manually') }}</p>
-        <a id="calendar_sync_link" href="{{ generate_calendar_url(Auth::user()) }}">{{ generate_calendar_url(Auth::user()) }}</a>
+        <a id="calendar_sync_link" target="_blank" href="{{ generate_calendar_url(Auth::user()) }}">{{ generate_calendar_url(Auth::user()) }}</a>
         <p id="calendar_sync_conclusion">{{ trans('date.calendar_sync_conclusion') }}</p>
     </div>
 
