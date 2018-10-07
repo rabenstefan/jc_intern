@@ -31,6 +31,7 @@ return [
     'attendance_error'    => 'Anwesenheit konnte nicht gespeichert werden. Bitte erneut probieren.',
     'excuse_error'        => 'Abwesenheit konnte nicht gespeichert werden. Bitte erneut probieren.',
     'commitment_change_error' => 'Termin konnte nicht gespeichert werden. Bitte erneut probieren.',
+    'user_not_attending'  => 'Du hast diesen Termin abgesagt.',
     'not_attending'       => 'Termin abgesagt',
     'excuse'              => 'Termin absagen',
     'maybe'               => 'Eventuell dabei',

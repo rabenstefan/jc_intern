@@ -270,7 +270,7 @@ class DateController extends Controller {
                     $vEvent->setStatus($convert_attendance[$date->isAttending($user)]);
                     if ($date->isAttending($user) === 'no') {
                         $vEvent->setSummary($date->getTitle() . ' – ' . trans('date.not-going'));
-                        $vEvent->setDescription(trans('date.not_attending') . "\n" . $date->description);
+                        $vEvent->setDescription(trans('date.user_not_attending') . "\n" . $date->description);
                     }
                 }
 
