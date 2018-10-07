@@ -214,7 +214,7 @@ class DateController extends Controller {
         }
 
         //TODO: make this the default method to check if a user if is active/current
-        $user_echo = new Carbon($user->last_echo()->first()->end);
+        $user_echo = new Carbon($user->last_echo()->firstOrFail()->end);
         if ($user_echo->isPast()) {
             // User no longer active
             abort(403);
