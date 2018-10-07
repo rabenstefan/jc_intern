@@ -194,7 +194,7 @@ function generate_calendar_url($user, $prefix = null, $date_types = null) {
         $result .= $prefix . \Config::get('app.domain');
     }
 
-    $req_key = str_random(3);
+    $req_key = str_random(10);
     $parameters = [
         'user_id' => $user->pseudo_id,
         'key' => generate_pseudo_password_hash($user, $req_key),

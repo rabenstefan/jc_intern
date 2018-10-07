@@ -197,7 +197,7 @@ class DateController extends Controller {
         $input_req_key = (String) Input::get('req_key');
 
 
-        if (strlen($input_user_id) < 20 | strlen($input_key) < 20 || strlen($input_req_key) < 3) {
+        if (strlen($input_user_id) < 20 || strlen($input_key) < 20 || strlen($input_req_key) < 3) {
             abort(403);
         }
 
