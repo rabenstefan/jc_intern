@@ -9,7 +9,6 @@ use App\Models\Gig;
 use App\Models\Semester;
 use App\Models\User;
 use Carbon\Carbon;
-use PhpParser\Node\Expr\Array_;
 
 class HomeController extends Controller
 {
@@ -132,7 +131,7 @@ class HomeController extends Controller
         $count = $user->missedRehearsalsCountArray();
         $over_limit = User::checkRehearsalsLimit($count);
 
-        if (0 === $count['total']) {
+        if (0 == $count['total']) {
             // Attended all rehearsals
             $state = 'success';
         } else if ($over_limit) {
@@ -235,7 +234,7 @@ class HomeController extends Controller
             'next_gigs_panel' => $this->prepareNextEventsPanel(Gig::class, 'gigs', $now, $user, true),
             'next_birthdays_panel' => $this->prepareNextBirthdaysPanel($today),
             'echo_needed' => $this->nextEchoNeeded($user, $today),
-            'next_semester' => Semester::nextSemester(),
+            'current_semester' => Semester::current(),
             'today' => $today,
             'now'   => $now,
             'user' => $user

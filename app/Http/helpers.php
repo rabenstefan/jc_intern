@@ -103,3 +103,56 @@ function invert_date_statuses (array $date_statuses) {
     return set_minus(\App\Http\Controllers\DateController::getDateStatuses(), $date_statuses);
 }
 
+const ATOMIC_LOCK_STRING = "___ATOMIC_LOCK___";
+
+/**
+ * Provides simple atomic locks for the cache.
+ *
+ *
+ * If a value is stored under the given key, it will be returned (and $generate_new_result will not be executed).
+ *
+ * If no value is stored under the given key, a new value will be generated using $generate_new_result which will be saved in cache and returned.
+ * If $generate_new_result throws an exception, the atomic lock will be released and the exception will be re-thrown.
+ *
+ * If another instance already claimed the atomic lock, abort(500) will be called (and $generate_new_result will not be executed).
+ *
+ * Upon defining $generate_new_result, you may use pass-by-reference for its parameters.
+ * This is especially useful to change $cache_expiry_time. $cache_expiry time can be a number of minutes or a DateTime-object of the expiration time.
+ * Be aware that changing $cache_key may make your cache unusable. Changing $atomic_lock_time will have no effect.
+ *
+ * Example:
+ *
+ * $cached_result = cache_atomic_lock_provider($my_key, function ($cache_key, &$cache_expiry_time, $atomic_lock_time) {
+ *      // Generate your $uncached_result. Upon generating it, you find it will be valid until $my_valid_time
+ *      $cache_expiry_time = $my_valid_time; // Can be a DateTime object or a number (float/int) of minutes.
+ *      return $uncached_result;
+ * });
+ *
+ * @param $cache_key key, under which our value is stored
+ * @param callable $generate_new_result function to generate a new value
+ * @param \DateTime|float|int $cache_expiry_time in minutes, defaults to 60
+ * @param \DateTime|float|int $atomic_lock_time in minutes, should be at least as long as an execution of $generate_new_result, defaults to 1
+ * @return mixed the cached or newly generated value
+ */
+function cache_atomic_lock_provider($cache_key, callable $generate_new_result, $cache_expiry_time = 60, $atomic_lock_time = 1) {
+    if (!\Cache::add($cache_key, ATOMIC_LOCK_STRING, $atomic_lock_time)) {
+        $result = \Cache::get($cache_key);
+        if (ATOMIC_LOCK_STRING === $result) {
+            // Cache has been locked by another instance
+            abort(500,"We are under heavy load. Please try again in one minute.");
+        }
+    } else {
+        // Cache was empty, we have the atomic lock on the cache.
+        try {
+            $result = $generate_new_result($cache_key, $cache_expiry_time, $atomic_lock_time);
+            \Cache::put($cache_key, $result, $cache_expiry_time);
+        } catch (\Throwable $e) {
+            // Release lock and re-throw exception
+            \Cache::forget($cache_key);
+            throw $e;
+        }
+    }
+
+    return $result;
+}
+

@@ -6,7 +6,12 @@
             <div class="panel panel-2d">
                 <div class="panel-heading">Login</div>
                 <div class="panel-body">
-                    <form class="form-horizontal" role="form" method="POST" action="{{ url('/login') }}">
+                    <noscript>
+                        <div><p>{{ trans('home.noscript_body') }}</p>
+                            <a href="https://www.enable-javascript.com" target="_blank" rel="noreferrer noopener">{{ trans('home.noscript_link') }}</a>
+                        </div>
+                    </noscript>
+                    <form class="form-horizontal hide-from-noscript" role="form" method="POST" action="{{ url('/login') }}">
                         {!! csrf_field() !!}
 
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
@@ -24,7 +29,7 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                            <label class="col-md-4 control-label">{{ trans('form.password') }}</label>
+                            <label class="col-md-4 control-label">{{ trans('form.old_password') }}</label>
 
                             <div class="col-md-6">
                                 <input type="password" class="form-control form-control-2d" name="password">

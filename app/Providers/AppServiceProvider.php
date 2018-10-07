@@ -28,7 +28,11 @@ class AppServiceProvider extends ServiceProvider
         
         // Buttons
         \Html::component('addButton', 'components.button.btn-add', ['title', 'href', 'classes' => [], 'attributes' => []]);
-        \Form::component('submitInput2d', 'components.button.submit', ['attributes' => [], 'title' => trans('form.save')]);
+        \Form::component('submitInput2d', 'components.button.submit', ['title' => trans('form.save'), 'attributes' => []]);
+
+        // Versioned form of Html::style and Html::script for cache busting, which use timestamp of lastmodified as GET-Parameter
+        \Html::component('styleV', 'components.html.style-versioned', ['filename']);
+        \Html::component('scriptV', 'components.html.script-versioned', ['filename']);
 
         // Add an urlescape directive to Blade templates.
         \Blade::directive('urlescape', function ($expression) {

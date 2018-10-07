@@ -12,14 +12,26 @@
     <link href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Exo+2" rel="stylesheet">
 
+    <!-- Icons -->{{-- We are not using Html::favicon because we need it richer. Instead we use https://realfavicongenerator.net/ --}}
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=jw7jp5nB2l">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=jw7jp5nB2l">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=jw7jp5nB2l">
+    <link rel="manifest" href="/site.webmanifest?v=jw7jp5nB2l">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg?v=jw7jp5nB2l" color="#135895">
+    <link rel="shortcut icon" href="/favicon.ico?v=jw7jp5nB2l">
+    <meta name="apple-mobile-web-app-title" content="Jazzchor der Uni Bonn">
+    <meta name="application-name" content="Jazzchor der Uni Bonn">
+    <meta name="msapplication-TileColor" content="#2b5797">
+    <meta name="theme-color" content="#135895">
+
     <!-- Styles -->
     @yield('additional_css_files')
-    {!! Html::style('css/app.css') !!}
+    {!! Html::styleV('css/app.css') !!}
 
     <!-- JavaScripts -->
-    {!! Html::script('js/jquery.min.js') !!}
-    {!! Html::script('js/jquery.modal.min.js') !!}
-    {!! Html::script('js/all.js') !!}
+    {!! Html::scriptV('js/jquery.min.js') !!}
+    {!! Html::scriptV('js/jquery.modal.min.js') !!}
+    {!! Html::scriptV('js/all.js') !!}
     @yield('additional_js_files')
 
     <script type="text/javascript">
@@ -46,8 +58,13 @@
             arrowSize: 5
         };
     </script>
+
+    <noscript><style type="text/css">.hide-from-noscript{display: none;}</style></noscript>
 </head>
 <body id="app-layout" data-spy="scroll" data-target="#scroll-spy-nav">
+    <?php if (!isset($hide_navbar)) {$hide_navbar = false;} ?>
+
+    @if($hide_navbar === false)
     <nav class="navbar navbar-default navbar-2d navbar-static-top">
         <div class="container">
             <div class="navbar-header">
@@ -163,7 +180,10 @@
                             </a>
 
                             <ul class="dropdown-menu" role="menu">
-                                <li><form action="{{ url('/logout') }}" method="post"><a href="#" onclick="this.parentNode.submit()"><i class="fa fa-btn fa-sign-out"></i>&nbsp;Logout</a></form></li>
+                                <li>
+                                    <form id="logout-form" style="display:none;" action="{{ url('/logout') }}" method="post">{!! csrf_field() !!}</form>
+                                    <a href="#" onclick="$('#logout-form').submit()"><i class="fa fa-btn fa-sign-out-alt"></i>&nbsp;Logout</a>
+                                </li>
                             </ul>
                         </li>
                     @endif
@@ -171,6 +191,7 @@
             </div>
         </div>
     </nav>
+    @endif
 
     <div class="container">
         <div class="hidden-xs hidden-sm col-md-1">
@@ -183,6 +204,7 @@
                 </a>--}}
             </div>
         </div>
+
         <div class="col-xs-12 col-md-10">
             @yield('content')
         </div>
@@ -204,5 +226,7 @@
     </script>
 
     @yield('js')
+
+    <p id="footer"><a href="{{ Config::get('app.imprint') }}">{{ trans('home.imprint') }}</a> &bull; <a href="{{ Config::get('app.privacy_policy') }}">{{ trans('home.privacy_policy') }}</a></p>
 </body>
 </html>
