@@ -113,7 +113,22 @@ class UserController extends Controller {
         );
 
         $data['password'] = bcrypt($data['password']);
-        $data['pseudo_password'] = str_random(20);
+
+        // Generate a pseudo_id which is unique
+        for ($length = 20; $length <= 255; $length++) {
+            $pseudo_id = str_random($length);
+            if (User::where('pseudo_id', '=', $pseudo_id)->count() === 0) {
+                // This is virtually guaranteed to succeed during the first loop
+                break;
+            }
+            if ($length === 255) {
+                abort(500, "WTF?");
+            }
+        }
+
+
+        $data['pseudo_id'] = $pseudo_id;
+        $data['pseudo_password'] = str_random(222);
 
         $user = User::create($data);
 

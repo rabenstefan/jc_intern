@@ -23,6 +23,8 @@ $factory->define(App\Models\User::class, function (Faker\Generator $faker) {
         'address_city' => $faker->city,
         'birthday' => $faker->date(),
         'last_echo' => 1,
+        'pseudo_id' => str_random(20),
+        'pseudo_password' => str_random(222),
         'phone' => $faker->phoneNumber,
     ];
 });

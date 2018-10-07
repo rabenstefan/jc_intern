@@ -188,19 +188,27 @@ class DateController extends Controller {
      * @return mixed
      */
     public function renderIcal() {
-        if (!Input::has('user_id') || !Input::has('key')) {
+        if (!Input::has('user_id') || !Input::has('key') || !Input::has('req_key')) {
             abort(403);
         }
 
-        $input_user_id = Input::get('user_id');
+        $input_user_id = (String) Input::get('user_id');
+        $input_key = (String) Input::get('key');
+        $input_req_key = (String) Input::get('req_key');
+
+
+        if (strlen($input_user_id) < 20 | strlen($input_key) < 20 || strlen($input_req_key) < 3) {
+            abort(403);
+        }
+
         try {
-            $user = User::findOrFail($input_user_id, ['id', 'pseudo_password', 'first_name']);
+            $user = User::where('pseudo_id', '=', $input_user_id)->firstOrFail(['id', 'pseudo_id', 'pseudo_password', 'first_name']);
         } catch (ModelNotFoundException $e) {
             abort(403);
         }
 
-        $input_pseudo_password = Input::get('key');
-        if ($user->pseudo_password !== $input_pseudo_password) {
+        $generated_key = generate_pseudo_password_hash($user, $input_req_key);
+        if ($input_key !== $generated_key) {
             abort(403);
         }
 
@@ -221,9 +229,10 @@ class DateController extends Controller {
         }
 
         $calendar_id = $user->id . '_' . implode('-', array_keys($date_types));
+        $calendar_name = implode('-', array_keys($date_types)) . '_' . $user->pseudo_id;
 
         $cache_key = 'render_ical_' . $calendar_id;
-        $ical = cache_atomic_lock_provider($cache_key, function () use ($date_types, $calendar_id, $user) {
+        $ical = cache_atomic_lock_provider($cache_key, function () use ($date_types, $calendar_name, $user) {
             $convert_attendance = [
                 'yes' => \Eluceo\iCal\Component\Event::STATUS_CONFIRMED,
                 'no' => \Eluceo\iCal\Component\Event::STATUS_CANCELLED,
@@ -237,7 +246,7 @@ class DateController extends Controller {
             }, array_keys($date_types)));
             $shortDescription = trans('date.ical_title', ['name' => $user->first_name, 'calendars' => $calendars_title_merge]);
 
-            $vCalendar = new \Eluceo\iCal\Component\Calendar('jazzchor_' . $calendar_id);
+            $vCalendar = new \Eluceo\iCal\Component\Calendar('jazzchor_' . $calendar_name);
             $vCalendar->setName($shortDescription);
             $vCalendar->setDescription($shortDescription);
             foreach ($dates as $date) {
@@ -271,7 +280,7 @@ class DateController extends Controller {
         return response($ical)->setExpires(Carbon::now('UTC')->addHours(12)) // make sync-clients wait for 12 hours
             ->withHeaders([
                 'Content-Type' => 'text/calendar; charset=utf-8',
-                'Content-Disposition' => 'attachment; filename="calendar_'.$calendar_id.'.ics"'
+                'Content-Disposition' => 'attachment; filename="calendar_'.$calendar_name.'.ics"'
             ]);
     }
 }

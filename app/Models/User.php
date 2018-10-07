@@ -96,7 +96,12 @@ class User extends Authenticatable {
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token', 'pseudo_password'
+        'password', 'remember_token', 'pseudo_password', 'pseudo_id'
+        /*
+         * The Pseudo ID will be passed by calendar-sync-clients to identify the user.
+         * This dedicated field should be filled with a random string to reveal as little information about our system as possible.
+         * The Pseudo Password is a 'reverse' password. That means, the server stores the clear text, whereas the client only ever gets to see the hash.
+         */
     ];
 
     /**

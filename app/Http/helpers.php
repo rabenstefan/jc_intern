@@ -157,6 +157,18 @@ function cache_atomic_lock_provider($cache_key, callable $generate_new_result, $
 }
 
 /**
+ * The password hash used by all calendar synchronizations. The user is allowed to see the hash, but never the pseudo_password.
+ *
+ * We use sha256 for hashing and salt with the user's id as well as the req_key.
+ *
+ * @param $user
+ * @return string
+ */
+function generate_pseudo_password_hash($user, $req_key) {
+    return hash('sha256', $user->id . '_' . $req_key . '_'. $user->pseudo_password);
+}
+
+/**
  * Generate an iCal-URL based on the given options.
  *
  * This function will provide render_ical with all necessary options, including user_id, pseudo_password and date_types (if given).
@@ -182,10 +194,11 @@ function generate_calendar_url($user, $prefix = null, $date_types = null) {
         $result .= $prefix . \Config::get('app.domain');
     }
 
+    $req_key = str_random(3);
     $parameters = [
-        'user_id' => $user->id,
-        'key' => $user->pseudo_password,
-        'req_key' => str_random(3), // This is useful for cache-busting Google Calendars, which will not work properly otherwise
+        'user_id' => $user->pseudo_id,
+        'key' => generate_pseudo_password_hash($user, $req_key),
+        'req_key' => $req_key,
     ];
     if (null !== $date_types) {
         $parameters['show_types'] = $date_types;

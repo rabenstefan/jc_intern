@@ -19,7 +19,8 @@ class UsersTableSeeder extends Seeder
             'password' => bcrypt('secret'),
             'voice_id' => 1,
             'last_echo' => 1,
-            'pseudo_password' => str_random(20),
+            'pseudo_id' => str_random(20),
+            'pseudo_password' => str_random(222),
         ]);
 
         /*DB::table('users')->insert([

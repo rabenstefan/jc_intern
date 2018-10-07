@@ -33,7 +33,14 @@ class CreateUsersTable extends Migration
             $table->integer('last_echo')->unsigned()->nullable()->default(null);
             $table->foreign('last_echo')->references('id')->on('semesters')->onDelete('set null');
 
-            $table->sring('pseudo_password');
+            // Pseudo-ID and -password for calendar synchronization
+            $table->string('pseudo_id')->unique();
+            $table->string('pseudo_password');
+            /*
+             * The Pseudo ID will be passed by calendar-sync-clients to identify the user.
+             * This dedicated field should be filled with a random string to reveal as little information about our system as possible.
+             * The Pseudo Password is a 'reverse' password. That means, the server stores the clear text, whereas the client only ever gets to see the hash.
+             */
 
             $table->rememberToken();
             $table->timestamps();
