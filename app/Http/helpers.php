@@ -208,3 +208,18 @@ function generate_calendar_url($user, $prefix = null, $date_types = null) {
 
     return $result;
 }
+
+/**
+ * Uses NumberFormatter to prettify a decimal number. Uses the configured locale.
+ *
+ * @param $number
+ * @param int $max_digits
+ * @param int $min_digits
+ * @return string
+ */
+function format_number($number, $max_digits = 2, $min_digits = 0) {
+    $formatter = new \NumberFormatter(config('locale'), \NumberFormatter::DECIMAL);
+    $formatter->setAttribute(\NumberFormatter::MIN_FRACTION_DIGITS, $min_digits);
+    $formatter->setAttribute(\NumberFormatter::MAX_FRACTION_DIGITS, $max_digits);
+    return $formatter->format($number);
+}

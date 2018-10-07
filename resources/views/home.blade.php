@@ -87,11 +87,11 @@
                             <div class="panel-heading  panel-heading-{{ $missed_rehearsals_panel['state'] }}">{{ trans('home.missed_rehearsals_heading') }}</div>
                             <div class="panel-element panel-element-{{ $missed_rehearsals_panel['state'] }}">
                                 <div class="panel-element-main panel-element-body">
-                                    <div class="panel-element-main panel-element-main-number ">{{ $missed_rehearsals_panel['count']['total'] }}</div>
-                                    @if(0 === $missed_rehearsals_panel['count']['total'])
+                                    <div class="panel-element-main panel-element-main-number ">{{ format_number($missed_rehearsals_panel['count']['total']) }}</div>
+                                    @if(0 == $missed_rehearsals_panel['count']['total'])
                                         <p>{{ trans('home.missed_rehearsals_body_success') }}</p>
                                     @else
-                                        <p>{{ trans('home.missed_rehearsals_body', $missed_rehearsals_panel['count']) }}</p>
+                                        <p>{{ trans('home.missed_rehearsals_body', array_map('format_number', $missed_rehearsals_panel['count'])) }}</p>
                                         @if($missed_rehearsals_panel['data']['over_limit'])
                                             <p>{{ trans('home.over_limit') }}</p>
                                         @endif

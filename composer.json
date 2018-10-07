@@ -15,7 +15,8 @@
         "greggilbert/recaptcha": "^2.2",
         "ext-mbstring": "*",
         "guzzlehttp/guzzle": "~6.0",
-        "ext-json": "*"
+        "ext-json": "*",
+        "ext-intl": "*"
     },
     "require-dev": {
         "doctrine/dbal": "~2.3",
