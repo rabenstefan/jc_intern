@@ -1032,15 +1032,18 @@ div.checkbox input, div.radio input {
 
 .notifyjs-shadow2d-base {
   font-weight: bold;
-  padding: 1em 2em 1em 0;
+  padding: 1em 2em 1em 2em;
   color: $main-color;
   background-color: #fff;
   @include shadow-2d($grey-darker);
+  display: block;
+  margin: 0.5em 1em 0 1em;
 
   &:before {
     @include fa();
     @include fa-exclamation();
-    padding: 0 1em;
+    margin-left: -2em;
+    padding: 0 0.8em;
   }
 
   &.notifyjs-shadow2d-success {
