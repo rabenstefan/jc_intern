@@ -2,12 +2,16 @@
 
 return [
     'uri' => env('CLOUDSHARE_OCS_URI', 'localhost/'), // IMPORTANT: only use SSL/TLS-connections!
+    'timezone' => env('CLOUDSHARE_TIMEZONE', 'UTC'), // Cloud-Server is likely in a different timezone, UTC is default for NextCloud
     'shares' => [
         'users' => [
             'requires_admin' => false,
             'username' => env('CLOUDSHARE_USERS_USERNAME', ''),
             'password' => env('CLOUDSHARE_USERS_PASSWORD', ''),
             'folders' => [
+                /*
+                 * Permissions:  1 = read; 2 = update; 4 = create; 8 = delete; 16 = share; 31 = all
+                 */
                 1 => [
                     'path' => '/Übe-Dateien',
                     'public_upload' => 'false',

@@ -3,14 +3,14 @@
 @section('title'){{ trans('date.index_title') }}@endsection
 
 @section('additional_css_files')
-    {!! Html::style('css/fullcalendar.min.css') !!}
+    {!! Html::styleV('css/fullcalendar.min.css') !!}
 @endsection
 
 @section('additional_js_files')
-    {!! Html::script('js/jquery-ui.custom.min.js') !!}
-    {!! Html::script('js/moment.min.js') !!}
-    {!! Html::script('js/fullcalendar.min.js') !!}
-    {!! Html::script('js/lang/de.js') !!}
+    {!! Html::scriptV('js/jquery-ui.custom.min.js') !!}
+    {!! Html::scriptV('js/moment.min.js') !!}
+    {!! Html::scriptV('js/fullcalendar.min.js') !!}
+    {!! Html::scriptV('js/lang/de.js') !!}
 @endsection
 
 @section('content')
