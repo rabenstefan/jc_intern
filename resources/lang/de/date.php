@@ -61,6 +61,7 @@ return [
     'comment_success'     => 'Kommentar gespeichert',
     'your_comment'        => 'Dein Kommentar:',
     'comment_error'       => 'Kommentar konnt nicht gespeichert werden ¯\_(ツ)_/¯',
+    'weight'              => 'Bei dieser Probe zu fehlen zählt als :weight Fehlproben',
     'gig_listAttendances_title' => 'Auftritt-Teilnahmen',
     'no_gigs_in_future'   => 'Keine zukünftigen Auftritte gefunden',
     'view_attendances'    => 'Anwesenheiten zeigen',

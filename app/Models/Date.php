@@ -92,6 +92,10 @@ trait Date {
         return false;
     }
 
+    public function isWeighted() {
+        return false;
+    }
+
     /**
      * No need for old events.
      *

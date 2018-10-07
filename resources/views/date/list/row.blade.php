@@ -44,6 +44,9 @@
                         <em>{{ trans('date.your_comment') }} {{ $date->getComment() }}</em>
                     </p>
                 @endif
+                @if($date->isWeighted())
+                    <p class="date_weight"><strong>{{ trans('date.weight', ['weight' => $date->weight]) }}</strong></p>
+                @endif
             </div>
             <div class="col-xs-12 col-sm-3 col-lg-2 event-controls">
                 @if($date->needsAnswer())
