@@ -16,7 +16,8 @@
         "ext-mbstring": "*",
         "guzzlehttp/guzzle": "^6.0",
         "ext-json": "*",
-        "fideloper/proxy": "^4.0"
+        "fideloper/proxy": "^4.0",
+        "ext-intl": "*"
     },
     "require-dev": {
         "doctrine/dbal": "^2.3",
