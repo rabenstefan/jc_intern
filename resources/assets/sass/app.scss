@@ -34,9 +34,13 @@
 
 @mixin shadow-2d($color, $important: '') {
   @include border-radius(0, $important);
-  border: none #{$important};
   border-bottom: 3px solid $color #{$important};
   @include box-shadow(none);
+}
+
+.btn {
+  // Override border: 1px solid transparent; from button.scss because it interferes with different button styles in unforeseeable ways
+  border: none;
 }
 
 @mixin noselect() {
@@ -1161,6 +1165,6 @@ a.inline-link {
   }
 }
 
-#calendar_sync_end, #calendar_sync_conclusion {
+#calendar_sync_end, #calendar_sync_conclusion, #calendar_sync_intermezzo {
   margin-top: 2em;
 }
