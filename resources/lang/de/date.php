@@ -77,8 +77,11 @@ return [
     'calendar_sync_google'  => 'Automatisch über Google Calendar (experimentell)',
     'calendar_sync_webcal'  => 'Automatisch über Webcal (experimentell)',
     'calendar_sync_submit'  => 'Link erstellen',
-    'subscribe_manually'    => 'Zur manuellen Einrichtung bitte diesen Link kopieren und anschließend bei der Software deiner Wahl als Kalendar- oder iCal-Link einfügen.',
-    'subscribe_google'      => 'Einfach auf diesen Link klicken und dann ein wenig warten. Es kann eine ganze Weile dauern bis die Synchronisation auf allen Geräten vollzogen ist.',
+    'subscribe_manually'    => 'Zur manuellen Einrichtung bitte den Link kopieren und anschließend bei der Software deiner Wahl als Kalendar- oder iCal-Link einfügen.',
+    'subscribe_google'      => 'Einfach auf den Link klicken und dann ein wenig warten. Es kann eine ganze Weile dauern bis die Synchronisation auf allen Geräten vollzogen ist.',
     'subscribe_webcal'      => 'Mit manchen Geräten und Software funktioniert eine automatische Einrichtung über Webcal. Bei Outlook und iPhone beispielsweise funktioniert das mal, mal aber auch nicht. Einfach draufklicken.',
-    'calendar_sync_conclusion' => 'Du kannst so viele Kalendar auf so vielen Geräten abonnieren wie du möchtest. Sie bleiben so lange gültig wie du aktives Mitglied im Chor bist.'
+    'calendar_sync_conclusion' => 'Du kannst so viele Kalendar auf so vielen Geräten abonnieren wie du möchtest. Sie bleiben so lange gültig wie du aktives Mitglied im Chor bist.',
+    'link_manually'         => 'Hier rechtsklicken oder lange gedrückt halten.',
+    'link_google'           => 'Hier draufklicken.',
+    'link_webcal'           => 'Hier draufklicken.',
 ];

@@ -21,9 +21,8 @@
     {!! Form::close() !!}
 
     <div id="calendar_sync_end">
-        <p id="calendar_sync_text">{{ trans('date.subscribe_manually') }}</p>
-        <?php $predefined_link = generate_calendar_url(Auth::user()); ?>
-        <a id="calendar_sync_link" target="_blank" href="{{ $predefined_link }}">{{ $predefined_link }}</a>
+        <p id="calendar_sync_text">loading</p>
+        <a id="calendar_sync_link" target="_blank" href="/">loading</a>
         <p id="calendar_sync_conclusion">{{ trans('date.calendar_sync_conclusion') }}</p>
     </div>
 
@@ -32,17 +31,17 @@
 @section('js')
     <script type="text/javascript">
         $(document).ready(function () {
-            var methods = {
+            var explanations = {
                 'manual': "{{ trans('date.subscribe_manually') }}",
                 'google': "{{ trans('date.subscribe_google') }}",
                 'webcal': "{{ trans('date.subscribe_webcal') }}"
             };
 
-            <?php $temp_link = \Config::get('app.domain') . route('dates.renderIcal', [
-                    'user_id' => Auth::getUser()->id,
-                    'key' => Auth::user()->pseudo_password,
-                    'req_key' => str_random(3),
-                ], false); ?>
+            var link_names = {
+                'manual': "{{ trans('date.link_manually') }}",
+                'google': "{{ trans('date.link_google') }}",
+                'webcal': "{{ trans('date.link_webcal') }}"
+            };
 
             var links = {
                 'EMPTY': {
@@ -81,11 +80,16 @@
                     date_types = "EMPTY";
                 }
 
-                link_element.text(links[date_types][method]);
                 link_element.attr('href', links[date_types][method]);
-                text_element.text(methods[method]);
+                link_element.text(link_names[method]);
+                text_element.text(explanations[method]);
             }
 
+            // Initialize fields
+            generate_content();
+
+
+            // Make sure to change the contents of this page when a users changes their selection.
 
             $('.ical_link_generator').change(function() {
                 generate_content();
@@ -95,6 +99,7 @@
                 generate_content();
                 return false;
             });
+
         });
     </script>
 @endsection
