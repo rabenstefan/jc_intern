@@ -110,6 +110,15 @@ class Rehearsal extends \Eloquent implements IdentifiableEvent {
     }
 
     /**
+     * Tells you if there is a non-standard weight attached to this rehearsal
+     *
+     * @return bool
+     */
+    public function isWeighted() {
+        return $this->weight != 1.0;
+    }
+
+    /**
      * Get the event's title
      *
      * @return string

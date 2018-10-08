@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>@yield('title', 'Interner Bereich') - {{ trans('nav.title') }}</title>
+    <title>@yield('title', 'Interner Bereich') &ndash; {{ trans('nav.title') }}</title>
 
     <!-- Fonts -->
     <link href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" rel="stylesheet">
@@ -23,6 +23,11 @@
     <meta name="application-name" content="Jazzchor der Uni Bonn">
     <meta name="msapplication-TileColor" content="#2b5797">
     <meta name="theme-color" content="#135895">
+
+    @if(Auth::check())
+    <!-- iCal-Link -->
+    <link rel="alternate" type="text/calendar" title="Jazzchor der Uni Bonn &raquo; Interner Kalender" href="{{ generate_calendar_url(Auth::user()) }}" >
+    @endif {{-- This might have security implications if people save the HTML-site --}}
 
     <!-- Styles -->
     @yield('additional_css_files')

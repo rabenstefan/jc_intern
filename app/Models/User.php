@@ -96,10 +96,13 @@ class User extends Authenticatable {
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token', 'pseudo_password', 'pseudo_id'
+        /*
+         * The Pseudo ID will be passed by calendar-sync-clients to identify the user.
+         * This dedicated field should be filled with a random string to reveal as little information about our system as possible.
+         * The Pseudo Password is a 'reverse' password. That means, the server stores the clear text, whereas the client only ever gets to see the hash.
+         */
     ];
-
-    //protected $dateFormat = 'Y-m-d'; // This line breaks construction of all Carbon objects if the date has a time attached to it.
 
     /**
      * Allow soft deletes.

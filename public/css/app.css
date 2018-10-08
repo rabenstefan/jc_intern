@@ -6734,4 +6734,7 @@ a.inline-link {
   #attendance-list tr.user td.not-attending {
     background-color: #e7280f; }
 
+#calendar_sync_end, #calendar_sync_conclusion {
+  margin-top: 2em; }
+
 /*# sourceMappingURL=app.css.map */

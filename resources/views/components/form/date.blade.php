@@ -3,5 +3,11 @@
     @if(false !== $helpBubble)
         {{ Form::helpBubble($helpBubble) }}
     @endif
-    {{ Form::date($name, null, array_merge(['class' => 'form-control form-control-2d'], $attributes)) }}
+    <?php
+    $class = 'form-control form-control-2d';
+    if (array_key_exists('class', $attributes)) {
+        $class .= ' ' . $attributes['class'];
+    }
+    ?>
+    {{ Form::date($name, null, array_merge($attributes, ['class' => $class])) }}
 </div>

@@ -5,7 +5,7 @@
                 <h4 class="title">
                     {{ $date->getTitle() }}
                     <span class="not-going-note" style="{{ in_array('not-going', $date->getApplicableFilters())  ? 'display: inline;' : 'display: none;' }};">
-                        {{ ' &ndash; ' . trans('date.not_attending') }}
+                        &ndash; {{ trans('date.not_attending') }}
                     </span>
                     @if($date->hasPlace())
                         <br>
@@ -43,6 +43,9 @@
                     <p class="date_comment">
                         <em>{{ trans('date.your_comment') }} {{ $date->getComment() }}</em>
                     </p>
+                @endif
+                @if($date->isWeighted())
+                    <p class="date_weight"><strong>{{ trans('date.weight', ['weight' => localize_number($date->weight)]) }}</strong></p>
                 @endif
             </div>
             <div class="col-xs-12 col-sm-3 col-lg-2 event-controls">

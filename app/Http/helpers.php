@@ -156,3 +156,78 @@ function cache_atomic_lock_provider($cache_key, callable $generate_new_result, $
     return $result;
 }
 
+/**
+ * The password hash used by all calendar synchronizations. The user is allowed to see the hash, but never the pseudo_password.
+ *
+ * We use sha256 for hashing and salt with the user's id, the req_key and the date_types.
+ *
+ * @param $user
+ * @param string $req_key
+ * @param null|array $date_types
+ * @return string
+ */
+function generate_calendar_password_hash($user, $req_key, $date_types) {
+    if ($date_types === null) {
+        $date_types = [];
+    }
+    sort($date_types);
+
+    $salt = $user->id . '_' . $req_key . '_'. json_encode($date_types);
+    return hash('sha256', $salt . $user->pseudo_password);
+}
+
+/**
+ * Generate an iCal-URL based on the given options.
+ *
+ * This function will provide render_ical with all necessary options, including user_id, pseudo_password and date_types (if given).
+ *
+ * If the prefix is null, we will automatically determine it. The result will look like
+ * "http[s]://[DOMAIN]/render_ical?[...]"
+ *
+ * For a given prefix, the result will become
+ * "[PREFIX][DOMAIN]/render_ical?[...]
+ *
+ * @param $user for whom these links are valid
+ * @param null|String $prefix for the url
+ * @param null|array $date_types
+ * @return string
+ */
+function generate_calendar_url($user, $prefix = null, $date_types = null) {
+    $result = '';
+    $absolute = false;
+
+    if (null === $prefix) {
+        $absolute = true;
+    } else {
+        $result .= $prefix . \Config::get('app.domain');
+    }
+
+    $req_key = str_random(10);
+    $parameters = [
+        'user_id' => $user->pseudo_id,
+        'key' => generate_calendar_password_hash($user, $req_key, $date_types),
+        'req_key' => $req_key,
+    ];
+    if (null !== $date_types) {
+        $parameters['show_types'] = $date_types;
+    }
+
+    $result .= route('dates.renderIcal', $parameters, $absolute);
+
+    return $result;
+}
+
+/**
+ * Uses NumberFormatter to prettify a decimal number. Uses the configured locale.
+ *
+ * @param $number
+ * @param int $max_digits
+ * @param int $min_digits
+ * @return string
+ */
+function localize_number($number, $max_digits = 2, $min_digits = 0) {
+    $formatter = new \NumberFormatter(config('locale_strict'), \NumberFormatter::DECIMAL);
+    $formatter->setAttribute(\NumberFormatter::MIN_FRACTION_DIGITS, $min_digits);
+    $formatter->setAttribute(\NumberFormatter::MAX_FRACTION_DIGITS, $max_digits);
+    return $formatter->format($number);
+}

@@ -1,7 +1,13 @@
 <div class="checkbox">
     <label>
-        {{ Form::hidden($name, 0, array_merge(['class' => 'form-control form-control-2d'], $attributes)) }}
-        {{ Form::checkbox($name, 1, $value, array_merge(['class' => 'form-control form-control-2d'], $attributes)) }}
+        <?php
+            $class = 'form-control form-control-2d';
+            if (array_key_exists('class', $attributes)) {
+                $class .= ' ' . $attributes['class'];
+            }
+        ?>
+        {{ Form::hidden($name, 0, array_merge($attributes, ['class' => $class])) }}
+        {{ Form::checkbox($name, 1, $value, array_merge($attributes, ['class' => $class])) }}
         <span>{{ trans('form.' . $name) }}</span>
     </label>
 </div>

@@ -5,12 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Birthday;
 use App\Models\Gig;
 use App\Models\Rehearsal;
+use App\Models\User;
+use App\Models\Semester;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Input;
 use MaddHatter\LaravelFullcalendar\Event;
 use MaddHatter\LaravelFullcalendar\Facades\Calendar;
-use Cache;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class DateController extends Controller {
     // There are multiple ways to display the dates.
@@ -182,11 +184,30 @@ class DateController extends Controller {
     }
 
     /**
-     * Method to render and ICAL calender.
+     * Method to render an ICAL calender.
      *
      * @return mixed
      */
     public function renderIcal() {
+        if (!Input::has('user_id') || !Input::has('key') || !Input::has('req_key')) {
+            abort(403);
+        }
+
+        $input_user_id = (String) Input::get('user_id');
+        $input_key = (String) Input::get('key');
+        $input_req_key = (String) Input::get('req_key');
+
+
+        if (strlen($input_user_id) < 20 || strlen($input_key) < 20 || strlen($input_req_key) < 3) {
+            abort(403);
+        }
+
+        try {
+            $user = User::where('pseudo_id', '=', $input_user_id)->firstOrFail(['id', 'pseudo_id', 'pseudo_password', 'last_echo', 'first_name']);
+        } catch (ModelNotFoundException $e) {
+            abort(403);
+        }
+
         $date_types = [];
         if (Input::has('show_types') && is_array(Input::get('show_types')) && (count(Input::get('show_types')) > 0 )) {
             $show_types = Input::get('show_types');
@@ -199,21 +220,42 @@ class DateController extends Controller {
             }
         }
 
+        $generated_key = generate_calendar_password_hash($user, $input_req_key, array_keys($date_types));
+        if ($input_key !== $generated_key) {
+            abort(403);
+        }
+
         if (empty($date_types)) {
             $date_types = self::$date_types;
         }
 
-        $calendar_id = implode('-', array_keys($date_types));
+        //TODO: make this the default method to check if a user if is active/current
+        $user_echo = new Carbon($user->last_echo()->firstOrFail()->end);
+        if ($user_echo->isPast()) {
+            // User no longer active
+            abort(403);
+        }
+
+
+        $calendar_id = $user->id . '_' . implode('-', array_keys($date_types));
+        $calendar_name = implode('-', array_keys($date_types)) . '_' . $user->pseudo_id;
 
         $cache_key = 'render_ical_' . $calendar_id;
-        $ical = cache_atomic_lock_provider($cache_key, function () use ($date_types, $calendar_id) {
+        $ical = cache_atomic_lock_provider($cache_key, function () use ($date_types, $calendar_name, $user) {
+            $convert_attendance = [
+                'yes' => \Eluceo\iCal\Component\Event::STATUS_CONFIRMED,
+                'no' => \Eluceo\iCal\Component\Event::STATUS_CANCELLED,
+                'maybe' => \Eluceo\iCal\Component\Event::STATUS_TENTATIVE
+                ];
+
             $dates = $this->getDates($date_types);
 
-            $shortDescription = trans('nav.title') . ': ' . implode(' ' . trans('date.and') . ' ', array_map(function ($value) {
-                    return trans('date.' . $value);
-                }, array_keys($date_types)));
+            $calendars_title_merge = implode(' ' . trans('date.and') . ' ', array_map(function ($value) {
+                return trans('date.' . $value);
+            }, array_keys($date_types)));
+            $shortDescription = trans('date.ical_title', ['name' => $user->first_name, 'calendars' => $calendars_title_merge]);
 
-            $vCalendar = new \Eluceo\iCal\Component\Calendar('jazzchor_' . $calendar_id);
+            $vCalendar = new \Eluceo\iCal\Component\Calendar('jazzchor_' . $calendar_name);
             $vCalendar->setName($shortDescription);
             $vCalendar->setDescription($shortDescription);
             foreach ($dates as $date) {
@@ -224,6 +266,15 @@ class DateController extends Controller {
                     ->setNoTime($date->isAllDay())
                     ->setSummary($date->getTitle())
                     ->setDescription($date->description);
+
+                if (method_exists($date, 'isAttending') && !empty($date->isAttending($user))) {
+                    $vEvent->setStatus($convert_attendance[$date->isAttending($user)]);
+                    if ($date->isAttending($user) === 'no') {
+                        $vEvent->setSummary($date->getTitle() . ' – ' . trans('date.not-going'));
+                        $vEvent->setDescription(trans('date.user_not_attending') . "\n" . $date->description);
+                    }
+                }
+
                 if (true === $date->hasPlace()) {
                     $vEvent->setLocation($date->place);
                 }
@@ -238,7 +289,7 @@ class DateController extends Controller {
         return response($ical)->setExpires(Carbon::now('UTC')->addHours(12)) // make sync-clients wait for 12 hours
             ->withHeaders([
                 'Content-Type' => 'text/calendar; charset=utf-8',
-                'Content-Disposition' => 'attachment; filename="calendar_'.$calendar_id.'.ics"'
+                'Content-Disposition' => 'attachment; filename="calendar_'.$calendar_name.'.ics"'
             ]);
     }
 }
