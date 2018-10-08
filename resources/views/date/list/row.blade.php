@@ -5,7 +5,7 @@
                 <h4 class="title">
                     {{ $date->getTitle() }}
                     <span class="not-going-note" style="{{ in_array('not-going', $date->getApplicableFilters())  ? 'display: inline;' : 'display: none;' }};">
-                        {{ ' &ndash; ' . trans('date.not_attending') }}
+                        &ndash; {{ trans('date.not_attending') }}
                     </span>
                     @if($date->hasPlace())
                         <br>
