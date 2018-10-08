@@ -143,7 +143,7 @@ abstract class AttendanceController extends Controller {
     private function changeUserEventAttendance(Request $request, $event, User $user, $attendance = null) {
         // Check if we have an attendance state given.
         if (null === $attendance) {
-            if ($request->has('attendance')) {
+            if ($request->filled('attendance')) {
                 $attendance = $request->get('attendance');
             }
             // No attendance given is possible, for example to add comment.
@@ -156,10 +156,10 @@ abstract class AttendanceController extends Controller {
         }
 
         // Only include comments if we have some.
-        if ($request->has('comment')) {
+        if ($request->filled('comment')) {
             $data['comment'] = $request->get('comment');
         }
-        if ($request->has('internal_comment')) {
+        if ($request->filled('internal_comment')) {
             $data['internal_comment'] = $request->get('internal_comment');
         }
 

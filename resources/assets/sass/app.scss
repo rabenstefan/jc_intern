@@ -20,7 +20,6 @@
 //  @import fa-{my-icon}();
 //}
 
-
 /* Responsive table fix for Firefox. */
 @-moz-document url-prefix() {
   fieldset { display: table-cell; }
@@ -408,9 +407,10 @@ i.fa {
 
   @mixin active {
     border-bottom: 0px !important;
-    margin-top: 3px !important;
     color: #fff !important;
     outline: none !important;
+    border-top: 3px solid transparent;
+    background-clip: padding-box;
   }
 
   &:hover, &:focus, &:active, &.btn-pressed {
@@ -449,9 +449,10 @@ i.fa {
 
     &:hover, &:focus, &:active {
       border-bottom: none;
-      margin-top: 3px;
       color: $main-color-darker !important;
       outline: none;
+      border-top: 3px solid transparent;
+      background-clip: padding-box;
     }
 
     @media (max-width: 767px) {
@@ -628,7 +629,8 @@ i.fa {
     }
 
     a.btn-2d:first-child:hover {
-      margin-top: 3px !important;
+      border-top: 3px solid transparent;
+      background-clip: padding-box;
     }
   }
 
@@ -1035,15 +1037,18 @@ div.checkbox input, div.radio input {
 
 .notifyjs-shadow2d-base {
   font-weight: bold;
-  padding: 1em 2em 1em 0;
+  padding: 1em 2em 1em 2em;
   color: $main-color;
   background-color: #fff;
   @include shadow-2d($grey-darker);
+  display: block;
+  margin: 0.5em 1em 0 1em;
 
   &:before {
     @include fa();
     @include fa-exclamation();
-    padding: 0 1em;
+    margin-left: -2em;
+    padding: 0 0.8em;
   }
 
   &.notifyjs-shadow2d-success {

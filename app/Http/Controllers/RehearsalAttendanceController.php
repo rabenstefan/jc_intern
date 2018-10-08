@@ -117,7 +117,7 @@ class RehearsalAttendanceController extends AttendanceController {
             }
         }
 
-        if (null === $missed && !$request->has('missed')) {
+        if (null === $missed && !$request->filled('missed')) {
             if ($request->wantsJson()) {
                 return \Response::json(['success' => false, 'message' => trans('date.missed_state_not_found')]);
             } else {

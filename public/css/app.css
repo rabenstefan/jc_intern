@@ -6033,9 +6033,10 @@ i.fa {
     min-width: 22px; }
   .btn-2d:hover, .btn-2d:focus, .btn-2d:active, .btn-2d.btn-pressed, #calendar-dates .btn-2d:hover, #calendar-dates .btn-2d:focus, #calendar-dates .btn-2d:active, #calendar-dates .btn-2d.btn-pressed {
     border-bottom: 0px !important;
-    margin-top: 3px !important;
     color: #fff !important;
-    outline: none !important; }
+    outline: none !important;
+    border-top: 3px solid transparent;
+    background-clip: padding-box; }
   .btn-2d.btn-unpressed, #calendar-dates .btn-2d.btn-unpressed {
     background-color: #c3c3c3 !important;
     border-radius: 0 !important;
@@ -6044,9 +6045,10 @@ i.fa {
     box-shadow: none; }
     .btn-2d.btn-unpressed:hover, .btn-2d.btn-unpressed:focus, .btn-2d.btn-unpressed:active, #calendar-dates .btn-2d.btn-unpressed:hover, #calendar-dates .btn-2d.btn-unpressed:focus, #calendar-dates .btn-2d.btn-unpressed:active {
       border-bottom: 0px !important;
-      margin-top: 3px !important;
       color: #fff !important;
-      outline: none !important; }
+      outline: none !important;
+      border-top: 3px solid transparent;
+      background-clip: padding-box; }
   .btn-2d.btn-success, .btn-2d.btn-birthdays, .btn-2d.btn-yes, #calendar-dates .btn-2d.btn-success, #calendar-dates .btn-2d.btn-birthdays, #calendar-dates .btn-2d.btn-yes {
     background-color: #0bac35;
     border-radius: 0 ;
@@ -6075,9 +6077,10 @@ i.fa {
     box-shadow: none; }
     .panel-heading .btn-2d.btn-add:hover, .panel-heading .btn-2d.btn-add:focus, .panel-heading .btn-2d.btn-add:active, .btn-2d.btn-inv:hover, .btn-2d.btn-inv:focus, .btn-2d.btn-inv:active, .panel-heading #calendar-dates .btn-2d.btn-add:hover, .panel-heading #calendar-dates .btn-2d.btn-add:focus, .panel-heading #calendar-dates .btn-2d.btn-add:active, #calendar-dates .btn-2d.btn-inv:hover, #calendar-dates .btn-2d.btn-inv:focus, #calendar-dates .btn-2d.btn-inv:active {
       border-bottom: none;
-      margin-top: 3px;
       color: #083a68 !important;
-      outline: none; }
+      outline: none;
+      border-top: 3px solid transparent;
+      background-clip: padding-box; }
     @media (max-width: 767px) {
       .panel-heading .btn-2d.btn-add .title, .btn-2d.btn-inv .title, .panel-heading #calendar-dates .btn-2d.btn-add .title, #calendar-dates .btn-2d.btn-inv .title {
         display: none; } }
@@ -6203,7 +6206,8 @@ i.fa {
     .button-set-2d a.btn-2d:hover {
       margin-top: 5px !important; }
     .button-set-2d a.btn-2d:first-child:hover {
-      margin-top: 3px !important; } }
+      border-top: 3px solid transparent;
+      background-clip: padding-box; } }
   .button-set-2d i {
     -webkit-touch-callout: none;
     /* iOS Safari */
@@ -6616,13 +6620,15 @@ div.checkbox input, div.radio input {
 
 .notifyjs-shadow2d-base {
   font-weight: bold;
-  padding: 1em 2em 1em 0;
+  padding: 1em 2em 1em 2em;
   color: #135895;
   background-color: #fff;
   border-radius: 0 ;
   border: none ;
   border-bottom: 3px solid #afafaf ;
-  box-shadow: none; }
+  box-shadow: none;
+  display: block;
+  margin: 0.5em 1em 0 1em; }
   .notifyjs-shadow2d-base:before {
     font-family: 'Font Awesome\ 5 Free';
     -moz-osx-font-smoothing: grayscale;
@@ -6635,7 +6641,8 @@ div.checkbox input, div.radio input {
     font-weight: 400;
     font-weight: 900;
     content: "\f12a";
-    padding: 0 1em; }
+    margin-left: -2em;
+    padding: 0 0.8em; }
   .notifyjs-shadow2d-base.notifyjs-shadow2d-success {
     color: #0bac35;
     background-color: #52cd73;
