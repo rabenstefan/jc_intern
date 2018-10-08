@@ -17,7 +17,7 @@ class RehearsalController extends EventController {
         'end'       => 'required|date|after:start',
         'place'     => 'required|string',
         'voice_id'  => 'required|integer|min:0',
-        'weight'    => 'required|numeric|min:0|max:1',
+        'weight'    => 'required|numeric|min:0|max:10',
         'mandatory' => 'required|boolean',
         'repeat'    => 'boolean',
         'end_repeat'=> 'required_if:repeat,1|after:start',
