@@ -208,18 +208,6 @@ class DateController extends Controller {
             abort(403);
         }
 
-        $generated_key = generate_pseudo_password_hash($user, $input_req_key);
-        if ($input_key !== $generated_key) {
-            abort(403);
-        }
-
-        //TODO: make this the default method to check if a user if is active/current
-        $user_echo = new Carbon($user->last_echo()->firstOrFail()->end);
-        if ($user_echo->isPast()) {
-            // User no longer active
-            abort(403);
-        }
-
         $date_types = [];
         if (Input::has('show_types') && is_array(Input::get('show_types')) && (count(Input::get('show_types')) > 0 )) {
             $show_types = Input::get('show_types');
@@ -232,9 +220,22 @@ class DateController extends Controller {
             }
         }
 
+        $generated_key = generate_calendar_password_hash($user, $input_req_key, array_keys($date_types));
+        if ($input_key !== $generated_key) {
+            abort(403);
+        }
+
         if (empty($date_types)) {
             $date_types = self::$date_types;
         }
+
+        //TODO: make this the default method to check if a user if is active/current
+        $user_echo = new Carbon($user->last_echo()->firstOrFail()->end);
+        if ($user_echo->isPast()) {
+            // User no longer active
+            abort(403);
+        }
+
 
         $calendar_id = $user->id . '_' . implode('-', array_keys($date_types));
         $calendar_name = implode('-', array_keys($date_types)) . '_' . $user->pseudo_id;

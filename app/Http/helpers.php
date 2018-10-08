@@ -159,13 +159,21 @@ function cache_atomic_lock_provider($cache_key, callable $generate_new_result, $
 /**
  * The password hash used by all calendar synchronizations. The user is allowed to see the hash, but never the pseudo_password.
  *
- * We use sha256 for hashing and salt with the user's id as well as the req_key.
+ * We use sha256 for hashing and salt with the user's id, the req_key and the date_types.
  *
  * @param $user
+ * @param string $req_key
+ * @param null|array $date_types
  * @return string
  */
-function generate_pseudo_password_hash($user, $req_key) {
-    return hash('sha256', $user->id . '_' . $req_key . '_'. $user->pseudo_password);
+function generate_calendar_password_hash($user, $req_key, $date_types) {
+    if ($date_types === null) {
+        $date_types = [];
+    }
+    sort($date_types);
+
+    $salt = $user->id . '_' . $req_key . '_'. json_encode($date_types);
+    return hash('sha256', $salt . $user->pseudo_password);
 }
 
 /**
@@ -197,7 +205,7 @@ function generate_calendar_url($user, $prefix = null, $date_types = null) {
     $req_key = str_random(10);
     $parameters = [
         'user_id' => $user->pseudo_id,
-        'key' => generate_pseudo_password_hash($user, $req_key),
+        'key' => generate_calendar_password_hash($user, $req_key, $date_types),
         'req_key' => $req_key,
     ];
     if (null !== $date_types) {
