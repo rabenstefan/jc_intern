@@ -45,7 +45,7 @@
                     </p>
                 @endif
                 @if($date->isWeighted())
-                    <p class="date_weight"><strong>{{ trans('date.weight', ['weight' => format_number($date->weight)]) }}</strong></p>
+                    <p class="date_weight"><strong>{{ trans('date.weight', ['weight' => localize_number($date->weight)]) }}</strong></p>
                 @endif
             </div>
             <div class="col-xs-12 col-sm-3 col-lg-2 event-controls">
