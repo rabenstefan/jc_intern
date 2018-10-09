@@ -128,7 +128,7 @@ const ATOMIC_LOCK_STRING = "___ATOMIC_LOCK___";
  *      return $uncached_result;
  * });
  *
- * @param $cache_key key, under which our value is stored
+ * @param string $cache_key key, under which our value is stored
  * @param callable $generate_new_result function to generate a new value
  * @param \DateTime|float|int $cache_expiry_time in minutes, defaults to 60
  * @param \DateTime|float|int $atomic_lock_time in minutes, should be at least as long as an execution of $generate_new_result, defaults to 1

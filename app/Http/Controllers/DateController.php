@@ -184,13 +184,42 @@ class DateController extends Controller {
     }
 
     /**
+     * Renders an empty calendar. Useful for purging a user's calendar when they are no longer allowed to be subscribed.
+     *
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     */
+    public function emptyIcal() {
+        $calendar_name = 'jazzchor_expired_calendar';
+        $cache_key = 'render_ical_' . $calendar_name;
+
+        $ical = cache_atomic_lock_provider($cache_key, function () use ($calendar_name) {
+            $vCalendar = new \Eluceo\iCal\Component\Calendar($calendar_name);
+            $vCalendar->setName(trans('date.empty_ical_title'));
+            $vCalendar->setDescription(trans('date.empty_ical_description'));
+            return $vCalendar->render();
+        }, Carbon::now()->addYear());
+
+        return response($ical)->setExpires(Carbon::now('UTC')->addYears(10))
+        ->withHeaders([
+            'Content-Type' => 'text/calendar; charset=utf-8',
+            'Content-Disposition' => 'attachment; filename="calendar_'.$calendar_name.'.ics"'
+        ]);
+    }
+
+    /**
      * Method to render an ICAL calender.
      *
      * @return mixed
      */
     public function renderIcal() {
+        /*
+         * It is unclear in which cases we want to abort(403); and in which cases we want to return $this->emptyIcal();
+         * Both have advantages and disadvantages.
+         */
+
         if (!Input::has('user_id') || !Input::has('key') || !Input::has('req_key')) {
-            abort(403);
+            //abort(403);
+            return $this->emptyIcal();
         }
 
         $input_user_id = (String) Input::get('user_id');
@@ -199,13 +228,15 @@ class DateController extends Controller {
 
 
         if (strlen($input_user_id) < 20 || strlen($input_key) < 20 || strlen($input_req_key) < 3) {
-            abort(403);
+            //abort(403);
+            return $this->emptyIcal();
         }
 
         try {
             $user = User::where('pseudo_id', '=', $input_user_id)->firstOrFail(['id', 'pseudo_id', 'pseudo_password', 'last_echo', 'first_name']);
         } catch (ModelNotFoundException $e) {
-            abort(403);
+            //abort(403);
+            return $this->emptyIcal();
         }
 
         $date_types = [];
@@ -222,20 +253,23 @@ class DateController extends Controller {
 
         $generated_key = generate_calendar_password_hash($user, $input_req_key, array_keys($date_types));
         if ($input_key !== $generated_key) {
-            abort(403);
-        }
-
-        if (empty($date_types)) {
-            $date_types = self::$date_types;
+            //abort(403);
+            return $this->emptyIcal();
         }
 
         //TODO: make this the default method to check if a user if is active/current
         $user_echo = new Carbon($user->last_echo()->firstOrFail()->end);
         if ($user_echo->isPast()) {
-            // User no longer active
-            abort(403);
+            // User was successfully authenticated, but is no longer allowed to sync a calendar. We purge their calendar.
+            return $this->emptyIcal();
         }
 
+
+        if (empty($date_types)) {
+            // This handles subscriptions that were made through the 'link rel="alternate" type="text/calendar"'-attribute of our layout.
+            // Specifying the date-types there is an option, but not a very good one
+            $date_types = self::$date_types;
+        }
 
         $calendar_id = $user->id . '_' . implode('-', array_keys($date_types));
         $calendar_name = implode('-', array_keys($date_types)) . '_' . $user->pseudo_id;

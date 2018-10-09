@@ -84,4 +84,6 @@ return [
     'link_manually'         => 'Hier rechtsklicken oder lange gedrückt halten.',
     'link_google'           => 'Hier draufklicken.',
     'link_webcal'           => 'Hier draufklicken.',
+    'empty_ical_title'      => 'Abgelaufener Kalender',
+    'empty_ical_description' => 'Dieser Kalender ist nicht länger gültig und kann gelöscht werden.'
 ];

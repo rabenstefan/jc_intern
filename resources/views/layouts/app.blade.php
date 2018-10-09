@@ -26,6 +26,7 @@
 
     @if(Auth::check())
     <!-- iCal-Link -->
+    {{-- We could specify the date-types here. But since the user has no choice, hard-coding them is not ideal. Better to just render them all. --}}
     <link rel="alternate" type="text/calendar" title="Jazzchor der Uni Bonn &raquo; Interner Kalender" href="{{ generate_calendar_url(Auth::user()) }}" >
     @endif {{-- This might have security implications if people save the HTML-site --}}
 
