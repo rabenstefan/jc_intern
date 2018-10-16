@@ -223,7 +223,29 @@ class DateController extends Controller {
             return $vCalendar->render();
         }, Carbon::now()->addYear());
 
-        return response($ical)->setExpires(Carbon::now('UTC')->addYears(10))
+        // Carrying status code 410 is the best choice because it instructs the client to purge the ressource and never ask again.
+        // However, some clients don't really do that. Unfortunately, we don't have time to investigate which clients react in what why to which error codes.
+        // Therefore, we just randomly throw some response codes at them hoping that one will make them purge the calendar eventually.
+        switch (rand(1,12)) {
+            case 1: case 2: case 3:
+                $status_code = 200; // 'Success', but purges the calendar. Weighted higher because it ensures an empty calendar on the client.
+                break;
+            case 4:
+                $status_code = 301; // 'Moved permanently', but to an unknown location
+                break;
+            case 5:
+                $status_code = 403; // 'Forbidden'
+                break;
+            case 6:
+                $status_code = 404; // 'Not found'
+                break;
+            default:
+                $status_code = 410;
+                break;
+        }
+
+
+        return response($ical, $status_code)->setExpires(Carbon::now('UTC')->addYears(10))
             ->withHeaders(self::ical_headers($calendar_name));
     }
 
@@ -248,7 +270,6 @@ class DateController extends Controller {
         $input_user_id = (String) Input::get('user_id');
         $input_key = (String) Input::get('key');
         $input_req_key = (String) Input::get('req_key');
-
 
         if (strlen($input_user_id) < 20 || strlen($input_key) < 20 || strlen($input_req_key) < 3) {
             //abort(403);

@@ -139,7 +139,7 @@ function cache_atomic_lock_provider($cache_key, callable $generate_new_result, $
         $result = \Cache::get($cache_key);
         if (ATOMIC_LOCK_STRING === $result) {
             // Cache has been locked by another instance
-            abort(500,"We are under heavy load. Please try again in one minute.");
+            abort(503,"We are under heavy load. Please try again in one minute.");
         }
     } else {
         // Cache was empty, we have the atomic lock on the cache.
