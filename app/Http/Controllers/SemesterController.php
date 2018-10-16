@@ -71,7 +71,7 @@ class SemesterController extends Controller
         // Is this a valid starting month?
         if ($newSemester->start->month == Config::get('semester.summer_term_start')) {
             // Do we have summer term start?
-            // Append last two digits of current year to summer term name.
+            // Append last two digits of semester's year to summer term name.
             $newSemester->label = Config::get('semester.summer_term_name') . ' ' . date('y');
 
             // Calculate ending month of semester
