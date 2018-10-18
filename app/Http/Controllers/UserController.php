@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Gig;
+use App\Models\Rehearsal;
 use App\Models\Semester;
 use App\Models\Voice;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -113,6 +115,7 @@ class UserController extends Controller {
         );
 
         $data['password'] = bcrypt($data['password']);
+        $pseudo_password = str_random(222);
 
         // Generate a pseudo_id which is unique
         for ($length = 20; $length <= 255; $length++) {
@@ -126,11 +129,36 @@ class UserController extends Controller {
             }
         }
 
+        $user = new User($data);
+        $user->pseudo_id = $pseudo_id;
+        $user->pseudo_password = $pseudo_password;
+        $user->save();
 
-        $data['pseudo_id'] = $pseudo_id;
-        $data['pseudo_password'] = str_random(222);
+        //TODO: Optimize. These loops can be refactored into a single SQL-query.
 
-        $user = User::create($data);
+        $new_rehearsals = Rehearsal::all(['*'], false, false, true, false);
+        foreach ($new_rehearsals as $rehearsal) {
+            if ($rehearsal->mandatory) {
+                // We prefill future mandatory rehearsals with 'attending'
+                RehearsalController::createAttendances($rehearsal, \Config::get('enums.attendances')['yes'], $user);
+            } else {
+                RehearsalController::createAttendances($rehearsal, \Config::get('enums.attendances')['no'], $user);
+            }
+        }
+
+        $old_rehearsals = Rehearsal::all(['*'], true, false, false, true);
+        foreach ($old_rehearsals as $rehearsal) {
+            if ($rehearsal->mandatory) {
+                // For rehearsals in the past, we claim the user attended them. This ensures he/she doesn't get a missed rehearsal mark for rehearsal when they were not yet part of the choir.
+                RehearsalController::createAttendances($rehearsal, \Config::get('enums.attendances')['no'], $user, false);
+            }
+        }
+
+        // New users rarely attend upcoming gigs in their first semester.
+        $new_gigs = Gig::all(['*'], false, false, true, true);
+        foreach ($new_gigs as $gig) {
+            GigController::createAttendances($gig, \Config::get('enums.attendances')['no'], $user);
+        }
 
         $request->session()->flash('message_success', trans('user.success'));
 

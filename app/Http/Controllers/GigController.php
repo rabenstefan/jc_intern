@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Gig;
+use App\Models\GigAttendance;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class GigController extends EventController {
@@ -130,5 +132,30 @@ class GigController extends EventController {
         \Session::flash('message_success', trans('date.delete_success'));
 
         return redirect()->route('dates.index');
+    }
+
+    /**
+     * Create all attendances in the database for an event. Set to the given attendance status.
+     *
+     * Already existing attendances will be overridden.
+     *
+     * @param $gig
+     * @param null $attendance Using 1 ('maybe') is discouraged because it might not be enabled for the event.
+     * @param null|array $users generate attendances only for specific users. null: for all users. empty array: no users
+     */
+    public static function createAttendances($gig, $attendance = null, $users = null) {
+        if (!is_array($users)) {
+            if (null === $users) {
+                $users = User::all();
+            } elseif ($users instanceof User) {
+                // A single user has been given
+                $users = [$users];
+            }
+        }
+
+        //TODO: Optimize! This loop can be refactored into a single SQL-query.
+        foreach ($users as $user) {
+            GigAttendance::updateOrCreate(['user_id' => $user->id, 'gig_id' => $gig->id], ['attendance' => $attendance]);
+        }
     }
 }

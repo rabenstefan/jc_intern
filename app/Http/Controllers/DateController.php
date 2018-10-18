@@ -240,7 +240,7 @@ class DateController extends Controller {
                 $status_code = 404; // 'Not found'
                 break;
             default:
-                $status_code = 410;
+                $status_code = 410; // 'Gone'
                 break;
         }
 
