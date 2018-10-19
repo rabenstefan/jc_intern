@@ -71,24 +71,23 @@ class SemesterController extends Controller
         // Is this a valid starting month?
         if ($newSemester->start->month == Config::get('semester.summer_term_start')) {
             // Do we have summer term start?
-            // Append last two digits of semester's year to summer term name.
-            $newSemester->label = Config::get('semester.summer_term_name') . ' ' . date('y');
-
             // Calculate ending month of semester
             $newSemester->end->month(Config::get('semester.winter_term_start') - 1);
+            
+            // Append last two digits of semester's year to summer term name.
+            $newSemester->label = Config::get('semester.summer_term_name') . ' ' . $newSemester->start->format('y');
         } else if ($newSemester->start->month == Config::get('semester.winter_term_start')) {
             // Do we have winter term start?
-            // Append last two digits of this and next year to winter term name.
-            $newSemester->label = Config::get('semester.winter_term_name') . ' ' . date('y') . '/' . date('y', strtotime('+1 year'));
-
             // Calculate ending month of semester
             $newSemester->end->month(Config::get('semester.summer_term_start') - 1);
             // And add one to the year for winter term if start of summer term is not first of January.
             if (Config::get('semester.summer_term_start') != '01') {
                 $newSemester->end->addYear();
             }
+            // Append last two digits of semester's start and end year to winter term name.
+            $newSemester->label = Config::get('semester.winter_term_name') . ' ' .  $newSemester->start->format('y') . '/' .  $newSemester->end->format('y');
         } else {
-            // Something is very wrong. One shouldn't land here.
+            // Something is very wrong. One shouldn't land here, cause month is not a valid starting month.
             if (null !== $request) {
                 if ($request->wantsJson()) {
                     return \Response::json(['success' => false, 'message' => trans('semester.wrong_start')]);
