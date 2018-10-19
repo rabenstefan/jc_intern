@@ -48,6 +48,7 @@ return [
     'admin_missed_rehearsals_body'      => 'Die folgenden :count Sänger haben zu oft gefehlt und müssen vorsingen.',
     'cloudshare_heading'    => 'Cloud',
     'cloudshare_body'   => 'Nur in der Sänger-Cloud könnt ihr Dateien ändern oder hochladen.',
+    'cloudshare_admin_body' => 'Über die "Vorstands-Cloud" habt ihr Schreibzugriff auf alle anderen Bereiche.',
     'cloudshare_button1' => 'Übe-Dateien',
     'cloudshare_button2' => 'Dokumente',
     'cloudshare_button3' => 'Sänger-Cloud',

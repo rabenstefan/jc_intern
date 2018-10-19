@@ -128,7 +128,7 @@ const ATOMIC_LOCK_STRING = "___ATOMIC_LOCK___";
  *      return $uncached_result;
  * });
  *
- * @param $cache_key key, under which our value is stored
+ * @param string $cache_key key, under which our value is stored
  * @param callable $generate_new_result function to generate a new value
  * @param \DateTime|float|int $cache_expiry_time in minutes, defaults to 60
  * @param \DateTime|float|int $atomic_lock_time in minutes, should be at least as long as an execution of $generate_new_result, defaults to 1
@@ -139,7 +139,7 @@ function cache_atomic_lock_provider($cache_key, callable $generate_new_result, $
         $result = \Cache::get($cache_key);
         if (ATOMIC_LOCK_STRING === $result) {
             // Cache has been locked by another instance
-            abort(500,"We are under heavy load. Please try again in one minute.");
+            abort(503,"We are under heavy load. Please try again in one minute.");
         }
     } else {
         // Cache was empty, we have the atomic lock on the cache.

@@ -5738,6 +5738,9 @@ readers do not read off random characters that represent icons */
   fieldset {
     display: table-cell; } }
 
+.btn {
+  border: none; }
+
 /* Jquery Modal stuff */
 .blocker {
   position: fixed;
@@ -5776,7 +5779,6 @@ readers do not read off random characters that represent icons */
   text-align: left;
   background-color: #fdfdfd;
   border-radius: 0 ;
-  border: none ;
   border-bottom: 3px solid #afafaf ;
   box-shadow: none; }
 
@@ -5866,7 +5868,6 @@ i.fa {
   color: #fdfdfd;
   background-color: #135895;
   border-radius: 0 ;
-  border: none ;
   border-bottom: 3px solid #083a68 ;
   box-shadow: none; }
   .navbar-2d a, .navbar-2d .navbar-brand {
@@ -5950,7 +5951,6 @@ i.fa {
   .navbar-2d .navbar-toggle {
     color: #fdfdfd;
     border-radius: 0 ;
-    border: none ;
     border-bottom: 3px solid #083a68 ;
     box-shadow: none; }
     .navbar-2d .navbar-toggle:hover, .navbar-2d .navbar-toggle:focus, .navbar-2d .navbar-toggle:active {
@@ -5972,7 +5972,6 @@ i.fa {
     color: #fdfdfd;
     background-color: #135895;
     border-radius: 0 ;
-    border: none ;
     border-bottom: 3px solid #083a68 ;
     box-shadow: none;
     border-top: 2px solid #083a68; }
@@ -6023,7 +6022,6 @@ i.fa {
   height: inherit;
   margin-top: 0px;
   border-radius: 0 ;
-  border: none ;
   border-bottom: 3px solid #083a68 ;
   box-shadow: none; }
   .btn-2d.btn-clear-below, #calendar-dates .btn-2d.btn-clear-below {
@@ -6040,7 +6038,6 @@ i.fa {
   .btn-2d.btn-unpressed, #calendar-dates .btn-2d.btn-unpressed {
     background-color: #c3c3c3 !important;
     border-radius: 0 !important;
-    border: none !important;
     border-bottom: 3px solid #afafaf !important;
     box-shadow: none; }
     .btn-2d.btn-unpressed:hover, .btn-2d.btn-unpressed:focus, .btn-2d.btn-unpressed:active, #calendar-dates .btn-2d.btn-unpressed:hover, #calendar-dates .btn-2d.btn-unpressed:focus, #calendar-dates .btn-2d.btn-unpressed:active {
@@ -6052,19 +6049,16 @@ i.fa {
   .btn-2d.btn-success, .btn-2d.btn-birthdays, .btn-2d.btn-yes, #calendar-dates .btn-2d.btn-success, #calendar-dates .btn-2d.btn-birthdays, #calendar-dates .btn-2d.btn-yes {
     background-color: #0bac35;
     border-radius: 0 ;
-    border: none ;
     border-bottom: 3px solid #047823 ;
     box-shadow: none; }
   .btn-2d.btn-warning, .btn-2d.btn-gigs, .btn-2d.btn-maybe, #calendar-dates .btn-2d.btn-warning, #calendar-dates .btn-2d.btn-gigs, #calendar-dates .btn-2d.btn-maybe {
     background-color: #e78d0f;
     border-radius: 0 ;
-    border: none ;
     border-bottom: 3px solid #a06006 ;
     box-shadow: none; }
   .btn-2d.btn-error, .btn-2d.btn-all, .btn-2d.btn-no, #calendar-dates .btn-2d.btn-error, #calendar-dates .btn-2d.btn-all, #calendar-dates .btn-2d.btn-no {
     background-color: #e7280f;
     border-radius: 0 ;
-    border: none ;
     border-bottom: 3px solid #a01806 ;
     box-shadow: none; }
   .panel-heading .btn-2d.btn-add, .btn-2d.btn-inv, .panel-heading #calendar-dates .btn-2d.btn-add, #calendar-dates .btn-2d.btn-inv {
@@ -6072,7 +6066,6 @@ i.fa {
     background-color: #fdfdfd;
     padding: 0 6px;
     border-radius: 0 ;
-    border: none ;
     border-bottom: 3px solid #afafaf ;
     box-shadow: none; }
     .panel-heading .btn-2d.btn-add:hover, .panel-heading .btn-2d.btn-add:focus, .panel-heading .btn-2d.btn-add:active, .btn-2d.btn-inv:hover, .btn-2d.btn-inv:focus, .btn-2d.btn-inv:active, .panel-heading #calendar-dates .btn-2d.btn-add:hover, .panel-heading #calendar-dates .btn-2d.btn-add:focus, .panel-heading #calendar-dates .btn-2d.btn-add:active, #calendar-dates .btn-2d.btn-inv:hover, #calendar-dates .btn-2d.btn-inv:focus, #calendar-dates .btn-2d.btn-inv:active {
@@ -6107,7 +6100,6 @@ i.fa {
   color: #020202;
   background-color: #fdfdfd;
   border-radius: 0 ;
-  border: none ;
   border-bottom: 3px solid #afafaf ;
   box-shadow: none; }
 
@@ -6115,7 +6107,6 @@ i.fa {
   color: #fdfdfd;
   background-color: #c3c3c3;
   border-radius: 0 ;
-  border: none ;
   border-bottom: 3px solid #afafaf ;
   box-shadow: none; }
 
@@ -6235,7 +6226,6 @@ i.fa {
       color: #fdfdfd;
       background-color: #c3c3c3;
       border-radius: 0 ;
-      border: none ;
       border-bottom: 3px solid #afafaf ;
       box-shadow: none; }
 
@@ -6294,7 +6284,6 @@ i.fa {
     padding: 0.35em 0.55em;
     background-color: #e7280f;
     border-radius: 0 ;
-    border: none ;
     border-bottom: 3px solid #a01806 ;
     box-shadow: none;
     transition: .4s;
@@ -6318,7 +6307,6 @@ i.fa {
   transform: translateX(2.4em);
   background-color: #0bac35;
   border-radius: 0 ;
-  border: none ;
   border-bottom: 3px solid #047823 ;
   box-shadow: none;
   content: "\f274"; }
@@ -6342,40 +6330,34 @@ i.fa {
 /** Cool panels, additionally used to .panel class. **/
 .panel-2d {
   border-radius: 0 ;
-  border: none ;
   border-bottom: 3px solid #afafaf ;
   box-shadow: none; }
   .panel-2d .panel-heading {
     color: #fdfdfd;
     background-color: #135895;
     border-radius: 0 ;
-    border: none ;
     border-bottom: 3px solid #083a68 ;
     box-shadow: none;
     font-weight: bold; }
     .panel-2d .panel-heading.panel-heading-warning {
       background-color: #e78d0f;
       border-radius: 0 ;
-      border: none ;
       border-bottom: 3px solid #a06006 ;
       box-shadow: none; }
     .panel-2d .panel-heading.panel-heading-error {
       background-color: #e7280f;
       border-radius: 0 ;
-      border: none ;
       border-bottom: 3px solid #a01806 ;
       box-shadow: none; }
     .panel-2d .panel-heading.panel-heading-success {
       background-color: #0bac35;
       border-radius: 0 ;
-      border: none ;
       border-bottom: 3px solid #047823 ;
       box-shadow: none; }
     .panel-2d .panel-heading .dropdown-menu {
       color: #fdfdfd;
       background-color: #135895;
       border-radius: 0 ;
-      border: none ;
       border-bottom: 3px solid #083a68 ;
       box-shadow: none;
       top: 2.5em;
@@ -6400,7 +6382,6 @@ i.fa {
       margin-bottom: 1em;
       background-color: #c3c3c3;
       border-radius: 0 ;
-      border: none ;
       border-bottom: 3px solid #afafaf ;
       box-shadow: none; }
       @media (min-width: 767px) {
@@ -6415,13 +6396,11 @@ i.fa {
       .panel-2d .panel-body .panel-element.panel-element-warning {
         background-color: #f0b560;
         border-radius: 0 ;
-        border: none ;
         border-bottom: 3px solid #e78d0f ;
         box-shadow: none; }
       .panel-2d .panel-body .panel-element.panel-element-error {
         background-color: #f07160;
         border-radius: 0 ;
-        border: none ;
         border-bottom: 3px solid #e7280f ;
         box-shadow: none; }
         .panel-2d .panel-body .panel-element.panel-element-error .panel-element-body {
@@ -6431,7 +6410,6 @@ i.fa {
       .panel-2d .panel-body .panel-element.panel-element-success {
         background-color: #52cd73;
         border-radius: 0 ;
-        border: none ;
         border-bottom: 3px solid #0bac35 ;
         box-shadow: none; }
       .panel-2d .panel-body .panel-element .panel-element-body {
@@ -6489,7 +6467,6 @@ i.fa {
     color: #020202;
     background-color: #c3c3c3;
     border-radius: 0 ;
-    border: none ;
     border-bottom: 3px solid #afafaf ;
     box-shadow: none;
     font-weight: normal; }
@@ -6499,7 +6476,6 @@ i.fa {
   color: #020202;
   background-color: #fdfdfd;
   border-radius: 0 ;
-  border: none ;
   border-bottom: 3px solid #afafaf ;
   box-shadow: none; }
   .form-control-2d:focus {
@@ -6624,7 +6600,6 @@ div.checkbox input, div.radio input {
   color: #135895;
   background-color: #fff;
   border-radius: 0 ;
-  border: none ;
   border-bottom: 3px solid #afafaf ;
   box-shadow: none;
   display: block;
@@ -6647,7 +6622,6 @@ div.checkbox input, div.radio input {
     color: #0bac35;
     background-color: #52cd73;
     border-radius: 0 ;
-    border: none ;
     border-bottom: 3px solid #047823 ;
     box-shadow: none; }
     .notifyjs-shadow2d-base.notifyjs-shadow2d-success:before {
@@ -6657,21 +6631,18 @@ div.checkbox input, div.radio input {
     color: #e78d0f;
     background-color: #f0b560;
     border-radius: 0 ;
-    border: none ;
     border-bottom: 3px solid #a06006 ;
     box-shadow: none; }
   .notifyjs-shadow2d-base.notifyjs-shadow2d-danger {
     color: #e7280f;
     background-color: #f07160;
     border-radius: 0 ;
-    border: none ;
     border-bottom: 3px solid #a01806 ;
     box-shadow: none; }
   .notifyjs-shadow2d-base.notifyjs-shadow2d-help {
     color: #fdfdfd;
     background-color: #135895;
     border-radius: 0 ;
-    border: none ;
     border-bottom: 3px solid #083a68 ;
     box-shadow: none;
     padding: 1em;
@@ -6715,7 +6686,6 @@ a.inline-link {
   color: #020202;
   background-color: #fdfdfd;
   border-radius: 0 ;
-  border: none ;
   border-bottom: 3px solid #eaeaea ;
   box-shadow: none;
   padding: 0 8px; }
@@ -6734,7 +6704,7 @@ a.inline-link {
   #attendance-list tr.user td.not-attending {
     background-color: #e7280f; }
 
-#calendar_sync_end, #calendar_sync_conclusion {
+#calendar_sync_end, #calendar_sync_conclusion, #calendar_sync_intermezzo {
   margin-top: 2em; }
 
 /*# sourceMappingURL=app.css.map */

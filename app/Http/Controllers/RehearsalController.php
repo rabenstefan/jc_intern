@@ -188,14 +188,28 @@ class RehearsalController extends EventController {
     }
 
     /**
-     * Create all attendances in the database for an event. Set to the given attendance status
+     * Create all attendances in the database for an event. Set to the given attendance status.
+     *
+     * Already existing attendances will be overridden.
      *
      * @param $rehearsal
-     * @param null $attendance
+     * @param null $attendance Using 1 ('maybe') is discouraged because it might not be enabled for the event.
+     * @param null|bool $missed
+     * @param null|array $users generate attendances only for specific users. null: for all users. empty array: no users
      */
-    public static function createAttendances($rehearsal, $attendance = null) {
-        foreach (User::all() as $user) {
-            RehearsalAttendance::updateOrCreate(['user_id' => $user->id, 'rehearsal_id' => $rehearsal->id, 'attendance' => $attendance]);
+    public static function createAttendances($rehearsal, $attendance = null, $users = null, $missed = true) {
+        if (!is_array($users)) {
+            if (null === $users) {
+                $users = User::all();
+            } elseif ($users instanceof User) {
+                // A single user has been given
+                $users = [$users];
+            }
+        }
+
+        //TODO: Optimize! This loop can be refactored into a single SQL-query.
+        foreach ($users as $user) {
+            RehearsalAttendance::updateOrCreate(['user_id' => $user->id, 'rehearsal_id' => $rehearsal->id], ['attendance' => $attendance, 'missed' => $missed]);
         }
     }
 }

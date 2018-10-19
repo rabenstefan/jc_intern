@@ -16,25 +16,48 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class DateController extends Controller {
     // There are multiple ways to display the dates.
-    private static $view_types = [
+    protected static $view_types = [
         'list'     => 'listIndex',
         'calendar' => 'calendarIndex',
     ];
 
     // These are the types our dates can be in.
-    private static $date_types = [
+    protected static $date_types = [
         'rehearsals' => Rehearsal::class,
         'gigs'       => Gig::class,
         'birthdays'  => Birthday::class,
     ];
 
     // Statuses that the UI can filter by.
-    private static $date_statuses = [
+    protected static $date_statuses = [
         'going',
         'not-going',
         'maybe-going',
         'unanswered'
     ];
+
+    /**
+     * To be able pass our attendances to the iCal correctly, we need to convert them to Eluceo's format.
+     * We use a static array for now, maybe a proper function would be better.
+     */
+    public static $convert_attendance_eluceo = [
+        'yes' => \Eluceo\iCal\Component\Event::STATUS_CONFIRMED,
+        'no' => \Eluceo\iCal\Component\Event::STATUS_CANCELLED,
+        'maybe' => \Eluceo\iCal\Component\Event::STATUS_TENTATIVE
+    ];
+
+    /**
+     * Default header array for iCals
+     *
+     * @param string $calendar_name
+     * @return array
+     */
+    protected static function ical_headers(string $calendar_name) {
+        return [
+            'Content-Type' => 'text/calendar; charset=utf-8',
+            'Content-Disposition' => 'attachment; filename="calendar_'.$calendar_name.'.ics"'
+        ];
+    }
 
     /**
      * DateController constructor.
@@ -64,6 +87,7 @@ class DateController extends Controller {
     public static function getDateStatuses() {
         return self::$date_statuses;
     }
+
 
     /**
      * Display a listing of the resource.
@@ -184,28 +208,79 @@ class DateController extends Controller {
     }
 
     /**
+     * Renders an empty calendar. Useful for purging a user's calendar when they are no longer allowed to be subscribed.
+     *
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     */
+    public function emptyIcal() {
+        $calendar_name = 'jazzchor_expired_calendar';
+        $cache_key = 'render_ical_' . $calendar_name;
+
+        $ical = cache_atomic_lock_provider($cache_key, function () use ($calendar_name) {
+            $vCalendar = new \Eluceo\iCal\Component\Calendar($calendar_name);
+            $vCalendar->setName(trans('date.empty_ical_title'));
+            $vCalendar->setDescription(trans('date.empty_ical_description'));
+            return $vCalendar->render();
+        }, Carbon::now()->addYear());
+
+        // Carrying status code 410 is the best choice because it instructs the client to purge the ressource and never ask again.
+        // However, some clients don't really do that. Unfortunately, we don't have time to investigate which clients react in what why to which error codes.
+        // Therefore, we just randomly throw some response codes at them hoping that one will make them purge the calendar eventually.
+        switch (rand(1,12)) {
+            case 1: case 2: case 3:
+                $status_code = 200; // 'Success', but purges the calendar. Weighted higher because it ensures an empty calendar on the client.
+                break;
+            case 4:
+                $status_code = 301; // 'Moved permanently', but to an unknown location
+                break;
+            case 5:
+                $status_code = 403; // 'Forbidden'
+                break;
+            case 6:
+                $status_code = 404; // 'Not found'
+                break;
+            default:
+                $status_code = 410; // 'Gone'
+                break;
+        }
+
+
+        return response($ical, $status_code)->setExpires(Carbon::now('UTC')->addYears(10))
+            ->withHeaders(self::ical_headers($calendar_name));
+    }
+
+    /**
      * Method to render an ICAL calender.
      *
      * @return mixed
      */
     public function renderIcal() {
+        /*
+         * It is unclear in which cases we want to abort(403); and in which cases we want to return $this->emptyIcal();
+         * Both have advantages and disadvantages.
+         *
+         * TODO: the user authetification part should to moved to some middleware
+         */
+
         if (!Input::has('user_id') || !Input::has('key') || !Input::has('req_key')) {
-            abort(403);
+            //abort(403);
+            return $this->emptyIcal();
         }
 
         $input_user_id = (String) Input::get('user_id');
         $input_key = (String) Input::get('key');
         $input_req_key = (String) Input::get('req_key');
 
-
         if (strlen($input_user_id) < 20 || strlen($input_key) < 20 || strlen($input_req_key) < 3) {
-            abort(403);
+            //abort(403);
+            return $this->emptyIcal();
         }
 
         try {
             $user = User::where('pseudo_id', '=', $input_user_id)->firstOrFail(['id', 'pseudo_id', 'pseudo_password', 'last_echo', 'first_name']);
         } catch (ModelNotFoundException $e) {
-            abort(403);
+            //abort(403);
+            return $this->emptyIcal();
         }
 
         $date_types = [];
@@ -222,31 +297,34 @@ class DateController extends Controller {
 
         $generated_key = generate_calendar_password_hash($user, $input_req_key, array_keys($date_types));
         if ($input_key !== $generated_key) {
-            abort(403);
-        }
-
-        if (empty($date_types)) {
-            $date_types = self::$date_types;
+            //abort(403);
+            return $this->emptyIcal();
         }
 
         //TODO: make this the default method to check if a user if is active/current
         $user_echo = new Carbon($user->last_echo()->firstOrFail()->end);
         if ($user_echo->isPast()) {
-            // User no longer active
-            abort(403);
+            // User was successfully authenticated, but is no longer allowed to sync a calendar. We purge their calendar.
+            return $this->emptyIcal();
         }
 
+
+        if (empty($date_types)) {
+            // This handles subscriptions that were made through the 'link rel="alternate" type="text/calendar"'-attribute of our layout.
+            // Specifying the date-types there is an option, but not a very good one
+            $date_types = self::$date_types;
+        }
 
         $calendar_id = $user->id . '_' . implode('-', array_keys($date_types));
         $calendar_name = implode('-', array_keys($date_types)) . '_' . $user->pseudo_id;
 
+        // Only re-render every 4 hours to serve annoying clients slightly faster
+        // Also, this makes it so the UIDs generated by Eluceo-iCal don't change on every request
+        // Use UTC because we want to use it for HTTP headers.
+        $expiry_time = Carbon::now('UTC')->addHours(4);
+
         $cache_key = 'render_ical_' . $calendar_id;
         $ical = cache_atomic_lock_provider($cache_key, function () use ($date_types, $calendar_name, $user) {
-            $convert_attendance = [
-                'yes' => \Eluceo\iCal\Component\Event::STATUS_CONFIRMED,
-                'no' => \Eluceo\iCal\Component\Event::STATUS_CANCELLED,
-                'maybe' => \Eluceo\iCal\Component\Event::STATUS_TENTATIVE
-                ];
 
             $dates = $this->getDates($date_types);
 
@@ -267,11 +345,15 @@ class DateController extends Controller {
                     ->setSummary($date->getTitle())
                     ->setDescription($date->description);
 
-                if (method_exists($date, 'isAttending') && !empty($date->isAttending($user))) {
-                    $vEvent->setStatus($convert_attendance[$date->isAttending($user)]);
-                    if ($date->isAttending($user) === 'no') {
-                        $vEvent->setSummary($date->getTitle() . ' – ' . trans('date.not-going'));
-                        $vEvent->setDescription(trans('date.user_not_attending') . "\n" . $date->description);
+                if (method_exists($date, 'isAttending')) {
+                    $attendance = $date->isAttending($user);
+                    if (!empty($attendance)) {
+                        $vEvent->setStatus(self::$convert_attendance_eluceo[$attendance]);
+
+                        if ($attendance === 'no') {
+                            $vEvent->setSummary($date->getTitle() . ' – ' . trans('date.not-going'));
+                            $vEvent->setDescription(trans('date.user_not_attending') . "\n" . $date->description);
+                        }
                     }
                 }
 
@@ -282,14 +364,8 @@ class DateController extends Controller {
             }
 
             return $vCalendar->render();
-        }, 240);
-        // Only re-render every 4 hours to serve annoying clients slightly faster
-        // Also, this makes it so the UIDs generated by Calendar don't change on every request
+        }, $expiry_time);
 
-        return response($ical)->setExpires(Carbon::now('UTC')->addHours(12)) // make sync-clients wait for 12 hours
-            ->withHeaders([
-                'Content-Type' => 'text/calendar; charset=utf-8',
-                'Content-Disposition' => 'attachment; filename="calendar_'.$calendar_name.'.ics"'
-            ]);
+        return response($ical)->setExpires($expiry_time)->withHeaders(self::ical_headers($calendar_name));
     }
 }
