@@ -36,4 +36,13 @@ class ResetPasswordController extends Controller
     {
         $this->middleware('guest');
     }
+
+    protected function rules()
+    {
+        return [
+            'token' => 'required',
+            'email' => 'required|email|max:191', // InnoDB (MySQL's engine) can handle VARCHARs only up to 191 when UNIQUE is selected.
+            'password' => 'required|min:8|confirmed|custom_complexity:3',
+            ];
+    }
 }
