@@ -28,14 +28,12 @@ Route::get('/', function () {
 
 Route::group(['middleware' => 'web'], function () {
     // Include authentication routes automatically.
-    //Route::auth(); // This will expose 'register' and possibly other unwanted forms
-    Route::get('login', 'Auth\LoginController@ShowLoginForm');
-    Route::post('login', 'Auth\LoginController@login');
-    Route::post('logout', 'Auth\LoginController@logout');
+    Auth::routes();
 
-    Route::get('password/reset/{token?}', 'Auth\ResetPasswordController@showResetForm');
-    Route::post('password/reset', 'Auth\ResetPasswordController@reset');
-    Route::post('password/email', 'Auth\ResetPasswordController@sendResetLinkEmail');
+    // But disable 'register'
+    Route::match(['get', 'post'], 'register', function(){
+        return redirect('/');
+    });
 
 
     /**
