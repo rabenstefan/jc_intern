@@ -28,13 +28,7 @@ Route::get('/', function () {
 
 Route::group(['middleware' => 'web'], function () {
     // Include authentication routes automatically.
-    Auth::routes();
-
-    // But disable 'register'
-    Route::match(['get', 'post'], 'register', function(){
-        return redirect('/');
-    });
-
+    Auth::routes(['register' => false, 'verify' => false]);
 
     /**
      * Basic routes
