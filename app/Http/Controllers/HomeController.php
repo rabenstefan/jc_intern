@@ -201,7 +201,7 @@ class HomeController extends Controller
         $panel = ['state' => 'info', 'count' => 0, 'data' => collect()];
 
         if (\Auth::user()->isAdmin() === true) {
-            $data = User::all(['id', 'first_name', 'last_name'], false, true)->filter(function($user){
+            $data = User::all(['id', 'first_name', 'last_name'], false, false)->filter(function($user){
                 return $user->isOverMissingRehearsalsLimit();
             });
             $panel['count'] += $data->count();

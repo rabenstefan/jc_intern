@@ -253,6 +253,8 @@ class User extends Authenticatable {
      * @return bool
      */
     public function missedRehearsal($rehearsalId) {
+        // TODO: Optimize this using withPivot
+
         // Get all currently available attendances and filter by the rehearsal ID. Take the first find.
         $attendance = $this->rehearsal_attendances->filter(function ($value, $key) use ($rehearsalId) {
             return $value->rehearsal_id == $rehearsalId;
@@ -273,6 +275,8 @@ class User extends Authenticatable {
      * @return bool
      */
     public function excusedRehearsal($rehearsalId) {
+        // TODO: Optimize this using withPivot
+
         // Get all currently available attendances and filter by the rehearsal ID. Take the first find.
         $attendance = $this->rehearsal_attendances->filter(function ($value, $key) use ($rehearsalId) {
             return $value->rehearsal_id == $rehearsalId;
