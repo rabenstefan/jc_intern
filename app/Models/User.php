@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use \Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
@@ -444,5 +445,13 @@ class User extends Authenticatable {
 
     public function getAbbreviatedNameAttribute(){
         return $this->first_name . ' ' . str_shorten($this->last_name, 1) . '.';
+    }
+
+    public function activeUntil() {
+        return new Carbon($this->last_echo()->firstOrFail()->end);
+    }
+
+    public function isActive() {
+        return $this->activeUntil()->isFuture();
     }
 }
