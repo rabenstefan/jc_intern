@@ -50,9 +50,8 @@ class UserController extends Controller {
         return view('user.index', [
             'musical_leader' => User::getMusicalLeader(),
             'voices' => Voice::getParentVoices(),
-            //TODO: rework to make sense in between semesters
-            //TODO: should also return users who echoed for a future semester. Or rework with many-to-many between users and voices
-            'old_users' => User::orderBy('voice_id')->past()->get(),
+            //TODO: rework with many-to-many between users and voices
+            'old_users' => User::orderBy('voice_id')->past(true)->get(),
         ]);
     }
 
@@ -250,12 +249,12 @@ class UserController extends Controller {
      * Function to increment the User's last_echo semester id.
      *
      * @param Request $request
-     * @param $id
+     * @param $user_id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function updateSemester(Request $request, $id) {
+    public function updateSemester(Request $request, $user_id) {
         try {
-            $user = User::findOrFail($id);
+            $user = User::findOrFail($user_id);
         } catch (ModelNotFoundException $e) {
             if ($request->wantsJson()) {
                 return \Response::json(['success' => false, 'message' => trans('user.not_found')]);
@@ -264,9 +263,7 @@ class UserController extends Controller {
             }
         }
 
-        //TODO: this is almost always used when the new semester has not yet started. Rework so that it works in both cases!
-        //$user->last_echo = Semester::nextSemester()->id;
-        $user->last_echo = Semester::current()->id;
+        $user->last_echo = Semester::current(true)->id;
 
         if(!$user->save()) {
             if ($request->wantsJson()) {

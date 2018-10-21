@@ -13,7 +13,7 @@ Route::group(['middleware' => 'web'], function () {
 
 
     Route::group(['middleware' => 'auth'], function() {
-        Route::post('users/{users}/updateSemester', 'UserController@updateSemester')->name('users.updateSemester');
+        Route::post('users/{user}/updateSemester', 'UserController@updateSemester')->name('users.updateSemester');
 
         // All other routes need a valid semester from the user.
         Route::group(['middleware' => 'semesterValid'], function () {

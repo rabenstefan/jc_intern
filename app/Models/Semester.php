@@ -29,7 +29,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
  * @mixin \Eloquent
  */
 class Semester extends \Eloquent {
-    private static $current_semester = null;
+    private static $current_semester = ['current' => null, 'shifted' => null];
 
     public function gigs() {
         return $this->hasMany('App\Models\Gig');
@@ -47,36 +47,63 @@ class Semester extends \Eloquent {
         return $this->hasMany('App\Models\SemesterFee');
     }
 
-    public static function current() {
+    public static function current($shift_for_transition_period = false) {
+        $shift = ($shift_for_transition_period ? 'shifted' : 'current');
+
         // Memorize current semester to save queries.
-        if (self::$current_semester === null) {
-            $today = Carbon::today();
+        if (self::$current_semester[$shift] === null) {
+            $today = self::today($shift_for_transition_period);
             try {
-                self::$current_semester = Semester::where('start', '<=', $today)->where('end', '>=', $today)->firstOrFail();
+                self::$current_semester[$shift] = Semester::where('start', '<=', $today)->where('end', '>=', $today)->firstOrFail();
             } catch (ModelNotFoundException $error) {
                 // No fitting semester found: Add one and try again. This should never happen in production.
                 if ((new SemesterController())->generateNewSemester()) {
-                    self::$current_semester = Semester::where('start', '<=', $today)->where('end', '>=', $today)->firstOrFail();
+                    self::$current_semester[$shift] = Semester::where('start', '<=', $today)->where('end', '>=', $today)->firstOrFail();
                 }
             }
         }
-        return self::$current_semester;
+        return self::$current_semester[$shift];
     }
 
     /**
+     * Generate colletion of all current and future semesters currently in database.
+     *
      * @return Semester[]|\Illuminate\Database\Eloquent\Collection
      */
-    public static function currentList() {
-        return self::where('end', '>=', Carbon::today())->get(['id']);
+    public static function currentList($shift_for_transition_period = false) {
+        return self::where('end', '>=', self::today($shift_for_transition_period))->get(['id']);
     }
 
-    public static function futureList() {
-        return self::where('end', '>', self::current()->end);
+    public static function futureList($shift_for_transition_period = false) {
+        return self::where('end', '>', self::current($shift_for_transition_period)->end);
     }
 
-    public static function next() {
-        $day_in_new_semester = (new Carbon(self::current()->end))->addDays(2);
+    public static function next($shift_for_transition_period = false) {
+        $day_in_new_semester = (new Carbon(self::current($shift_for_transition_period)->end))->addDays(1);
         return (new SemesterController())->getSemester($day_in_new_semester);
+    }
+
+    /**
+     * Checks whether we are in the transition period between semesters
+     *
+     * @return bool
+     */
+    public static function inTransition() {
+        return (new Carbon(self::current()->end))->subDays(config('semester.transition_period'))->isPast();
+    }
+
+    /**
+     *
+     *
+     * @param bool $shift_for_transition_period
+     * @return Carbon
+     */
+    public static function today($shift_for_transition_period = false) {
+        if ($shift_for_transition_period && self::inTransition()) {
+            return (new Carbon(self::current(false)->end))->addDays(1);
+        } else {
+            return Carbon::today();
+        }
     }
 
     public static function last() {
