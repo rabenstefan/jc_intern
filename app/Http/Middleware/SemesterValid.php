@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Models\Semester;
+use Carbon\Carbon;
 use Closure;
 
 class SemesterValid {
@@ -15,8 +16,13 @@ class SemesterValid {
      * @return mixed
      */
     public function handle($request, Closure $next) {
-        if(empty($request->user()) || $request->user()->last_echo < Semester::current()->id) {
-            return redirect()->route('index')->withErrors([trans('home.invalid_semester')]);
+        //TODO: nay
+        if(empty($request->user()) || (new Carbon($request->user()->last_echo()->firstOrFail()->end))->isPast()) {
+            if ($request->ajax() || $request->wantsJson()) {
+                return response('Unauthorized.', 401);
+            } else {
+                return redirect()->route('index')->withErrors([trans('home.invalid_semester')]);
+            }
         }
         return $next($request);
     }
