@@ -401,8 +401,20 @@ class User extends Authenticatable {
     }
 
     public function scopeCurrent($query){
-        //TODO: should also return users who echoed for a future semester. Or rework with many-to-many between users and voices
         return $query->where('last_echo', Semester::current()->id);
+    }
+
+    public function scopeCurrentAndFuture($query) {
+        return $query->whereIn('last_echo', Semester::currentList()->pluck('id'));
+    }
+
+    public function scopeFuture($query) {
+        return $query->whereIn('last_echo', Semester::futureList()->pluck('id'));
+    }
+
+    public function scopePast($query) {
+        // Use whereNotIn to better handle the case when a semester has been deleted
+        return $query->whereNotIn('last_echo', Semester::currentList()->pluck('id'));
     }
 
     public function scopeOfVoice($query, $voiceId) {
@@ -433,7 +445,7 @@ class User extends Authenticatable {
             if (null === self::$all_current_users) {
                 //TODO: handle the case when we are in between semesters
                 //self::$all_current_users = parent::with($eager_load_relations)->where('last_echo', Semester::nextSemester()->id)->get($columns);
-                self::$all_current_users = parent::with($eager_load_relations)->where('last_echo', Semester::current()->id)->get($columns);
+                self::$all_current_users = self::with($eager_load_relations)->currentAndFuture()->get($columns);
             }
             return self::$all_current_users;
         }

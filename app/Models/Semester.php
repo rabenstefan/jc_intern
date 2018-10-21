@@ -63,7 +63,18 @@ class Semester extends \Eloquent {
         return self::$current_semester;
     }
 
-    public static function nextSemester() {
+    /**
+     * @return Semester[]|\Illuminate\Database\Eloquent\Collection
+     */
+    public static function currentList() {
+        return self::where('end', '>=', Carbon::today())->get(['id']);
+    }
+
+    public static function futureList() {
+        return self::where('end', '>', self::current()->end);
+    }
+
+    public static function next() {
         $day_in_new_semester = (new Carbon(self::current()->end))->addDays(2);
         return (new SemesterController())->getSemester($day_in_new_semester);
     }
