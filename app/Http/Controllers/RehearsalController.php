@@ -135,6 +135,8 @@ class RehearsalController extends EventController {
             return back()->withErrors(trans('date.rehearsal_not_found'));
         }
 
+        $rehearsal->end = $rehearsal->getEnd(true);
+
         return view('date.rehearsal.show', ['rehearsal' => $rehearsal, 'voices' => $voices]);
     }
 

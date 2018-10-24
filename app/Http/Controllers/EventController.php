@@ -22,7 +22,7 @@ class EventController extends DateController {
 
         if ($data['all_day']) {
             $start = $start->startOfDay();
-            $end = $end->endOfDay();
+            $end = $end->addDay()->startOfDay();
         }
 
         $semester = $this->getSemester($start);

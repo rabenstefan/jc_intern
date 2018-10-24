@@ -256,7 +256,7 @@ class DateController extends Controller {
                 $vEvent = new \Eluceo\iCal\Component\Event();
                 $vEvent
                     ->setDtStart($date->getStart())
-                    ->setDtEnd($date->getEnd()->copy()->addSecond())
+                    ->setDtEnd($date->getEnd())
                     ->setNoTime($date->isAllDay())
                     ->setSummary($date->getTitle())
                     ->setDescription($date->description);

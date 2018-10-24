@@ -76,6 +76,8 @@ class GigController extends EventController {
             return back()->withErrors(trans('date.gig_not_found'));
         }
 
+        $gig->end = $gig->getEnd(true)->subSecond();
+
         return view('date.gig.show', ['gig' => $gig]);
     }
 

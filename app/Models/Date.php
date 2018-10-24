@@ -12,8 +12,6 @@ trait Date {
     // This is for view stuff (visibility and such).
     protected $applicable_filters = null;
 
-    protected $offset_for_madhatter = false;
-
     /**
      * Get all filters, that are applicable to this date.
      *
@@ -38,22 +36,12 @@ trait Date {
     }
 
     /**
-     * MadHatter's FullCalendar needs some special treatment to display correctly.
-     * Most importantly, we need to set the end-date one second into the future.
-     * This will happen whenever getEnd() is called.
-     *
-     * Please note that calling this function will spoil the Date object for future modification of the end-attribute.
-     * It is not forbidden, just take extra care. Luckily, there is no real use case for that anyway. At least at the moment.
+     * MadHatter's FullCalendar needs some special treatment to be able to access our date-filters.
      *
      */
     public function prepareMadhatterCalendarView() {
-        // First, make sure the applicable filters are accessible
+        // Make sure the applicable filters are accessible
         $this->getApplicableFilters();
-
-        // Secondly, MadHatter's FullCalendar works a little differently from our method when it comes to storing all-day-events
-        if ($this->isAllDay()) {
-            $this->offset_for_madhatter = true; // will be checked in getEnd()
-        }
     }
 
     /**
@@ -75,14 +63,17 @@ trait Date {
     }
 
     /**
-     * Get the end time
+     * Get the end time.
      *
+     * If this is an all-day-event and you want it to end right before midnight (i.e. such that the date-part corresponds
+     * to the last day of the all-day-event), set $ensure_proper_date_part to true
+     *
+     * @param $ensure_proper_date_part
      * @return DateTime
      */
-    public function getEnd() {
-        if ($this->offset_for_madhatter) {
-            // MadHatter's FullCalendar handels all-day events differently than we do. A little hacky, but should be fine.
-            return $this->end->copy()->addSecond();
+    public function getEnd($ensure_proper_date_part = false) {
+        if ($ensure_proper_date_part && $this->isAllDay() && $this->end->isStartOfDay()){
+            return $this->end->copy()->subSecond();
         }
         return $this->end;
     }
