@@ -156,8 +156,8 @@ class DateController extends Controller {
      */
     protected function calendarIndex ($dates, array $view_variables) {
         foreach ($dates as $date) {
-            // Prepare the applicable filters for javascript
-            $date->getApplicableFilters();
+            $date->prepareMadhatterCalendarView();
+            // Note that the the collection of $dates is now spoiled for modification of end dates
         }
 
         $view_variables['calendar'] = Calendar::addEvents($dates);
@@ -256,7 +256,7 @@ class DateController extends Controller {
                 $vEvent = new \Eluceo\iCal\Component\Event();
                 $vEvent
                     ->setDtStart($date->getStart())
-                    ->setDtEnd($date->getEnd())
+                    ->setDtEnd($date->getEnd()->copy()->addSecond())
                     ->setNoTime($date->isAllDay())
                     ->setSummary($date->getTitle())
                     ->setDescription($date->description);

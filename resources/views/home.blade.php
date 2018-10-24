@@ -62,7 +62,7 @@
                         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
                             <div class="panel-heading  panel-heading-{{ $next_rehearsals_panel['state'] }}">{{ trans('home.next_rehearsals_heading') }}</div>
                             <div class="panel-element panel-element-{{ $next_rehearsals_panel['state'] }}">
-                                <div class="panel-element-body">{{-- TODO: change something if next rehearsal is all_day --}}
+                                <div class="panel-element-body">
                                     <div class="panel-element-main panel-element-main-content ">{{ isset($next_rehearsals_panel['data'][0]) ? $next_rehearsals_panel['data'][0]->getStart()->diffForHumans() : '' }}</div>
                                     {{ trans('home.next_rehearsals_body') }}
                                     <ul>
@@ -93,7 +93,7 @@
                                     @else
                                         <p>{{ trans('home.missed_rehearsals_body', array_map('localize_number', $missed_rehearsals_panel['count'])) }}</p>
                                         @if($missed_rehearsals_panel['data']['over_limit'])
-                                            <p>{{ trans('home.over_limit') }}</p>
+                                            <p>{{ trans('home.over_limit') }} &#x1f61e;</p>
                                         @endif
                                     @endif
                                     <a href="{{ route('dates.index', ['view_type' => 'list', 'hideByType' => invert_date_types(['rehearsal'])]) }}">{{ trans('home.to_future_rehearsals') }}</a>

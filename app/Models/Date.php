@@ -12,6 +12,8 @@ trait Date {
     // This is for view stuff (visibility and such).
     protected $applicable_filters = null;
 
+    protected $offset_for_madhatter = false;
+
     /**
      * Get all filters, that are applicable to this date.
      *
@@ -33,6 +35,25 @@ trait Date {
             $this->calendar_options['applicableFilters'] = $this->applicable_filters;
         }
 
+    }
+
+    /**
+     * MadHatter's FullCalendar needs some special treatment to display correctly.
+     * Most importantly, we need to set the end-date one second into the future.
+     * This will happen whenever getEnd() is called.
+     *
+     * Please note that calling this function will spoil the Date object for future modification of the end-attribute.
+     * It is not forbidden, just take extra care. Luckily, there is no real use case for that anyway. At least at the moment.
+     *
+     */
+    public function prepareMadhatterCalendarView() {
+        // First, make sure the applicable filters are accessible
+        $this->getApplicableFilters();
+
+        // Secondly, MadHatter's FullCalendar works a little differently from our method when it comes to storing all-day-events
+        if ($this->isAllDay()) {
+            $this->offset_for_madhatter = true; // will be checked in getEnd()
+        }
     }
 
     /**
@@ -59,6 +80,10 @@ trait Date {
      * @return DateTime
      */
     public function getEnd() {
+        if ($this->offset_for_madhatter) {
+            // MadHatter's FullCalendar handels all-day events differently than we do. A little hacky, but should be fine.
+            return $this->end->copy()->addSecond();
+        }
         return $this->end;
     }
 

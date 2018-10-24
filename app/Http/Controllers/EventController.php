@@ -15,8 +15,15 @@ class EventController extends DateController {
     }
 
     protected function prepareDates($data) {
+        //TODO: This looks like it should be an Observer.
+
         $start = new Carbon($data['start']);
         $end   = new Carbon($data['end']);
+
+        if ($data['all_day']) {
+            $start = $start->startOfDay();
+            $end = $end->endOfDay();
+        }
 
         $semester = $this->getSemester($start);
         $data = array_merge($data,

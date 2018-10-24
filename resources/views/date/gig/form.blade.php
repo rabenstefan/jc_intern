@@ -14,6 +14,7 @@
         <div class="col-xs-12 col-md-6">
             {!! Form::datetimeInput2d('start') !!}
             {!! Form::datetimeInput2d('end') !!}
+            {!! Form::checkboxInput2d('all_day') !!}
             {!! Form::textInput2d('place') !!}
             {!! Form::checkboxInput2d('binary_answer') !!}
         </div>
