@@ -22,8 +22,13 @@
                 @endif
 
                 <p class="date">
+                    {{-- TODO: move localized strings to some translation --}}
                     @if($date->isAllDay())
                         {{ $date->getStart()->formatLocalized('%A, den %d.%m.%Y') }}
+                        @if($date->getStart()->diffInDays($date->getEnd()) > 1)
+                            <br>
+                            bis {{ $date->getEnd(true)->formatLocalized('%A, den %d.%m.%Y') }}
+                        @endif
                     @else
                         @if(0 === $date->getEnd()->diffInDays($date->getStart()))
                             {{ $date->getStart()->formatLocalized('%A, den %d.%m.%Y') }}
