@@ -96,7 +96,7 @@ class Birthday implements Event {
         $users = User::all();
 
         foreach ($users as $user) {
-            if (isset($user->birthday)) {
+            if (isset($user->birthday) && !empty($user->birthday)) {
                 $collection->add(new Birthday($user));
             }
         }
