@@ -79,7 +79,6 @@ class User extends Authenticatable {
         'first_name',
         'last_name',
         'email',
-        'password',
         'birthday',
         'phone',
         'address_street',
