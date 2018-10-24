@@ -20,4 +20,4 @@
         </label>
     </span>
 </div>
-<div class="clearfix visible-sx-block"></div>
+<div class="clearfix visible-xs-block"></div>
