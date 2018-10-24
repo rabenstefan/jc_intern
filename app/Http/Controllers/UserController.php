@@ -20,7 +20,8 @@ class UserController extends Controller {
         'voice_id'  => 'required|integer|min:0|exists:voices,id',
         'birthday'  => 'date|after:1900-01-01',
         'address_zip'   => 'integer',
-        'sheets_deposit_returned' => 'boolean'
+        'sheets_deposit_returned' => 'boolean',
+        'share_private_data' => 'boolean',
     ];
 
     protected $password_validation = [
@@ -224,14 +225,14 @@ class UserController extends Controller {
 
         if ($request->get('password') == '') {
             $this->validate($request, $validation);
-            $data = array_filter($request->except('password'));
+            $data = $request->except('password');
         } else {
             $this->validate(
                 $request,
                 array_merge($validation, $this->password_validation_update)
             );
 
-            $data = array_filter($request->all());
+            $data = $request->all();
             $data['password'] = bcrypt($data['password']);
         }
 
