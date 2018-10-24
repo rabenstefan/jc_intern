@@ -506,7 +506,7 @@ class User extends Authenticatable {
     }
 
     public function activeUntil() {
-        return new Carbon($this->last_echo()->firstOrFail()->end);
+        return $this->last_echo()->firstOrFail()->getEnd();
     }
 
     public function isActive() {

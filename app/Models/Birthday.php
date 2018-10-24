@@ -13,13 +13,13 @@ class Birthday implements Event {
         'className' => 'event-birthday'
     ];
 
-    private $title;
-    private $start;
-    private $end;
+    protected $title;
+    protected $start;
+    protected $end;
 
     public $description = '';
 
-    private $user;
+    protected $user;
 
     public function __construct(User $user = null) {
         $this->title = trans('form.birthday') . " " . $user->first_name . ' ' . $user->last_name;
@@ -27,13 +27,18 @@ class Birthday implements Event {
 
         // Date arithmetic: Set to current year, add one year if date is more than one week ago.
         $dateCurrentYear = new Carbon($user->birthday);
-        $dateCurrentYear->year = date('Y');
-        if ($dateCurrentYear->lt(Carbon::now()->subWeek(1))) {
+        $dateCurrentYear->year = Carbon::now()->year;
+        if ($dateCurrentYear->lt(Carbon::now()->subDays(config('enums.birthdays_in_past')))) {
             $dateCurrentYear->addYear();
+        } else {
+            if ($dateCurrentYear->gte(Carbon::now()->addYear()->subDays(config('enums.birthdays_in_past')))) {
+                // Date is too far in the future. This only happens if this function is called in the days after New Years.
+                $dateCurrentYear->subYear();
+            }
         }
 
         $this->start = $dateCurrentYear;
-        $this->end   = $dateCurrentYear;
+        $this->end   = $dateCurrentYear->copy()->endOfDay();
 
         $this->setApplicableFilters();
     }

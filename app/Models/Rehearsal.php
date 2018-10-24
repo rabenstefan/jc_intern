@@ -65,6 +65,7 @@ class Rehearsal extends \Eloquent implements IdentifiableEvent {
         'description',
         'start',
         'end',
+        'all_day',
         'place',
         'binary_answer',
         'mandatory',

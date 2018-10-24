@@ -51,10 +51,10 @@ class SemesterController extends Controller
         // Get start of new Semester by adding one day to end of the last one.
         $lastSemester = Semester::last();
         // Add one day, but make sure it's the start of a month.
-        $newSemester->start = (new Carbon($lastSemester->end))->addDay()->startOfMonth();
+        $newSemester->start = $lastSemester->getEnd()->copy()->addDay()->startOfMonth();
 
         // Calculate end of this semester later on.
-        $newSemester->end = new Carbon($newSemester->start);
+        $newSemester->end = $newSemester->getStart()->copy();
 
         if (!Config::has('semester')) {
             if (null !== $request) {

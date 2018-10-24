@@ -112,7 +112,6 @@ class RoleController extends Controller {
         ]);
 
         $role->update($request->all());
-        $role->save();
 
         $request->session()->flash('message_success', trans('role.success', ['label' => $role->label]));
 

@@ -11,8 +11,8 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
  * App\Models\Semester
  *
  * @property int $id
- * @property string $start
- * @property string $end
+ * @property \Carbon\Carbon $start
+ * @property \Carbon\Carbon $end
  * @property string $label
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
@@ -30,6 +30,26 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
  */
 class Semester extends \Eloquent {
     private static $current_semester = ['current' => null, 'shifted' => null];
+
+    protected $dates = ['start', 'end'];
+
+    /**
+     * Get the start time
+     *
+     * @return \Carbon\Carbon
+     */
+    public function getStart() {
+        return $this->start;
+    }
+
+    /**
+     * Get the end time
+     *
+     * @return \Carbon\Carbon
+     */
+    public function getEnd() {
+        return $this->end->endOfDay();
+    }
 
     public function gigs() {
         return $this->hasMany('App\Models\Gig');
@@ -79,7 +99,7 @@ class Semester extends \Eloquent {
     }
 
     public static function next($shift_for_transition_period = false) {
-        $day_in_new_semester = (new Carbon(self::current($shift_for_transition_period)->end))->addDays(1);
+        $day_in_new_semester = self::current($shift_for_transition_period)->getEnd()->copy()->addDays(1);
         return (new SemesterController())->getSemester($day_in_new_semester);
     }
 
@@ -89,7 +109,7 @@ class Semester extends \Eloquent {
      * @return bool
      */
     public static function inTransition() {
-        return (new Carbon(self::current()->end))->subDays(config('semester.transition_period'))->isPast();
+        return self::current()->getEnd()->copy()->subDays(config('semester.transition_period'))->isPast();
     }
 
     /**
@@ -100,7 +120,7 @@ class Semester extends \Eloquent {
      */
     public static function today($shift_for_transition_period = false) {
         if ($shift_for_transition_period && self::inTransition()) {
-            return (new Carbon(self::current(false)->end))->addDays(1);
+            return self::current(false)->getEnd()->copy()->addDays(1);
         } else {
             return Carbon::today();
         }

@@ -57,6 +57,7 @@ class Gig extends \Eloquent implements IdentifiableEvent {
         'description',
         'start',
         'end',
+        'all_day',
         'place',
         'semester_id',
         'binary_answer',

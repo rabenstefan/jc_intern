@@ -98,7 +98,6 @@ class GigController extends EventController {
         $data = $this->prepareDates($request->all());
 
         $gig->update($data);
-        $gig->save();
 
         $request->session()->flash('message_success', trans('date.success'));
 

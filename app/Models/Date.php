@@ -41,7 +41,7 @@ trait Date {
      * @return bool
      */
     public function isAllDay() {
-        return $this->getStart()->startOfDay() == $this->getStart() && $this->getEnd()->startOfDay() == $this->getEnd();
+        return $this->all_day;
     }
 
     /**
