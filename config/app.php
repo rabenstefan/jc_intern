@@ -84,7 +84,6 @@ return [
     */
 
     'locale' => 'de',
-    'locale_strict' => 'de_DE',
 
     /*
     |--------------------------------------------------------------------------
@@ -224,6 +223,40 @@ return [
         'Calendar' => MaddHatter\LaravelFullcalendar\Facades\Calendar::class,
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
         'Recaptcha' => Greggilbert\Recaptcha\Facades\Recaptcha::class,
+    ],
+
+    'debug_blacklist' => [
+        '_ENV' => [
+            'APP_KEY',
+            'DB_DATABASE',
+            'DB_USERNAME',
+            'DB_PASSWORD',
+            'REDIS_PASSWORD',
+            'MAIL_PASSWORD',
+            'PUSHER_APP_KEY',
+            'PUSHER_APP_SECRET',
+            'CLOUDSHARE_USERS_USERNAME',
+            'CLOUDSHARE_USERS_PASSWORD',
+            'CLOUDSHARE_ADMINS_USERNAME',
+            'CLOUDSHARE_ADMINS_PASSWORD',
+        ],
+        '_SERVER' => [
+            'APP_KEY',
+            'DB_DATABASE',
+            'DB_USERNAME',
+            'DB_PASSWORD',
+            'REDIS_PASSWORD',
+            'MAIL_PASSWORD',
+            'PUSHER_APP_KEY',
+            'PUSHER_APP_SECRET',
+            'CLOUDSHARE_USERS_USERNAME',
+            'CLOUDSHARE_USERS_PASSWORD',
+            'CLOUDSHARE_ADMINS_USERNAME',
+            'CLOUDSHARE_ADMINS_PASSWORD',
+        ],
+        '_POST' => [
+            'password',
+        ],
     ],
 
 ];
