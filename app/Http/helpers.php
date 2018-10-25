@@ -226,7 +226,7 @@ function generate_calendar_url($user, $prefix = null, $date_types = null) {
  * @return string
  */
 function localize_number($number, $max_digits = 2, $min_digits = 0) {
-    $formatter = new \NumberFormatter(config('locale_strict'), \NumberFormatter::DECIMAL);
+    $formatter = new \NumberFormatter(config('app.locale'), \NumberFormatter::DECIMAL);
     $formatter->setAttribute(\NumberFormatter::MIN_FRACTION_DIGITS, $min_digits);
     $formatter->setAttribute(\NumberFormatter::MAX_FRACTION_DIGITS, $max_digits);
     return $formatter->format($number);
