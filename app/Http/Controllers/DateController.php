@@ -254,9 +254,11 @@ class DateController extends Controller {
             $vCalendar->setDescription($shortDescription);
 
             foreach ($dates as $date) {
+                $event_sync_id = 'date_ical_uniqid_' . $date->getShortName() . '-' . $date->getId() . '_user-' . $user->id;
+
                 // Make sure uniqid arent regenerated on every request. This makes syncing on clients more efficient.
                 // We cache them for 30 days
-                $uniqid = cache_atomic_lock_provider('date_ical_uniqid_' . $date->getShortName() . '-' . $date->getId() . '_user-' . $user->id, function() {
+                $uniqid = cache_atomic_lock_provider($event_sync_id, function() {
                     return uniqid();
                 }, Carbon::now()->addDays(30));
 
