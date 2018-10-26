@@ -20,14 +20,15 @@ class UserController extends Controller {
         'voice_id'  => 'required|integer|min:0|exists:voices,id',
         'birthday'  => 'date|after:1900-01-01',
         'address_zip'   => 'integer',
-        'sheets_deposit_returned' => 'boolean'
+        'sheets_deposit_returned' => 'boolean',
+        'share_private_data' => 'boolean',
     ];
 
     protected $password_validation = [
         'password'    => 'required|min:8|custom_complexity:3',
     ];
 
-    protected $password_validation_update = [
+    protected $password_validation_own_update = [
         'password'    => 'required|min:8|custom_complexity:3|confirmed',
     ];
 
@@ -113,7 +114,7 @@ class UserController extends Controller {
             ]
         );
 
-        $data['password'] = bcrypt($data['password']);
+        $hashed_password = bcrypt(array_pull($data, 'password'));
         $pseudo_password = str_random(222);
 
         // Generate a pseudo_id which is unique
@@ -129,6 +130,7 @@ class UserController extends Controller {
         }
 
         $user = new User($data);
+        $user->password = $hashed_password;
         $user->pseudo_id = $pseudo_id;
         $user->pseudo_password = $pseudo_password;
         $user->save();
@@ -221,21 +223,28 @@ class UserController extends Controller {
         $validation = $this->validation;
         $validation['email'] .= ',' . $user->id;
 
+        $hashed_password = null;
         if ($request->get('password') == '') {
             $this->validate($request, $validation);
-            $data = array_filter($request->except('password'));
+            $data = $request->except('password');
         } else {
-            $this->validate(
-                $request,
-                array_merge($validation, $this->password_validation_update)
-            );
+            if (\Auth::user()->id === $id) {
+                $validation = array_merge($validation, $this->password_validation_own_update);
+            } else {
+                $validation = array_merge($validation, $this->password_validation);
+            }
 
-            $data = array_filter($request->all());
-            $data['password'] = bcrypt($data['password']);
+            $this->validate($request, $validation);
+
+            $data = $request->all();
+            $hashed_password = bcrypt(array_pull($data, 'password'));
         }
 
 
-        $user->update($data);
+        $user->fill($data);
+        if (!empty($hashed_password)) {
+            $user->password = $hashed_password;
+        }
         if(!$user->save()) {
             return redirect()->route('users.index')->withErrors([trans('user.update_failed')]);
         }
