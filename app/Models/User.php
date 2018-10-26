@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use \Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
@@ -140,7 +141,7 @@ class User extends Authenticatable {
         'configure' => null,
     ];
 
-    private static $all_current_users = null;
+    private static $all_current_users = ['current' => null, 'shifted' => null];
 
     /*
      * Model all relationships.
@@ -252,6 +253,8 @@ class User extends Authenticatable {
      * @return bool
      */
     public function missedRehearsal($rehearsalId) {
+        // TODO: Optimize this using withPivot
+
         // Get all currently available attendances and filter by the rehearsal ID. Take the first find.
         $attendance = $this->rehearsal_attendances->filter(function ($value, $key) use ($rehearsalId) {
             return $value->rehearsal_id == $rehearsalId;
@@ -272,6 +275,8 @@ class User extends Authenticatable {
      * @return bool
      */
     public function excusedRehearsal($rehearsalId) {
+        // TODO: Optimize this using withPivot
+
         // Get all currently available attendances and filter by the rehearsal ID. Take the first find.
         $attendance = $this->rehearsal_attendances->filter(function ($value, $key) use ($rehearsalId) {
             return $value->rehearsal_id == $rehearsalId;
@@ -296,8 +301,6 @@ class User extends Authenticatable {
      * @return float Number of missed rehearsals
      */
     public function missedRehearsalsCount($unexcused_only = false, $with_old=true, $with_new=false, $current_only = true, $mandatory_only = true, $consider_weight = true) {
-        //TODO: Count according to "weight" of rehearsal
-        // TODO: 'weight' and 'mandatory' have overlapping uses. (weight=0 == mandatory=false)
         //TODO: Optimize!
         $rehearsals = Rehearsal::all(['id', 'mandatory', 'weight'], $with_old, false, $with_new, $current_only);
 
@@ -391,17 +394,25 @@ class User extends Authenticatable {
         })->get();
     }
 
-    public static function getUsersOfVoice($voice_id, $with_attendances = false) {
-        if (null === self::$all_current_users) {
-            self::$all_current_users = self::all(['*'], false, $with_attendances);
-        }
-
-        return self::$all_current_users->where('voice_id', $voice_id);
+    public static function getUsersOfVoice($voice_id, $with_attendances = false, $shift_for_transition_period = false) {
+        return self::all(['*'], false, $with_attendances, $shift_for_transition_period)->where('voice_id', $voice_id);;
     }
 
-    public function scopeCurrent($query){
-        //TODO: should also return users who echoed for a future semester. Or rework with many-to-many between users and voices
-        return $query->where('last_echo', Semester::current()->id);
+    public function scopeCurrent($query, $shift_for_transition_period = false){
+        return $query->where('last_echo', Semester::current($shift_for_transition_period)->id);
+    }
+
+    public function scopeCurrentAndFuture($query, $shift_for_transition_period = false) {
+        return $query->whereIn('last_echo', Semester::currentList($shift_for_transition_period)->pluck('id'));
+    }
+
+    public function scopeFuture($query, $shift_for_transition_period = false) {
+        return $query->whereIn('last_echo', Semester::futureList($shift_for_transition_period)->pluck('id'));
+    }
+
+    public function scopePast($query, $shift_for_transition_period = false) {
+        // Use whereNotIn to better handle the case when a semester has been deleted
+        return $query->whereNotIn('last_echo', Semester::currentList($shift_for_transition_period)->pluck('id'));
     }
 
     public function scopeOfVoice($query, $voiceId) {
@@ -416,7 +427,7 @@ class User extends Authenticatable {
      * @param bool $with_attendances
      * @return User|\Eloquent[]|\Illuminate\Database\Eloquent\Collection
      */
-    public static function all($columns = ['*'], $with_old = false, $with_attendances = false) {
+    public static function all($columns = ['*'], $with_old = false, $with_attendances = false, $shift_for_transition_period = false) {
         $eager_load_relations = ['roles'];
 
         // Should we preload more relations?
@@ -428,13 +439,12 @@ class User extends Authenticatable {
         if ($with_old) {
             return parent::with($eager_load_relations)->get($columns);
         } else {
+            $shift = $shift_for_transition_period ? 'shifted' : 'current';
             // Cache all without old.
-            if (null === self::$all_current_users) {
-                //TODO: handle the case when we are in between semesters
-                //self::$all_current_users = parent::with($eager_load_relations)->where('last_echo', Semester::nextSemester()->id)->get($columns);
-                self::$all_current_users = parent::with($eager_load_relations)->where('last_echo', Semester::current()->id)->get($columns);
+            if (null === self::$all_current_users[$shift]) {
+                self::$all_current_users[$shift] = self::with($eager_load_relations)->currentAndFuture($shift_for_transition_period)->get($columns);
             }
-            return self::$all_current_users;
+            return self::$all_current_users[$shift];
         }
     }
 
@@ -444,5 +454,13 @@ class User extends Authenticatable {
 
     public function getAbbreviatedNameAttribute(){
         return $this->first_name . ' ' . str_shorten($this->last_name, 1) . '.';
+    }
+
+    public function activeUntil() {
+        return new Carbon($this->last_echo()->firstOrFail()->end);
+    }
+
+    public function isActive() {
+        return $this->activeUntil()->isFuture();
     }
 }

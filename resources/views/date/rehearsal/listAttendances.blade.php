@@ -39,7 +39,7 @@
                                                             <div class="row">
                                                                 <?php
                                                                 /** @var App\Models\Voice $sub_voice */
-                                                                $users = \App\Models\User::getUsersOfVoice($sub_voice->id, true)
+                                                                $users = \App\Models\User::getUsersOfVoice($sub_voice->id, true);
                                                                 ?>
                                                                 @foreach($users as $user)
                                                                         @include('date.rehearsal.listAttendances.user_entry', ['user' => $user, 'currentRehearsal' => $currentRehearsal])
