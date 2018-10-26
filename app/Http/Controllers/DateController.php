@@ -252,8 +252,15 @@ class DateController extends Controller {
             $vCalendar = new \Eluceo\iCal\Component\Calendar('jazzchor_' . $calendar_name);
             $vCalendar->setName($shortDescription);
             $vCalendar->setDescription($shortDescription);
+
             foreach ($dates as $date) {
-                $vEvent = new \Eluceo\iCal\Component\Event();
+                // Make sure uniqid arent regenerated on every request. This makes syncing on clients more efficient.
+                // We cache them for 30 days
+                $uniqid = cache_atomic_lock_provider('date_ical_uniqid_' . $date->getShortName() . '-' . $date->getId() . '_user-' . $user->id, function() {
+                    return uniqid();
+                }, Carbon::now()->addDays(30));
+
+                $vEvent = new \Eluceo\iCal\Component\Event($uniqid);
                 $vEvent
                     ->setDtStart($date->getStart())
                     ->setDtEnd($date->getEnd())

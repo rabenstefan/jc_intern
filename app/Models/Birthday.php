@@ -13,17 +13,19 @@ class Birthday implements Event {
         'className' => 'event-birthday'
     ];
 
-    private $title;
-    private $start;
-    private $end;
+    protected $id;
+    protected $title;
+    protected $start;
+    protected $end;
 
     public $description = '';
 
-    private $user;
+    protected $user;
 
     public function __construct(User $user = null) {
         $this->title = trans('form.birthday') . " " . $user->first_name . ' ' . $user->last_name;
         $this->user = $user;
+        $this->id = $user->id; // Birthdays carry the corresponding user's id
 
         // Date arithmetic: Set to current year, add one year if date is more than one week ago.
         $dateCurrentYear = new Carbon($user->birthday);
@@ -57,6 +59,15 @@ class Birthday implements Event {
 
     public function getUser() {
         return $this->user;
+    }
+
+    /**
+     * Get the Birtday's id. This will simply return the corresponding user's id.
+     *
+     * @return int
+     */
+    public function getId() {
+        return $this->id;
     }
 
     /**
