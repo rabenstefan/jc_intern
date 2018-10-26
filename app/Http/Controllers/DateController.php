@@ -249,18 +249,14 @@ class DateController extends Controller {
             }, array_keys($date_types)));
             $shortDescription = trans('date.ical_title', ['name' => $user->first_name, 'calendars' => $calendars_title_merge]);
 
-            $vCalendar = new \Eluceo\iCal\Component\Calendar('jazzchor_' . $calendar_name);
+            $vCalendar = new \Eluceo\iCal\Component\Calendar(config('app.domain') . '_' . $calendar_name);
             $vCalendar->setName($shortDescription);
             $vCalendar->setDescription($shortDescription);
 
             foreach ($dates as $date) {
+                // Make sure uniqid arent freshly generated on every request. This makes syncing on clients more efficient.
                 $event_sync_id = 'date_ical_uniqid_' . $date->getShortName() . '-' . $date->getId() . '_user-' . $user->id;
-
-                // Make sure uniqid arent regenerated on every request. This makes syncing on clients more efficient.
-                // We cache them for 30 days
-                $uniqid = cache_atomic_lock_provider($event_sync_id, function() {
-                    return uniqid();
-                }, Carbon::now()->addDays(30));
+                $uniqid = md5(config('app.domain') . $event_sync_id) . '@' . config('app.domain');
 
                 $vEvent = new \Eluceo\iCal\Component\Event($uniqid);
                 $vEvent
