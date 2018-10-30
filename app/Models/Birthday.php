@@ -4,28 +4,28 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use MaddHatter\LaravelFullcalendar\Event;
 
-class Birthday implements Event {
+class Birthday extends Model implements Event {
     use Date;
+
+    // This is for carbon dates.
+    protected $dates = ['start', 'end'];
 
     protected $calendar_options = [
         'className' => 'event-birthday'
     ];
 
-    protected $id;
     protected $title;
     protected $start;
     protected $end;
-
-    public $description = '';
 
     protected $user;
 
     public function __construct(User $user = null) {
         $this->title = trans('form.birthday') . " " . $user->first_name . ' ' . $user->last_name;
         $this->user = $user;
-        $this->id = $user->id; // Birthdays carry the corresponding user's id
 
         // Date arithmetic: Set to current year, add one year if date is more than one week ago.
         $dateCurrentYear = new Carbon($user->birthday);
@@ -61,13 +61,20 @@ class Birthday implements Event {
         return $this->user;
     }
 
-    /**
-     * Get the Birtday's id. This will simply return the corresponding user's id.
-     *
-     * @return int
-     */
-    public function getId() {
-        return $this->id;
+    public function getIdAttribute() {
+        return $this->user->id;
+    }
+
+    public function getDescriptionAttribute() {
+        return '';
+    }
+
+    public function getUpdatedAtAttribute() {
+        return $this->user->updated_at;
+    }
+
+    public function getCreatedAtAttribute() {
+        return $this->user->created_at;
     }
 
     /**
@@ -102,7 +109,7 @@ class Birthday implements Event {
      *
      * @return Collection
      */
-    public static function all() {
+    public static function all($columns = ['*']) {
         $collection = new Collection();
         $users = User::all();
 

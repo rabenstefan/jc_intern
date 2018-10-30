@@ -255,7 +255,7 @@ class DateController extends Controller {
 
             foreach ($dates as $date) {
                 // Make sure uniqid arent freshly generated on every request. This makes syncing on clients more efficient.
-                $event_sync_id = 'date_ical_uniqid_' . $date->getShortName() . '-' . $date->getId() . '_user-' . $user->id;
+                $event_sync_id = 'date_ical_uniqid_' . $date->getShortName() . '-' . $date->id . '_user-' . $user->id;
                 $uniqid = md5(config('app.domain') . $event_sync_id) . '@' . config('app.domain');
 
                 $vEvent = new \Eluceo\iCal\Component\Event($uniqid);
@@ -266,7 +266,17 @@ class DateController extends Controller {
                     ->setSummary($date->getTitle())
                     ->setDescription($date->description);
 
+                // The sequence number determines if an event needs to be resynced. Since we don't keep track when an event has changed,
+                // we simply use the unix timestamp of the modification date.
+                // Fun fact: This value will be too large for a regular integer on Tuesday, 19. January 2038 03:14:07 GMT
+                $sequence = $date->updated_at ? $date->updated_at->timestamp : null;
+
                 if (method_exists($date, 'isAttending')) {
+                    // If a user changes their attendance, we need to resync the event.
+                    if (null !== $date->getAttendance($user) && null !== $date->getAttendance($user)->updated_at) {
+                        $sequence = max($sequence, $date->getAttendance($user)->updated_at->timestamp);
+                    }
+
                     $attendance = $date->isAttending($user);
                     if (!empty($attendance)) {
                         $vEvent->setStatus(self::$convert_attendance_eluceo[$attendance]);
@@ -277,6 +287,19 @@ class DateController extends Controller {
                         }
                     }
                 }
+
+                // To make the sequence numbers a little smaller, we subtract the timestamp of our very first commit.
+                // Fun fact: After this, the resulting value will be too large for a regular integer after Wednesday, 5. April 2084 03:14:07 GMT
+                if ($sequence === null || $sequence < 1458259200) {
+                    $sequence = 0;
+                } else {
+                    $sequence -= 1458259200;
+                }
+
+                // This ensures that birthdays get resynced when they are shifted to a new year.
+                $sequence += $date->getStart()->year;
+
+                $vEvent->setSequence($sequence);
 
                 if (true === $date->hasPlace()) {
                     $vEvent->setLocation($date->place);
