@@ -117,21 +117,31 @@ abstract class AttendanceController extends Controller {
         // Retrieve event by child methods.
         $event = $this->getEventById($event_id);
 
+        // Check if there is an event.
+        if (null === $event) {
+            if ($request->wantsJson()) {
+                return \Response::json(['success' => false, 'message' => trans('date.date_not_found')]);
+            } else {
+                return back()->withErrors(trans('date.date_not_found'));
+            }
+        }
+
+        // Check if the event has already begun.
+        if ($event->start->isPast()) {
+            if ($request->wantsJson()) {
+                return \Response::json(['success' => false, 'message' => trans('date.start_in_past')]);
+            } else {
+                return back()->withErrors(trans('date.start_in_past'));
+            }
+        }
+
+        // Check whether we are in the deadline
         $deadline = $event->answer_deadline;
         if ($deadline !== null && $deadline->isPast()) {
             if ($request->wantsJson()) {
                 return \Response::json(['success' => false, 'message' => trans('date.deadline_has_passed')]);
             } else {
                 return back()->withErrors(trans('date.deadline_has_passed'));
-            }
-        }
-
-        // Check if there is an event.
-        if (null === $event) {
-            if ($request->wantsJson()) {
-                return \Response::json(['success' => false, 'message' => trans('date.gig_not_found')]);
-            } else {
-                return back()->withErrors(trans('date.gig_not_found'));
             }
         }
 

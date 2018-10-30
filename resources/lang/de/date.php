@@ -86,5 +86,7 @@ return [
     'link_webcal'           => 'Hier draufklicken.',
     'empty_ical_title'      => 'Abgelaufener Kalender',
     'empty_ical_description' => 'Dieser Kalender ist nicht länger gültig und kann gelöscht werden.',
-    'deadline_has_passed'   => 'Um deine Anwesenheit für dieses Event zu ändern, kontaktiere bitte den zuständigen Vorstand.',
+    'deadline_has_passed'   => 'Um deine Anwesenheit für diesen Termin zu ändern, kontaktiere bitte den zuständigen Vorstand.',
+    'date_not_found'        => 'Termin nicht gefunden.',
+    'start_in_past'         => 'Termin liegt in der Vergangenheit.'
 ];

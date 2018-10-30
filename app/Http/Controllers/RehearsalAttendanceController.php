@@ -32,7 +32,7 @@ class RehearsalAttendanceController extends AttendanceController {
         return Rehearsal::where(
             'id', $event_id
         )->where(
-            'start', '>=', Carbon::now()->toDateTimeString()
+            'end', '>=', Carbon::today()->toDateTimeString()
         )->first();
     }
 

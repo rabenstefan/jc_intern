@@ -53,7 +53,7 @@ class GigAttendanceController extends AttendanceController {
         return Gig::where(
             'id', $event_id
         )->where(
-            'start', '>=', Carbon::now()->toDateTimeString()
+            'end', '>=', Carbon::today()->toDateTimeString()
         )->first();
     }
 
