@@ -254,8 +254,8 @@ class DateController extends Controller {
             $vCalendar->setDescription($shortDescription);
 
             foreach ($dates as $date) {
-                // Make sure uniqid arent freshly generated on every request. This makes syncing on clients more efficient.
-                $event_sync_id = 'date_ical_uniqid_' . $date->getShortName() . '-' . $date->id . '_user-' . $user->id;
+                // Make sure uniqid are not freshly generated on every request. This makes syncing on clients more efficient.
+                $event_sync_id = 'date_ical_uniqid_' . $date->getShortName() . '-' . $date->id . '_user-' . $user->pseudo_id;
                 $uniqid = md5(config('app.domain') . $event_sync_id) . '@' . config('app.domain');
 
                 $vEvent = new \Eluceo\iCal\Component\Event($uniqid);
@@ -266,9 +266,9 @@ class DateController extends Controller {
                     ->setSummary($date->getTitle())
                     ->setDescription($date->description);
 
-                // The sequence number determines if an event needs to be resynced. Since we don't keep track when an event has changed,
+                // The sequence number determines if an event needs to be resynced. Since we don't keep track how often an event has changed,
                 // we simply use the unix timestamp of the modification date.
-                // Fun fact: This value will be too large for a regular integer on Tuesday, 19. January 2038 03:14:07 GMT
+                // Fun fact: This value will be too large for a regular iCal-integer on Tuesday, 19. January 2038 03:14:07 GMT
                 $sequence = $date->updated_at ? $date->updated_at->timestamp : null;
 
                 if (method_exists($date, 'isAttending')) {
@@ -289,7 +289,7 @@ class DateController extends Controller {
                 }
 
                 // To make the sequence numbers a little smaller, we subtract the timestamp of our very first commit.
-                // Fun fact: After this, the resulting value will be too large for a regular integer after Wednesday, 5. April 2084 03:14:07 GMT
+                // Fun fact: After this, the resulting value will be too large for a regular iCal-integer after Wednesday, 5. April 2084 03:14:07 GMT
                 if ($sequence === null || $sequence < 1458259200) {
                     $sequence = 0;
                 } else {
