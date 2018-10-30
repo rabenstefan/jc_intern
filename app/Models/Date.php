@@ -6,9 +6,6 @@ use DateTime;
 use Carbon\Carbon;
 
 trait Date {
-    // This is for carbon dates.
-    protected $dates = ['start', 'end'];
-
     // This is for view stuff (visibility and such).
     protected $applicable_filters = null;
 

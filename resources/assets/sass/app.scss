@@ -1056,7 +1056,7 @@ div.checkbox input, div.radio input {
   }
 
   &.notifyjs-shadow2d-success {
-    color: $success-color;
+    color: $success-color-darker;
     background-color: $success-color-lighter;
     @include shadow-2d($success-color-darker);
 
@@ -1066,13 +1066,13 @@ div.checkbox input, div.radio input {
   }
 
   &.notifyjs-shadow2d-warning {
-    color: $warning-color;
+    color: $warning-color-darker;
     background-color: $warning-color-lighter;
     @include shadow-2d($warning-color-darker);
   }
 
   &.notifyjs-shadow2d-danger {
-    color: $error-color;
+    color: $error-color-darker;
     background-color: $error-color-lighter;
     @include shadow-2d($error-color-darker);
   }

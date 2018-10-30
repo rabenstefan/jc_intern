@@ -85,5 +85,6 @@ return [
     'link_google'           => 'Hier draufklicken.',
     'link_webcal'           => 'Hier draufklicken.',
     'empty_ical_title'      => 'Abgelaufener Kalender',
-    'empty_ical_description' => 'Dieser Kalender ist nicht länger gültig und kann gelöscht werden.'
+    'empty_ical_description' => 'Dieser Kalender ist nicht länger gültig und kann gelöscht werden.',
+    'deadline_has_passed'   => 'Um deine Anwesenheit für dieses Event zu ändern, kontaktiere bitte den zuständigen Vorstand.',
 ];

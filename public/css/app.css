@@ -6619,7 +6619,7 @@ div.checkbox input, div.radio input {
     margin-left: -2em;
     padding: 0 0.8em; }
   .notifyjs-shadow2d-base.notifyjs-shadow2d-success {
-    color: #0bac35;
+    color: #047823;
     background-color: #52cd73;
     border-radius: 0 ;
     border-bottom: 3px solid #047823 ;
@@ -6628,13 +6628,13 @@ div.checkbox input, div.radio input {
       font-weight: 900;
       content: "\f00c"; }
   .notifyjs-shadow2d-base.notifyjs-shadow2d-warning {
-    color: #e78d0f;
+    color: #a06006;
     background-color: #f0b560;
     border-radius: 0 ;
     border-bottom: 3px solid #a06006 ;
     box-shadow: none; }
   .notifyjs-shadow2d-base.notifyjs-shadow2d-danger {
-    color: #e7280f;
+    color: #a01806;
     background-color: #f07160;
     border-radius: 0 ;
     border-bottom: 3px solid #a01806 ;

@@ -117,6 +117,15 @@ abstract class AttendanceController extends Controller {
         // Retrieve event by child methods.
         $event = $this->getEventById($event_id);
 
+        $deadline = $event->answer_deadline;
+        if ($deadline !== null && $deadline->isPast()) {
+            if ($request->wantsJson()) {
+                return \Response::json(['success' => false, 'message' => trans('date.deadline_has_passed')]);
+            } else {
+                return back()->withErrors(trans('date.deadline_has_passed'));
+            }
+        }
+
         // Check if there is an event.
         if (null === $event) {
             if ($request->wantsJson()) {

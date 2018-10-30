@@ -36,7 +36,7 @@ use MaddHatter\LaravelFullcalendar\IdentifiableEvent;
 class Gig extends \Eloquent implements IdentifiableEvent {
     use Event;
 
-    protected $dates = ['start', 'end'];
+    protected $dates = ['start', 'end', 'answer_deadline'];
 
     protected $calendar_options = [
         'className' => 'event-gig',
