@@ -167,7 +167,8 @@ return [
         Collective\Html\HtmlServiceProvider::class,
         MaddHatter\LaravelFullcalendar\ServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,  // also loaded in production :-(
-        Greggilbert\Recaptcha\RecaptchaServiceProvider::class
+        Greggilbert\Recaptcha\RecaptchaServiceProvider::class,
+        Laravel\Tinker\TinkerServiceProvider::class
     ],
 
     /*
