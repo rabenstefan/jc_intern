@@ -15,6 +15,8 @@
             {!! Form::datetimeInput2d('start') !!}
             {!! Form::datetimeInput2d('end') !!}
             {!! Form::textInput2d('place') !!}
+            {!! Form::checkboxInput2d('has_answer_deadline', $newRehearsal ? false : !is_null($rehearsal->answer_deadline)) !!}
+            {!! Form::datetimeInput2d('answer_deadline')!!}
         </div>
     </div>
     <div class="row">

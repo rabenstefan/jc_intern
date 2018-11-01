@@ -16,6 +16,8 @@
             {!! Form::datetimeInput2d('end') !!}
             {!! Form::textInput2d('place') !!}
             {!! Form::checkboxInput2d('binary_answer') !!}
+            {!! Form::checkboxInput2d('has_answer_deadline', $newGig ? false : !is_null($gig->answer_deadline), ['class' => 'has-answer-deadline'])!!}
+            {!! Form::datetimeInput2d('answer_deadline', null, ['class' => 'answer-deadline'])!!}
         </div>
     </div>
     <div class="row">

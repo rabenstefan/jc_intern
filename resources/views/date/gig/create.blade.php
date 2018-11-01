@@ -29,5 +29,11 @@
         autocomplete = new google.maps.places.Autocomplete(document.getElementsByName('place').item(0), {
             types: ['address']
         });
+
+        $(document).ready(function () {
+            function toggle_deadline_field() {
+                //$('.deadline')
+            }
+        });
     </script>
 @endsection
