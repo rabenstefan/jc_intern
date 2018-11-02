@@ -43,6 +43,6 @@ class UsersTableSeeder extends Seeder
             'last_echo' => 1,
         ]);*/
 
-        //factory(App\Models\User::class, 20)->create();
+        factory(App\Models\User::class, 20)->create();
     }
 }
