@@ -301,9 +301,7 @@ class DateController extends Controller {
             return $this->emptyIcal();
         }
 
-        //TODO: make this the default method to check if a user if is active/current
-        $user_echo = new Carbon($user->last_echo()->firstOrFail()->end);
-        if ($user_echo->isPast()) {
+        if (!$user->isActive()) {
             // User was successfully authenticated, but is no longer allowed to sync a calendar. We purge their calendar.
             return $this->emptyIcal();
         }

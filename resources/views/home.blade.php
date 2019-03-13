@@ -158,10 +158,10 @@
                                         <br>
                                         <p>{{ trans('home.echo_semester') }}</p>
                                         <a href="#"
-                                           class="btn btn-2d btn-post"
+                                           class="btn btn-2d btn-post" {{-- TODO: This would be much better as POST !!! --}}
                                            data-url="{{ route('users.updateSemester', $user->id) }}"
                                            data-callback-success="hideEchoNeededPanel">
-                                            {{ trans('home.echo_semester_button', ['semester' => $current_semester->label])}}
+                                            {{ trans('home.echo_semester_button', ['semester' => $echo_semester->label])}}
                                         </a>
                                     </div>
                                 </div>

@@ -18,10 +18,10 @@
         "ext-json": "*",
         "fideloper/proxy": "^4.0",
         "ext-intl": "*",
-        "laravel/tinker": "^1.0"
+        "laravel/tinker": "^1.0",
+        "doctrine/dbal": "^2.8"
     },
     "require-dev": {
-        "doctrine/dbal": "^2.3",
         "fzaninotto/faker": "~1.4",
         "mockery/mockery": "0.9.*",
         "phpunit/phpunit": "^4.0",
