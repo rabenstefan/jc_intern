@@ -54,7 +54,6 @@ class RehearsalController extends EventController {
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request) {
-        //TODO: Create all attendances for all users.
         $this->validate($request, $this->validation);
 
         $data = $this->prepareDates($request->all());

@@ -192,9 +192,7 @@ class HomeController extends Controller
     }
 
     private function nextEchoNeeded(User $user, Carbon $today) {
-        $last_echo = Semester::find($user->last_echo);
-        if (null === $last_echo) return false;
-        return ((new Carbon($last_echo->end))->subMonths(2)->lt($today));
+        return ! Semester::currentList(true)->contains('id', '=', $user->last_echo);
     }
 
     private function prepareAdminMissedRehearsalsPanel() {
@@ -203,7 +201,7 @@ class HomeController extends Controller
         $panel = ['state' => 'info', 'count' => 0, 'data' => collect()];
 
         if (\Auth::user()->isAdmin() === true) {
-            $data = User::all()->filter(function($user){
+            $data = User::all(['id', 'first_name', 'last_name'], false, false)->filter(function($user){
                 return $user->isOverMissingRehearsalsLimit();
             });
             $panel['count'] += $data->count();
@@ -234,7 +232,8 @@ class HomeController extends Controller
             'next_gigs_panel' => $this->prepareNextEventsPanel(Gig::class, 'gigs', $now, $user, true),
             'next_birthdays_panel' => $this->prepareNextBirthdaysPanel($today),
             'echo_needed' => $this->nextEchoNeeded($user, $today),
-            'current_semester' => Semester::current(),
+            'current_semester' => Semester::current(false),
+            'echo_semester' => Semester::current(true),
             'today' => $today,
             'now'   => $now,
             'user' => $user

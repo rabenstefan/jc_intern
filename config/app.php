@@ -84,7 +84,6 @@ return [
     */
 
     'locale' => 'de',
-    'locale_strict' => 'de_DE',
 
     /*
     |--------------------------------------------------------------------------
@@ -113,21 +112,6 @@ return [
     'key' => env('APP_KEY', '=5}5jK)]p33tC6R*jkwd$<T<VG/T@((_'),
 
     'cipher' => 'AES-256-CBC',
-
-    /*
-    |--------------------------------------------------------------------------
-    | Logging Configuration
-    |--------------------------------------------------------------------------
-    |
-    | Here you may configure the log settings for your application. Out of
-    | the box, Laravel uses the Monolog PHP logging library. This gives
-    | you a variety of powerful log handlers / formatters to utilize.
-    |
-    | Available Settings: "single", "daily", "syslog", "errorlog"
-    |
-    */
-
-    'log' => env('APP_LOG', 'single'),
 
     /*
     |--------------------------------------------------------------------------
@@ -166,6 +150,7 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
+        Illuminate\Notifications\NotificationServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -182,7 +167,8 @@ return [
         Collective\Html\HtmlServiceProvider::class,
         MaddHatter\LaravelFullcalendar\ServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,  // also loaded in production :-(
-        Greggilbert\Recaptcha\RecaptchaServiceProvider::class
+        Greggilbert\Recaptcha\RecaptchaServiceProvider::class,
+        Laravel\Tinker\TinkerServiceProvider::class
     ],
 
     /*
@@ -215,6 +201,7 @@ return [
         'Lang' => Illuminate\Support\Facades\Lang::class,
         'Log' => Illuminate\Support\Facades\Log::class,
         'Mail' => Illuminate\Support\Facades\Mail::class,
+        'Notification' => Illuminate\Support\Facades\Notification::class,
         'Password' => Illuminate\Support\Facades\Password::class,
         'Queue' => Illuminate\Support\Facades\Queue::class,
         'Redirect' => Illuminate\Support\Facades\Redirect::class,
@@ -237,6 +224,40 @@ return [
         'Calendar' => MaddHatter\LaravelFullcalendar\Facades\Calendar::class,
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
         'Recaptcha' => Greggilbert\Recaptcha\Facades\Recaptcha::class,
+    ],
+
+    'debug_blacklist' => [
+        '_ENV' => [
+            'APP_KEY',
+            'DB_DATABASE',
+            'DB_USERNAME',
+            'DB_PASSWORD',
+            'REDIS_PASSWORD',
+            'MAIL_PASSWORD',
+            'PUSHER_APP_KEY',
+            'PUSHER_APP_SECRET',
+            'CLOUDSHARE_USERS_USERNAME',
+            'CLOUDSHARE_USERS_PASSWORD',
+            'CLOUDSHARE_ADMINS_USERNAME',
+            'CLOUDSHARE_ADMINS_PASSWORD',
+        ],
+        '_SERVER' => [
+            'APP_KEY',
+            'DB_DATABASE',
+            'DB_USERNAME',
+            'DB_PASSWORD',
+            'REDIS_PASSWORD',
+            'MAIL_PASSWORD',
+            'PUSHER_APP_KEY',
+            'PUSHER_APP_SECRET',
+            'CLOUDSHARE_USERS_USERNAME',
+            'CLOUDSHARE_USERS_PASSWORD',
+            'CLOUDSHARE_ADMINS_USERNAME',
+            'CLOUDSHARE_ADMINS_PASSWORD',
+        ],
+        '_POST' => [
+            'password',
+        ],
     ],
 
 ];

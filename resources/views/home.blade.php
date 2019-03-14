@@ -158,10 +158,10 @@
                                         <br>
                                         <p>{{ trans('home.echo_semester') }}</p>
                                         <a href="#"
-                                           class="btn btn-2d btn-post"
+                                           class="btn btn-2d btn-post" {{-- TODO: This would be much better as POST !!! --}}
                                            data-url="{{ route('users.updateSemester', $user->id) }}"
                                            data-callback-success="hideEchoNeededPanel">
-                                            {{ trans('home.echo_semester_button', ['semester' => $current_semester->label])}}
+                                            {{ trans('home.echo_semester_button', ['semester' => $echo_semester->label])}}
                                         </a>
                                     </div>
                                 </div>
@@ -239,8 +239,9 @@
                     $.notify('{{ trans('date.attendance_not_saved') }}', 'danger');
 
                     // TODO: maybe status codes are better here? However status messages should be consistent among browsers and they are passed by jquery
-                    if (error === 'Unauthorized') {
-                        // Session expired or user logged out in another tab (401)
+                    if (error === 'Unauthorized' || error === 'No Reason Phrase') {
+                        // Unauthorized (401): Session expired or user logged out in another tab
+                        // No Reason Phrase (419): XSRF-Token verification failed or a problem with authorization
                         location.reload(true);
                     } else if (error === 'Unprocessable Entity') {
                         // Validation failed (422)
