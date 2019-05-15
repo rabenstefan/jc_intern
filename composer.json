@@ -19,7 +19,8 @@
         "fideloper/proxy": "^4.0",
         "ext-intl": "*",
         "laravel/tinker": "^1.0",
-        "doctrine/dbal": "^2.8"
+        "doctrine/dbal": "^2.8",
+        "webklex/laravel-imap": "^1.4"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
