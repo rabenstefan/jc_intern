@@ -197,7 +197,7 @@
                                                     <p>{{ trans("home.mailbox_numbers", ["total" => $value["total"], "unread" => $value["unread"]]) }}
                                                         @if(null !== $value["newest_message"])
                                                             <br />
-                                                            {{ trans("home.latest_message", ["date" => $value["newest_message"]->getDate()->format('d.m.Y'), "subject" => str_shorten($value["newest_message"]->getsubject(), 10, '...')]) }}
+                                                            {{ trans("home.latest_message", ["date" => $value["newest_message"]->getDate()->format('d.m.Y'), "from" => str_shorten($value["newest_message"]->getFrom()[0]->mail, 10, "..."), "subject" => str_shorten($value["newest_message"]->getsubject(), 10, '...')]) }}
                                                         @endif
                                                     </p>
                                                 @endforeach

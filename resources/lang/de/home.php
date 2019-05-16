@@ -62,5 +62,5 @@ return [
     'admin_mails_heading' => "Postfach",
     'no_imap'       => 'Keine Verbindung zum Postfach möglich. Bitte in 15 Minuten noch einmal probieren.',
     'mailbox_numbers' => ':total Mails, davon :unread ungelesen.',
-    'latest_message' => 'Neueste Mail vom :date hat den Betreff: :subject'
+    'latest_message' => 'Neueste Mail von :from am :date mit Betreff: :subject'
 ];

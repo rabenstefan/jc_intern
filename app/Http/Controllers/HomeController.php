@@ -227,7 +227,7 @@ class HomeController extends Controller
         $newest_message = $folder->query()->limit(1)->get()->first();
 
         // Handle subfolders recursively
-        if ($folder->has_children) {
+        if ($recursive === true && $folder->has_children) {
             foreach ($folder->children as $subfolder) {
                 $subresult = $this->getFolderCount($client, $subfolder);
 
@@ -263,6 +263,7 @@ class HomeController extends Controller
 
         $result_folders = [];
         $result_count = 0;
+        $all_folders = $client->getFolders(true);
         /*
          * Two cases are most common:
          * 1) Everything is under the "INBOX" folder.
@@ -272,16 +273,17 @@ class HomeController extends Controller
          */
         if ($topfolder === "NULL") {
             $topfolder = null;
+            $folders = $all_folders;
         } else {
-            $topfolder_resolved = $client->getFolder($topfolder);
-            $current_counts = $this->getFolderCount($client, $topfolder_resolved, false);
-            $result_folders[$topfolder] = $current_counts;
+            $topfolder = $all_folders->where('full_name', $topfolder)->first();
+
+            $current_counts = $this->getFolderCount($client, $topfolder, false);
+            $result_folders[$topfolder->name] = $current_counts;
             $result_count += $current_counts['unread'];
 
-            $exclude_folders[] = $topfolder_resolved->full_name;
+            $folders = $topfolder->children;
+            $exclude_folders[] = "INBOX";
         }
-
-        $folders = $client->getFolders(true, $topfolder);
 
         foreach($folders as $folder) {
             if (in_array($folder->full_name, $exclude_folders)) {
