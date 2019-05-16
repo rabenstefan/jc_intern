@@ -331,7 +331,7 @@ class HomeController extends Controller
         if (\Auth::user()->isAdmin()) {
 
             $admin_missed_rehearsals_panel = cache_atomic_lock_provider("ADMIN_MISSED_REHEARSALS_PANEL", function() {
-                return $this->prepareAdminMailPanel();
+                return $this->prepareAdminMissedRehearsalsPanel();
             }, 240);
 
             $admin_mails_panel = cache_atomic_lock_provider("ADMIN_MAILS_PANEL", function ($key, &$cache_expiry_time) {
