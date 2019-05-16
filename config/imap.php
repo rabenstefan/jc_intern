@@ -85,12 +85,12 @@ return [
     */
     'options' => [
         'delimiter' => '/',
-        'fetch' => \Webklex\IMAP\IMAP::FT_UID,
-        'fetch_body' => true,
-        'fetch_attachment' => true,
-        'fetch_flags' => true,
+        'fetch' => \Webklex\IMAP\IMAP::FT_PEEK,
+        'fetch_body' => false,
+        'fetch_attachment' => false,
+        'fetch_flags' => false,
         'message_key' => 'id',
-        'fetch_order' => 'asc',
+        'fetch_order' => 'desc',
         'open' => [
             // 'DISABLE_AUTHENTICATOR' => 'GSSAPI'
         ],

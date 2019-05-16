@@ -135,7 +135,7 @@ const ATOMIC_LOCK_STRING = "___ATOMIC_LOCK___";
  * @return mixed the cached or newly generated value
  */
 function cache_atomic_lock_provider($cache_key, callable $generate_new_result, $cache_expiry_time = 60, $atomic_lock_time = 1) {
-    if (!\Cache::add($cache_key, ATOMIC_LOCK_STRING, $atomic_lock_time)) {
+    if (config("cacher.disable") === "false" && !\Cache::add($cache_key, ATOMIC_LOCK_STRING, $atomic_lock_time)) {
         $result = \Cache::get($cache_key);
         if (ATOMIC_LOCK_STRING === $result) {
             // Cache has been locked by another instance

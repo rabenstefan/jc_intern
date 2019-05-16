@@ -240,6 +240,9 @@ return [
             'CLOUDSHARE_USERS_PASSWORD',
             'CLOUDSHARE_ADMINS_USERNAME',
             'CLOUDSHARE_ADMINS_PASSWORD',
+            'IMAP_HOST',
+            'IMAP_USERNAME',
+            'IMAP_PASSWORD',
         ],
         '_SERVER' => [
             'APP_KEY',
@@ -254,6 +257,9 @@ return [
             'CLOUDSHARE_USERS_PASSWORD',
             'CLOUDSHARE_ADMINS_USERNAME',
             'CLOUDSHARE_ADMINS_PASSWORD',
+            'IMAP_HOST',
+            'IMAP_USERNAME',
+            'IMAP_PASSWORD',
         ],
         '_POST' => [
             'password',

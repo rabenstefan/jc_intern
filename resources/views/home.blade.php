@@ -50,7 +50,7 @@
                                                 {{ str_shorten($gig->title, 10, '...')}}
                                                 @if(true === $gig->hasPlace())
                                                     <br>
-                                                    <a href="{{'https://www.google.com/maps/search/'}}@urlescape($gig->place)/" style="padding:0;" title="{{ trans('date.address_search') }}" target="_blank">({{ str_shorten($gig->place, 10, '...') }}  <i class="far fa-map"></i>)</a>
+                                                    <a href="{{'https://www.google.com/maps/search/'}}@urlescape($gig->place)/" style="padding:0;" title="{{ trans('date.address_search') }}" rel="noopener noreferrer"  target="_blank">({{ str_shorten($gig->place, 10, '...') }}  <i class="far fa-map"></i>)</a>
                                                 @endif
                                             </li>
                                         @endforeach
@@ -74,7 +74,7 @@
                                                 {{ str_shorten($rehearsal->title, 10, '...') }}
                                                 @if(true === $rehearsal->hasPlace())
                                                     <br>
-                                                    <a href="{{'https://www.google.com/maps/search/'}}@urlescape($rehearsal->place)/" style="padding:0;" title="{{ trans('date.address_search') }}" target="_blank">({{ str_shorten($rehearsal->place, 10, '...') }}  <i class="far fa-map"></i>)</a>
+                                                    <a href="{{'https://www.google.com/maps/search/'}}@urlescape($rehearsal->place)/" style="padding:0;" title="{{ trans('date.address_search') }}" rel="noopener noreferrer" target="_blank">({{ str_shorten($rehearsal->place, 10, '...') }}  <i class="far fa-map"></i>)</a>
                                                 @endif
                                             </li>
                                         @endforeach
@@ -136,11 +136,11 @@
                             <div class="panel-element panel-element-info">
                                 <div class="panel-element-body">
                                     <p>{{ trans('home.cloudshare_body') }}</p>
-                                    <a href="{{ route('fileAccess.accessFiles', ['type' => 'users', 'id' => 1]) }}" target="_blank" class="btn btn-2d btn-clear-below">{{ trans('home.cloudshare_button1') }}</a>
+                                    <a href="{{ route('fileAccess.accessFiles', ['type' => 'users', 'id' => 1]) }}" target="_blank" rel="noopener noreferrer" class="btn btn-2d btn-clear-below">{{ trans('home.cloudshare_button1') }}</a>
                                     <br>
-                                    <a href="{{ route('fileAccess.accessFiles', ['type' => 'users', 'id' => 2]) }}" target="_blank" class="btn btn-2d btn-clear-below">{{ trans('home.cloudshare_button2') }}</a>
+                                    <a href="{{ route('fileAccess.accessFiles', ['type' => 'users', 'id' => 2]) }}" target="_blank" rel="noopener noreferrer" class="btn btn-2d btn-clear-below">{{ trans('home.cloudshare_button2') }}</a>
                                     <br>
-                                    <a href="{{ route('fileAccess.accessFiles', ['type' => 'users', 'id' => 3]) }}" target="_blank" class="btn btn-2d btn-success btn-clear-below">{{ trans('home.cloudshare_button3') }}</a>
+                                    <a href="{{ route('fileAccess.accessFiles', ['type' => 'users', 'id' => 3]) }}" target="_blank" rel="noopener noreferrer" class="btn btn-2d btn-success btn-clear-below">{{ trans('home.cloudshare_button3') }}</a>
 
                                     @if(Auth::user()->isAdmin())
                                         <p>{{ trans('home.cloudshare_admin_body') }}</p>
@@ -179,6 +179,30 @@
                                                 <li>{{ $user->first_name }} {{ $user->last_name }}</li>
                                             @endforeach
                                         </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+                        @if(Auth::user()->isAdmin())
+                            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                                <div class="panel-heading  panel-heading-{{ $admin_mails_panel['state'] }}">{{ trans('home.admin_mails_heading') }}</div>
+                                <div class="panel-element panel-element-{{ $admin_mails_panel['state'] }}">
+                                    <div class="panel-element-body">
+                                        @if($admin_mails_panel["data"] === "NO_IMAP_CONNECTION")
+                                            <div class="panel-element-main">{{ trans("home.no_imap") }}</div>
+                                        @else
+                                            <p>{!! trans("home.go_webmail", ["url" => config("mailchecker.webmail")]) !!}</p>
+                                                @foreach($admin_mails_panel['data'] as $key => $value)
+                                                <ul><li>{{ trans("home." . $key) === "home." . $key ? $key : trans("home." . $key) }}</li></ul>
+                                                    <p>{{ trans("home.mailbox_numbers", ["total" => $value["total"], "unread" => $value["unread"]]) }}
+                                                        @if(null !== $value["newest_message"])
+                                                            <br />
+                                                            {{ trans("home.latest_message", ["date" => $value["newest_message"]->getDate()->format('d.m.Y'), "subject" => str_shorten($value["newest_message"]->getsubject(), 10, '...')]) }}
+                                                        @endif
+                                                    </p>
+                                                @endforeach
+                                            </div>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
