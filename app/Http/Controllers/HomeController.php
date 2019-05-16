@@ -295,6 +295,8 @@ class HomeController extends Controller
             $result_count += $current_counts['unread'];
         }
 
+        $client->disconnect();
+
         return ['state' => 'info', 'count' => $result_count, 'data' => $result_folders];
     }
 
