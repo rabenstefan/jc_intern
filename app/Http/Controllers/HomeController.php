@@ -327,7 +327,10 @@ class HomeController extends Controller
         ];
 
         if (\Auth::user()->isAdmin()) {
-            $view_data['admin_missed_rehearsals_panel'] = $this->prepareAdminMissedRehearsalsPanel();
+
+            $admin_missed_rehearsals_panel = cache_atomic_lock_provider("ADMIN_MISSED_REHEARSALS_PANEL", function() {
+                return $this->prepareAdminMailPanel();
+            }, 240);
 
             $admin_mails_panel = cache_atomic_lock_provider("ADMIN_MAILS_PANEL", function ($key, &$cache_expiry_time) {
                 try {
@@ -341,6 +344,7 @@ class HomeController extends Controller
                 return $admin_mails_panel;
             });
 
+            $view_data['admin_missed_rehearsals_panel'] = $admin_missed_rehearsals_panel;
             $view_data['admin_mails_panel'] = $admin_mails_panel;
         }
 
