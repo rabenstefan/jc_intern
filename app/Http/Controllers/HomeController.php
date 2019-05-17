@@ -212,98 +212,16 @@ class HomeController extends Controller
     }
 
     /**
-     * @param \Webklex\IMAP\Client $client
-     * @param \Webklex\IMAP\Folder $folder
-     * @param bool $recursive
      * @return array
-     * @throws \Webklex\IMAP\Exceptions\ConnectionFailedException
-     * @throws \Webklex\IMAP\Exceptions\GetMessagesFailedException
      */
-    private function getFolderCount(\Webklex\IMAP\Client $client, \Webklex\IMAP\Folder $folder, $recursive = true) {
-        $client->openFolder($folder);
-        $total = $client->countMessages();
-        $unread = count($folder->query()->unseen()->get());
-        /** @var \Webklex\IMAP\Message $newest_message */
-        $newest_message = $folder->query()->limit(1)->get()->first();
+    private function prepareAdminMailsPanel() {
+        $data = MailcheckerController::prepareMailboxOverview(["INBOX"], false);
 
-        // Handle subfolders recursively
-        if ($recursive === true && $folder->has_children) {
-            foreach ($folder->children as $subfolder) {
-                $subresult = $this->getFolderCount($client, $subfolder);
-
-                $total += $subresult['total'];
-                $unread += $subresult['unread'];
-
-                if ($subresult['newest_message'] === null) {
-                    // No Action
-                } else if ($newest_message === null) {
-                    $newest_message = $subresult['newest_message'];
-                } else if ($newest_message->getDate()->lt($subresult['newest_message']->getDate())) {
-                    $newest_message = $subresult['newest_message'];
-                }
-            }
-        }
-
-        return ['total' => $total, 'unread' => $unread, 'newest_message' => $newest_message];
+        return ['state' => 'info', 'count' => 0, 'data' => $data];
     }
 
     /**
-     * @return array
-     * @throws \Webklex\IMAP\Exceptions\ConnectionFailedException
-     * @throws \Webklex\IMAP\Exceptions\GetMessagesFailedException
-     * @throws \Webklex\IMAP\Exceptions\MailboxFetchingException
-     */
-    private function prepareAdminMailPanel() {
-        /** @var \Webklex\IMAP\Client $client */
-        $client = \Webklex\IMAP\Facades\Client::account('default');
-        $client->connect();
-
-        $topfolder = config("mailchecker.topfolder");
-        $exclude_folders = config("mailchecker.exclude");
-
-        $result_folders = [];
-        $result_count = 0;
-        $all_folders = $client->getFolders(true);
-        /*
-         * Two cases are most common:
-         * 1) Everything is under the "INBOX" folder.
-         * 2) Everything is on the same level as the "INBOX" folder.
-         *
-         * We handle both of them here.
-         */
-        if ($topfolder === "NULL") {
-            $topfolder = null;
-            $folders = $all_folders;
-        } else {
-            $topfolder = $all_folders->where('full_name', $topfolder)->first();
-
-            $current_counts = $this->getFolderCount($client, $topfolder, false);
-            $result_folders[$topfolder->name] = $current_counts;
-            $result_count += $current_counts['unread'];
-
-            $folders = $topfolder->children;
-            $exclude_folders[] = "INBOX";
-        }
-
-        foreach($folders as $folder) {
-            if (in_array($folder->full_name, $exclude_folders)) {
-                // We exclude Spam, Sent, Trash and possibly others
-                continue;
-            }
-            $current_counts = $this->getFolderCount($client, $folder);
-            $result_folders[$folder->name] = $current_counts;
-            $result_count += $current_counts['unread'];
-        }
-
-        $client->disconnect();
-
-        return ['state' => 'info', 'count' => $result_count, 'data' => $result_folders];
-    }
-
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index() {
         $today = Carbon::today();
@@ -335,14 +253,12 @@ class HomeController extends Controller
             }, 240);
 
             $admin_mails_panel = cache_atomic_lock_provider("ADMIN_MAILS_PANEL", function ($key, &$cache_expiry_time) {
-                try {
-                    $admin_mails_panel = $this->prepareAdminMailPanel();
-                    $cache_expiry_time = 60; // check for new mails every hour
-                } catch (\Webklex\IMAP\Exceptions\ConnectionFailedException | \Webklex\IMAP\Exceptions\GetMessagesFailedException | \Webklex\IMAP\Exceptions\MailboxFetchingException $e) {
-                    // If the connection fails for whatever reason we want to still cache the result so that we don't clog up the system with constant re-tries.
-                    $admin_mails_panel = ["state" => "error", "count" => 0, "data" => "NO_IMAP_CONNECTION"];
-                    $cache_expiry_time = 15; // re-try connection after 15 minutes
-                }
+                    $admin_mails_panel = $this->prepareAdminMailsPanel();
+                    if ($admin_mails_panel['data'] === 'NO_IMAP_CONNECTION') {
+                        $cache_expiry_time = 15;
+                    } else {
+                        $cache_expiry_time = 60;
+                    }
                 return $admin_mails_panel;
             });
 

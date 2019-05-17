@@ -27,7 +27,8 @@ class AppServiceProvider extends ServiceProvider
         \Form::component('helpBubble', 'components.form.helpBubble', ['content' => '']);
         
         // Buttons
-        \Html::component('addButton', 'components.button.btn-add', ['title', 'href', 'classes' => [], 'attributes' => []]);
+        \Html::component('button', 'components.button.btn', ['title', 'href', 'icon', 'classes' => [], 'attributes' => []]);
+        \Html::component('addButton', 'components.button.btn', ['title', 'href', 'classes' => [], 'attributes' => [], 'icon' => 'plus']);
         \Form::component('submitInput2d', 'components.button.submit', ['title' => trans('form.save'), 'attributes' => []]);
 
         // Versioned form of Html::style and Html::script for cache busting, which use timestamp of lastmodified as GET-Parameter

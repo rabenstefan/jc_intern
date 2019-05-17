@@ -189,20 +189,23 @@
                                 <div class="panel-element panel-element-{{ $admin_mails_panel['state'] }}">
                                     <div class="panel-element-body">
                                         @if($admin_mails_panel["data"] === "NO_IMAP_CONNECTION")
-                                            <div class="panel-element-main">{{ trans("home.no_imap") }}</div>
+                                            <div class="panel-element-main">{{ trans("mailchecker.no_imap") }}</div>
                                         @else
-                                            <p>{!! trans("home.go_webmail", ["url" => config("mailchecker.webmail")]) !!}</p>
+                                            <p>{!! trans("home.admin_mails_body", ["url" => config("mailchecker.webmail")]) !!}</p>
                                                 @foreach($admin_mails_panel['data'] as $key => $value)
-                                                <ul><li>{{ trans("home." . $key) === "home." . $key ? $key : trans("home." . $key) }}</li></ul>
-                                                    <p>{{ trans("home.mailbox_numbers", ["total" => $value["total"], "unread" => $value["unread"]]) }}
+                                                <ul><li>{{ trans("mailchecker." . $key) === "mailchecker." . $key ? $key : trans("mailchecker." . $key) }}</li></ul>
+                                                    <p>{{ trans("mailchecker.mailbox_numbers", ["total" => $value["total"], "unread" => $value["unread"]]) }}
                                                         @if(null !== $value["newest_message"])
                                                             <br />
-                                                            {{ trans("home.latest_message", ["date" => $value["newest_message"]->getDate()->format('d.m.Y'), "from" => str_shorten($value["newest_message"]->getFrom()[0]->mail, 10, "..."), "subject" => str_shorten($value["newest_message"]->getsubject(), 10, '...')]) }}
+                                                            {{ trans("mailchecker.latest_message_from", ["from" => str_shorten($value["newest_message"]["from"], 10, "...")]) }}
+                                                            {{ trans("mailchecker.latest_message_date", ["date" => $value["newest_message"]["date"]->format('d.m.Y')]) }}
+                                                            {{ trans("mailchecker.latest_message_subject", ["subject" => str_shorten($value["newest_message"]["subject"], 10, '...')]) }}
                                                         @endif
                                                     </p>
                                                 @endforeach
                                             </div>
                                         @endif
+                                    <p><a href="{{ route("mailchecker.overview") }}">{{ trans("home.to_mailbox_overview") }}</a></p>
                                     </div>
                                 </div>
                             </div>

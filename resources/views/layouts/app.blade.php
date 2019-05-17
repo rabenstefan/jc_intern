@@ -151,6 +151,11 @@
                                 @endif
                             </ul>
                         </li>
+                        @if(Auth::user()->isAdmin())
+                            <li class="dropdown">
+                                <a href="{{ route('mailchecker.overview') }}">{{ trans("nav.mailchecker_overview") }}</a>
+                            </li>
+                        @endif
                         <!--<li>
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 {{ trans('nav.sheets') }}&nbsp;<span class="caret"></span>

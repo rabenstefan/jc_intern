@@ -57,10 +57,7 @@ return [
     'privacy_policy'    => 'Datenschutzerklärung',
     'noscript_body' => 'Diese Seite benötigt Javascript um richtig zu funktionieren.',
     'noscript_link' => 'Hier erfahren wie man Javavscript aktivieren kann',
-    'INBOX'         => 'Posteingang',
-    'go_webmail'    => 'Kleine Übersicht über das <a href=":url" rel="noopener noreferrer" style="padding:0;" target="_blank">Postfach</a>:',
+    'admin_mails_body'    => 'Kleine Übersicht über das <a href=":url" rel="noopener noreferrer" style="padding:0;" target="_blank">Postfach</a>:',
     'admin_mails_heading' => "Postfach",
-    'no_imap'       => 'Keine Verbindung zum Postfach möglich. Bitte in 15 Minuten noch einmal probieren.',
-    'mailbox_numbers' => ':total Mails, davon :unread ungelesen.',
-    'latest_message' => 'Neueste Mail von :from am :date mit Betreff: :subject'
+    'to_mailbox_overview' => "Zur ausführlichen Übersicht"
 ];
