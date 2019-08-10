@@ -48,10 +48,10 @@ Route::group(['middleware' => 'web'], function () {
             // This is a bit hacky: Choose the right controller and their action by the parameters, to save repetition and be
             // much more flexible.
             Route::post(
-                'attendances/{events_name}/{event_id}/{shorthand?}',
-                function (Illuminate\Http\Request $request, $events_name, $event_id, $shorthand = null) {
+                'attendances/{events_name}/{event_id}/{shorthand?}/{user_id?}',
+                function (Illuminate\Http\Request $request, $events_name, $event_id, $shorthand = null, $user_id = null) {
                     // This method will choose the appropriate controller and their action.
-                    return \App\Http\Controllers\AttendanceController::attendanceRouteSwitch($request, $events_name, $event_id, $shorthand);
+                    return \App\Http\Controllers\AttendanceController::attendanceRouteSwitch($request, $events_name, $event_id, $shorthand, $user_id);
                 }
             )->where(
                 [

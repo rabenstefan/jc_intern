@@ -19,6 +19,7 @@ abstract class AttendanceController extends Controller {
      */
     public function __construct() {
         $this->middleware('auth');
+        $this->middleware('adminOrOwn',['only'=>'changeUserEventAttendance']);
     }
 
     /**
@@ -71,6 +72,17 @@ abstract class AttendanceController extends Controller {
      */
     public function excuseSelf(Request $request, $event_id) {
         return $this->changeOwnAttendance($request, $event_id, 'no');
+    }
+
+    /** 
+     * Excuse another user.
+     * 
+     * @param Request $request
+     * @param $event_id
+     * @param $user_id
+    */
+    public function excuseOther(Request $request, $event_id, $user_id){
+        return $this->changeEventAttendance($request, $event_id, $user_id, 'no');
     }
 
     /**
@@ -214,10 +226,10 @@ abstract class AttendanceController extends Controller {
      * @param null $shorthand
      * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
      */
-    public static function attendanceRouteSwitch(Request $request, $events_name, $event_id, $shorthand = null) {
+    public static function attendanceRouteSwitch(Request $request, $events_name, $event_id, $shorthand = null, $user_id = null) {
         // The right controller gets chosen based on the event name (in plural for routes!).
         $controller = null;
-
+  
         if ($events_name == 'gigs') {
             $controller = new GigAttendanceController();
         } else if ($events_name == 'rehearsals') {
@@ -240,7 +252,11 @@ abstract class AttendanceController extends Controller {
                 return $controller->maybeSelf($request, $event_id);
                 break;
             case 'excuse':
-                return $controller->excuseSelf($request, $event_id);
+                if($user_id){
+                    return $controller->excuseOther($request, $event_id, $user_id);
+                } else{
+                    return $controller->excuseSelf($request, $event_id);
+                }
                 break;
             default:
             case 'change':
