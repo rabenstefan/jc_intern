@@ -13,46 +13,17 @@
                         <div class="panel-heading">
                             {{ $currentRehearsal->title . ' (' . $currentRehearsal->start->format('d.m.Y H:i') . ', ' . $currentRehearsal->start->diffForHumans() . ')' }}
                         </div>
-
-                        <div id="attendance-list">
-                            <?php
-                            // Get all second level voices.
-                            $voices = App\Models\Voice::getParentVoices();
-                            ?>
-                            @foreach($voices as $voice)
-                                <div class="row" id="{{ trans('nav.users') }}-{{ $voice->name }}">
-                                    <div class="col-xs-12">
-                                        <div class="panel panel-2d">
-                                            <div class="panel-heading">
-                                                {{ $voice->name }}
-                                            </div>
-
-                                            <div class="panel-body">
-                                                @foreach($voice->children as $sub_voice)
-                                                    <div class="col-xs-12">
-                                                        <div class="panel panel-2d">
-                                                            <div class="panel-heading">
-                                                                {{ $sub_voice->name }}
-                                                            </div>
-
-
-                                                            <div class="row">
-                                                                <?php
-                                                                /** @var App\Models\Voice $sub_voice */
-                                                                $users = \App\Models\User::getUsersOfVoice($sub_voice->id, true);
-                                                                ?>
-                                                                @foreach($users as $user)
-                                                                        @include('date.rehearsal.listAttendances.user_entry', ['user' => $user, 'currentRehearsal' => $currentRehearsal])
-                                                                @endforeach
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                @endforeach
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endforeach
+                        <div id="tabs" role="navigation">
+                            <ul class="nav nav-tabs">
+                                <li class="nav-item"><a class="nav-link active" href="#tabs-presence">{{trans('date.rehearsal_check_presence')}}</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#tabs-excuse">{{trans('date.rehearsal_excuse_other')}}</a></li>
+                            </ul>
+                            <div id="tabs-presence">
+                                @include('date.rehearsal.listAttendances.check_presence')
+                            </div>
+                            <div id="tabs-excuse">
+                                <p>nix</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -62,7 +33,10 @@
 @endsection
 
 @section('js'){{-- TODO: Refactor these functions to one or more dedicated js-file(s), reducing very similar code in list and home --}}
+<script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
     <script type="text/javascript">
+
+                $( "#tabs" ).tabs();
         /**
          * Switches a slider to the opposite value. Sets the corresponding checkbox.
          *
