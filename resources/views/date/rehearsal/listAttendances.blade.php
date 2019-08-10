@@ -22,7 +22,7 @@
                                 @include('date.rehearsal.listAttendances.check_presence')
                             </div>
                             <div id="tabs-excuse">
-                                <p>nix</p>
+                                @include('date.rehearsal.listAttendances.excuse')
                             </div>
                         </div>
                     </div>
@@ -68,6 +68,20 @@
 
             saveAttendance(url, sliderElement, currentlyPresent);
         }
+
+        /**
+        * Handles AJAX-call to change being excused for rehearsal.
+        * Called via 'data-function' attribute.
+        
+         */
+         function excuseMissing (sliderElement){
+            if($(sliderElement).hasClass('inactive')) return false;
+            $(sliderElement).addClass('inactive');
+
+            // var excused = $(sliderElement).find('input[type="checkbox"]').prop('checked');
+            var url = $(sliderElement).data('change-url');
+            saveAttendance(url, sliderElement, '');
+         }
 
         /**
          * Function only calls API via POST and handles the returned messages.

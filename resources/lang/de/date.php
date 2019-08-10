@@ -44,6 +44,7 @@ return [
     'missed'              => 'verpasst',
     'attended'            => 'teilgenommen',
     'excused'             => 'entschuldigt',
+    'not_excused'           => 'unentschuldigt',
     'goto_maps'           => 'Anfahrt',
     'address_search'      => 'Auf Google Maps suchen',
     'user_not_given'      => 'Nutzer nicht gegeben',
