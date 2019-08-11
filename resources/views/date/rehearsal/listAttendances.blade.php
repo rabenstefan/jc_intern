@@ -13,18 +13,20 @@
                         <div class="panel-heading">
                             {{ $currentRehearsal->title . ' (' . $currentRehearsal->start->format('d.m.Y H:i') . ', ' . $currentRehearsal->start->diffForHumans() . ')' }}
                         </div>
-                        <div role="navigation">
+                        <nav class="navbar navbar-default sticky-top">
+                        <div class="container-fluid">
                             <ul class="nav nav-tabs">
                                 <li class="nav-item"><a class="nav-link" href="#tabs-presence">{{trans('date.rehearsal_check_presence')}}</a></li>
                                 <li class="nav-item"><a class="nav-link" href="#tabs-excuse">{{trans('date.rehearsal_excuse_other')}}</a></li>
                             </ul>
+                        </div>
+                        </nav>
                             <div id="tabs-presence">
                                 @include('date.rehearsal.listAttendances.check_presence')
                             </div>
                             <div id="tabs-excuse">
                                 @include('date.rehearsal.listAttendances.excuse')
                             </div>
-                        </div>
                     </div>
                 </div>
             </div>
