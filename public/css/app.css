@@ -8391,6 +8391,11 @@ i.fa {
   content: "\f00d";
 }
 
+.slider-2d label .slider-excuse:before {
+  font-weight: 900;
+  content: "\f128";
+}
+
 .slider-2d label i {
   position: absolute;
   top: 0;
@@ -8419,6 +8424,11 @@ i.fa {
 .slider-2d input[type="checkbox"]:checked + label .slider-attendance:before {
   font-weight: 900;
   content: "\f00c";
+}
+
+.slider-2d input[type="checkbox"]:checked + label .slider-excuse:before {
+  font-weight: 900;
+  content: "\f129";
 }
 
 .context-box-2d {

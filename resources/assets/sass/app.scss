@@ -712,6 +712,10 @@ i.fa {
       @include fa-times();
     }
 
+    .slider-excuse:before{
+      @include fa-question();
+    }
+
     i {
       position: absolute;
       top: 0;
@@ -741,6 +745,9 @@ i.fa {
 
     .slider-attendance:before {
       @include fa-check();
+    }
+    .slider-excuse:before{
+      @include fa-info();
     }
   }
 }
