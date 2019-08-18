@@ -37,6 +37,15 @@
 @section('js'){{-- TODO: Refactor these functions to one or more dedicated js-file(s), reducing very similar code in list and home --}}
     <script type="text/javascript">
 
+        // Toggle comments.
+        $('.fa-comment').each(function(){
+            var $comment = $(this).parent().parent().attr('title');
+            $(this).on('click', function(e){
+                $('<p class="tooltip"></p>').text($comment).appendTo('body').fadeIn();
+                e.preventDefault();
+            });
+        });
+
         $('ul.nav-tabs').each(function(){
             // For each set of tabs, we want to keep track of
             // which tab is active and its associated content
