@@ -9,7 +9,7 @@
 
 <div class="col-xs-6 col-sm-3 col-lg-2 sliders">
     <span class="slider-2d" data-function="excuseMissing" data-change-url="{{ route('attendances.changeOwnAttendance', ['events_name' => 'rehearsals','event_id' => $currentRehearsal->id, 'user_id' => $user->id, 'shorthand' => 'excuse']) }}">
-        <input type="checkbox" {!! $user->excusedRehearsal($currentRehearsal->id) ? 'checked="checked"' : '' !!} id="slider-attending-{{ $user->id }}">
+        <input type="checkbox" {!! $user->excusedRehearsal($currentRehearsal->id) ? 'checked="checked"' : '' !!} id="slider-excuse-{{ $user->id }}">
         <label for="slider-attending-{{ $user->id }}">
             <span class="slider slider-excuse"></span>
             <i class="fa fa-question" title="{{ trans('date.not_excused') }}"></i>
