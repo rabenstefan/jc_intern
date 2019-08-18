@@ -24,14 +24,12 @@
                                                                 <?php
                                                                 /** @var App\Models\Voice $sub_voice */
                                                                 $users = \App\Models\User::getUsersOfVoice($sub_voice->id, true);
-                                                                foreach($users as $user){
-                                                                    if($user->missedRehearsal($currentRehearsal->id)){    
                                                                 ?>
+                                                                @foreach($users as $user)
+                                                                    @if($user->missedRehearsal($currentRehearsal->id))   
                                                                         @include('date.rehearsal.listAttendances.excuse_user_entry', ['user' => $user, 'currentRehearsal' => $currentRehearsal])
-                                                                <?php
-                                                                    }
-                                                                }
-                                                                ?>
+                                                                    @endif
+                                                                @endforeach                                                                
                                                             </div>
                                                         </div>
                                                     </div>
