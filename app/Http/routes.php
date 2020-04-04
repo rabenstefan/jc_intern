@@ -57,6 +57,7 @@ Route::group(['middleware' => 'web'], function () {
                 [
                     'events_name' => '(gigs|rehearsals)',
                     'event_id'    => '[0-9]+',
+                    'user_id'     => '[0-9]+',
                     'shorthand'   => '(attend|maybe|excuse|change)'
                 ]
             )->name('attendances.changeOwnAttendance');
